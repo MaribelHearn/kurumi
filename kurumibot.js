@@ -11,7 +11,7 @@ try {
     Discord = require("discord.js");
     bot = new Discord.Client();
 } catch (err) {
-	console.log(timeStamp() + err.stack + "\n" + timeStamp() + process.version + "\n" + timeStamp() + "Run npm install without any having any errors occurr!");
+	console.log(timeStamp() + err.stack + "\n" + timeStamp() + process.version + "\n" + timeStamp() + "Run npm install without any having any errors occur!");
 	process.exit();
 }
 
