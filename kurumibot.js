@@ -248,7 +248,7 @@ bot.on("guildMemberAdd", function (user) {
     var logChannel = servers[server.id].logChannel;
     
     if (logChannel) {
-        server.channels.get(logChannel).sendMessage(servers[server.id].entryMessage.replace("%u", "**" + user.user.username + "**"));
+        server.channels.get(logChannel).send(servers[server.id].entryMessage.replace("%u", "**" + user.user.username + "**"));
     }
 });
 
@@ -258,7 +258,7 @@ bot.on("guildMemberRemove", function (user) {
     var logChannel = servers[server.id].logChannel;
     
     if (logChannel) {
-        server.channels.get(logChannel).sendMessage(servers[server.id].leaveMessage.replace("%u", "**" + user.user.username + "**"));
+        server.channels.get(logChannel).send(servers[server.id].leaveMessage.replace("%u", "**" + user.user.username + "**"));
     }
 });
 

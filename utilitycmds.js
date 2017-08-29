@@ -477,7 +477,7 @@
                 acronym = "LNN(N)";
             } else if (game == "IN") {
                 acronym = "LNNFS";
-            } else if (game == "PCB" || game == "TD") {
+            } else if (game == "PCB" || game == "TD" || game == "HSiFS") {
                 acronym = "LNNN";
             }
             

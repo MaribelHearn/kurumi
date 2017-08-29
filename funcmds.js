@@ -170,13 +170,15 @@
         },
         
         command: function (message, server, command, channel) {
-            var date = serverData[server.id].date, waifus = serverData[server.id].waifus, exceptions = serverData[server.id].waifusExceptions, id = message.author.id, waifu;
+            var date = serverData[server.id].date, exceptions = serverData[server.id].waifusExceptions, id = message.author.id, waifu;
             
             dateCheck(server);
             
             if (date != serverData[server.id].date) {
                 allCommands.mod.reset.command(message, server, command, channel);
             }
+            
+            var waifus = serverData[server.id].waifus;
             
             if (!waifus[id]) {
                 waifu = (exceptions[id] ? exceptions[id] : server.members.random().user.username);
@@ -196,13 +198,15 @@
         },
         
         command: function (message, server, command, channel) {
-            var date = serverData[server.id].date, touhouWaifus = serverData[server.id].touhouWaifus, exceptions = serverData[server.id].touhouWaifusExceptions, id = message.author.id, touhouWaifu;
+            var date = serverData[server.id].date, exceptions = serverData[server.id].touhouWaifusExceptions, id = message.author.id, touhouWaifu;
             
             dateCheck(server);
             
             if (date != serverData[server.id].date) {
                 allCommands.mod.reset.command(message, server, command, channel);
             }
+            
+            var touhouWaifus = serverData[server.id].touhouWaifus;
             
             if (!touhouWaifus[id]) {
                 touhouWaifu = (exceptions[id] ? exceptions[id] : TOUHOU_CHARS.rand());
@@ -223,13 +227,15 @@
         },
         
         command: function (message, server, command, channel) {
-            var date = serverData[server.id].date, fanmemeWaifus = serverData[server.id].fanmemeWaifus, id = message.author.id, fanmemeWaifu;
+            var date = serverData[server.id].date, id = message.author.id, fanmemeWaifu;
             
             dateCheck(server);
             
             if (date != serverData[server.id].date) {
                 allCommands.mod.reset.command(message, server, command, channel);
             }
+            
+            var fanmemeWaifus = serverData[server.id].fanmemeWaifus;
             
             if (!fanmemeWaifus[id]) {
                 fanmemeWaifu = FANMEME_CHARS.rand();
@@ -250,13 +256,15 @@
         },
         
         command: function (message, server, command, channel) {
-            var date = serverData[server.id].date, lenenWaifus = serverData[server.id].lenenWaifus, id = message.author.id, lenenwaifu;
+            var date = serverData[server.id].date, id = message.author.id, lenenwaifu;
             
             dateCheck(server);
             
             if (date != serverData[server.id].date) {
                 allCommands.mod.reset.command(message, server, command, channel);
             }
+            
+            var lenenWaifus = serverData[server.id].lenenWaifus;
             
             if (!lenenWaifus[id]) {
                 lenenwaifu = LENEN_CHARS.rand();
@@ -335,7 +343,7 @@
         command: function (message, server, command, channel) {
             var user = command[1], quotes = serverData[server.id].quotes, members = idsToUsers(quotes), id;
             
-            if (Object.keys(quotes).length === 0) {
+            if (quotes.isEmpty()) {
                 channel.send(message.author + ", there are no saved quotes.");
                 return;
             }
@@ -343,29 +351,37 @@
             if (!user) {
                 id = Object.keys(quotes).rand();
                 
-                for (var member in members) {
-                    if (members[member].id == id) {
-                        name = members[member].name;
+                if (!isNumber(id)) {
+                    name = id;
+                } else {
+                    for (var member in members) {
+                        if (members[member].id == id) {
+                            name = members[member].name;
+                        }
                     }
                 }
             } else {
                 user = user.toLowerCase();
             
-                if (!Object.keys(members).contains(user)) {
+                if (!Object.keys(members).contains(user) && !Object.keys(quotes).contains(user)) {
                     channel.send(message.author + ", either there is no such user, or that user does not have any saved quotes.");
                     return;
                 }
                 
-                id = members[user].id;
-                name = members[user].name;
+                if (members[user]) {
+                    id = members[user].id;
+                    name = members[user].name;
+                } else {
+                    
+                }
             }
             
-            if (!quotes[id]) {
+            if (members[user] && !quotes[id] || !members[user] && !quotes[name]) {
                 channel.send(message.author + ", that user does not have any saved quotes.");
                 return;
             }
             
-            channel.send("```" + quotes[id].rand() + "```\n- " + name);
+            channel.send("```" + quotes[members[user] ? id : name].rand() + "```\n- " + name);
         }
     },
     
