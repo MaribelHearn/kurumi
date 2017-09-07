@@ -341,7 +341,9 @@
         },
         
         command: function (message, server, command, channel) {
-            var user = command[1], quotes = serverData[server.id].quotes, members = idsToUsers(quotes), id;
+            var user = command[1], quotes = serverData[server.id].quotes, members = idsToUsers(quotes, server), id;
+            
+            console.log(Object.keys(members));
             
             if (quotes.isEmpty()) {
                 channel.send(message.author + ", there are no saved quotes.");
@@ -391,7 +393,7 @@
         },
         
         command: function (message, server, command, channel) {
-            var user = command[1], quotes = serverData[server.id].quotes, members = idsToUsers(quotes), id;
+            var user = command[1], quotes = serverData[server.id].quotes, members = idsToUsers(quotes, server), id;
             
             if (!user) {
                 channel.send(message.author + ", please specify a username.");
@@ -428,7 +430,7 @@
         },
         
         command: function (message, server, command, channel) {
-            var quotes = serverData[server.id].quotes, members = idsToUsers(quotes), names = [], total = 0;
+            var quotes = serverData[server.id].quotes, members = idsToUsers(quotes, server), names = [], total = 0;
             
             if (Object.keys(quotes).length === 0) {
                 channel.send(message.author + ", there are no saved quotes.");

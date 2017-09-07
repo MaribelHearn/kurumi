@@ -221,6 +221,56 @@
         }
     },
     
+    th16: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + "`: to grant yourself access to the HSiFS channel.";
+        },
+        
+        command: function (message, server, command, channel) {
+            var servers = permData.servers;
+            
+            if (!servers[server.id].hsifsAccessRole) {
+                channel.send(message.author + ", this server does not have a HSiFS access role.");
+                return;
+            }
+            
+            var hsifsAccess = server.roles.get(servers[server.id].hsifsAccessRole), user = server.members.get(message.author.id);
+            
+            if (user.roles.get(servers[server.id].hsifsAccessRole)) {
+                channel.send(message.author + ", you already have HSiFS access!");
+                return;
+            }
+            
+            user.addRole(hsifsAccess);
+            channel.send(message.author + " has been granted HSiFS access!");
+        }
+    },
+    
+    unth16: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + "`: to remove yourself from the HSiFS channel.";
+        },
+        
+        command: function (message, server, command, channel) {
+            var servers = permData.servers;
+            
+            if (!servers[server.id].hsifsAccessRole) {
+                channel.send(message.author + ", this server does not have a HSiFS access role.");
+                return;
+            }
+            
+            var hsifsAccess = server.roles.get(servers[server.id].hsifsAccessRole), user = server.members.get(message.author.id);
+            
+            if (!user.roles.get(servers[server.id].hsifsAccessRole)) {
+                channel.send(message.author + ", you do not have HSiFS access!");
+                return;
+            }
+            
+            user.removeRole(hsifsAccess);
+            channel.send(message.author + " has been removed from the HSiFS channel!");
+        }
+    },
+    
     fire: {
         help: function (command, symbol) {
             return "`" + symbol + command + "`: makes you join the Fire faction of Kuruminism.";

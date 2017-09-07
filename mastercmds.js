@@ -295,6 +295,30 @@
         }
     },
     
+    hsifsaccessrole: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <role>`: defines `role` as the HSiFS access role.";
+        },
+        
+        command: function (message, server, command, channel) {
+            var hsifsAccessRole = command[1], servers = permData.servers;
+            
+            if (!hsifsAccessRole) {
+                channel.send(message.author + ", please specify a role.");
+                return;
+            }
+            
+            if (!server.roles.find("name", hsifsAccessRole)) {
+                channel.send(message.author + ", that is not a role!");
+                return;
+            }
+            
+            servers[server.id].hsifsAccessRole = server.roles.find("name", hsifsAccessRole).id;
+            save("servers");
+            channel.send("The '" + hsifsAccessRole + "' role has been set as the HSiFS access role.");
+        }
+    },
+    
     firerole: {
         help: function (command, symbol) {
             return "`" + symbol + command + " <role>`: defines `role` as the Fire faction role.";
@@ -460,7 +484,7 @@
     
     defaultreason: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <reason>`: changes the default reason for kicks, mutes and bans to `reason`.";
+            return "`" + symbol + command + " <reason>`: changes the default reason for kicks and bans to `reason`.";
         },
         
         command: function (message, server, command, channel) {

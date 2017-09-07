@@ -2,11 +2,6 @@ module.exports = {
     messageHandler: function (message) {
         var id = message.author.id, channel = message.channel, server = message.guild, content = message.content, lower = content.toLowerCase(), servers = permData.servers, images = permData.images;
         
-        if (server && serverData[server.id].mutes.contains(id)) {
-            message.delete();
-            return;
-        }
-        
         var channelType = message.channel.constructor.toString().split(' ')[1], firstChar = content.charAt(0), botMaster = permData.botMaster, musicLocal = permData.musicLocal, musicYouTube = permData.musicYouTube;
         
         /* Command Handler */

@@ -111,13 +111,14 @@ module.exports = {
         
         global.SERVER_DATA_DEFAULTS = {
             "aliasesList": {}, "quotes": {}, "waifus": {}, "touhouWaifus": {}, "fanmemeWaifus": {}, "lenenWaifus": {}, "waifusExceptions": {},
-            "touhouWaifusExceptions": {}, "opinionExceptions": [], "ratings": {}, "mutes": [], "cooldownSecs": 15, "kekDetection": false, "date": ""
+            "touhouWaifusExceptions": {}, "opinionExceptions": [], "ratings": {}, "cooldownSecs": 15, "kekDetection": false, "date": ""
         };
         
         global.SERVER_SPECIFICS = {
             "botChannels": [],
             "factions": {},
             "lewdAccessRole": undefined,
+            "hsifsAccessRole": undefined,
             "logChannel": undefined,
             "mainChannel": undefined,
             "voiceChannel": undefined,
@@ -501,24 +502,21 @@ module.exports = {
             return users;
         };
 
-        global.idsToUsers = function (ids) {
-            var users = {}, servers = bot.guilds.array(), server, members;
+        global.idsToUsers = function (ids, server) {
+            var users = {}, members = server.members;
             
-            for (var i = 0; i < servers.length; i++) {
-                server = servers[i];
-                members = server.members;
-                
-                for (var j = 0; j < members.size; j++) {
-                    for (var id in ids) {
-                        if (members.get(id)) {
-                            users[members.get(id).user.username.toLowerCase()] = {};
-                            users[members.get(id).user.username.toLowerCase()].id = id;
-                            users[members.get(id).user.username.toLowerCase()].name = members.get(id).user.username;
-                        }
-                    }
+            for (var id in ids) {
+                console.log(members.get(id));
+                if (members.get(id)) {
+                    users[members.get(id).user.username.toLowerCase()] = {};
+                    users[members.get(id).user.username.toLowerCase()].id = id;
+                    users[members.get(id).user.username.toLowerCase()].name = members.get(id).user.username;
+                } else {
+                    users[id] = {};
+                    users[id].name = cap(id);
                 }
             }
-            
+        
             return users;
         };
 
