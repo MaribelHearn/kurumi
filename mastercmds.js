@@ -53,7 +53,7 @@
                 }
             }
             
-            globals.define();
+            allCommands.globals.define();
             console.log(timeStamp() + "Modules loaded.");
             
             for (var j in permData) {
