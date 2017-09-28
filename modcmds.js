@@ -405,6 +405,70 @@
         }
     },
     
+    addlnn: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <game>^<shottype/route>^<player>`: adds `player` to the list of `game` LNNs with `shottype/route`. Windows games (excl. PoFV) only.";
+        },
+        
+        command: function (message, server, command, channel) {
+            var game = command[1], LNNs = permData.LNNs;
+            
+            if (!game) {
+                channel.send(message.author + ", please specify a game to add an LNN player to.");
+                return;
+            }
+            
+            game = gameName(game.toLowerCase());
+            
+            if (!LNNs.hasOwnProperty(game)) {
+                channel.send(message.author + ", please specify a valid game to add an LNN player to.");
+                return;
+            }
+            
+            var shot = command[2], acronym = "LNN", grammar = (game.charAt(0).match(/[E|I|H]/) ? "n " : " ");
+            
+            if (game == "UFO") {
+                acronym = "LNN(N)";
+            } else if (game == "IN") {
+                acronym = "LNNFS";
+            } else if (game == "PCB" || game == "TD" || game == "HSiFS") {
+                acronym = "LNNN";
+            }
+            
+            if (!shot) {
+                channel.send(message.author + ", please specify the shottype that was used or the route that was followed.");
+                return;
+            }
+            
+            shot = (shotName(cap(shot)) ? shotName(cap(shot)) : cap(shot));
+            
+            if (shot.contains("team")) {
+                shot = shot.replace(/team/i, "Team").replace(/ /gi, "");
+            }
+            
+            if (!LNNs[game].hasOwnProperty(shot)) {
+                channel.send(message.author + ", please specify a valid shottype or route to add an LNN player to.");
+                return;
+            }
+            
+            var player = command[3];
+            
+            if (!player) {
+                channel.send(message.author + ", please specify the player that got the new LNN.");
+                return;
+            }
+            
+            if (LNNs[game][shot].contains(player)) {
+                channel.send(message.author + ", that player already has that LNN!");
+                return;
+            }
+            
+            LNNs[game][shot].push(player);
+            save("LNNs");
+            channel.send(server.emojis.find("name", "Power") + " `Survival Update` " + player + " got a" + grammar + game + " " + acronym + " with " + shot.replace("Team", " Team") + "!");
+        }
+    },
+    
     joinvoice: {
         help: function (command, symbol) {
             return "`" + symbol + command + "`: makes me join the voice channel.";

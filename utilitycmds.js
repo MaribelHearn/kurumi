@@ -499,24 +499,14 @@
         },
         
         command: function (message, server, command, channel) {
-            var game = command[1], acronym = "LNN", LNNs = permData.LNNs, oneFinalStage = false, finalStage;
+            var game = command[1], acronym = "LNN", LNNs = permData.LNNs;
             
             if (!game) {
                 channel.send(message.author + ", please specify a game to check LNNs of.");
                 return;
             }
             
-            if (game.toLowerCase() == "ina") {
-                oneFinalStage = true;
-                finalStage = "A";
-                game = "IN";
-            } else if (game.toLowerCase() == "inb") {
-                oneFinalStage = true;
-                finalStage = "B";
-                game = "IN";
-            } else {
-                game = gameName(game.toLowerCase());
-            }
+            game = gameName(game.toLowerCase());
             
             if (!LNNs.hasOwnProperty(game)) {
                 channel.send(message.author + ", please specify a valid game to check LNNs of.");
@@ -531,7 +521,7 @@
                 acronym = "LNNN";
             }
             
-            var shot = command[2], list = "", total = 0, shottype;
+            var shot = command[2], list = "", total = 0, shottype, count;
              
             if (shot) {
                 shot = (shotName(cap(shot)) ? shotName(cap(shot)) : cap(shot));
@@ -540,72 +530,36 @@
                     shot = shot.replace(/team/i, "Team").replace(/ /gi, "");
                 }
                 
-                if (game == "IN") {
-                    if (!LNNs.IN["A"][shot]) {
-                        channel.send(message.author + ", " + shot.replace("Team", " Team") + " is not a valid shottype or route.");
-                        return;
-                    } else if (LNNs.IN["A"][shot].length === 0 && LNNs.IN["B"][shot].length === 0) {
-                        channel.send("There are no " + game + " " + (oneFinalStage ? "Final" + finalStage + " " : "") + acronym + " runs with " + shot.replace("Team", " Team") + ".");
-                        return;
-                    }
-                } else {
-                    if (!LNNs[game][shot]) {
-                        channel.send(message.author + ", " + shot.replace("Team", " Team") + " is not a valid shottype or route.");
-                        return;
-                    } else if (LNNs[game][shot].length === 0) {
-                        channel.send("There are no " + game + " " + acronym + " runs with " + shot + ".");
-                        return;
-                    }
+                if (!LNNs[game][shot]) {
+                    channel.send(message.author + ", " + shot.replace("Team", " Team") + " is not a valid shottype or route.");
+                    return;
+                } else if (LNNs[game][shot].length === 0) {
+                    channel.send("There are no " + game + " " + acronym + " runs with " + shot + ".");
+                    return;
                 }
                 
-                if (game == "IN") {
-                    if (oneFinalStage) {
-                        list = LNNs.IN[finalStage][shot].sort().join(", ");
-                        total += LNNs.IN[finalStage][shot].length;
-                    } else {
-                        list = LNNs.IN["A"][shot].concatStrict(LNNs.IN["B"][shot]).sort().join(", ");
-                        total += LNNs.IN["A"][shot].length + LNNs.IN["B"][shot].length;
-                    }
-                    
-                } else {
-                    list = LNNs[game][shot].sort().join(", ");
-                    total += LNNs[game][shot].length;
-                }
-                
-                channel.send("List of players who have " + game + " " + (oneFinalStage ? "Final" + finalStage + " " : "") + acronym + " with " + shot + ":```" + list + "```\n" +
-                "Total number of players who have " + game + " " + (oneFinalStage ? "Final" + finalStage + " " : "") + acronym + " with " + shot + ": " + total + ".");
+                list = LNNs[game][shot].sort().join(", ");
+                total += LNNs[game][shot].length;
+                channel.send("List of players who have " + game + " " + acronym + " with " + shot.replace("Team", " Team") + ":```" + list + "```\n" +
+                "Total number of players who have " + game + " " + acronym + " with " + shot.replace("Team", " Team") + ": " + total + ".");
                 return;
             }
             
-            if (game == "IN") {
-                if (oneFinalStage) {
-                    for (shottype in LNNs.IN["A"]) {
-                        if (LNNs[game][finalStage][shottype].length !== 0) {
-                            list += shottype.replace("Team", " Team") + ": " + LNNs.IN[finalStage][shottype].sort().join(", ") + "\n";
-                        }
-                    }
-                } else {
-                    for (shottype in LNNs.IN["A"]) {
-                        if (LNNs[game]["A"][shottype].length !== 0 || LNNs[game]["B"][shottype].length !== 0) {
-                            list += shottype.replace("Team", " Team") + ": " + LNNs.IN["A"][shottype].concatStrict(LNNs.IN["B"][shottype]).sort().join(", ") + "\n";
-                        }
-                    }
-                }
-            } else {
-                for (shottype in LNNs[game]) {
-                    if (LNNs[game][shottype].length !== 0) {
-                        list += shottype + ": " + LNNs[game][shottype].sort().join(", ") + "\n";
-                    }
+            for (shottype in LNNs[game]) {
+                if (LNNs[game][shottype].length !== 0) {
+                    list += shottype + ": " + LNNs[game][shottype].sort().join(", ") + "\n";
                 }
             }
+            
+            count = countLNNs(game);
                 
-            if (countLNNs(game, oneFinalStage, finalStage) === 0) {
+            if (count === 0) {
                 channel.send("There are no " + game + " " + acronym + " runs.");
                 return;
             }
             
-            channel.send("List of players who have " + game + " " + (oneFinalStage ? "Final" + finalStage + " " : "") + acronym + ":\n```\n" + list + "```\n" +
-            "Total number of players who have " + game + " " + (oneFinalStage ? "Final" + finalStage + " " : "") + acronym + ": " + countLNNs(game, oneFinalStage, finalStage) + ".\n");
+            channel.send("List of players who have " + game + " " + acronym + ":\n```\n" + list + "```\n" +
+            "Total number of players who have " + game + " " + acronym + ": " + count + ".\n");
         }
     },
     

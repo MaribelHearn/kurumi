@@ -687,48 +687,17 @@ module.exports = {
             }).catch(console.error);
         };
         
-        global.countLNNs = function (game, oneFinalStage, finalStage) {
+        global.countLNNs = function (game) {
             var players = [], LNNs = permData.LNNs[game], stage, shottype, player;
             
-            if (game == "IN") {
-                if (oneFinalStage) {
-                    for (shottype in LNNs[finalStage]) {
-                        if (LNNs[finalStage][shottype].length === 0) {
-                            continue;
-                        }
-                        
-                        for (player in LNNs[finalStage][shottype]) {
-                            if (!players.contains(LNNs[finalStage][shottype][player])) {
-                                players.push(LNNs[finalStage][shottype][player]);
-                            }
-                        }
-                    }
-                } else {
-                    for (stage in LNNs) {
-                        for (shottype in LNNs[stage]) {
-                            if (LNNs[stage][shottype].length === 0) {
-                                continue;
-                            }
-
-                            for (player in LNNs[stage][shottype]) {
-                                if (!players.contains(LNNs[stage][shottype][player])) {
-                                    players.push(LNNs[stage][shottype][player]);
-                                }
-                            }
-                        }
-                    } 
+            for (shottype in LNNs) {
+                if (LNNs[shottype].length === 0) {
+                    continue;
                 }
                 
-            } else {
-                for (shottype in LNNs) {
-                    if (LNNs[shottype].length === 0) {
-                        continue;
-                    }
-                    
-                    for (player in LNNs[shottype]) {
-                        if (!players.contains(LNNs[shottype][player])) {
-                            players.push(LNNs[shottype][player]);
-                        }
+                for (player in LNNs[shottype]) {
+                    if (!players.contains(LNNs[shottype][player])) {
+                        players.push(LNNs[shottype][player]);
                     }
                 }
             }
