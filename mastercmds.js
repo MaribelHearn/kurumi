@@ -542,11 +542,11 @@
             var mainChannel = servers[server.id].mainChannel;
             
             if (mainChannel) {
-                server.channels.get(mainChannel).send(servers[server.id].logoutMessage);
+                server.channels.get(mainChannel).send(servers[server.id].logoutMessage).then(function () {
+                    bot.destroy();
+                    process.exit();
+                });
             }
-            
-            bot.destroy();
-            process.exit();
         }
     }
 };
