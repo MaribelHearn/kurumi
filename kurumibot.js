@@ -11,11 +11,11 @@ try {
     Discord = require("discord.js");
     bot = new Discord.Client();
 } catch (err) {
-	console.log(timeStamp() + err.stack + "\n" + timeStamp() + process.version + "\n" + timeStamp() + "Run npm install without any having any errors occur!");
+	console.log(timeStamp() + err.stack + "\n" + timeStamp() + process.versions.node + "\n" + timeStamp() + "Run npm install without any having any errors occur!");
 	process.exit();
 }
 
-console.log(timeStamp() + "Node version: " + process.version + "\n" + timeStamp() + "Discord.js version: " + Discord.version);
+console.log(timeStamp() + "Node version: " + process.versions.node + "\n" + timeStamp() + "Discord.js version: " + Discord.version);
 
 /* JavaScript Native Object Additions */
 String.prototype.contains = function (string) {
