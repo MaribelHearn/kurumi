@@ -494,8 +494,7 @@
     lnn: {
         help: function (command, symbol) {
             return "`" + symbol + command + " <game>^[shottype/route]`: shows the list of LNN players for `game` with `shottype/route`. " +
-            "If `shottype/route` is not specified, shows the list of all LNN players for `game`. " +
-            "For IN, if only FinalA or only FinalB should be shown, use 'INA' or 'INB'.";
+            "If `shottype/route` is not specified, shows the list of all LNN players for `game`.";
         },
         
         command: function (message, server, command, channel) {
@@ -547,7 +546,7 @@
             
             for (shottype in LNNs[game]) {
                 if (LNNs[game][shottype].length !== 0) {
-                    list += shottype + ": " + LNNs[game][shottype].sort().join(", ") + "\n";
+                    list += shottype.replace("Team", " Team").replace("Final", " Final") + ": " + LNNs[game][shottype].sort().join(", ") + "\n";
                 }
             }
             
