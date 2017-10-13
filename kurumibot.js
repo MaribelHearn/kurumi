@@ -1,11 +1,7 @@
 ﻿/* Setup */
 try {
     timeStamp = function () {
-        var date = new Date();
-        
-        var dateString = "[" + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + "] ";
-        
-        return dateString.replace(/\b(\d{1})\b/g, "0$1");
+        return "[" + new Date().toTimeString().split(' ')[0] + "] ";
     };
     
     Discord = require("discord.js");
