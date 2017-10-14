@@ -5,14 +5,30 @@
         },
         
         command: function (message, server, command, channel) {
-            var id = message.author.id, username = message.author.username, badOpinions = serverData[server.id].badOpinions, goodOpinions = serverData[server.id].goodOpinions;
+            var id = message.author.id, username = message.author.username, badOpinions = serverData[server.id].badOpinions, goodOpinions = serverData[server.id].goodOpinions, opinion, opinionCount, rng;
             
-            var opinionCount = badOpinions.length + goodOpinions.length, rng = RNG(opinionCount), opinion;
+            if (badOpinions.length === 0 && goodOpinions.length === 0) {
+                channel.send("There are no opinions I can choose from! How disappointing.");
+                return;
+            }
             
-            opinion = (rng >= badOpinions.length || id == bot.user.id ? message.author + " " + goodOpinions.rand().replace(/%u/gi, username) : message.author + " " + badOpinions.rand().replace(/%u/gi, username));
+            if (badOpinions.length === 0) {
+                opinion = message.author + " " + goodOpinions.rand().replace(/%u/gi, username));
+            } else if (goodOpinions.length === 0) {
+                opinion = message.author + " " + badOpinions.rand().replace(/%u/gi, username));
+            } else {
+                opinionCount = badOpinions.length + goodOpinions.length;
+                rng = RNG(opinionCount);
             
-            if (opinion.contains("but still cool!") && serverData[server.id].opinionExceptions.contains(id)) {
-                opinion = message.author + " " + "I love you and only you!";
+                if (rng >= badOpinions.length || id == bot.user.id) {
+                    opinion = message.author + " " + goodOpinions.rand().replace(/%u/gi, username);
+                } else {
+                    opinion = message.author + " " + badOpinions.rand().replace(/%u/gi, username));
+                }
+                
+                if (opinion.contains("but still cool!") && serverData[server.id].opinionExceptions.contains(id)) {
+                    opinion = message.author + " " + "I love you and only you!";
+                }
             }
             
             channel.send(opinion.replace(/%t/gi, TOUHOU_SHMUPS.rand()));
