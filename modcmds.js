@@ -567,7 +567,7 @@
     
     setweatherapi: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <API key>`: saves the key `API key` for use of the `!weather` command.";
+            return "`" + symbol + command + " <API key>`: saves the key `API key` for use of the `" + symbol + "weather` command.";
         },
         
         command: function (message, server, command, channel) {
@@ -580,19 +580,19 @@
             
             permData.weatherKey = key;
             save("weatherKey");
-            channel.send("API key set successfully. The `!weather` command is now enabled.");
+            channel.send("API key set successfully. The weather command is now enabled.");
         }
     },
     
     removeweatherapi: {
         help: function (command, symbol) {
-            return "`" + symbol + command + "`: removes the API key that was saved for use of the `!weather` command.";
+            return "`" + symbol + command + "`: removes the API key that was saved for use of the `" + symbol + "weather` command.";
         },
         
         command: function (message, server, command, channel) {
             permData.weatherKey = "";
             save("weatherKey");
-            channel.send("API key removed successfully. The `!weather` command is now disabled.");
+            channel.send("API key removed successfully. The weather command is now disabled.");
         }
     },
     
@@ -624,6 +624,167 @@
             permData.googleKey = "";
             save("googleKey");
             channel.send("API key removed successfully. Automatic replies to YouTube links are now disabled.");
+        }
+    },
+    
+    addimage: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <image file>^<description>`: adds a command that posts `image file` and has `description` when `" + symbol + "help` is used on it.\nThe file must be in the `images` folder.";
+        },
+        
+        command: function (message, server, command, channel) {
+            var image = command[1], name, ext, description = command[2];
+            
+            if (!image) {
+                channel.send(message.author + ", please specify an image file.");
+                return;
+            }
+            
+            name = path.parse(image).name;
+            ext = path.parse(image).ext;
+            
+            if (![".gif", ".jpg", ".png"].contains(ext)) {
+                channel.send(message.author + ", that file extension is not supported.");
+                return;
+            }
+            
+            if (!fs.existsSync("images/" + image)) {
+                channel.send(message.author + ", that file does not exist.");
+                return;
+            }
+            
+            if (!description) {
+                channel.send(message.author + ", please specify a description for the help command.");
+                return;
+            }
+            
+            permData.images[name] = {"help": description, "file": image};
+            save("images");
+            channel.send("The image command " + name + " has been added.");
+        }
+    },
+    
+    removeimage: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <image command>`: removes `image command`. Note that this does not delete the actual image file.";
+        },
+        
+        command: function (message, server, command, channel) {
+            var image = command[1], images = permData.images;
+            
+            if (!image) {
+                channel.send(message.author + ", please specify an image command.");
+                return;
+            }
+            
+            if (!images.hasOwnProperty(image)) {
+                channel.send(message.author + ", that is not an image command.");
+                return;
+            }
+            
+            delete permData.images[image];
+            save("images");
+            channel.send("The image command " + name + " has been removed.");
+        }
+    },
+    
+    addmusic: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <music>^<description>^[volume]`: adds a command that plays `music` on a voice channel and has `description` when `" + symbol + "help` is used on it.\nThe music must either be a YouTube video URL or a file in the `music` folder.\nIf `volume` is not specified, it will be set to 0.5.";
+        },
+        
+        command: function (message, server, command, channel) {
+            var music = command[1], url, name, ext, description = command[2], volume = command[3];
+            
+            if (!music) {
+                channel.send(message.author + ", please specify music.");
+                return;
+            }
+            
+            name = path.parse(music).name;
+            ext = path.parse(music).ext;
+            
+            if (![".wav", ".mp3"].contains(ext)) {
+                channel.send(message.author + ", that file extension is not supported.");
+                return;
+            }
+            
+            if (!fs.existsSync("music/" + music)) {
+                channel.send(message.author + ", that file does not exist.");
+                return;
+            }
+            
+            if (!description) {
+                channel.send(message.author + ", please specify a description for the help command.");
+                return;
+            }
+            
+            permData.musicLocal[name] = {"help": description, "file": music, "volume": (volume ? volume : 0.5)};
+            save("musicLocal");
+            channel.send("The music command " + name + " has been added.");
+        }
+    },
+    
+    addmusicyt: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <name>^<YouTube video>^<description>^[volume]`: adds a command called `name` that plays `YouTube video` on a voice channel.\n It will have `description` when `" + symbol + "help` is used on it.\nIf `volume` is not specified, it will be set to 0.5.";
+        },
+        
+        command: function (message, server, command, channel) {
+            var name = command[1], video = command[2], url, description = command[3], volume = command[4];
+            
+            if (!name) {
+                channel.send(message.author + ", please specify a command name.");
+                return;
+            }
+            
+            if (!video) {
+                channel.send(message.author + ", please specify a YouTube video.");
+                return;
+            }
+            
+            url = url.parse(video);
+            
+            if (url.hostname != "youtu.be" && (url.hostname != "www.youtube.com" || url.pathname != "/watch" || url.search.substring(0, 3) != "?v=")) {
+                channel.send(message.author + ", that is not a YouTube video.");
+                return;
+            }
+            
+            if (!description) {
+                channel.send(message.author + ", please specify a description for the help command.");
+                return;
+            }
+            
+            permData.musicYouTube[name] = {"help": description, "link": video, "volume": (volume ? volume : 0.5)};
+            save("musicYouTube");
+            channel.send("The music command " + name + " has been added.");
+        }
+    },
+    
+    removemusic: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <music command>`: removes `music command`. Note that this does not delete the actual music file, if there is one.";
+        },
+        
+        command: function (message, server, command, channel) {
+            var music = command[1], musicLocal = permData.musicLocal, musicYouTube = permData.musicYouTube;
+            
+            if (!music) {
+                channel.send(message.author + ", please specify a music command.");
+                return;
+            }
+            
+            if (musicLocal.hasOwnProperty(image)) {
+                delete permData.musicLocal[music];
+                channel.send("The music command " + name + " has been removed.");
+                save("musicLocal");
+            } else if (musicYouTube.hasOwnProperty(image)) {
+                delete permData.musicYouTube[music];
+                channel.send("The music command " + name + " has been removed.");
+                save("musicYouTube");
+            } else {
+                channel.send(message.author + ", that is not a music command.");
+            }
         }
     },
     

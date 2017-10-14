@@ -7,6 +7,8 @@ module.exports = {
         
         global.dns = require("dns");
         
+        global.path = require("path");
+        
         global.timers = require("timers");
         
         global.ytdl = require("ytdl-core");
