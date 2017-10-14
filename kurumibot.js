@@ -109,15 +109,15 @@ globals.define();
 console.log(timeStamp() + "Modules loaded.");
 
 if (!fs.existsSync("./data")) {
-    fs.mkdirSync("./data");
+    fs.mkdirSync("data");
 }
 
 if (!fs.existsSync("./images")) {
-    fs.mkdirSync("./images");
+    fs.mkdirSync("images");
 }
 
 if (!fs.existsSync("./music")) {
-    fs.mkdirSync("./music");
+    fs.mkdirSync("music");
 }
 
 for (var j in permData) {
