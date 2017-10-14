@@ -123,7 +123,7 @@ if (!fs.existsSync("./music")) {
 for (var j in permData) {
     try {
         if (fs.existsSync("./data/" + j + ".txt")) {
-            console.log(timeStamp() + "Reading " + j + ".txt...");
+            // console.log(timeStamp() + "Reading " + j + ".txt...");
             permData[j] = fs.readFileSync("./data/" + j + ".txt");
             permData[j] = String(permData[j]).replace(/^\uFEFF/, "");
             permData[j] = JSON.parse(permData[j]);
@@ -170,7 +170,7 @@ bot.on("ready", function () {
                 fs.writeFileSync(filename, JSON.stringify(SERVER_DATA_DEFAULTS[l]));
                 console.log(timeStamp() + serversArray[k].name + " specific data file " + l + ".txt created.");
             } else {
-                console.log(timeStamp() + "Reading the " + serversArray[k].name + " " + l + ".txt...");
+                // console.log(timeStamp() + "Reading the " + serversArray[k].name + " " + l + ".txt...");
                 serverData[id][l] = fs.readFileSync(filename);
                 serverData[id][l] = String(serverData[id][l]).replace(/^\uFEFF/, "");
                 serverData[id][l] = JSON.parse(serverData[id][l]);
