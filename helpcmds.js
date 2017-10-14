@@ -5,7 +5,7 @@
         },
         
         command: function (message, server, command, channel) {
-            var commandName = command[1], symbol = message.content.charAt(0);
+            var commandName = command[1], symbol = message.content.charAt(0), images = permData.images, musicLocal = permData.musicLocal, musicYouTube = permData.musicYouTube;
             
             if (!commandName) {
                 allCommands.help.commands.command(message, server, command, channel);
@@ -29,6 +29,11 @@
                 }
             }
             
+            if (images.hasOwnProperty(commandName)) {
+                channel.send("`" + symbol + commandName + "`: " + images[commandName].help);
+                return;
+            }
+            
             if (musicLocal.hasOwnProperty(commandName)) {
                 channel.send("`" + symbol + commandName + "`: " + musicLocal[commandName].help);
                 return;
@@ -49,12 +54,16 @@
         },
         
         command: function (message, server, command, channel) {
-            var numberOfCommands = Object.keys(allCommands.help).length + Object.keys(allCommands.mod).length + Object.keys(allCommands.master).length, symbol = message.content.charAt(0), commandType;
+            var symbol = message.content.charAt(0), commandType;
             
             var info = allCommands.help.help.help("help", symbol) + "\n" + allCommands.help.commands.help("commands", symbol) + "\n\n";
             
+            var numberOfCommands = Object.keys(allCommands.help).length + Object.keys(allCommands.mod).length + Object.keys(allCommands.master).length;
+            
+            numberOfCommands += Object.keys(permData.images).length + Object.keys(permData.musicLocal).length + Object.keys(permData.musicYouTube).length;
+            
             for (var commandType in allCommands) {
-                if (commandType == "secret" || commandType == "help" || commandType == "mod" || commandType == "master") {
+                if (["help", "globals", "handlers", "mod", "master"].contains(commandType)) {
                     continue;
                 }
                 
@@ -66,7 +75,7 @@
             "`" + symbol + "image`: posts the list of image commands.\n\n" +
             "Available command symbols: `" + COMMAND_SYMBOLS.join("`, `") + "`\n" +
             "There are currently **" + numberOfCommands + "** commands total.";
-            channel.send(info).catch(console.error);
+            channel.send(info);
         }
     },
     
