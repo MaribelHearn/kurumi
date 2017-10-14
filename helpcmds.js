@@ -58,12 +58,10 @@
             
             var info = allCommands.help.help.help("help", symbol) + "\n" + allCommands.help.commands.help("commands", symbol) + "\n\n";
             
-            var numberOfCommands = Object.keys(allCommands.help).length + Object.keys(allCommands.mod).length + Object.keys(allCommands.master).length;
-            
-            numberOfCommands += Object.keys(permData.images).length + Object.keys(permData.musicLocal).length + Object.keys(permData.musicYouTube).length;
+            var numberOfCommands = Object.keys(allCommands.help).length + Object.keys(permData.images).length + Object.keys(permData.musicLocal).length + Object.keys(permData.musicYouTube).length;
             
             for (var commandType in allCommands) {
-                if (["help", "mod", "master"].contains(commandType)) {
+                if (commandType == "help") {
                     continue;
                 }
                 
@@ -75,7 +73,7 @@
             "`" + symbol + "image`: posts the list of image commands.\n\n" +
             "Available command symbols: `" + COMMAND_SYMBOLS.join("`, `") + "`\n" +
             "There are currently **" + numberOfCommands + "** commands total.";
-            channel.send(info);
+            channel.send(info).catch(console.error);
         }
     },
     
@@ -114,6 +112,46 @@
             
             info = info.slice(0, -1);
             info += "\nThere are currently **" + numberOfCommands + "** utility commands total.";
+            channel.send(info).catch(console.error);
+        }
+    },
+    
+    
+    mod: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + "`: posts the list of mod commands.";
+        },
+        
+        command: function (message, server, command, channel) {
+            var numberOfCommands = 0, symbol = message.content.charAt(0), info = "";
+            
+            for (var commandName in allCommands.mod) {
+                info += "`" + symbol + commandName + "` ";
+                numberOfCommands += 1;
+            }
+            
+            info = info.slice(0, -1);
+            info += "\nThere are currently **" + numberOfCommands + "** mod commands total.";
+            channel.send(info).catch(console.error);
+        }
+    },
+    
+    
+    master: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + "`: posts the list of master commands.";
+        },
+        
+        command: function (message, server, command, channel) {
+            var numberOfCommands = 0, symbol = message.content.charAt(0), info = "";
+            
+            for (var commandName in allCommands.master) {
+                info += "`" + symbol + commandName + "` ";
+                numberOfCommands += 1;
+            }
+            
+            info = info.slice(0, -1);
+            info += "\nThere are currently **" + numberOfCommands + "** master commands total.";
             channel.send(info).catch(console.error);
         }
     },
