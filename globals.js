@@ -535,9 +535,28 @@ module.exports = {
                 "brazil": "br",
                 "sydney": "au",
                 "singapore": "sg",
-                "amsterdam": "nl"
+                "amsterdam": "nl",
+                "hongkong": "hk",
+                "russia": "ru"
             })[region];
         };
+        
+        global.formatRegion = function (region) {
+            return ({
+                "us-west": "US West",
+                "us-central": "US Central",
+                "us-east": "US East",
+                "us-south": "US South",
+                "eu-west": "EU West",
+                "eu-central": "EU Central",
+                "brazil": "Brazil",
+                "sydney": "Sydney",
+                "singapore": "Singapore",
+                "amsterdam": "Amsterdam",
+                "hongkong": "Hong Kong",
+                "russia": "Russia"
+            })[region];
+        }
 
         global.gameName = function (game) {
             return ({

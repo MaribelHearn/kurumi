@@ -161,7 +161,7 @@
             
             channel.send("Name: " + server.name + "\n" +
             "Owner: " + server.owner.user.username + "\n" +
-            "Region: " + flag + cap(server.region) + "\n" +
+            "Region: " + flag + formatRegion(server.region) + "\n" +
             "Created At: `" + createdDate + "`\n" +
             "Members: " + sep(server.memberCount) + "\n" +
             "Channels: " + sep(server.channels.size) + "\n" +
