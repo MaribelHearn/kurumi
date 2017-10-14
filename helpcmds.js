@@ -63,7 +63,7 @@
             numberOfCommands += Object.keys(permData.images).length + Object.keys(permData.musicLocal).length + Object.keys(permData.musicYouTube).length;
             
             for (var commandType in allCommands) {
-                if (["help", "globals", "handlers", "mod", "master"].contains(commandType)) {
+                if (["help", "mod", "master"].contains(commandType)) {
                     continue;
                 }
                 
