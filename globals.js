@@ -87,7 +87,7 @@ module.exports = {
         
         global.SERVER_DATA_DEFAULTS = {
             "aliasesList": {}, "quotes": {}, "nonUserQuotes": {}, "waifus": {}, "touhouWaifus": {}, "fanmemeWaifus": {}, "lenenWaifus": {}, "waifusExceptions": {},
-            "touhouWaifusExceptions": {}, "opinionExceptions": [], "ratings": {}, "cooldownSecs": 15, "kekDetection": false, "date": ""
+            "touhouWaifusExceptions": {}, "opinionExceptions": [], "ratings": {}
         };
         
         global.SERVER_SPECIFICS = {
@@ -102,7 +102,10 @@ module.exports = {
             "leaveMessage": "Bye, %u!",
             "logoutMessage": "Logging out.",
             "defaultReason": "Unknown.",
-            "isTestingServer": false
+            "isTestingServer": false,
+            "kekDetection": false,
+            "cooldownSecs": 15,
+            "date": ""
         };
 
         /* Variables */
@@ -462,8 +465,8 @@ module.exports = {
         global.dateCheck = function (server) {
             var date = new Date();
             
-            serverData[server.id].date = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
-            save("date", server);
+            permData.servers[server.id].date = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+            save("servers");
         };
 
         global.toUsers = function (members) {

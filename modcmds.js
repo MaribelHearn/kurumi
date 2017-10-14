@@ -225,8 +225,8 @@
         command: function (message, server, command, channel) {
             var seconds = command[1] ? Number(command[1]) : DEFAULT_COOLDOWN;
             
-            serverData[server.id].cooldownSecs = seconds;
-            save("cooldownSecs", server);
+            permData.servers[server.id].cooldownSecs = seconds;
+            save("servers");
             channel.send("Big command cooldown set to " + seconds + " seconds.");
         }
     },
@@ -830,9 +830,9 @@
         },
         
         command: function (message, server, command, channel) {
-            serverData[server.id].kekDetection = !serverData[server.id].kekDetection;
-            save("kekDetection", server);
-            channel.send("Kek detection has been turned **" + (serverData[server.id].kekDetection ? "on" : "off") + "**.");
+            permData.servers[server.id].kekDetection = !permData.servers[server.id].kekDetection;
+            save("servers");
+            channel.send("Kek detection has been turned **" + (servers[server.id].kekDetection ? "on" : "off") + "**.");
         }
     },
     

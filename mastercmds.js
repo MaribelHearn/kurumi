@@ -527,7 +527,9 @@
             "\nDefault reason: '" + settings.defaultReason + "'" +
             "\nLewd access role: " + (settings.lewdAccessRole ? "Yes" : "No") +
             "\nFactions active: " + (Object.keys(settings.factions).length == 4 ? "Yes" : "No") +
-            "\nTesting server: " + (settings.isTestingServer ? "Yes" : "No");
+            "\nTesting server: " + (settings.isTestingServer ? "Yes" : "No") +
+            "\n'Kek' detection: " + (settings.kekDetection ? "Yes" : "No") +
+            "\nCooldown seconds: " + settings.cooldownSecs;
             
             channel.send(settingsMessage);
         }

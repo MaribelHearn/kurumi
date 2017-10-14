@@ -65,7 +65,7 @@ module.exports = {
                 
                     if (!permData.servers[server.id].isTestingServer) {
                         cooldown = true;
-                        timers.setInterval(function () { cooldown = false; }, serverData[server.id].cooldownSecs * 1000);
+                        timers.setInterval(function () { cooldown = false; }, servers[server.id].cooldownSecs * 1000);
                     }
                 } else {
                     console.log(timeStamp() + "Image file './images/" + images[commandName].file + "' not found.");
@@ -118,7 +118,7 @@ module.exports = {
         }
         
         /* Kek Detection */
-        if (id != bot.user.id && serverData[server.id].kekDetection && servers[server.id].botChannels.contains(channel.id) && (lower.detect("kek") || lower.detect("topkek") || lower.detect("topfuckingkek"))) {
+        if (id != bot.user.id && servers[server.id].kekDetection && servers[server.id].botChannels.contains(channel.id) && (lower.detect("kek") || lower.detect("topkek") || lower.detect("topfuckingkek"))) {
             channel.send("Please don't kek in here.");
         }
         

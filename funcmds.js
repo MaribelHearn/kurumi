@@ -110,7 +110,7 @@
                 
             if (!permData.servers[server.id].isTestingServer) {
                 cooldown = true;
-                timers.setInterval(function () { cooldown = false; }, serverData[server.id].cooldownSecs * 1000);
+                timers.setInterval(function () { cooldown = false; }, servers[server.id].cooldownSecs * 1000);
             }
         }
     },
@@ -154,11 +154,11 @@
         },
         
         command: function (message, server, command, channel) {
-            var date = serverData[server.id].date, exceptions = serverData[server.id].waifusExceptions, id = message.author.id, waifu;
+            var date = servers[server.id].date, exceptions = serverData[server.id].waifusExceptions, id = message.author.id, waifu;
             
             dateCheck(server);
             
-            if (date != serverData[server.id].date) {
+            if (date != servers[server.id].date) {
                 allCommands.mod.reset.command(message, server, command, channel);
             }
             
@@ -182,11 +182,11 @@
         },
         
         command: function (message, server, command, channel) {
-            var date = serverData[server.id].date, exceptions = serverData[server.id].touhouWaifusExceptions, id = message.author.id, touhouWaifu;
+            var date = servers[server.id].date, exceptions = serverData[server.id].touhouWaifusExceptions, id = message.author.id, touhouWaifu;
             
             dateCheck(server);
             
-            if (date != serverData[server.id].date) {
+            if (date != servers[server.id].date) {
                 allCommands.mod.reset.command(message, server, command, channel);
             }
             
@@ -211,11 +211,11 @@
         },
         
         command: function (message, server, command, channel) {
-            var date = serverData[server.id].date, id = message.author.id, fanmemeWaifu;
+            var date = servers[server.id].date, id = message.author.id, fanmemeWaifu;
             
             dateCheck(server);
             
-            if (date != serverData[server.id].date) {
+            if (date != servers[server.id].date) {
                 allCommands.mod.reset.command(message, server, command, channel);
             }
             
@@ -240,11 +240,11 @@
         },
         
         command: function (message, server, command, channel) {
-            var date = serverData[server.id].date, id = message.author.id, lenenwaifu;
+            var date = servers[server.id].date, id = message.author.id, lenenwaifu;
             
             dateCheck(server);
             
-            if (date != serverData[server.id].date) {
+            if (date != servers[server.id].date) {
                 allCommands.mod.reset.command(message, server, command, channel);
             }
             
@@ -269,11 +269,11 @@
         },
         
         command: function (message, server, command, channel) {
-            var waifu = command[1], date = serverData[server.id].date, ratings = serverData[server.id].ratings;
+            var waifu = command[1], date = servers[server.id].date, ratings = serverData[server.id].ratings;
             
             dateCheck(server);
             
-            if (date != serverData[server.id].date) {
+            if (date != servers[server.id].date) {
                 allCommands.mod.reset.command(message, server, command, channel);
             }
             
