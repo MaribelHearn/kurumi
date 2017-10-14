@@ -25,6 +25,8 @@ module.exports = {
         global.CURRENCY_BASE_URL = "http://free.currencyconverterapi.com/api/v3/convert?q=";
         
         global.CURRENCIES_BASE_URL = "http://free.currencyconverterapi.com/api/v3/currencies";
+        
+        global.GOOGLE_BASE_URL = "https://www.googleapis.com/youtube/v3/videos?id=";
 
         global.GOOGLE_SUGGESTS_BASE_URL = "https://suggestqueries.google.com/complete/search?json&client=firefox&hl=en&q=";
 
@@ -132,7 +134,7 @@ module.exports = {
         /* Variables */
         global.permData = {
             "servers": {}, "WRs": {}, "LNNs": {}, "currencies": {}, "images": {}, "musicLocal": {}, "musicYouTube": {},
-            "notifyQueue": [], "token": "", "botMaster": "", "WRsLastUpdated": "", "weatherKey": "", "youtubeKey": ""
+            "notifyQueue": [], "token": "", "botMaster": "", "WRsLastUpdated": "", "weatherKey": "", "googleKey": ""
         };
         
         global.serverData = {};
@@ -600,6 +602,10 @@ module.exports = {
         
         global.currencyUrl = function (currency1, currency2) {
             return CURRENCY_BASE_URL + currency1 + "_" + currency2 + "&compact=ultra";
+        };
+        
+        global.googleUrl = function (vid) {
+            return GOOGLE_BASE_URL + vid + "&key=" + permData.googleKey + "&part=snippet,statistics";
         };
         
         global.generateCurrencies = function () {

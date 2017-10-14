@@ -123,13 +123,13 @@ module.exports = {
         }
         
         /* YouTube Links */
-        if (id != bot.user.id && servers[server.id].isTestingServer) {
-            var linkPattern = /http(s?):\/\/www.youtube.com\/watch\?v\=[a-zA-Z0-9]+/;
+        if (permData.googleKey !== "" && id != bot.user.id) {
+            var linkPattern = /http(s?):\/\/www.youtube.com\/watch\?v\=[a-zA-Z0-9_]+/;
             
             if (linkPattern.test(content)) {
                 var vid = linkPattern.exec(content).toString().split('=')[1].slice(0, -2);
                 
-                request("https://www.googleapis.com/youtube/v3/videos?id=" + vid + "&key=" + permData.youtubeKey + "&part=snippet,statistics", function (error, response, body) {
+                request(googleUrl(vid), function (error, response, body) {
                     if (!error && response.statusCode == 200) {
                         if (!JSON.parse(body).items[0]) {
                             message.channel.send("An error occurred while trying to fetch the YouTube video data.");

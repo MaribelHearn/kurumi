@@ -976,6 +976,11 @@
         },
         
         command: function (message, server, command, channel) {
+            if (permData.weatherKey === "") {
+                channel.send("This command is currently disabled. Use `!setweatherapi <API key>` to enable it.");
+                return;
+            }
+            
             if (cooldown) {
                 channel.send("Please do not flood the channel!");
                 return;

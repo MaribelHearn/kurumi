@@ -565,6 +565,68 @@
         }
     },
     
+    setweatherapi: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <API key>`: saves the key `API key` for use of the `!weather` command.";
+        },
+        
+        command: function (message, server, command, channel) {
+            var key = command[1];
+            
+            if (!key) {
+                channel.send(message.author + ", please specify an API key.");
+                return;
+            }
+            
+            permData.weatherKey = key;
+            save("weatherKey");
+            channel.send("API key set successfully. The `!weather` command is now enabled.");
+        }
+    },
+    
+    removeweatherapi: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + "`: removes the API key that was saved for use of the `!weather` command.";
+        },
+        
+        command: function (message, server, command, channel) {
+            permData.weatherKey = "";
+            save("weatherKey");
+            channel.send("API key removed successfully. The `!weather` command is now disabled.");
+        }
+    },
+    
+    setgoogleapi: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <API key>`: saves the key `API key` to enable the automatic replies to YouTube links.";
+        },
+        
+        command: function (message, server, command, channel) {
+            var key = command[1];
+            
+            if (!key) {
+                channel.send(message.author + ", please specify an API key.");
+                return;
+            }
+            
+            permData.googleKey = key;
+            save("googleKey");
+            channel.send("API key set successfully. Automatic replies to YouTube links now enabled.");
+        }
+    },
+    
+    removegoogleapi: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + "`: removes the API key that was saved for automatic replies to YouTube links.";
+        },
+        
+        command: function (message, server, command, channel) {
+            permData.googleKey = "";
+            save("googleKey");
+            channel.send("API key removed successfully. Automatic replies to YouTube links are now disabled.");
+        }
+    },
+    
     togglekek: {
         help: function (command, symbol) {
             return "`" + symbol + command + "`: turns kek detection on or off.";
