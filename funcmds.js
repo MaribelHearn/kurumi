@@ -105,29 +105,13 @@
             }
             
             message = message.author + " You must play... **" + game + " " + category + "**" + (shot.length <= 2 || shot == "Makai" || shot == "Jigoku" ? " " : " with ");
-            message += (shot == '-' ? "" : "**" + shot) + (game == "HSiFS" ? "-" + ["Spring", "Summer", "Autumn", "Winter"].rand() + "**" : "**") + "!";
+            message += (shot == '-' ? "" : "**" + shot) + (game == "HSiFS" ? ["Spring", "Summer", "Autumn", "Winter"].rand() + "**" : "**") + "!";
             channel.send(message, {"file": "./" + "games/" + game + ".jpg"});
                 
             if (!permData.servers[server.id].isTestingServer) {
                 cooldown = true;
                 timers.setInterval(function () { cooldown = false; }, serverData[server.id].cooldownSecs * 1000);
             }
-        }
-    },
-    
-    shmupquote: {
-        help: function (command, symbol) {
-            return "`" + symbol + command + "`: posts a random in-game or meta shmup quote.";
-        },
-        
-        command: function (message, server, command, channel) {
-            var author = Object.keys(SHMUP_QUOTES).rand();
-            
-            var rng = RNG(SHMUP_QUOTES[author].length);
-            
-            var quote = SHMUP_QUOTES[author][rng];
-            
-            channel.send("```" + quote + "```\n- " + author);
         }
     },
     
@@ -493,6 +477,64 @@
             quotes[id].push(quote);
             save("quotes", server);
             channel.send("Quote added.");
+        }
+    },
+    
+    nonuserquote: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + "`: posts a random quote from the list of non-user quotes.";
+        },
+        
+        command: function (message, server, command, channel) {
+            var nonUserQuotes = serverData[server.id].nonUserQuotes;
+            
+            if (nonUserQuotes.isEmpty()) {
+                channel.send(message.author + ", there are no saved non-user quotes.");
+                return;
+            }
+            
+            var author = Object.keys(nonUserQuotes).rand();
+            
+            var rng = RNG(nonUserQuotes[author].length);
+            
+            var quote = nonUserQuotes[author][rng];
+            
+            channel.send("```" + quote + "```\n- " + author);
+        }
+    },
+    
+    addnonuserquote: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + "<author>^<quote>`: adds `quote` from `author` to the list of non-user quotes";
+        },
+        
+        command: function (message, server, command, channel) {
+            var author = command[1], nonUserQuotes = serverData[server.id].nonUserQuotes;
+            
+            if (!author) {
+                channel.send(message.author + ", please specify an author.");
+                return;
+            }
+            
+            var quote = command[2];
+            
+            if (!quote) {
+                channel.send(message.author + ", please specify a quote to add.");
+                return;
+            }
+            
+            if (!nonUserQuotes[author]) {
+                nonUserQuotes[author] = [];
+            }
+            
+            if (nonUserQuotes[author].contains(quote)) {
+                channel.send(message.author + ", that line has already been quoted.");
+                return;
+            }
+            
+            nonUserQuotes[author].push(quote);
+            save("nonUserQuotes", server);
+            channel.send("Non-user quote added.");
         }
     },
     

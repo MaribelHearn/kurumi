@@ -129,6 +129,42 @@
         }
     },
     
+    removenonuserquote: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <author>^<quote>`: removes non-user quote `quote` from `author`'s quotes.";
+        },
+        
+        command: function (message, server, command, channel) {
+            var author = command[1], nonUserQuotes = serverData[server.id].nonUserQuotes;
+            
+            if (!author) {
+                channel.send(message.author + ", please specify an author to remove a quote from.");
+                return;
+            }
+            
+            var quote = command[2];
+            
+            if (!quote) {
+                channel.send(message.author + ", please specify a quote to remove.");
+                return;
+            }
+            
+            if (!nonUserQuotes[author]) {
+                channel.send(message.author + ", that author does not have any saved quotes.");
+                return;
+            }
+            
+            nonUserQuotes[author].remove(quote);
+            
+            if (nonUserQuotes[author].length === 0) {
+                delete nonUserQuotes[author];
+            }
+            
+            save("nonUserQuotes", server);
+            channel.send("Non-user quote removed.");
+        }
+    },
+    
     say: {
         help: function (command, symbol) {
             return "`" + symbol + command + " <message>`: will make me post `message` in the bot spam channel.";

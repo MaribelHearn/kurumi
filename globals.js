@@ -84,37 +84,9 @@ module.exports = {
         "Outlook good.", "Yes.", "Signs point to yes.", "Don't count on it.", "My reply is no.", "My sources say no.", "Outlook not so good.", "Very doubtful."];
         
         global.CHOICE = ["%o imo.", "%o tbh.", "I choose %o.", "%o!", "I say %o.", "I'd pick %o if I were you.", "%o is the best option.", "Why not %o?"];
-
-        global.SHMUP_QUOTES = {
-            "Cirno (EoSD)": ["I'll cryo-freeze you together with some English beef!"],
-            "Marisa (EoSD)": ["The saint was crucified."],
-            "Marisa (IN)": ["Bitch, get out of the way!", "Move and I'll shoot!"],
-            "Mokou (IN)": ["My god, jelly donuts are so scary."],
-            "Sanae (SA)": ["You can't let yourself be held back by common sense in Gensokyo, right!?"],
-            "Reimu (UFO)": ["Just fall out of the sky, you stupid umbrella youkai."],
-            "Donpachi": ["Why don't you try hard?", "VIOLATORS WILL BE PROSECUTEDT TO THE FULL EXTENT OF THE JAM.",
-                "WARNING: THIS IS NOT SIMILATION. GET READY TO DESTOROY THE ENEMY. TARGET FOR THE WEAK POINTS OF F**KIN' MACHINE. DO YOUR BEST YOU HAVE EVER DONE."],
-            "Dodonpachi": ["Dododododododo... Dodonpachi!", "Select your battle fighter!"],
-            "Dodonpachi Daioujou": ["Watch out! Watch out!"],
-            "Dodonpachi Daifukkatsu": ["«Are you ready for the storm of tears and sweat?» ❒ With great humility and gratitude, sir. ❒ Yeah, how about no?", "Just a couple more shots DESU"],
-            "Operator (Dodonpachi Saidaioujou)": ["Good ruck!", "Hyper System: Ready!"],
-            "Inbachi": ["Shinu ga yoi."],
-            "Ketsui": ["Approach your target and attack! Your mission starts now! Are you ready?", "WELCOME TO SPECIAL ROUND"],
-            "Reco (Futari)": ["PARUMUUUUUUUUUUUUUUUUUUUUU!!"],
-            "Big Burn's Robot": ["BOMBAAAAA!!"],
-            "Crimzon Clover": ["Shooting Game never die."],
-            "Ikaruga": ["I will not die until I achieve something.", "1 CHAIN. 1 CHAIN. 1 CHAIN. 1 CHAIN. 1 CHAIN. 1 CHAIN.", "MAX CHAIN MAX CHAIN MAX CHAIN MAX CHA--1 CHAIN"],
-            "TouHUN Project": ["I know the touhou", "XD. do you even know the story behind all these characters. the japanese and chinese legends and folk tales." +
-                "Do you even know what danmaku represents what is the meaning of it. its not an obstacle it delivers the users feelings and emotions you should not simply dodge it you should read it like a poem."],
-            "Heartfelt Ibuki": ["IMHO, Rainbow Windchime was the hardest spell card in EoSD"],
-            "TvTropes": ["What, no Flandre? Forbidden Barrage: 'Counter Clock' (aka 'Clock That Ticks Away The Past') sends waves of bullets your way while making you dodge huge spinning flamethrowers. " +
-                "If you focus, you'll be unable to outrun the flamethrowers, and if you don't focus, you'll run right into the bullets. Although there are safe spots that the flamethrowers don't touch," +
-                " they're hard to stay in and dodge the bullets at the same time."],
-            "Hong Meiling of the Red Guards": ["Maidens of the Telescope"]
-        };
         
         global.SERVER_DATA_DEFAULTS = {
-            "aliasesList": {}, "quotes": {}, "waifus": {}, "touhouWaifus": {}, "fanmemeWaifus": {}, "lenenWaifus": {}, "waifusExceptions": {},
+            "aliasesList": {}, "quotes": {}, "nonUserQuotes": {}, "waifus": {}, "touhouWaifus": {}, "fanmemeWaifus": {}, "lenenWaifus": {}, "waifusExceptions": {},
             "touhouWaifusExceptions": {}, "opinionExceptions": [], "ratings": {}, "cooldownSecs": 15, "kekDetection": false, "date": ""
         };
         
