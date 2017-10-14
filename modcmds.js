@@ -37,7 +37,7 @@
             var toBeBanned = command[1];
             
             if (!toBeBanned) {
-                channel.send(message.author + ", please specify the user to be kicked.");
+                channel.send(message.author + ", please specify the user to be banned.");
                 return;
             }
             
