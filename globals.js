@@ -66,19 +66,6 @@ module.exports = {
         "Fujiwara no Iyozane", "Taira no Fumikado", "Shion", "Tenkai Zuifeng", "Fumikado's grandfather", "Souko Shirami", "Mitsumo", "Terumi", "Medias Moritake", "Kujiru Kesa", "Kunimitsu Ooya", "Kaisen Azuma",
         "Kaoru Kashiwagi", "Garaiya Ogata", "Fujiwara no Shirogane no Sanra", "Para", "Ooama no Ake no Mitori", "Taira no Chouki", "Suzumi Kuzu", "Xeno a", "Haiji Senri", "Yago Ametsukana",
         "Suzumi Kuzu (disguised as Tsurubami Senri)", "Tsubakura's mother"];
-
-        global.OPINIONS_BAD = ["You aren't really so cool!", "Your PB in " + TOUHOU_SHMUPS.rand() + " is a whole lot lower than mine, which is stronger than the so called 'World Record'!", "You're secretly a Kappatalist!",
-        "Not ZIG, but still cool!", "You're a worthless meme!", "Your scores are shit! Shiiiiit!", "Should go straight to the Kurulag!",
-        "You're like Beavis! You're never gonna score and someday the grim reaper will show you that it is part of your gravestone that you never scored!",
-        "You're a valuable part of the Kuruminist revolution but haven't scored enough to access dank glasses-artillery yet!", "You're a Kappa and I'm the direct opposite! I don't know what to think of you!",
-        "KURUMINISTS OF THE WORLD SHOULD UNITE AND STRIKE AGAINST YOU!", "Score more, score more, score a bit faster!", "You're a secondary tbh.", "You should become a proud Kuruminist!",
-        "You're the kind of person who would die to even Mysterious Snake Show!", "My opinion of you is that I have none and I don't know if I'll form one! You simply should be a person people have opinions about!",
-        "Your plays are hard to understand!", "You're not good but maybe you can be someday!", "I don't think you know the answer to the question whether there's buses in Gensokyo!", "I bet you didn't even get rank 4 in StellaVanity!",
-        "You ask me for an opinion, but really I don't know what to say if I can't talk about Deathsmiles with you!", "Your easy plays are infamous for wrong reasons!",
-        "Ever played CAVE shmups?! They're quite fun too! I have a whole list of shmups I could recommend you!", "You're never gonna score! It's just not gonna happen!", "Your waifu is very lame!"];
-
-        global.OPINIONS_GOOD = ["You're doing a good job to save the world from Kappatalism!",  "Not ZIG, but still cool!", "You're a superplayer!", "I heard you improved your score so good job!",
-        "You're part of the dankest scorers ever, well, maybe someday!", "I think you can become a true wrestler!", "10/10 imo.", "You're truly the kinda meme Kappatalists thought they controlled but I'd seize for fun!"];
         
         global.ANSWERS = ["It is certain.", "Without a doubt.", "It is decidedly so.", "Yes, definitely.", "You may rely on it.","As I see it, yes.", "Most likely.",
         "Outlook good.", "Yes.", "Signs point to yes.", "Don't count on it.", "My reply is no.", "My sources say no.", "Outlook not so good.", "Very doubtful."];
@@ -87,7 +74,7 @@ module.exports = {
         
         global.SERVER_DATA_DEFAULTS = {
             "aliasesList": {}, "quotes": {}, "nonUserQuotes": {}, "waifus": {}, "touhouWaifus": {}, "fanmemeWaifus": {}, "lenenWaifus": {}, "waifusExceptions": {},
-            "touhouWaifusExceptions": {}, "opinionExceptions": [], "ratings": {}
+            "touhouWaifusExceptions": {}, "ratings": {}, "badOpinions": [], "goodOpinions": [], "opinionExceptions": []
         };
         
         global.SERVER_SPECIFICS = {
@@ -104,7 +91,7 @@ module.exports = {
             "defaultReason": "Unknown.",
             "isTestingServer": false,
             "kekDetection": false,
-            "cooldownSecs": 15,
+            "cooldownSecs": DEFAULT_COOLDOWN,
             "date": ""
         };
 

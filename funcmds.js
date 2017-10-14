@@ -5,15 +5,17 @@
         },
         
         command: function (message, server, command, channel) {
-            var id = message.author.id, username = message.author.username, opinionCount = OPINIONS_BAD.length + OPINIONS_GOOD.length, rng = RNG(opinionCount), opinion;
+            var id = message.author.id, username = message.author.username, badOpinions = serverData[server.id].badOpinions, goodOpinions = serverData[server.id].goodOpinions;
             
-            opinion = (rng >= OPINIONS_BAD.length || id == bot.user.id ? message.author + " " + OPINIONS_GOOD.rand().replace(/%u/gi, username) : message.author + " " + OPINIONS_BAD.rand().replace(/%u/gi, username));
+            var opinionCount = badOpinions.length + goodOpinions.length, rng = RNG(opinionCount), opinion;
+            
+            opinion = (rng >= badOpinions.length || id == bot.user.id ? message.author + " " + goodOpinions.rand().replace(/%u/gi, username) : message.author + " " + badOpinions.rand().replace(/%u/gi, username));
             
             if (opinion.contains("but still cool!") && serverData[server.id].opinionExceptions.contains(id)) {
                 opinion = message.author + " " + "I love you and only you!";
             }
             
-            channel.send(opinion);
+            channel.send(opinion.replace(/%t/gi, TOUHOU_SHMUPS.rand()));
         }
     },
     
