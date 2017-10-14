@@ -686,16 +686,16 @@
         },
         
         command: function (message, server, command, channel) {
-            var link = command[1];
+            var link = command[1], url;
         
             if (!link) {
                 channel.send(message.author + ", please specify the YouTube video to be streamed.");
                 return;
             }
             
-            var vid = url.parse(link);
+            url = url.parse(link);
             
-            if (vid.host != "youtu.be" && (vid.host != "www.youtube.com" || vid.path.substring(0, 9) != "/watch?v=")) {
+            if (url.hostname != "youtu.be" && (url.hostname != "www.youtube.com" || url.pathname != "/watch" || url.search.substring(0, 3) != "?v=")) {
                 channel.send(message.author + ", that is not a YouTube video!");
                 return;
             }
