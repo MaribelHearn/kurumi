@@ -13,17 +13,17 @@
             }
             
             if (badOpinions.length === 0) {
-                opinion = message.author + " " + goodOpinions.rand().replace(/%u/gi, username));
+                opinion = message.author + " " + goodOpinions.rand().replace(/%u/gi, username);
             } else if (goodOpinions.length === 0) {
-                opinion = message.author + " " + badOpinions.rand().replace(/%u/gi, username));
+                opinion = message.author + " " + badOpinions.rand().replace(/%u/gi, username);
             } else {
                 opinionCount = badOpinions.length + goodOpinions.length;
                 rng = RNG(opinionCount);
             
                 if (rng >= badOpinions.length || id == bot.user.id) {
-                    opinion = message.author + " " + goodOpinions.rand().replace(/%u/gi, username);
+                    opinion = message.author + " " + goodOpinions.rand().replace(/%u/gi, username;
                 } else {
-                    opinion = message.author + " " + badOpinions.rand().replace(/%u/gi, username));
+                    opinion = message.author + " " + badOpinions.rand().replace(/%u/gi, username);
                 }
                 
                 if (opinion.contains("but still cool!") && serverData[server.id].opinionExceptions.contains(id)) {
