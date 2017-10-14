@@ -47,13 +47,13 @@
                     
                     delete require.cache[process.cwd() + "\\" + module + ".js"];
                     
-                    module.contains("cmds") ? allCommands[module.replace("cmds", "")] = require("./" + module + ".js") : allCommands[module] = require("./" + module + ".js");
+                    module.contains("cmds") ? allCommands[module.replace("cmds", "")] = require("./" + module + ".js") : global[module] = require("./" + module + ".js");
                 } catch (err) {
                     console.log(timeStamp() + "An error occurred while loading the " + module + " module: " + err);
                 }
             }
             
-            allCommands.globals.define();
+            globals.define();
             console.log(timeStamp() + "Modules loaded.");
             
             for (var j in permData) {
