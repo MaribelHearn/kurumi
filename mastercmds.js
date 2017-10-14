@@ -223,14 +223,16 @@
     
     logchannel: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <channel>`: makes `channel` the logging channel.";
+            return "`" + symbol + command + " [channel]`: makes `channel` the logging channel. If `channel` is not specified, removes the log channel.\nAdding a log channel means users entering or leaving will be posted for.";
         },
         
         command: function (message, server, command, channel) {
             var logChannel = command[1], servers = permData.servers;
             
             if (!logChannel) {
-                channel.send(message.author + ", please specify a channel.");
+                servers[server.id].logChannel = undefined;
+                save("servers");
+                channel.send("The logging channel has been disabled.");
                 return;
             }
             
