@@ -257,7 +257,7 @@
         command: function (message, server, command, channel) {
             command.splice(0, 1);
             
-            var post = command.join(ARGUMENT_DELIMITER);
+            var post = command.join(permData.delimiter);
             
             var mainChannel = permData.servers[server.id].mainChannel;
             
@@ -279,7 +279,7 @@
             }
             
             command.splice(0, 1);
-            command = command.join(ARGUMENT_DELIMITER);
+            command = command.join(permData.delimiter);
             bot.user.setGame(command);
         }
     },
@@ -296,7 +296,7 @@
             }
             
             command.splice(0, 1);
-            command = command.join(ARGUMENT_DELIMITER);
+            command = command.join(permData.delimiter);
             bot.user.setAvatar(command);
         }
     },

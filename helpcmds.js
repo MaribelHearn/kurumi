@@ -71,7 +71,7 @@
             
             info += "`" + symbol + "music`: posts the list of music commands.\n" +
             "`" + symbol + "image`: posts the list of image commands.\n\n" +
-            "Available command symbols: `" + COMMAND_SYMBOLS.join("`, `") + "`\n" +
+            "Available command symbols: `" + permData.commandSymbols.join("`, `") + "`\n" +
             "There are currently **" + numberOfCommands + "** commands total.";
             channel.send(info).catch(console.error);
         }

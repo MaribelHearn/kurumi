@@ -5,11 +5,11 @@ module.exports = {
         var channelType = message.channel.constructor.toString().split(' ')[1], firstChar = content.charAt(0), botMaster = permData.botMaster, musicLocal = permData.musicLocal, musicYouTube = permData.musicYouTube;
         
         /* Command Handler */
-        if (COMMAND_SYMBOLS.contains(firstChar) && content.length > 1) {
-            var command = content.substring(1, content.length).replace(' ', ARGUMENT_DELIMITER).split(ARGUMENT_DELIMITER);
+        if (permData.commandSymbols.contains(firstChar) && content.length > 1) {
+            var command = content.substring(1, content.length).replace(' ', permData.delimiter).split(permData.delimiter);
             
             for (var i in command) {
-                if (command[i].length > ARGUMENT_LIMIT && id != botMaster && servers[server.id].botChannels.contains(channel.id)) {
+                if (command[i].length > permData.maxLength && id != botMaster && servers[server.id].botChannels.contains(channel.id)) {
                     message.channel.send(message.author + ", please give me shorter command arguments.");
                     return;
                 }

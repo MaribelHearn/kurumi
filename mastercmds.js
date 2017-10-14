@@ -7,7 +7,7 @@
         command: function (message, server, command, channel) {
             command.splice(0, 1);
             
-            var code = command.join(ARGUMENT_DELIMITER);
+            var code = command.join(permData.delimiter);
             
             if (!code) {
                 channel.send(message.author + ", please specify code to evaluate.");
@@ -64,16 +64,11 @@
                         permData[j] = String(permData[j]).replace(/^\uFEFF/, "");
                         permData[j] = JSON.parse(permData[j]);
                     } else {
-                        fs.writeFile("./data/" + j + ".txt", permData[j], function (err) {
-                            if (err) {
-                                console.log(timeStamp() + err);
-                            }
-                            
-                            console.log(timeStamp() + "Data file " + j + ".txt created.");
-                        });
+                        fs.writeFileSync("./data/" + j + ".txt", JSON.stringify(permData[j]));
+                        console.log(timeStamp() + "Data file " + j + ".txt created.");
                     }
                 } catch (err) {
-                    console.log(timeStamp() + "An error occurred while loading the " + j + " data file: " + err);
+                    console.log(timeStamp() + "An error occurred with the " + j + " data file: " + err);
                 }
             }
 
@@ -532,6 +527,102 @@
             "\nCooldown seconds: " + settings.cooldownSecs;
             
             channel.send(settingsMessage);
+        }
+    },
+    
+    addcommandsymbol: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <character>`: allows `character` to be used as a command symbol.";
+        },
+        
+        command: function (message, server, command, channel) {
+            var symbol = command[1];
+            
+            if (!symbol) {
+                channel.send(message.author + ", please specify a symbol.");
+                return;
+            }
+            
+            if (symbol.length !== 1) {
+                channel.send(message.author + ", the symbol must be a single character.");
+                return;
+            }
+            
+            permData.commandSymbols.push(symbol);
+            save("commandSymbols");
+            channel.send("The command symbol '" + symbol + "' has been added.");
+        }
+    },
+    
+    removecommandsymbol: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <character>`: removes `character` from the usable command symbols.";
+        },
+        
+        command: function (message, server, command, channel) {
+            var symbol = command[1], commandSymbols = permData.commandSymbols;
+            
+            if (!symbol) {
+                channel.send(message.author + ", please specify a symbol.");
+                return;
+            }
+            
+            if (commandSymbols.length === 1) {
+                channel.send(message.author + ", there must be at least one command symbol.");
+                return;
+            }
+            
+            commandSymbols.remove(symbol);
+            save("commandSymbols");
+            channel.send("The command symbol '" + symbol + "' has been removed.");
+        }
+    },
+    
+    delimiter: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <character>`: changes the command argument delimiter to `character`.";
+        },
+        
+        command: function (message, server, command, channel) {
+            var delimiter = command[1];
+            
+            if (!delimiter) {
+                channel.send(message.author + ", please specify a delimiter.");
+                return;
+            }
+            
+            if (delimiter.length !== 1) {
+                channel.send(message.author + ", the delimiter must be a single character.");
+                return;
+            }
+            
+            permData.delimiter = delimiter;
+            save("delimiter");
+            channel.send("The argument delimiter has been changed to '" + delimiter + "'.");
+        }
+    },
+    
+    maxlength: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <number>`: changes the maximum allowed command argument length to `number`.";
+        },
+        
+        command: function (message, server, command, channel) {
+            var maxLength = command[1];
+            
+            if (!maxLength) {
+                channel.send(message.author + ", please specify a number.");
+                return;
+            }
+            
+            if (isNaN(maxLength)) {
+                channel.send(message.author + ", that is not a number.");
+                return;
+            }
+            
+            permData.maxLength = parseInt(maxLength);
+            save("maxLength");
+            channel.send("The maximum argument length is now " + maxLength + ".");
         }
     },
     

@@ -16,12 +16,6 @@ module.exports = {
         global.url = require("url");
         
         /* Constants */
-        global.COMMAND_SYMBOLS = ['!'];
-
-        global.ARGUMENT_DELIMITER = '^';
-
-        global.ARGUMENT_LIMIT = 200;
-
         global.WEATHER_BASE_URL = "http://api.openweathermap.org/data/2.5/weather?q=";
         
         global.CURRENCY_BASE_URL = "http://free.currencyconverterapi.com/api/v3/convert?q=";
@@ -97,8 +91,8 @@ module.exports = {
 
         /* Variables */
         global.permData = {
-            "servers": {}, "WRs": {}, "LNNs": {}, "currencies": {}, "images": {}, "musicLocal": {}, "musicYouTube": {},
-            "notifyQueue": [], "token": "", "botMaster": "", "WRsLastUpdated": "", "weatherKey": "", "googleKey": ""
+            "servers": {}, "WRs": {}, "LNNs": {}, "currencies": {}, "images": {}, "musicLocal": {}, "musicYouTube": {}, "notifyQueue": [],
+            "commandSymbols": ["!"], "delimiter": "^", "token": "", "botMaster": "", "WRsLastUpdated": "", "weatherKey": "", "googleKey": "", "maxLength": 200
         };
         
         global.serverData = {};
