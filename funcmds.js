@@ -172,7 +172,7 @@
         },
         
         command: function (message, server, command, channel) {
-            var date = servers[server.id].date, exceptions = serverData[server.id].waifusExceptions, id = message.author.id, waifu;
+            var servers = permData.servers, date = servers[server.id].date, exceptions = serverData[server.id].waifusExceptions, id = message.author.id, waifu;
             
             dateCheck(server);
             
@@ -200,7 +200,7 @@
         },
         
         command: function (message, server, command, channel) {
-            var date = servers[server.id].date, exceptions = serverData[server.id].touhouWaifusExceptions, id = message.author.id, touhouWaifu;
+            var servers = permData.servers, date = servers[server.id].date, exceptions = serverData[server.id].touhouWaifusExceptions, id = message.author.id, touhouWaifu;
             
             dateCheck(server);
             
@@ -229,7 +229,7 @@
         },
         
         command: function (message, server, command, channel) {
-            var date = servers[server.id].date, id = message.author.id, fanmemeWaifu;
+            var servers = permData.servers, date = servers[server.id].date, id = message.author.id, fanmemeWaifu;
             
             dateCheck(server);
             
@@ -258,7 +258,7 @@
         },
         
         command: function (message, server, command, channel) {
-            var date = servers[server.id].date, id = message.author.id, lenenwaifu;
+            var servers = permData.servers, date = servers[server.id].date, id = message.author.id, lenenwaifu;
             
             dateCheck(server);
             
@@ -287,7 +287,7 @@
         },
         
         command: function (message, server, command, channel) {
-            var waifu = command[1], date = servers[server.id].date, ratings = serverData[server.id].ratings;
+            var servers = permData.servers, waifu = command[1], date = servers[server.id].date, ratings = serverData[server.id].ratings;
             
             dateCheck(server);
             
