@@ -1,11 +1,14 @@
 ﻿module.exports = {
-    uptime: {
+    botinfo: {
         help: function (command, symbol) {
-            return "`" + symbol + command + "`: posts for how long I have been running.";
+            return "`" + symbol + command + "`: posts some information about me.";
         },
         
         command: function (message, server, command, channel) {
-            channel.send(message.author + ", I have been up for " + time(bot.uptime) + ".");
+            channel.send("Name: Kurumi" + "\n" +
+            "Master: " + server.members.get(permData.botMaster).user.username + "\n" +
+            "Host OS: " + os.type() + "\n" +
+            "Uptime: " + time(bot.uptime));
         }
     },
     

@@ -3,6 +3,8 @@ module.exports = {
         /* Node Utilities */
         global.fs = require("fs");
         
+        global.os = require("os");
+        
         global.request = require("request");
         
         global.dns = require("dns");
