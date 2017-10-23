@@ -128,7 +128,7 @@
                 
             if (!permData.servers[server.id].isTestingServer) {
                 cooldown = true;
-                timers.setInterval(function () { cooldown = false; }, servers[server.id].cooldownSecs * 1000);
+                timers.setInterval(function () { cooldown = false; }, permData.servers[server.id].cooldownSecs * 1000);
             }
         }
     },
