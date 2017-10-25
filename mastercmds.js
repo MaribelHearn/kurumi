@@ -634,14 +634,13 @@
         command: function (message, server, command, channel) {
             var servers = permData.servers;
             
-            var mainChannel = servers[server.id].mainChannel;
-            
-            if (mainChannel) {
-                server.channels.get(mainChannel).send(servers[server.id].logoutMessage).then(function () {
-                    bot.destroy();
-                    process.exit();
-                });
+            for (var id in servers) {
+                if (servers[id].mainChannel) {
+                    bot.guilds.get(id).channels.get(servers[id].mainChannel).send(servers[id].logoutMessage).catch(console.error);
+                }
             }
+            
+            bot.destroy();
         }
     }
 };

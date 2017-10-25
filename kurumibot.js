@@ -181,8 +181,7 @@ bot.on("ready", function () {
     console.log(timeStamp() + "Server specific data loaded.");
 });
 
-bot.on("disconnected", function () {
-	console.log(timeStamp() + "Disconnected!");
+bot.on("disconnect", function () {
 	process.exit();
 });
 
