@@ -938,7 +938,7 @@
         }
     },
     
-    master: {
+    botmaster: {
         help: function (command, symbol) {
             return "`" + symbol + command + "`: makes you the bot master. Testing server only.";
         },
