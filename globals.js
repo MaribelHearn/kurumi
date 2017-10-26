@@ -1,3 +1,79 @@
+/* JavaScript Native Object Additions */
+String.prototype.contains = function (string) {
+    return this.indexOf(string) > -1;
+};
+
+String.prototype.replaceAt = function (index, character) {
+    return this.substr(0, index) + character + this.substr(index + 1);
+};
+
+String.prototype.detect = function (string) {
+    var letters = this.replace(/[^a-zA-Z]/g, "");
+
+    return this == string || this.contains(" " + string) || this.substring(0, string.length + 1) == string + " " || letters.substring(letters.length - string.length - 1, letters.length) == " " + string;
+};
+
+Object.defineProperty(Array.prototype, "contains", {
+    configurable: true,
+    enumerable: false,
+    value: function (value) {
+        return this.indexOf(value) > -1;
+    }
+});
+
+Object.defineProperty(Array.prototype, "concatStrict", {
+    configurable: true,
+    enumerable: false,
+    value: function (array) {
+        for (var i in array) {
+            if (!this.contains(array[i])) {
+                this.push(array[i]);
+            }
+        }
+
+        return this;
+    }
+});
+
+Object.defineProperty(Array.prototype, "remove", {
+    configurable: true,
+    enumerable: false,
+    value: function (value) {
+        return this.splice(this.indexOf(value), 1);
+    }
+});
+
+Object.defineProperty(Array.prototype, "rand", {
+    configurable: true,
+    enumerable: false,
+    value: function () {
+        return this[Math.floor(Math.random() * this.length)];
+    }
+});
+
+Object.defineProperty(Array.prototype, "shuffle", {
+    configurable: true,
+    enumerable: false,
+    value: function () {
+        for (var i = this.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var temp = this[i];
+            this[i] = this[j];
+            this[j] = temp;
+        }
+
+        return this;
+    }
+});
+
+Object.defineProperty(Object.prototype, "isEmpty", {
+    configurable: true,
+    enumerable: false,
+    value: function () {
+        return Object.keys(this).length === 0 && this.constructor === Object;
+    }
+});
+
 module.exports = {
     define: function () {
         /* Node Utilities */
