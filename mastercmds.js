@@ -35,7 +35,7 @@
     
     update: {
         help: function (command, symbol) {
-            return "`" + symbol + command + "`: updates the script modules.";
+            return "`" + symbol + command + "`: updates the script modules and reloads the data files.";
         },
         
         command: function (message, server, command, channel) {
@@ -49,7 +49,8 @@
                     
                     module.contains("cmds") ? allCommands[module.replace("cmds", "")] = require("./" + module + ".js") : global[module] = require("./" + module + ".js");
                 } catch (err) {
-                    console.log(timeStamp() + "An error occurred while loading the " + module + " module: " + err);
+                    channel.send("An error occurred while loading the `" + module + "` module: " + err);
+                    return;
                 }
             }
             
@@ -68,7 +69,8 @@
                         console.log(timeStamp() + "Data file " + j + ".txt created.");
                     }
                 } catch (err) {
-                    console.log(timeStamp() + "An error occurred with the " + j + " data file: " + err);
+                    channel.send("An error occurred with the `" + j + "` data file: " + err);
+                    return;
                 }
             }
 
