@@ -916,7 +916,7 @@
         command: function (message, server, command, channel) {
             permData.servers[server.id].kekDetection = !permData.servers[server.id].kekDetection;
             save("servers");
-            channel.send("Kek detection has been turned **" + (servers[server.id].kekDetection ? "on" : "off") + "**.");
+            channel.send("Kek detection has been turned **" + (permData.servers[server.id].kekDetection ? "on" : "off") + "**.");
         }
     },
     
