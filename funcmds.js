@@ -123,8 +123,8 @@
             }
             
             message = message.author + " You must play... **" + game + " " + category + "**" + (shot.length <= 2 || shot == "Makai" || shot == "Jigoku" ? " " : " with ");
-            message += (shot == '-' ? "" : "**" + shot) + (game == "HSiFS" ? ["Spring", "Summer", "Autumn", "Winter"].rand() + "**" : "**") + "!";
-            channel.send(message, {"file": "./" + "games/" + game + ".jpg"});
+            message += (shot == '-' ? "" : "**" + shot + "**") + "!";
+            channel.send(message, {"file": "./games/" + game + ".jpg"});
                 
             if (!permData.servers[server.id].isTestingServer) {
                 cooldown = true;
