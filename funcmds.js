@@ -108,7 +108,7 @@
                 }
             }
             
-            shot = Object.keys(WRs[game][category])[rangedRNG(1, Object.keys(WRs[game][category]).length)].replace("Team", " Team");
+            shot = Object.keys(WRs[game][category])[rangedRNG(0, Object.keys(WRs[game][category]).length)].replace("Team", " Team");
             message = message.author + " You must play... **" + game + " " + category + "**" + (shot.length <= 2 || shot == "Makai" || shot == "Jigoku" ? " " : " with ");
             message += (shot == '-' ? "" : "**" + shot + "**") + "!";
             channel.send(message, {"file": "./games/" + game + ".jpg"});
