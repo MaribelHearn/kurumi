@@ -45,7 +45,7 @@
                 try {
                     console.log(timeStamp() + "Evaluating module " + module + ".js...");
                     
-                    delete require.cache[process.cwd() + "\\" + module + ".js"];
+                    delete require.cache[process.cwd() + (os.type() == "Windows_NT" ? "\\" : '/') + module + ".js"];
                     
                     module.contains("cmds") ? allCommands[module.replace("cmds", "")] = require("./" + module + ".js") : global[module] = require("./" + module + ".js");
                 } catch (err) {
