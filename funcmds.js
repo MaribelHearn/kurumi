@@ -101,11 +101,7 @@
             category = (CATEGORIES.contains(capped) ? capped : Object.keys(WRs[game])[rangedRNG(0, Object.keys(WRs[game]).length)]);
             
             while (category == "Extra" && (game == "HRtP" || game == "PoDD")) {
-                if (gameName(lower)) {
-                    category = Object.keys(WRs[game])[rangedRNG(0, Object.keys(WRs[game]).length)];
-                } else {
-                    game = Object.keys(WRs)[rangedRNG(min, max)];
-                }
+                game = Object.keys(WRs)[rangedRNG(min, max)];
             }
             
             shot = Object.keys(WRs[game][category])[rangedRNG(0, Object.keys(WRs[game][category]).length)].replace("Team", " Team");
