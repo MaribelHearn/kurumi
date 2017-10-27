@@ -23,7 +23,7 @@ for (var i in MODULES) {
     try {
         console.log(timeStamp() + "Evaluating module " + module + ".js...");
         
-        module.contains("cmds") ? allCommands[module.replace("cmds", "")] = require("./" + module + ".js") : global[module] = require("./" + module + ".js");
+        module.indexOf("cmds") > -1 ? allCommands[module.replace("cmds", "")] = require("./" + module + ".js") : global[module] = require("./" + module + ".js");
     } catch (err) {
         console.log(timeStamp() + "An error occurred while loading the " + module + " module: " + err);
     }
