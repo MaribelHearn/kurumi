@@ -804,7 +804,7 @@
             
             delete permData.images[image];
             save("images");
-            channel.send("The image command " + name + " has been removed.");
+            channel.send("The image command " + image + " has been removed.");
         }
     },
     
