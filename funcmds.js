@@ -75,7 +75,7 @@
     
     roll: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " [filter]`: roll a random Touhou category. `filter` can be Windows, PC-98 or one of the five difficulties.";
+            return "`" + symbol + command + " [filter]`: roll a random Touhou category. `filter` can be Windows, PC-98, a game or a difficulty.";
         },
         
         command: function (message, server, command, channel) {
@@ -86,42 +86,29 @@
             
             var WRs = permData.WRs;
             
-            var argument = (command[1] ? command[1] : ""), min = 0, max = Object.keys(WRs).length, game, category, shot, message;
+            var argument = (command[1] ? command[1] : ""), lower = argument.toLowerCase(), min = 0, max = Object.keys(WRs).length, capped, game, category, shot, message;
             
-            if (argument.toLowerCase() == "windows") {
+            if (lower == "windows") {
                 min = 5;
             }
             
-            if (argument.toLowerCase().replace(/-/g, "") == "pc98") {
+            if (lower.replace(/-/g, "") == "pc98") {
                 max = 5;
             }
             
-            argument = cap(argument.toLowerCase());
+            game = (gameName(lower) ? gameName(lower) : Object.keys(WRs)[rangedRNG(min, max)]);
+            capped = cap(lower);
+            category = (CATEGORIES.contains(capped) ? capped : Object.keys(WRs[game])[rangedRNG(0, Object.keys(WRs[game]).length)]);
             
-            if (CATEGORIES.contains(argument)) {
-                category = argument;
+            while (category == "Extra" && (game == "HRtP" || game == "PoDD")) {
+                if (gameName(lower)) {
+                    category = Object.keys(WRs[game])[rangedRNG(0, Object.keys(WRs[game]).length)];
+                } else {
+                    game = Object.keys(WRs)[rangedRNG(min, max)];
+                }
             }
             
-            if (category == "Extra") {
-                min += 1;
-            }
-            
-            game = Object.keys(WRs)[rangedRNG(min, max)];
-            
-            while (category == "Extra" && game == 2) {
-                game = Object.keys(WRs)[rangedRNG(min, max)];
-            }
-            
-            if (category != argument) {
-                category = Object.keys(WRs[game])[rangedRNG(0, Object.keys(WRs[game]).length)];
-            }
-            
-            shot = Object.keys(WRs[game][category])[rangedRNG(1, Object.keys(WRs[game][category]).length)];
-            
-            if (shot && shot.contains("Team")) {
-                shot = shot.replace("Team", " Team");
-            }
-            
+            shot = Object.keys(WRs[game][category])[rangedRNG(1, Object.keys(WRs[game][category]).length)].replace("Team", " Team");
             message = message.author + " You must play... **" + game + " " + category + "**" + (shot.length <= 2 || shot == "Makai" || shot == "Jigoku" ? " " : " with ");
             message += (shot == '-' ? "" : "**" + shot + "**") + "!";
             channel.send(message, {"file": "./games/" + game + ".jpg"});
