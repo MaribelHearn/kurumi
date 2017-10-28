@@ -145,7 +145,7 @@ module.exports = {
         global.CHOICE = ["%o imo.", "%o tbh.", "I choose %o.", "%o!", "I say %o.", "I'd pick %o if I were you.", "%o is the best option.", "Why not %o?"];
         
         global.SERVER_DATA_DEFAULTS = {
-            "aliasesList": {}, "quotes": {}, "nonUserQuotes": {}, "waifus": {}, "touhouWaifus": {}, "fanmemeWaifus": {}, "lenenWaifus": {}, "waifusExceptions": {},
+            "aliasesList": {}, "quotes": {}, "waifus": {}, "touhouWaifus": {}, "fanmemeWaifus": {}, "lenenWaifus": {}, "waifusExceptions": {},
             "touhouWaifusExceptions": {}, "ratings": {}, "badOpinions": [], "goodOpinions": [], "opinionExceptions": []
         };
         
@@ -463,9 +463,9 @@ module.exports = {
         };
 
         global.isNumber = function (string) {
-            var digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+            var digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'], i;
             
-            for (var i in string) {
+            for (i = 0; i < string.length; i++) {
                 if (!digits.contains(string.charAt(i))) {
                     return false;
                 }
@@ -537,24 +537,6 @@ module.exports = {
                 users[members[i].user.username.toLowerCase()] = members[i].user;
             }
             
-            return users;
-        };
-
-        global.idsToUsers = function (ids, server) {
-            var users = {}, members = server.members;
-            
-            for (var id in ids) {
-                console.log(members.get(id));
-                if (members.get(id)) {
-                    users[members.get(id).user.username.toLowerCase()] = {};
-                    users[members.get(id).user.username.toLowerCase()].id = id;
-                    users[members.get(id).user.username.toLowerCase()].name = members.get(id).user.username;
-                } else {
-                    users[id] = {};
-                    users[id].name = cap(id);
-                }
-            }
-        
             return users;
         };
 
@@ -710,10 +692,10 @@ module.exports = {
         
         global.playLocal = function (server, music, volume) {
             if (!music) {
-                music = "./music/DankIntroTheme.mp3";
-            } else {
-                music = "./music/" + music;
+                return;
             }
+            
+            music = "./music/" + music;
             
             const streamOptions = {seek: 0, volume: (volume ? volume : 1)};
             
@@ -734,7 +716,7 @@ module.exports = {
         
         global.playYouTube = function (server, music, volume) {
             if (!music) {
-                music = "https://www.youtube.com/watch?v=wx_ZNn-_klk";
+                return;
             }
             
             const streamOptions = {seek: 0, volume: (volume ? volume : 1)};

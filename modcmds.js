@@ -84,58 +84,11 @@
     
     removequote: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <user>^<quote>`: removes `quote` from `user`'s quotes.";
+            return "`" + symbol + command + " <author>^<quote>`: removes `quote` from `author`'s quotes.";
         },
         
         command: function (message, server, command, channel) {
-            var user = command[1], quotes = serverData[server.id].quotes;
-            
-            if (!user) {
-                channel.send(message.author + ", please specify a user to remove a quote from.");
-                return;
-            }
-            
-            var quote = command[2];
-            
-            if (!quote) {
-                channel.send(message.author + ", please specify a quote to remove.");
-                return;
-            }
-            
-            var members = toUsers(server.members), id;
-            
-            user = user.toLowerCase();
-            
-            if (members.hasOwnProperty(user)) {
-                id = members[user].id;
-            } else {
-                channel.send(message.author + ", there is no such user on this server.");
-                return;
-            }
-            
-            if (!quotes[id]) {
-                channel.send(message.author + ", that user does not have any saved quotes.");
-                return;
-            }
-            
-            quotes[id].remove(quote);
-            
-            if (quotes[id].length === 0) {
-                delete quotes[id];
-            }
-            
-            save("quotes", server);
-            channel.send("Quote removed.");
-        }
-    },
-    
-    removenonuserquote: {
-        help: function (command, symbol) {
-            return "`" + symbol + command + " <author>^<quote>`: removes non-user quote `quote` from `author`'s quotes.";
-        },
-        
-        command: function (message, server, command, channel) {
-            var author = command[1], nonUserQuotes = serverData[server.id].nonUserQuotes;
+            var author = command[1], quotes = serverData[server.id].quotes;
             
             if (!author) {
                 channel.send(message.author + ", please specify an author to remove a quote from.");
@@ -149,19 +102,19 @@
                 return;
             }
             
-            if (!nonUserQuotes[author]) {
+            if (!quotes[author]) {
                 channel.send(message.author + ", that author does not have any saved quotes.");
                 return;
             }
             
-            nonUserQuotes[author].remove(quote);
+            quotes[author].list.remove(quote);
             
-            if (nonUserQuotes[author].length === 0) {
-                delete nonUserQuotes[author];
+            if (quotes[author].list.length === 0) {
+                delete quotes[author];
             }
             
-            save("nonUserQuotes", server);
-            channel.send("Non-user quote removed.");
+            save("quotes", server);
+            channel.send("Quote removed.");
         }
     },
     

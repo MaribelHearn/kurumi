@@ -322,90 +322,54 @@
     
     quote: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <user>`: selects a random quote out of the saved quotes from `user`.";
+            return "`" + symbol + command + " <author>`: selects a random quote out of the saved quotes from `author`. If `author` is not specified, selects a random one.";
         },
         
         command: function (message, server, command, channel) {
-            var user = command[1], quotes = serverData[server.id].quotes, members = idsToUsers(quotes, server), id;
-            
-            console.log(Object.keys(members));
+            var author = command[1], quotes = serverData[server.id].quotes;
             
             if (quotes.isEmpty()) {
                 channel.send(message.author + ", there are no saved quotes.");
                 return;
             }
             
-            if (!user) {
-                id = Object.keys(quotes).rand();
-                
-                if (!isNumber(id)) {
-                    name = id;
-                } else {
-                    for (var member in members) {
-                        if (members[member].id == id) {
-                            name = members[member].name;
-                        }
-                    }
-                }
-            } else {
-                user = user.toLowerCase();
-            
-                if (!Object.keys(members).contains(user) && !Object.keys(quotes).contains(user)) {
-                    channel.send(message.author + ", either there is no such user, or that user does not have any saved quotes.");
-                    return;
-                }
-                
-                if (members[user]) {
-                    id = members[user].id;
-                    name = members[user].name;
-                } else {
-                    
-                }
-            }
-            
-            if (members[user] && !quotes[id] || !members[user] && !quotes[name]) {
-                channel.send(message.author + ", that user does not have any saved quotes.");
+            author = (author ? author.toLowerCase() : Object.keys(quotes).rand());
+        
+            if (!quotes.hasOwnProperty(author)) {
+                channel.send(message.author + ", that author does not have any saved quotes.");
                 return;
             }
             
-            channel.send("```" + quotes[members[user] ? id : name].rand() + "```\n- " + name);
+            channel.send("```" + quotes[author].list.rand() + "```\n- " + quotes[author].name);
         }
     },
     
     quotecount: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <user>`: tells you how many times `user` has been quoted.";
+            return "`" + symbol + command + " <author>`: tells you how many times `author` has been quoted.";
         },
         
         command: function (message, server, command, channel) {
-            var user = command[1], quotes = serverData[server.id].quotes, members = idsToUsers(quotes, server), id;
+            var author = command[1], quotes = serverData[server.id].quotes;
             
-            if (!user) {
-                channel.send(message.author + ", please specify a username.");
+            if (!author) {
+                channel.send(message.author + ", please specify an author.");
                 return;
             }
             
-            user = user.toLowerCase();
-            
-            if (!Object.keys(members).contains(user)) {
-                channel.send(message.author + ", either there is no such user, or that user does not have any saved quotes.");
-                return;
-            }
-            
-            id = members[user].id;
-            name = members[user].name;
-            
-            if (Object.keys(quotes).length === 0) {
+            if (quotes.isEmpty()) {
                 channel.send(message.author + ", there are no saved quotes.");
                 return;
             }
             
-            if (!quotes[id]) {
-                channel.send(message.author + ", that user does not have any saved quotes.");
+            author = author.toLowerCase();
+            
+            if (!quotes[author]) {
+                channel.send(message.author + ", that author does not have any saved quotes.");
                 return;
             }
             
-            channel.send(name + " has been quoted **" + quotes[id].length + "** times.");
+            channel.send(quotes[author].name + " has been quoted **" + quotes[author].list.length + "** times.");
         }
     },
     
@@ -415,36 +379,34 @@
         },
         
         command: function (message, server, command, channel) {
-            var quotes = serverData[server.id].quotes, members = idsToUsers(quotes, server), names = [], total = 0;
+            var quotes = serverData[server.id].quotes, total = 0, names = [], author;
             
-            if (Object.keys(quotes).length === 0) {
+            if (quotes.isEmpty()) {
                 channel.send(message.author + ", there are no saved quotes.");
                 return;
             }
             
-            for (var id in quotes) {
-                total += quotes[id].length;
+            for (author in quotes) {
+                total += quotes[author].list.length;
+                names.push(quotes[author].name);
             }
             
-            for (var name in members) {
-                names.push(members[name].name);
-            }
-            
-            channel.send("There are currently **" + total + "** quotes total, and **" + Object.keys(quotes).length + "** different users have been quoted.\n" +
-            "Quoted users: " + names.join(", ") + ".");
+            channel.send("There are currently **" + total + "** quotes total, and **" + Object.keys(quotes).length +
+            "** different authors have been quoted.\nQuoted authors: " + names.join(", ") + ".");
         }
     },
     
     addquote: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <user>^<quote>`: adds `quote` to `user`'s saved quotes.";
+            return "`" + symbol + command + " <author>^<quote>`: adds `quote` to `author`'s saved quotes. If `author` is a user, " +
+            "your spelling will be automatically corrected if it is wrong.\nAuthor names are case-insensitive; different cases will count as the same names.";
         },
         
         command: function (message, server, command, channel) {
-            var user = command[1], quotes = serverData[server.id].quotes;
+            var name = command[1], quotes = serverData[server.id].quotes, members, author;
             
-            if (!user) {
-                channel.send(message.author + ", please specify a user to add a quote to.");
+            if (!name) {
+                channel.send(message.author + ", please specify an author to add a quote to.");
                 return;
             }
             
@@ -455,87 +417,26 @@
                 return;
             }
             
-            var members = toUsers(server.members), id;
+            members = toUsers(server.members);
+            console.log(members);
+            author = name.toLowerCase();
             
-            user = user.toLowerCase();
-            
-            if (members.hasOwnProperty(user)) {
-                id = members[user].id;
-            } else {
-                channel.send(message.author + ", there is no such user on this server.");
-                return;
+            if (members.hasOwnProperty(author)) {
+                name = members[author].username;
             }
             
-            if (!quotes[id]) {
-                quotes[id] = [];
+            if (!quotes[author]) {
+                quotes[author] = {"name": name, "list": []};
             }
             
-            if (quotes[id].contains(quote)) {
+            if (quotes[author].list.contains(quote)) {
                 channel.send(message.author + ", that line has already been quoted.");
                 return;
             }
             
-            quotes[id].push(quote);
+            quotes[author].list.push(quote);
             save("quotes", server);
             channel.send("Quote added.");
-        }
-    },
-    
-    nonuserquote: {
-        help: function (command, symbol) {
-            return "`" + symbol + command + "`: posts a random quote from the list of non-user quotes.";
-        },
-        
-        command: function (message, server, command, channel) {
-            var nonUserQuotes = serverData[server.id].nonUserQuotes;
-            
-            if (nonUserQuotes.isEmpty()) {
-                channel.send(message.author + ", there are no saved non-user quotes.");
-                return;
-            }
-            
-            var author = Object.keys(nonUserQuotes).rand();
-            
-            var rng = RNG(nonUserQuotes[author].length);
-            
-            var quote = nonUserQuotes[author][rng];
-            
-            channel.send("```" + quote + "```\n- " + author);
-        }
-    },
-    
-    addnonuserquote: {
-        help: function (command, symbol) {
-            return "`" + symbol + command + "<author>^<quote>`: adds `quote` from `author` to the list of non-user quotes";
-        },
-        
-        command: function (message, server, command, channel) {
-            var author = command[1], nonUserQuotes = serverData[server.id].nonUserQuotes;
-            
-            if (!author) {
-                channel.send(message.author + ", please specify an author.");
-                return;
-            }
-            
-            var quote = command[2];
-            
-            if (!quote) {
-                channel.send(message.author + ", please specify a quote to add.");
-                return;
-            }
-            
-            if (!nonUserQuotes[author]) {
-                nonUserQuotes[author] = [];
-            }
-            
-            if (nonUserQuotes[author].contains(quote)) {
-                channel.send(message.author + ", that line has already been quoted.");
-                return;
-            }
-            
-            nonUserQuotes[author].push(quote);
-            save("nonUserQuotes", server);
-            channel.send("Non-user quote added.");
         }
     },
     
