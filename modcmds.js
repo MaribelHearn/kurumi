@@ -352,7 +352,7 @@
             oldWR = WRs[game][difficulty][shot][0];
             oldPlayer = WRs[game][difficulty][shot][1];
             WRs[game][difficulty][shot] = [newWR, newPlayer, replay];
-            permData.WRsLastUpdated = correctDateNotation(toLocalTime(new Date().toISOString()));
+            permData.WRsLastUpdated = new Date().UTC();
             save("WRs");
             save("WRsLastUpdated");
             channel.send(server.emojis.find("name", "Scoarr") + " `Score Update` New WR in " + game + " " + difficulty +
@@ -429,7 +429,7 @@
             newPlayer = queueItem[1];
             replay = queueItem[2];
             WRs[game][difficulty][shot] = [newWR, newPlayer, replay];
-            permData.WRsLastUpdated = correctDateNotation(toLocalTime(new Date().toISOString()));
+            permData.WRsLastUpdated = new Date().UTC();
             permData.notifyQueue.remove(queueItem);
             save("WRs");
             save("WRsLastUpdated");

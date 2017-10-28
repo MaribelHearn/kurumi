@@ -204,46 +204,6 @@ module.exports = {
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
         };
 
-        global.correctDateNotation = function (date) {
-            var tmp, time, year, month, day;
-            
-            tmp = date.split('T')[0].split('-');
-            
-            time = date.split('T')[1].replace(".000Z", "");
-            
-            year = tmp[0];
-            
-            month = tmp[1];
-            
-            day = tmp[2];
-            
-            if (day.charAt(0) == '0') {
-                day = day.slice(1);
-            }
-            
-            if (month.charAt(0) == '0') {
-                month = month.slice(1);
-            }
-            
-            return day + '-' + month + '-' + year + ", " + time + (time.indexOf("CE") != -1 ? 'T': "");
-        };
-
-        global.toLocalTime = function (date) {
-            var dateString, unixTime;
-            
-            date = date.split('T');
-            
-            date[0] = date[0].split('-');
-            
-            dateString = date[0][1] + '/' + date[0][2] + '/' + date[0][0] + " " + date[1].slice(0, -5);
-            
-            date = new Date(dateString);
-            
-            unixTime = date.getTime() + (date.toString().indexOf("zomertijd") != -1 ? 14400000 : 7200000);
-            
-            return new Date(unixTime).toISOString() + (date.toString().indexOf("zomertijd") != -1 ? " CES" : " CE");
-        };
-
         global.time = function (milliseconds) {
             var result = "", hours = 0, minutes = 0, seconds = 0;
 

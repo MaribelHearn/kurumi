@@ -168,19 +168,19 @@
         },
         
         command: function (message, server, command, channel) {
-            var flag = ":flag_" + (regionFlag(server.region)) + ": ";
+            var flag = ":flag_" + (regionFlag(server.region)) + ": ", createdDate = "`" + server.createdAt.UTC() + "`", embed;
             
-            var createdDate = correctDateNotation(toLocalTime(server.createdAt.toISOString()));
-            
-            channel.send("Name: " + server.name + "\n" +
-            "Owner: " + server.owner.user.username + "\n" +
-            "Region: " + flag + formatRegion(server.region) + "\n" +
-            "Created At: `" + createdDate + "`\n" +
-            "Members: " + sep(server.memberCount) + "\n" +
-            "Channels: " + sep(server.channels.size) + "\n" +
-            "Roles: " + sep(server.roles.size) + "\n" +
-            (server.emojis.size === 0 ? "" : "Emojis: " + server.emojis.size + "\n") +
-            (server.iconURL === null ? "" : server.iconURL));
+            embed = new Discord.RichEmbed();
+            embed.setThumbnail(server.iconURL);
+            embed.addField("Name", server.name, true);
+            embed.addField("Owner", server.owner.user.username, true);
+            embed.addField("Region", flag + formatRegion(server.region));
+            embed.addField("Created At", createdDate);
+            embed.addField("Members", sep(server.memberCount), true);
+            embed.addField("Channels", sep(server.channels.size), true);
+            embed.addField("Roles", sep(server.channels.size), true);
+            embed.addField("Icon Source", "[Link](" + server.iconURL + ")", true);
+            channel.send({embed}).catch(console.error);
         }
     },
     

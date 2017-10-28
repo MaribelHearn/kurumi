@@ -136,9 +136,9 @@ module.exports = {
                             return;
                         }
                         
-                        var date = JSON.parse(body).items[0].snippet.publishedAt, stats = JSON.parse(body).items[0].statistics;
+                        var date = JSON.parse(body).items[0].snippet.publishedAt.UTC(), stats = JSON.parse(body).items[0].statistics;
                         
-                        message.channel.send("Published: " + correctDateNotation(toLocalTime(date)) + ", " +
+                        message.channel.send("Published: " + date + ", " +
                         "Views: " + sep(stats.viewCount) + ", Likes: " + sep(stats.likeCount) + ", Dislikes: " + sep(stats.dislikeCount) + ", Comments: " + sep(stats.commentCount));
                     }
                 });
