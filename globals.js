@@ -66,6 +66,14 @@ Object.defineProperty(Array.prototype, "shuffle", {
     }
 });
 
+Object.defineProperty(Date.prototype, "UTC", {
+    configurable: true,
+    enumerable: false,
+    value: function () {
+        return this.toUTCString().slice(5);
+    }
+});
+
 Object.defineProperty(Object.prototype, "isEmpty", {
     configurable: true,
     enumerable: false,

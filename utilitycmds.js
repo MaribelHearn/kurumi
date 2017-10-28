@@ -51,9 +51,7 @@
             }
             
             aliasesList[id][alias.toLowerCase()] = cmd.toLowerCase();
-            
             save("aliasesList", server);
-            
             channel.send("Alias created.");
         }
     },
@@ -88,9 +86,7 @@
             }
             
             delete aliasesList[id][alias];
-            
             save("aliasesList", server);
-            
             channel.send("Alias deleted.");
         }
     },
@@ -126,29 +122,43 @@
                 return;
             }
             
-            var members = server.members;
+            var members = server.members, roleArray = [], maxPosition = -1, i, j, userObject, roles, color, embed;
             
-            for (var i = 0; i < members.size; i++) {
+            for (i = 0; i < members.size; i++) {
                 if (members.array()[i].user.username.toLowerCase() == user.toLowerCase()) {
-                    var userObject = members.array()[i], roles = userObject.roles.array(), roleArray = [];
+                    userObject = members.array()[i];
+                    roles = userObject.roles.array();
                     
-                    for (var j in roles) {
+                    for (j = 0; j < roles.length; j++) {
                         if (roles[j].name != "@everyone") {
                             roleArray.push(roles[j].name);
+                            
+                            if (roles[j].position > maxPosition) {
+                                color = roles[j].color;
+                                maxPosition = roles[j].position;
+                            }
                         }
                     }
                     
-                    channel.send("Username: " + userObject.user.username + "\n" +
-                    "Roles: `" + roleArray.join("`, `") + "`\n" +
-                    "Joined Discord: `" + correctDateNotation(toLocalTime(new Date(userObject.user.createdAt).toISOString())) + "`\n" +
-                    "Joined This Server: `" + correctDateNotation(toLocalTime(new Date(userObject.joinedAt).toISOString())) + "`\n" +
-                    "User ID: `" + userObject.id + "`\n" +
-                    userObject.user.avatarURL);
+                    embed = new Discord.RichEmbed();
+                    embed.setColor(color);
+                    embed.setThumbnail(userObject.user.avatarURL);
+                    embed.addField("Username", userObject.user.username, true);
+                    
+                    if (userObject.nickname) {
+                        embed.addField("Nickname", userObject.nickname, true);
+                    }
+                    
+                    embed.addField("Roles", (roleArray.length === 0 ? '-' : "`" + roleArray.join("`, `") + "`"));
+                    embed.addField("Joined Discord", "`" + new Date(userObject.user.createdAt).UTC() + "`", true);
+                    embed.addField("Joined This Server", "`" + new Date(userObject.joinedAt).UTC() + "`", true);
+                    embed.addField("Avatar Source", "[Link](" + userObject.user.avatarURL + ")");
+                    channel.send({embed}).catch(console.error);
                     return;
                 }
             }
             
-            channel.send(message.author + ", there is no such user on this server.");
+            channel.send(message.author + ", there is no such user on this server.").catch(console.error);
         }
     },
     
