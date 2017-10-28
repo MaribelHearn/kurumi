@@ -179,6 +179,26 @@ bot.on("guildMemberRemove", function (user) {
     if (logChannel) {
         server.channels.get(logChannel).send(servers[server.id].leaveMessage.replace("%u", "**" + user.user.username + "**"));
     }
+    
+    if (serverData[server.id].aliasesList[user.id]) {
+        delete serverData[server.id].aliasesList[user.id];
+    }
+    
+    if (serverData[server.id].waifus[user.id]) {
+        delete serverData[server.id].waifus[user.id];
+    }
+    
+    if (serverData[server.id].touhouWaifus[user.id]) {
+        delete serverData[server.id].touhouWaifus[user.id];
+    }
+    
+    if (serverData[server.id].fanmemeWaifus[user.id]) {
+        delete serverData[server.id].fanmemeWaifus[user.id];
+    }
+    
+    if (serverData[server.id].lenenWaifus[user.id]) {
+        delete serverData[server.id].lenenWaifus[user.id];
+    }
 });
 
 bot.on("message", function (message) {
