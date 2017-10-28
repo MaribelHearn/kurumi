@@ -74,6 +74,14 @@ Object.defineProperty(Date.prototype, "UTC", {
     }
 });
 
+Object.defineProperty(Date.prototype, "local", {
+    configurable: true,
+    enumerable: false,
+    value: function () {
+        return this.toUTCString().slice(5, -4);
+    }
+});
+
 Object.defineProperty(Object.prototype, "isEmpty", {
     configurable: true,
     enumerable: false,

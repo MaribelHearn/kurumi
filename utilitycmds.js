@@ -960,26 +960,51 @@
             
             var miles = Math.round(km / 1.609344);
             
-            channel.send(message.author + ", " + km + " kilometers are equal to " + miles + " miles.");
+            channel.send(message.author + ", " + km + " kilometers are equal to " + miles + " miles.").catch(console.error);
         }
     },
     
     localtime: {
         help: function (command, symbol) {
-            var date = new Date(), timeZone;
-            
-            date.toString().contains("standaardtijd") ? timeZone = "CET" : timeZone = "CEST";
-            
-            return "`" + symbol + command + "`: gives my local time, which is " + timeZone + ".";
+            return "`" + symbol + command + "`: gives my local time.";
         },
         
         command: function (message, server, command, channel) {
-            var date = new Date(), seconds, timeZone, time;
+            var date = new Date();
             
-            seconds = date.getSeconds();
-            date.toString().contains("standaardtijd") ? timeZone = "CET" : timeZone = "CEST";
-            time = date.getHours() + ":" + date.getMinutes() + ":" + (seconds < 10 ? "0" + seconds : seconds);
-            channel.send("My current local time is " + time + " " + timeZone + ".");
+            channel.send("My current local time is " + new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).local() + ".").catch(console.error);
+        }
+    },
+    
+    time: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <UTC offset>`: gives the local time at `UTC offset`.";
+        },
+        
+        command: function (message, server, command, channel) {
+            var timezone = command[1], date = new Date(), offset, msUTC, msTimezone, localTime;
+            
+            if (!timezone) {
+                channel.send(message.author + ", please specify a UTC offset.");
+                return;
+            }
+            
+            offset = Number(timezone.replace("UTC", "").replace("GMT", "").replace(':', '.'));
+            
+            if (isNaN(offset)) {
+                channel.send(message.author + ", please specify a UTC offset.");
+                return;
+            }
+            
+            if (offset < -12 || offset > 14) {
+                channel.send(message.author + ", that time zone does not exist.");
+                return;
+            }
+            
+            msUTC = date.getTime() + (date.getTimezoneOffset() * 60000);
+            msTimezone = msUTC + (3600000 * offset);
+            localTime = new Date(msTimezone - (date.getTimezoneOffset() * 60000)).local();
+            channel.send("The local time in " + timezone + " is " + localTime + ".").catch(console.error);
         }
     },
     
