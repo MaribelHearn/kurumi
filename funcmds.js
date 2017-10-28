@@ -630,21 +630,21 @@
         },
         
         command: function (message, server, command, channel) {
-            var link = command[1], url;
+            var link = command[1];
         
             if (!link) {
                 channel.send(message.author + ", please specify the YouTube video to be streamed.");
                 return;
             }
             
-            url = url.parse(link);
+            link = url.parse(link);
             
-            if (url.hostname != "youtu.be" && (url.hostname != "www.youtube.com" || url.pathname != "/watch" || url.search.substring(0, 3) != "?v=")) {
+            if (link.hostname != "youtu.be" && (link.hostname != "www.youtube.com" || link.pathname != "/watch" || link.search.substring(0, 3) != "?v=")) {
                 channel.send(message.author + ", that is not a YouTube video!");
                 return;
             }
             
-            playYouTube(server, link, 0.5);
+            playYouTube(server, command[1], 0.5);
         }
     }
 };

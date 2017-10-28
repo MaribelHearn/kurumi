@@ -713,6 +713,14 @@ module.exports = {
                 voiceChannel.join().then(connection => {
                     if (fs.existsSync(music)) {
                         const dispatcher = connection.playFile(music, streamOptions);
+                        
+                        dispatcher.on("end", reason => {
+                            console.log(timeStamp() + "Dispatcher ended. Reason: " + reason);
+                        });
+                        
+                        dispatcher.on("error", err => {
+                            channel.send(err).catch(console.error);
+                        });
                     } else {
                         console.log(timeStamp() + "Music file '" + music + "' not found.");
                     }
@@ -732,9 +740,17 @@ module.exports = {
             var voiceChannel = server.channels.get(permData.servers[server.id].voiceChannel);
             
             voiceChannel.join().then(connection => {
-                const stream = ytdl(music, {filter : 'audioonly'});
+                const stream = ytdl(music, {filter: "audioonly"});
                 
                 const dispatcher = connection.playStream(stream, streamOptions);
+                
+                dispatcher.on("end", reason => {
+                    console.log(timeStamp() + "Dispatcher ended. Reason: " + reason);
+                });
+                
+                dispatcher.on("error", err => {
+                    channel.send(err).catch(console.error);
+                });
             }).catch(console.error);
         };
         
