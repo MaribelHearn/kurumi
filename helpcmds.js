@@ -44,7 +44,7 @@
                 return;
             }
             
-            channel.send(message.author + ", that command doesn't exist.");
+            channel.send(message.author + ", that command doesn't exist.").catch(console.error);
         }
     },
     
@@ -58,7 +58,9 @@
             
             var info = allCommands.help.help.help("help", symbol) + "\n" + allCommands.help.commands.help("commands", symbol) + "\n\n";
             
-            var numberOfCommands = Object.keys(allCommands.help).length + Object.keys(permData.images).length + Object.keys(permData.musicLocal).length + Object.keys(permData.musicYouTube).length;
+            var numberOfCommands = Object.keys(allCommands.help).length;
+            
+            var numberOfCustoms = Object.keys(permData.images).length + Object.keys(permData.musicLocal).length + Object.keys(permData.musicYouTube).length;
             
             for (var commandType in allCommands) {
                 if (commandType == "help") {
@@ -72,7 +74,8 @@
             info += "`" + symbol + "music`: posts the list of music commands.\n" +
             "`" + symbol + "image`: posts the list of image commands.\n\n" +
             "Available command symbols: `" + permData.commandSymbols.join("`, `") + "`\n" +
-            "There are currently **" + numberOfCommands + "** commands total.";
+            "There are currently **" + (numberOfCommands + numberOfCustoms) + "** commands total " +
+            "(**" + numberOfCommands + "** built-in, **" + numberOfCustoms + "** custom).";
             channel.send(info).catch(console.error);
         }
     },
