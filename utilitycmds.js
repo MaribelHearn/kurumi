@@ -178,7 +178,7 @@
             embed.addField("Created At", createdDate);
             embed.addField("Members", sep(server.memberCount), true);
             embed.addField("Channels", sep(server.channels.size), true);
-            embed.addField("Roles", sep(server.channels.size), true);
+            embed.addField("Roles", sep(server.roles.size), true);
             embed.addField("Icon Source", "[Link](" + server.iconURL + ")", true);
             channel.send({embed}).catch(console.error);
         }
