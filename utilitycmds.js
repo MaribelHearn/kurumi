@@ -107,8 +107,13 @@
                 list += symbol + alias + " -> " + symbol + aliases[alias] + "\n";
             }
             
+            if (list === "") {
+                channel.send(message.author + ", you do not have any aliases.").catch(console.error);
+                return;
+            }
+            
             message.author.createDM().then(DMchannel => {
-                DMchannel.send("```" + list + "```").then(message => console.log(timeStamp() + "Sent an !aliases DM to " + message.author.name + ".")).catch(console.error);
+                DMchannel.send("```" + list + "```").then(message => console.log(timeStamp() + "Sent an !aliases DM to " + message.author.username + ".")).catch(console.error);
             }).catch(console.error);
         }
     },

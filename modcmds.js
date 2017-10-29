@@ -102,6 +102,8 @@
                 return;
             }
             
+            author = author.toLowerCase();
+            
             if (!quotes[author]) {
                 channel.send(message.author + ", that author does not have any saved quotes.");
                 return;
@@ -208,6 +210,10 @@
         },
         
         command: function (message, server, command, channel) {
+            if (message.author.id == bot.user.id) {
+                return;
+            }
+            
             command.splice(0, 1);
             
             var post = command.join(permData.delimiter);

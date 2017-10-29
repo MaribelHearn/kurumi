@@ -5,9 +5,7 @@
         },
         
         command: function (message, server, command, channel) {
-            command.splice(0, 1);
-            
-            var code = command.join(permData.delimiter);
+            var code = command[1];
             
             if (!code) {
                 channel.send(message.author + ", please specify code to evaluate.");
@@ -589,30 +587,6 @@
             commandSymbols.remove(symbol);
             save("commandSymbols");
             channel.send("The command symbol '" + symbol + "' has been removed.");
-        }
-    },
-    
-    delimiter: {
-        help: function (command, symbol) {
-            return "`" + symbol + command + " <character>`: changes the command argument delimiter to `character`.";
-        },
-        
-        command: function (message, server, command, channel) {
-            var delimiter = command[1];
-            
-            if (!delimiter) {
-                channel.send(message.author + ", please specify a delimiter.");
-                return;
-            }
-            
-            if (delimiter.length !== 1) {
-                channel.send(message.author + ", the delimiter must be a single character.");
-                return;
-            }
-            
-            permData.delimiter = delimiter;
-            save("delimiter");
-            channel.send("The argument delimiter has been changed to '" + delimiter + "'.");
         }
     },
     

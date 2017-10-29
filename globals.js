@@ -203,7 +203,7 @@ module.exports = {
         /* Variables */
         global.permData = {
             "servers": {}, "WRs": {}, "LNNs": {}, "currencies": {}, "images": {}, "musicLocal": {}, "musicYouTube": {}, "notifyQueue": [], "commandSymbols": ["!"],
-            "delimiter": "^", "token": "", "botMaster": "", "WRsLastUpdated": "", "weatherKey": "", "googleKey": "", "maxLength": 200, "maintenanceMode": false
+            "token": "", "botMaster": "", "WRsLastUpdated": "", "weatherKey": "", "googleKey": "", "maxLength": 200, "maintenanceMode": false
         };
         
         global.serverData = {};
@@ -215,10 +215,24 @@ module.exports = {
         global.musicBlocked = false;
 
         global.currencyUpdate = true;
+        
+        global.maxArgc = 7;
 
         /* Functions */
         global.debugPrint = function (variable, value) {
-            console.log(timeStamp() + variable + ": " + value);
+            console.log(timeStamp() + variable + ": '" + value + "'");
+        };
+        
+        global.getArgc = function (commandFunction) {
+            var string = commandFunction.toString(), result = 0;
+            
+            for (i = 1; i < maxArgc; i++) {
+                if (string.contains("command[" + i + "]")) {
+                    result += 1;
+                }
+            }
+            
+            return result;
         };
         
         global.strip = function (string) {
@@ -230,9 +244,15 @@ module.exports = {
                 return '-';
             }
             
-            var array = num.toString().split('.');
+            num = num.toString();
             
-            return array[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '.' + array[1];
+            if (num.contains('.')) {
+                var array = num.toString().split('.');
+            
+                return array[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '.' + array[1];
+            }
+            
+            return num.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
         };
 
         global.time = function (milliseconds) {
