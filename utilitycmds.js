@@ -1035,39 +1035,30 @@
                 var result = JSON.parse(body);
                 
                 if (result.sys === undefined) {
-                    channel.send("An error occurred while trying to retrieve the weather data.");
+                    channel.send("An error occurred while trying to retrieve the weather data.").catch(console.error);
                     return;
                 }
                 
-                var countryCode = result.sys.country, weather = "";
+                var countryCode = result.sys.country, weather = "", i;
                 
-                for (var i = 0; i < Object.keys(result.weather).length; i++) {
+                for (i = 0; i < Object.keys(result.weather).length; i++) {
                     weather += result.weather[i].description + (i != Object.keys(result.weather).length - 1 ? ", " : "");
                 }
                 
-                var temperature = (result.main.temp - 273.15).toFixed(2), humidity = result.main.humidity, wind = result.wind.speed, direction = degreesToDirection(result.wind.deg), emoji = "";
+                var celsius = (result.main.temp - 273.15).toFixed(2), humidity = result.main.humidity, wind = result.wind.speed;
                 
-                place = result.name;
+                var direction = degreesToDirection(result.wind.deg), fahrenheit, embed;
                 
-                if (weather == "clear sky") {
-                    emoji = ":sunny: ";
-                } else if (weather.contains("snow") || weather.contains("hail") || weather.contains("sleet")) {
-                    emoji = ":cloud_snow: ";
-                } else if (weather.contains("thunder")) {
-                    emoji = ":thunder_cloud_rain: ";
-                } else if (weather.contains("rain") || weather.contains("shower")) {
-                    emoji = ":cloud_rain: ";
-                } else if (weather == "few clouds") {
-                    emoji = ":partly_sunny: ";
-                } else if (weather == "overcast" || weather.contains("cloud")) {
-                    emoji = ":cloud: ";
-                }
-                
-                weather = emoji + weather;
-                
-                channel.send("Current weather in " + place + ", " + countryCode + ": " + weather + ".\n" +
-                "Temperature: " + temperature + " °C. / " + (temperature * 1.8 + 32).toFixed(2) + " °F.\n" +
-                "Humidity: " + humidity + "%.\nWind: " + wind + " m/s (" + direction + ").");
+                direction = (direction ? " (" + direction + ")" : "");
+                weather = weatherEmoji(weather) + weather;
+                fahrenheit = (celsius * 1.8 + 32).toFixed(2);
+                embed = new Discord.RichEmbed();
+                embed.addField("Location", ":flag_" + countryCode.toLowerCase() + ": " + "[" + result.name + "](" + mapsUrl(place, countryCode) + ")");
+                embed.addField("Weather", weather);
+                embed.addField("Temperature", celsius + " °C / " + fahrenheit + " °F", true);
+                embed.addField("Humidity", humidity + "%", true);
+                embed.addField("Wind Speed", wind + " m/s" + direction, true);
+                channel.send({embed}).catch(console.error);
                 
                 if (!permData.servers[server.id].isTestingServer) {
                     cooldown = true;

@@ -117,6 +117,8 @@ module.exports = {
         global.CURRENCIES_BASE_URL = "http://free.currencyconverterapi.com/api/v3/currencies";
         
         global.GOOGLE_BASE_URL = "https://www.googleapis.com/youtube/v3/videos?id=";
+        
+        global.MAPS_BASE_URL = "https://www.google.com/maps?q=";
 
         global.GOOGLE_SUGGESTS_BASE_URL = "https://suggestqueries.google.com/complete/search?json&client=firefox&hl=en&q=";
 
@@ -200,6 +202,10 @@ module.exports = {
         global.currencyUpdate = true;
 
         /* Functions */
+        global.debugPrint = function (variable, value) {
+            console.log(timeStamp() + variable + ": " + value);
+        };
+        
         global.strip = function (string) {
             return string.replace(/<\/?[^>]*>/g, "");
         };
@@ -604,6 +610,22 @@ module.exports = {
             
             return (shotNames.hasOwnProperty(shot) ? shotNames[shot] : shot);
         };
+        
+        global.weatherEmoji = function (weather) {
+            if (weather == "clear sky") {
+                return ":sunny: ";
+            } else if (weather.contains("snow") || weather.contains("hail") || weather.contains("sleet")) {
+                return ":cloud_snow: ";
+            } else if (weather.contains("thunder")) {
+                return ":thunder_cloud_rain: ";
+            } else if (weather.contains("rain") || weather.contains("shower") || weather.contains("drizzle")) {
+                return ":cloud_rain: ";
+            } else if (weather == "few clouds") {
+                return ":partly_sunny: ";
+            } else if (weather == "overcast" || weather.contains("cloud") || weather.contains("mist")) {
+                return ":cloud: ";
+            }
+        };
 
         global.numericSort = function (a, b) {
             return b - a;
@@ -620,6 +642,10 @@ module.exports = {
         global.googleUrl = function (vid) {
             return GOOGLE_BASE_URL + vid + "&key=" + permData.googleKey + "&part=snippet,statistics";
         };
+        
+        global.mapsUrl = function (city, countryCode) {
+            return MAPS_BASE_URL + city.replace(/ /g, '+') + ",+" + countryCode;
+        }
         
         global.generateCurrencies = function () {
             request(CURRENCIES_BASE_URL, function (error, response, body) {
