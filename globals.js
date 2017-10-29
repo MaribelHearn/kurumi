@@ -215,7 +215,9 @@ module.exports = {
                 return '-';
             }
             
-            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            var array = num.toString().split('.');
+            
+            return array[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '.' + array[1];
         };
 
         global.time = function (milliseconds) {
@@ -622,7 +624,7 @@ module.exports = {
                 return ":cloud_rain: ";
             } else if (weather == "few clouds") {
                 return ":partly_sunny: ";
-            } else if (weather == "overcast" || weather.contains("cloud") || weather.contains("mist")) {
+            } else {
                 return ":cloud: ";
             }
         };

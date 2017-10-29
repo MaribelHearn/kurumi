@@ -1041,6 +1041,10 @@
                 
                 var countryCode = result.sys.country, weather = "", i;
                 
+                if (!countryCode) {
+                    countryCode = "AQ";
+                }
+                
                 for (i = 0; i < Object.keys(result.weather).length; i++) {
                     weather += result.weather[i].description + (i != Object.keys(result.weather).length - 1 ? ", " : "");
                 }
