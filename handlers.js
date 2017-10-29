@@ -6,6 +6,12 @@ module.exports = {
         
         /* Command Handler */
         if (permData.commandSymbols.contains(firstChar) && content.length > 1) {
+            // Maintenance Mode
+            if (permData.maintenanceMode && !permData.servers[server.id].isTestingServer) {
+                message.channel.send(message.author + ", commands are currently disabled due to maintenance. They will return soon!");
+                return;
+            }
+            
             var command = content.substring(1, content.length).replace(' ', permData.delimiter).split(permData.delimiter);
             
             for (var i in command) {
@@ -62,11 +68,8 @@ module.exports = {
             if (images.hasOwnProperty(commandName)) {
                 if (fs.existsSync("./images/" + images[commandName].file)) {
                     channel.send("", {"file": "./images/" + images[commandName].file});
-                
-                    if (!permData.servers[server.id].isTestingServer) {
-                        cooldown = true;
-                        timers.setInterval(function () { cooldown = false; }, servers[server.id].cooldownSecs * 1000);
-                    }
+                    cooldown = true;
+                    timers.setInterval(function () { cooldown = false; }, servers[server.id].cooldownSecs * 1000);
                 } else {
                     console.log(timeStamp() + "Image file './images/" + images[commandName].file + "' not found.");
                 }

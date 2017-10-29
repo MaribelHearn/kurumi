@@ -108,11 +108,8 @@
             message = message.author + " You must play... **" + game + " " + category + "**" + (shot.length <= 2 || shot == "Makai" || shot == "Jigoku" ? " " : " with ");
             message += (shot == '-' ? "" : "**" + shot + "**") + "!";
             channel.send(message, {"file": "./games/" + game + ".jpg"});
-                
-            if (!permData.servers[server.id].isTestingServer) {
-                cooldown = true;
-                timers.setInterval(function () { cooldown = false; }, permData.servers[server.id].cooldownSecs * 1000);
-            }
+            cooldown = true;
+            timers.setInterval(function () { cooldown = false; }, permData.servers[server.id].cooldownSecs * 1000);
         }
     },
     

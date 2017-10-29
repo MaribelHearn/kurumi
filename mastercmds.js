@@ -151,6 +151,18 @@
         }
     },
     
+    togglemaintenance: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + "`: toggles maintenance mode. This will disable commands outside of testing server.";
+        },
+        
+        command: function (message, server, command, channel) {
+            permData.maintenanceMode = !permData.maintenanceMode;
+            save("maintenanceMode");
+            channel.send("Maintenance mode has been " + (permData.maintenanceMode ? "en" : "dis") + "abled.");
+        }
+    },
+    
     addbotchannel: {
         help: function (command, symbol) {
             return "`" + symbol + command + " <channel>`: makes `channel` a bot channel.";

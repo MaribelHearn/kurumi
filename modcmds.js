@@ -254,7 +254,7 @@
         }
     },
     
-    cooldown: {
+    cooldownsecs: {
         help: function (command, symbol) {
             return "`" + symbol + command + " [seconds]`: changes the cooldown seconds for big commands to `seconds` (default 15).";
         },

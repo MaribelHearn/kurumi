@@ -130,35 +130,50 @@ module.exports = {
 
         global.TOUHOU_SHMUPS = ["SoEW", "PoDD", "LLS", "MS", "EoSD", "PCB", "IN", "MoF", "SA", "UFO", "GFW", "TD", "DDC", "LoLK", "HSiFS"];
         
-        global.TOUHOU_CHARS = ["Reimu Hakurei", "Marisa Kirisame", "ShinGyoku", "YuugenMagan", "Elis", "Sariel", "Mima", "Kikuri", "Konngara", "Genjii", "Rika", "Noroiko", "Meira", "Two Red Dots", "Five Magic Stones", "Matenshi",
-        "Ellen", "Kotohime", "Kana Anaberal", "Rikako Asakura", "Chiyuri Kitashirakawa", "Yumemi Okazaki", "Sokrates", "Ruukoto", "Multi", "Mimi-Chan", "Bewitching Lotus Flower", "Orange", "Kurumi", "Dark Mirror", "Elly",
-        "Rengeteki", "PC-98 Yuuka", "Mysterious Orb", "Mugetsu", "Gengetsu", "Wheel Demon", "Sara", "Spirit Mirror", "Louise", "PC-98 Alice", "Yuki", "Mai", "Ayana", "Yumeko", "Shinki", "Trump King", "Rumia", "Daiyousei", "Cirno", "Hong Meiling",
-        "Koakuma", "Patchouli Knowledge", "Sakuya Izayoi", "Remilia Scarlet", "Flandre Scarlet", "Rin Satsuki", "Letty Whiterock", "Chen", "Alice Margatroid", "Shanghai Doll", "Hourai Doll", "Lily White", "Lyrica Prismriver",
-        "Lunasa Prismriver", "Merlin Prismriver", "Youmu Konpaku", "Yuyuko Saigyouji", "Ran Yakumo", "Yukari Yakumo", "Layla Prismriver", "Youki Konpaku", "Suika Ibuki", "Wriggle Nightbug", "Mystia Lorelei", "Keine Kamishirasawa",
-        "Tewi Inaba", "Reisen Udongein Inaba", "Eirin Yagokoro", "Kaguya Houraisan", "Fujiwara no Mokou", "Aya Shameimaru", "Medicine Melancholy", "Yuuka Kazami", "Komachi Onozuka", "Eiki Shiki, Yamaxanadu", "Shizuha Aki",
-        "Minoriko Aki", "Hina Kagiyama", "Nitori Kawashiro", "Momiji Inubashiri", "Sanae Kochiya", "Kanako Yasaka", "Suwako Moriya", "Iku Nagae", "Tenshi Hinanawi", "Kisume", "Yamame Kurodani", "Parsee Mizuhashi", "Yuugi Hoshiguma",
-        "Satori Komeiji", "Rin Kaenbyou", "Utsuho Reiuji", "Koishi Komeiji", "Nazrin", "Kogasa Tatara", "Ichirin Kumoi", "Unzan", "Minamitsu Murasa", "Shou Toramaru", "Byakuren Hijiri", "Nue Houjuu", "Myouren Hijiri", "Goliath Doll",
-        "Giant Catfish", "Hisoutensoku", "Hatate Himekaidou", "Kyouko Kasodani", "Yoshika Miyako", "Seiga Kaku", "Soga no Tojiko", "Mononobe no Futo", "Toyosatomimi no Miko", "Mamizou Futatsuiwa", "Hata no Kokoro", "Wakasagihime",
-        "Sekibanki", "Kagerou Imaizumi", "Benben Tsukumo", "Yatsuhashi Tsukumo", "Seija Kijin", "Shinmyoumaru Sukuna", "Raiko Horikawa", "Sumireko Usami", "Seiran", "Ringo", "Doremy Sweet", "Sagume Kishin", "Clownpiece", "Junko",
-        "Hecatia Lapislazuli", "Rinnosuke Morichika", "Tokiko", "Marisa's unnamed father", "Luna Child", "Star Sapphire", "Sunny Milk", "Tsuchinoko", "Sake Bug", "Unnamed bake-danuki", "Rei'sen", "Gateguards of the Lunar Capital",
-        "Watatsuki no Toyohime", "Watatsuki no Yorihime", "Chang'e", "Lord Tsukuyomi", "Mizue no Uranoshimako", "Iwakasa", "Konohana-Sakuyahime", "Iwanagahime", "Kasen Ibaraki", "Unnamed dragon", "Unnamed dapeng",
-        "Shirou Sendai", "Unnamed kuda-gitsune", "Kume", "Kanda", "Unnamed okuri-inu", "Unshou", "Kosuzu Motoori", "Kosuzu's Grampa", "Tupai", "Evil Dragon", "Giant Toad", "Daitengu", "Dragon", "Maribel Hearn", "Renko Usami",
-        "Hieda no Akyuu", "Etarnity Larva", "Nemuno Sakata", "Lily White", "Aunn Komano", "Narumi Yatadera", "Satono Nishida", "Mai Teireida", "Okina Matara", "the unnamed girl on the Dolls in Pseudo Paradise jacket"];
+        global.TOUHOU_CHARS = ["Reimu Hakurei", "Marisa Kirisame", "ShinGyoku", "YuugenMagan", "Elis", "Sariel", "Mima", "Kikuri", "Konngara",
+        "Genjii", "Rika", "Noroiko", "Meira", "Two Red Dots", "Five Magic Stones", "Matenshi", "Ellen", "Kotohime", "Kana Anaberal",
+        "Rikako Asakura", "Chiyuri Kitashirakawa", "Yumemi Okazaki", "Sokrates", "Ruukoto", "Multi", "Mimi-Chan", "Bewitching Lotus Flower",
+        "Orange", "Kurumi", "Dark Mirror", "Elly", "Rengeteki", "PC-98 Yuuka", "Mysterious Orb", "Mugetsu", "Gengetsu", "Wheel Demon",
+        "Sara", "Spirit Mirror", "Louise", "PC-98 Alice", "Yuki", "Mai", "Ayana", "Yumeko", "Shinki", "Trump King", "Rumia", "Daiyousei",
+        "Cirno", "Hong Meiling", "Koakuma", "Patchouli Knowledge", "Sakuya Izayoi", "Remilia Scarlet", "Flandre Scarlet", "Rin Satsuki",
+        "Letty Whiterock", "Chen", "Alice Margatroid", "Shanghai Doll", "Hourai Doll", "Lily White", "Lyrica Prismriver", "Lunasa Prismriver",
+        "Merlin Prismriver", "Youmu Konpaku", "Yuyuko Saigyouji", "Ran Yakumo", "Yukari Yakumo", "Layla Prismriver", "Youki Konpaku",
+        "Suika Ibuki", "Wriggle Nightbug", "Mystia Lorelei", "Keine Kamishirasawa", "Tewi Inaba", "Reisen Udongein Inaba", "Eirin Yagokoro",
+        "Kaguya Houraisan", "Fujiwara no Mokou", "Aya Shameimaru", "Medicine Melancholy", "Yuuka Kazami", "Komachi Onozuka",
+        "Eiki Shiki, Yamaxanadu", "Shizuha Aki", "Minoriko Aki", "Hina Kagiyama", "Nitori Kawashiro", "Momiji Inubashiri", "Sanae Kochiya",
+        "Kanako Yasaka", "Suwako Moriya", "Iku Nagae", "Tenshi Hinanawi", "Kisume", "Yamame Kurodani", "Parsee Mizuhashi", "Yuugi Hoshiguma",
+        "Satori Komeiji", "Rin Kaenbyou", "Utsuho Reiuji", "Koishi Komeiji", "Nazrin", "Kogasa Tatara", "Ichirin Kumoi", "Unzan",
+        "Minamitsu Murasa", "Shou Toramaru", "Byakuren Hijiri", "Nue Houjuu", "Myouren Hijiri", "Goliath Doll", "Giant Catfish", "Hisoutensoku",
+        "Hatate Himekaidou", "Kyouko Kasodani", "Yoshika Miyako", "Seiga Kaku", "Soga no Tojiko", "Mononobe no Futo", "Toyosatomimi no Miko",
+        "Mamizou Futatsuiwa", "Hata no Kokoro", "Wakasagihime", "Sekibanki", "Kagerou Imaizumi", "Benben Tsukumo", "Yatsuhashi Tsukumo",
+        "Seija Kijin", "Shinmyoumaru Sukuna", "Raiko Horikawa", "Sumireko Usami", "Seiran", "Ringo", "Doremy Sweet", "Sagume Kishin",
+        "Clownpiece", "Junko", "Hecatia Lapislazuli", "Rinnosuke Morichika", "Tokiko", "Marisa's unnamed father", "Luna Child", "Star Sapphire",
+        "Sunny Milk", "Tsuchinoko", "Sake Bug", "Unnamed bake-danuki", "Rei'sen", "Gateguards of the Lunar Capital", "Watatsuki no Toyohime",
+        "Watatsuki no Yorihime", "Chang'e", "Lord Tsukuyomi", "Mizue no Uranoshimako", "Iwakasa", "Konohana-Sakuyahime", "Iwanagahime",
+        "Kasen Ibaraki", "Unnamed dragon", "Unnamed dapeng", "Shirou Sendai", "Unnamed kuda-gitsune", "Kume", "Kanda", "Unnamed okuri-inu",
+        "Unshou", "Kosuzu Motoori", "Kosuzu's Grampa", "Tupai", "Evil Dragon", "Giant Toad", "Daitengu", "Dragon", "Maribel Hearn",
+        "Renko Usami", "Hieda no Akyuu", "Etarnity Larva", "Nemuno Sakata", "Lily White", "Aunn Komano", "Narumi Yatadera", "Satono Nishida",
+        "Mai Teireida", "Okina Matara", "the unnamed girl on the Dolls in Pseudo Paradise jacket"];
         
-        global.FANMEME_CHARS = ["Marry Shepherd", "Corin Charite", "Phiased Pescar", "Mumumu Mikaboshi", "Janet Arc'Angelo", "Michel Sant'Angelo", "Iesua Nazarenus", "Elfin Mint", "Zankurou", "Kodama", "Aragami no Kusuko",
-        "Momo Tobikura", "Saraka Sant'Angelo", "Tenmu Suitokuin", "An Yaezaki", "Mitama Magahara", "Riko Toone", "Hatsuna Magatsuji", "Ruri", "Suitenguu no Himemiko", "Nomi no Hanie", "Takenouchi no Tarumi",
-        "Nameless R'lyeh Fairy", "Yamatoyo no Momohime", "Yamata no Yato", "Abe no Kiyohime", "Fabritis", "Iphonea", "Tobiko Takatou", "Shelia Lyrac", "Ichiyou Mochizuki", "Nezu Akitsu", "Fuma Mishandra", "Sengo Sanada",
-        "Tamako Sant'Angelo", "Ami", "Rakuki Momosame", "Seiryuu Sya", "Kage Mimeima", "Rakukun Momosame", "Tensei Muriya", "Rika Kirigakure", "Konoha Susanomori", "Naruko Uzushima", "Miyo Amazu", "Tsubame Minazuki",
-        "Kasumi Shindou", "Megumi Yaobi", "Mikoto Yaobi", "Otohime Kanpukugu", "Nix", "Sachiko Kobayashi"];
+        global.FANMEME_CHARS = ["Marry Shepherd", "Corin Charite", "Phiased Pescar", "Mumumu Mikaboshi", "Janet Arc'Angelo", "Michel Sant'Angelo",
+        "Iesua Nazarenus", "Elfin Mint", "Zankurou", "Kodama", "Aragami no Kusuko", "Momo Tobikura", "Saraka Sant'Angelo", "Tenmu Suitokuin",
+        "An Yaezaki", "Mitama Magahara", "Riko Toone", "Hatsuna Magatsuji", "Ruri", "Suitenguu no Himemiko", "Nomi no Hanie", "Takenouchi no Tarumi",
+        "Nameless R'lyeh Fairy", "Yamatoyo no Momohime", "Yamata no Yato", "Abe no Kiyohime", "Fabritis", "Iphonea", "Tobiko Takatou", "Shelia Lyrac",
+        "Ichiyou Mochizuki", "Nezu Akitsu", "Fuma Mishandra", "Sengo Sanada", "Tamako Sant'Angelo", "Ami", "Rakuki Momosame", "Seiryuu Sya",
+        "Kage Mimeima", "Rakukun Momosame", "Tensei Muriya", "Rika Kirigakure", "Konoha Susanomori", "Naruko Uzushima", "Miyo Amazu",
+        "Tsubame Minazuki", "Kasumi Shindou", "Megumi Yaobi", "Mikoto Yaobi", "Otohime Kanpukugu", "Nix", "Sachiko Kobayashi"];
         
-        global.LENEN_CHARS = ["Yabusame Houlen", "Tsubakura Enraku", "Kurohebi", "Aoji Shitodo", "Tsurubami Senri (disguised as Tsubakura Enraku)", "Hooaka Shitodo", "Kuroji Shitodo", "Wilhelm von Clausewitz Halcyon HISUIMARU",
-        "Tsurubami Senri", "Jun Amanomiya", "Shou Amanomori", "Lumen Celeritas", "Hibaru Kokutenshi", "Sukune Katano", "Adagumo no Yaorochi", "Adagumo no Saragimaru", "Jinbei", "Sese Kitsugai", "Tsugumi Umatachi",
-        "Fujiwara no Iyozane", "Taira no Fumikado", "Shion", "Tenkai Zuifeng", "Fumikado's grandfather", "Souko Shirami", "Mitsumo", "Terumi", "Medias Moritake", "Kujiru Kesa", "Kunimitsu Ooya", "Kaisen Azuma",
-        "Kaoru Kashiwagi", "Garaiya Ogata", "Fujiwara no Shirogane no Sanra", "Para", "Ooama no Ake no Mitori", "Taira no Chouki", "Suzumi Kuzu", "Xeno a", "Haiji Senri", "Yago Ametsukana",
-        "Suzumi Kuzu (disguised as Tsurubami Senri)", "Tsubakura's mother"];
+        global.LENEN_CHARS = ["Yabusame Houlen", "Tsubakura Enraku", "Kurohebi", "Aoji Shitodo", "Tsurubami Senri (disguised as Tsubakura Enraku)",
+        "Hooaka Shitodo", "Kuroji Shitodo", "Wilhelm von Clausewitz Halcyon HISUIMARU", "Tsurubami Senri", "Jun Amanomiya", "Shou Amanomori",
+        "Lumen Celeritas", "Hibaru Kokutenshi", "Sukune Katano", "Adagumo no Yaorochi", "Adagumo no Saragimaru", "Jinbei", "Sese Kitsugai",
+        "Tsugumi Umatachi", "Fujiwara no Iyozane", "Taira no Fumikado", "Shion", "Tenkai Zuifeng", "Fumikado's grandfather", "Souko Shirami",
+        "Mitsumo", "Terumi", "Medias Moritake", "Kujiru Kesa", "Kunimitsu Ooya", "Kaisen Azuma", "Kaoru Kashiwagi", "Garaiya Ogata",
+        "Fujiwara no Shirogane no Sanra", "Para", "Ooama no Ake no Mitori", "Taira no Chouki", "Suzumi Kuzu", "Xeno a", "Haiji Senri",
+        "Yago Ametsukana", "Suzumi Kuzu (disguised as Tsurubami Senri)", "Tsubakura's mother"];
         
-        global.ANSWERS = ["It is certain.", "Without a doubt.", "It is decidedly so.", "Yes, definitely.", "You may rely on it.","As I see it, yes.", "Most likely.",
-        "Outlook good.", "Yes.", "Signs point to yes.", "Don't count on it.", "My reply is no.", "My sources say no.", "Outlook not so good.", "Very doubtful."];
+        global.ANSWERS = ["It is certain.", "Without a doubt.", "It is decidedly so.", "Yes, definitely.", "You may rely on it.",
+        "As I see it, yes.", "Most likely.", "Outlook good.", "Yes.", "Signs point to yes.", "Don't count on it.", "My reply is no.",
+        "My sources say no.", "Outlook not so good.", "Very doubtful."];
         
         global.CHOICE = ["%o imo.", "%o tbh.", "I choose %o.", "%o!", "I say %o.", "I'd pick %o if I were you.", "%o is the best option.", "Why not %o?"];
         
@@ -187,8 +202,8 @@ module.exports = {
 
         /* Variables */
         global.permData = {
-            "servers": {}, "WRs": {}, "LNNs": {}, "currencies": {}, "images": {}, "musicLocal": {}, "musicYouTube": {}, "notifyQueue": [],
-            "commandSymbols": ["!"], "delimiter": "^", "token": "", "botMaster": "", "WRsLastUpdated": "", "weatherKey": "", "googleKey": "", "maxLength": 200
+            "servers": {}, "WRs": {}, "LNNs": {}, "currencies": {}, "images": {}, "musicLocal": {}, "musicYouTube": {}, "notifyQueue": [], "commandSymbols": ["!"],
+            "delimiter": "^", "token": "", "botMaster": "", "WRsLastUpdated": "", "weatherKey": "", "googleKey": "", "maxLength": 200, "maintenanceMode": false
         };
         
         global.serverData = {};
