@@ -622,7 +622,7 @@
     
     voicechannel: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <voicechannel>`: makes `voicechannel` my voice channel.";
+            return "`" + symbol + command + " <voice channel>`: makes `voice channel` my voice channel.";
         },
         
         command: function (message, server, command, channel) {
@@ -806,7 +806,7 @@
     
     addmusicyt: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <name> <YouTube video> <description> [volume]`: adds a command called `name` that plays `YouTube video` on a voice channel.\n It will have `description` when `" + symbol + "help` is used on it.\nIf `volume` is not specified, it will be set to 0.5.";
+            return "`" + symbol + command + " <name> <YouTube video> <description> [volume]`: adds a command called `name` that plays `YouTube video` on a voice channel.\nIt will have `description` when `" + symbol + "help` is used on it.\nIf `volume` is not specified, it will be set to 0.5.";
         },
         
         command: function (message, server, command, channel) {

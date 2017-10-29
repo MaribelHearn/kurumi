@@ -151,7 +151,7 @@
     
     togglemaintenance: {
         help: function (command, symbol) {
-            return "`" + symbol + command + "`: toggles maintenance mode. This will disable commands outside of testing server.";
+            return "`" + symbol + command + "`: toggles maintenance mode. This will disable commands outside of testing servers.";
         },
         
         command: function (message, server, command, channel) {
@@ -304,30 +304,6 @@
         }
     },
     
-    hsifsaccessrole: {
-        help: function (command, symbol) {
-            return "`" + symbol + command + " <role>`: defines `role` as the HSiFS access role.";
-        },
-        
-        command: function (message, server, command, channel) {
-            var hsifsAccessRole = command[1], servers = permData.servers;
-            
-            if (!hsifsAccessRole) {
-                channel.send(message.author + ", please specify a role.");
-                return;
-            }
-            
-            if (!server.roles.find("name", hsifsAccessRole)) {
-                channel.send(message.author + ", that is not a role!");
-                return;
-            }
-            
-            servers[server.id].hsifsAccessRole = server.roles.find("name", hsifsAccessRole).id;
-            save("servers");
-            channel.send("The '" + hsifsAccessRole + "' role has been set as the HSiFS access role.");
-        }
-    },
-    
     firerole: {
         help: function (command, symbol) {
             return "`" + symbol + command + " <role>`: defines `role` as the Fire faction role.";
@@ -474,7 +450,7 @@
     
     logoutmessage: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <message>`: changes the leave message to `message`.";
+            return "`" + symbol + command + " <message>`: changes the logout message to `message`.";
         },
         
         command: function (message, server, command, channel) {

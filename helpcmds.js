@@ -1,7 +1,7 @@
 ﻿module.exports = {
     help: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " [command]`: explains how to use `command` and what it does.";
+            return "`" + symbol + command + " [command]`: explains how to use `command` and what it does. If `command` is not specified, runs `" + symbol + "commands` instead.";
         },
         
         command: function (message, server, command, channel) {
