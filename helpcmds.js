@@ -75,7 +75,8 @@
             "`" + symbol + "image`: posts the list of image commands.\n\n" +
             "Available command symbols: `" + permData.commandSymbols.join("`, `") + "`\n" +
             "There are currently **" + (numberOfCommands + numberOfCustoms) + "** commands total " +
-            "(**" + numberOfCommands + "** built-in, **" + numberOfCustoms + "** custom).";
+            "(**" + numberOfCommands + "** built-in, **" + numberOfCustoms + "** custom).\n" +
+            "Full list: <https://github.com/MaribelHearn/kurumi/wiki/Commands>";
             channel.send(info).catch(console.error);
         }
     },
