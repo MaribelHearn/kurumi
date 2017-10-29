@@ -88,18 +88,13 @@ module.exports = {
                 }
                 
                 // Command Parser
-                var commandFunction = allCommands[commandType][commandName].command, argc = getArgc(commandFunction), quote = false, escape = false, current = "", command = [commandName], character, i, j, k;
-                
-                debugPrint("argc", argc);
+                var commandFunction = allCommands[commandType][commandName].command, argc = getArgc(commandFunction), quote = false, escape = false, current = "", command = [commandName], character, i, j;
                 
                 if (argc >= 1) {
                     content = content.slice(1).replace(commandName, "").trim();
-                    debugPrint("content", content);
                     
                     if (argc === 1 && content !== "") {
                         command.push(content);
-                        debugPrint("command[0]", command[0]);
-                        debugPrint("command[1]", command[1]);
                     } else {
                         for (j = 0; j < content.length; j++) {
                             character = content.charAt(j);
@@ -126,10 +121,6 @@ module.exports = {
                         }
                         
                         command.push(current);
-                        
-                        for (k in command) {
-                            debugPrint("command[" + k + "]", command[k]);
-                        }
                     }
                 }
     
@@ -174,9 +165,9 @@ module.exports = {
                     return;
                 }
                 
-                var roles = [], rolesArray = server.members.get(id).roles.array(), l;
+                var roles = [], rolesArray = server.members.get(id).roles.array(), k;
                 
-                for (l in rolesArray) {
+                for (k in rolesArray) {
                     roles.push(rolesArray[j].name);
                 }
                 
