@@ -54,7 +54,7 @@
     
     choice: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <option 1>^<option 2>^[option 3]^...`: makes me choose out of the specified options for you. At least two options must be specified.";
+            return "`" + symbol + command + " <option 1> <option 2> [option 3]^...`: makes me choose out of the specified options for you. At least two options must be specified.";
         },
         
         command: function (message, server, command, channel) {
@@ -395,7 +395,7 @@
     
     addquote: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <author>^<quote>`: adds `quote` to `author`'s saved quotes. If `author` is a user, " +
+            return "`" + symbol + command + " <author> <quote>`: adds `quote` to `author`'s saved quotes. If `author` is a user, " +
             "your spelling will be automatically corrected if it is wrong.\nAuthor names are case-insensitive; different cases will count as the same names.";
         },
         

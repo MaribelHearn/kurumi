@@ -1,7 +1,7 @@
 ﻿module.exports = {
     kick: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <user>^[reason]`: kicks `user` for `reason`.";
+            return "`" + symbol + command + " <user> [reason]`: kicks `user` for `reason`.";
         },
         
         command: function (message, server, command, channel) {
@@ -30,7 +30,7 @@
     
     ban: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <user>^[reason]^[deletedays]`: bans `user` for `reason` and deletes their messages from the last `deletedays` days (default 0).";
+            return "`" + symbol + command + " <user> [reason]^[deletedays]`: bans `user` for `reason` and deletes their messages from the last `deletedays` days (default 0).";
         },
         
         command: function (message, server, command, channel) {
@@ -84,7 +84,7 @@
     
     removequote: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <author>^<quote>`: removes `quote` from `author`'s quotes.";
+            return "`" + symbol + command + " <author> <quote>`: removes `quote` from `author`'s quotes.";
         },
         
         command: function (message, server, command, channel) {
@@ -122,7 +122,7 @@
     
     addopinion: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <opinion>^<good/bad>`: adds `opinion` (either `good` or `bad`) to the possible results of the opinion command.\nWriting '%t' in the opinion means it will be replaced by a random Touhou shmup.";
+            return "`" + symbol + command + " <opinion> <good/bad>`: adds `opinion` (either `good` or `bad`) to the possible results of the opinion command.\nWriting '%t' in the opinion means it will be replaced by a random Touhou shmup.";
         },
         
         command: function (message, server, command, channel) {
@@ -164,7 +164,7 @@
     
     removeopinion: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <opinion>^<good/bad>`: removes `opinion` (either `good` or `bad`) from the possible results of the opinion command.";
+            return "`" + symbol + command + " <opinion> <good/bad>`: removes `opinion` (either `good` or `bad`) from the possible results of the opinion command.";
         },
         
         command: function (message, server, command, channel) {
@@ -214,9 +214,7 @@
                 return;
             }
             
-            command.splice(0, 1);
-            
-            var post = command.join(permData.delimiter);
+            var post = command[1];
             
             var mainChannel = permData.servers[server.id].mainChannel;
             
@@ -237,9 +235,7 @@
                 return;
             }
             
-            command.splice(0, 1);
-            command = command.join(permData.delimiter);
-            bot.user.setGame(command);
+            bot.user.setGame(command[1]);
         }
     },
     
@@ -254,9 +250,7 @@
                 return;
             }
             
-            command.splice(0, 1);
-            command = command.join(permData.delimiter);
-            bot.user.setAvatar(command);
+            bot.user.setAvatar(command[1]);
         }
     },
     
@@ -276,7 +270,7 @@
     
     updatewr: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <game>^<difficulty>^<shottype/route>^<new WR>^<player>^[replay]`: updates the world record in `game` `difficulty` `shottype/route` to `new WR` by `player`.";
+            return "`" + symbol + command + " <game> <difficulty> <shottype/route> <new WR> <player> [replay]`: updates the world record in `game` `difficulty` `shottype/route` to `new WR` by `player`.";
         },
         
         command: function (message, server, command, channel) {
@@ -368,7 +362,7 @@
     
     acceptwr: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <game>^<difficulty>^<shottype/route>`: accepts the new world record in `game` `difficulty` `shottype/route` from the notification queue as being valid, updating the world records in the process.";
+            return "`" + symbol + command + " <game> <difficulty> <shottype/route>`: accepts the new world record in `game` `difficulty` `shottype/route` from the notification queue as being valid, updating the world records in the process.";
         },
         
         command: function (message, server, command, channel) {
@@ -486,7 +480,7 @@
     
     addlnn: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <game>^<shottype/route>^<player>`: adds `player` to the list of `game` LNNs with `shottype/route`. Windows games (excl. PoFV) only.";
+            return "`" + symbol + command + " <game> <shottype/route> <player>`: adds `player` to the list of `game` LNNs with `shottype/route`. Windows games (excl. PoFV) only.";
         },
         
         command: function (message, server, command, channel) {
@@ -708,7 +702,7 @@
     
     addimage: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <image file>^<description>`: adds a command that posts `image file` and has `description` when `" + symbol + "help` is used on it.\nThe file must be in the `images` folder.";
+            return "`" + symbol + command + " <image file> <description>`: adds a command that posts `image file` and has `description` when `" + symbol + "help` is used on it.\nThe file must be in the `images` folder.";
         },
         
         command: function (message, server, command, channel) {
@@ -769,7 +763,7 @@
     
     addmusic: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <music>^<description>^[volume]`: adds a command that plays `music` on a voice channel and has `description` when `" + symbol + "help` is used on it.\nThe music must either be a YouTube video URL or a file in the `music` folder.\nIf `volume` is not specified, it will be set to 0.5.";
+            return "`" + symbol + command + " <music> <description> [volume]`: adds a command that plays `music` on a voice channel and has `description` when `" + symbol + "help` is used on it.\nThe music must either be a YouTube video URL or a file in the `music` folder.\nIf `volume` is not specified, it will be set to 0.5.";
         },
         
         command: function (message, server, command, channel) {
@@ -806,7 +800,7 @@
     
     addmusicyt: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <name>^<YouTube video>^<description>^[volume]`: adds a command called `name` that plays `YouTube video` on a voice channel.\n It will have `description` when `" + symbol + "help` is used on it.\nIf `volume` is not specified, it will be set to 0.5.";
+            return "`" + symbol + command + " <name> <YouTube video> <description> [volume]`: adds a command called `name` that plays `YouTube video` on a voice channel.\n It will have `description` when `" + symbol + "help` is used on it.\nIf `volume` is not specified, it will be set to 0.5.";
         },
         
         command: function (message, server, command, channel) {

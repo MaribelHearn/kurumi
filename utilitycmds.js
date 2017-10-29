@@ -18,7 +18,7 @@
     
     alias: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <command>^<alias>`: makes `alias` a personal alias for `command`.";
+            return "`" + symbol + command + " <command> <alias>`: makes `alias` a personal alias for `command`.";
         },
         
         command: function (message, server, command, channel) {
@@ -515,7 +515,7 @@
     
     lnn: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <game>^[shottype/route]`: shows the list of LNN players for `game` with `shottype/route`. " +
+            return "`" + symbol + command + " <game> [shottype/route]`: shows the list of LNN players for `game` with `shottype/route`. " +
             "If `shottype/route` is not specified, shows the list of all LNN players for `game`.";
         },
         
@@ -586,7 +586,7 @@
     
     wr: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <game>^[difficulty]^[shottype/route]`: shows the world record in `game` `difficulty` `shottype/route`." +
+            return "`" + symbol + command + " <game> [difficulty]^[shottype/route]`: shows the world record in `game` `difficulty` `shottype/route`." +
             "If `difficulty` or `shottype/route` are not specified, selects the overall world record of the game or difficulty.";
         },
         
@@ -659,7 +659,7 @@
     
     wrlist: {
          help: function (command, symbol) {
-            return "`" + symbol + command + " <game>^<difficulty>^[order]`: shows the list of world records in `game` `difficulty`, sorted by `order`, which is 'shot(type)' or 'score'." +
+            return "`" + symbol + command + " <game> <difficulty> [order]`: shows the list of world records in `game` `difficulty`, sorted by `order`, which is 'shot(type)' or 'score'." +
             "If `order` is not specified, orders the world records by shottype.";
         },
         
@@ -760,7 +760,7 @@
     
     notifywr: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <game>^<difficulty>^<shottype/route>^<new WR>^<player>^[replay]`: adds `new WR` by `player` in `game` `difficulty` `shottype/route` to a queue, waiting to be accepted by a mod.";
+            return "`" + symbol + command + " <game> <difficulty> <shottype/route> <new WR> <player> [replay]`: adds `new WR` by `player` in `game` `difficulty` `shottype/route` to a queue, waiting to be accepted by a mod.";
         },
         
         command: function (message, server, command, channel) {
@@ -1224,7 +1224,7 @@
     
     convert: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <amount>^<currency 1>^<currency 2>`: converts `amount` `currency 1` into `currency 2`.";
+            return "`" + symbol + command + " <amount> <currency 1> <currency 2>`: converts `amount` `currency 1` into `currency 2`.";
         },
         
         command: function (message, server, command, channel) {
