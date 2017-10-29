@@ -206,7 +206,7 @@
     
     say: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <message>`: will make me post `message` in the bot spam channel.";
+            return "`" + symbol + command + " <message>`: will make me post `message` in the bot spam channel. Requires the main channel to be set.";
         },
         
         command: function (message, server, command, channel) {
@@ -214,12 +214,10 @@
                 return;
             }
             
-            var post = command[1];
-            
-            var mainChannel = permData.servers[server.id].mainChannel;
+            var post = command[1], mainChannel = permData.servers[server.id].mainChannel;
             
             if (mainChannel) {
-                server.channels.get(mainChannel).sendMessage(post);
+                server.channels.get(mainChannel).send(post).catch(console.error);
             }
         }
     },
@@ -230,12 +228,16 @@
         },
         
         command: function (message, server, command, channel) {
-            if (!command[1]) {
+            var game = command[1];
+            
+            if (!game) {
                 bot.user.setGame(null);
+                channel.send("Game removed.").catch(console.error);
                 return;
             }
             
-            bot.user.setGame(command[1]);
+            bot.user.setGame(game);
+            channel.send("Game changed.").catch(console.error);
         }
     },
     
@@ -245,12 +247,16 @@
         },
         
         command: function (message, server, command, channel) {
-            if (!command[1]) {
+            var avatar = command[1];
+            
+            if (!avatar) {
                 bot.user.setAvatar("./images/avatar.png");
+                channel.send("Avatar reset to the default avatar.").catch(console.error);
                 return;
             }
             
-            bot.user.setAvatar(command[1]);
+            bot.user.setAvatar(avatar);
+            channel.send("Avatar changed.").catch(console.error);
         }
     },
     
