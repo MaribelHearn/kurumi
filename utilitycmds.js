@@ -5,10 +5,14 @@
         },
         
         command: function (message, server, command, channel) {
-            channel.send("Name: Kurumi" + "\n" +
-            "Master: " + server.members.get(permData.botMaster).user.username + "\n" +
-            "Host OS: " + os.type() + "\n" +
-            "Uptime: " + time(bot.uptime));
+            var embed = new Discord.RichEmbed();
+            
+            embed.setThumbnail(bot.user.avatarURL);
+            embed.addField("Name", bot.user.username, true);
+            embed.addField("Master", (permData.botMaster !== "" ? server.members.get(permData.botMaster).user.username : '-'), true);
+            embed.addField("Host OS", formatType(os.type()));
+            embed.addField("Uptime", time(bot.uptime));
+            channel.send({embed}).catch(console.error);
         }
     },
     
@@ -21,24 +25,24 @@
             var cmd = command[1];
             
             if (!cmd) {
-                channel.send(message.author + ", please specify a command to create an alias for.");
+                channel.send(message.author + ", please specify a command to create an alias for.").catch(console.error);
                 return;
             }
             
             if (!isCommand(cmd)) {
-                channel.send(message.author + ", that command does not exist.");
+                channel.send(message.author + ", that command does not exist.").catch(console.error);
                 return;
             }
             
             var alias = command[2];
             
             if (!alias) {
-                channel.send(message.author + ", please specify an alias.");
+                channel.send(message.author + ", please specify an alias.").catch(console.error);
                 return;
             }
             
             if (isCommand(alias)) {
-                channel.send(message.author + ", you cannot use an alias that is equal to a command name.");
+                channel.send(message.author + ", you cannot use an alias that is equal to a command name.").catch(console.error);
                 return;
             }
             
@@ -52,7 +56,7 @@
             
             aliasesList[id][alias.toLowerCase()] = cmd.toLowerCase();
             save("aliasesList", server);
-            channel.send("Alias created.");
+            channel.send("Alias created.").catch(console.error);
         }
     },
     

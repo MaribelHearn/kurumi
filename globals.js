@@ -523,6 +523,14 @@ module.exports = {
             
             return users;
         };
+        
+        global.formatType = function (type) {
+            return ({
+                "Windows_NT": "Windows",
+                "Darwin": "Mac",
+                "Linux": "Linux"
+            }[type]);
+        };
 
         global.regionFlag = function (region) {
             return ({
