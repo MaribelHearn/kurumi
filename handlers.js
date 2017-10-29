@@ -2,12 +2,12 @@ module.exports = {
     messageHandler: function (message) {
         var id = message.author.id, channel = message.channel, server = message.guild, content = message.content, lower = content.toLowerCase(), servers = permData.servers, images = permData.images;
         
-        var channelType = message.channel.constructor.toString().split(' ')[1], firstChar = content.charAt(0), botMaster = permData.botMaster, musicLocal = permData.musicLocal, musicYouTube = permData.musicYouTube;
+        var channelType = message.channel.type, firstChar = content.charAt(0), botMaster = permData.botMaster, musicLocal = permData.musicLocal, musicYouTube = permData.musicYouTube;
         
         /* Command Handler */
         if (permData.commandSymbols.contains(firstChar) && content.length > 1) {
             // Maintenance Mode
-            if (permData.maintenanceMode && !permData.servers[server.id].isTestingServer) {
+            if (permData.maintenanceMode && (!server || !permData.servers[server.id].isTestingServer)) {
                 message.channel.send(message.author + ", commands are currently disabled due to maintenance. They will return soon!");
                 return;
             }
@@ -15,7 +15,7 @@ module.exports = {
             var command = content.substring(1, content.length).replace(' ', permData.delimiter).split(permData.delimiter);
             
             for (var i in command) {
-                if (command[i].length > permData.maxLength && id != botMaster && servers[server.id].botChannels.contains(channel.id)) {
+                if (command[i].length > permData.maxLength && id != botMaster && (!server || servers[server.id].botChannels.contains(channel.id))) {
                     message.channel.send(message.author + ", please give me shorter command arguments.");
                     return;
                 }
@@ -27,41 +27,44 @@ module.exports = {
                 return;
             }
             
-            // Alias Check
-            aliasesList = serverData[server.id].aliasesList;
+            // No aliases or music commands in DMs
+            if (server) {
+                // Alias Check
+                aliasesList = serverData[server.id].aliasesList;
             
-            if (aliasesList[id] && aliasesList[id].hasOwnProperty(commandName)) {
-                commandName = aliasesList[id][commandName];
-            }
-            
-            for (var userId in aliasesList) {
-                if (userId != id && aliasesList[userId].hasOwnProperty(commandName) && servers[server.id].botChannels.contains(channel.id)) {
-                    message.channel.send(message.author + ", that is someone's alias for the `" + firstChar + aliasesList[userId][commandName] + "` command!");
-                    return;
-                }
-            }
-            
-            // Music Command Check
-            if (musicLocal.hasOwnProperty(commandName) || musicYouTube.hasOwnProperty(commandName)) {
-                var musicCommand = (musicLocal.hasOwnProperty(commandName) ? musicLocal[commandName] : musicYouTube[commandName]);
-                
-                if (!servers[server.id].voiceChannel) {
-                    channel.send(message.author + ", music commands are currently unusable, since I have not been assigned a voice channel.");
-                    return;
+                if (aliasesList[id] && aliasesList[id].hasOwnProperty(commandName)) {
+                    commandName = aliasesList[id][commandName];
                 }
                 
-                if (musicBlocked) {
-                    message.channel.send(message.author + ", music commands are currently blocked.");
-                    return;
+                for (var userId in aliasesList) {
+                    if (userId != id && aliasesList[userId].hasOwnProperty(commandName) && (!server || servers[server.id].botChannels.contains(channel.id))) {
+                        message.channel.send(message.author + ", that is someone's alias for the `" + firstChar + aliasesList[userId][commandName] + "` command!");
+                        return;
+                    }
                 }
             
-                if (musicLocal.hasOwnProperty(commandName)) {
-                    playLocal(server, musicCommand.file, musicCommand.volume);
-                } else {
-                    playYouTube(server, musicCommand.link, musicCommand.volume);
-                }
+                // Music Command Check
+                if (musicLocal.hasOwnProperty(commandName) || musicYouTube.hasOwnProperty(commandName)) {
+                    var musicCommand = (musicLocal.hasOwnProperty(commandName) ? musicLocal[commandName] : musicYouTube[commandName]);
+                    
+                    if (!servers[server.id].voiceChannel) {
+                        channel.send(message.author + ", music commands are currently unusable, since I have not been assigned a voice channel.");
+                        return;
+                    }
+                    
+                    if (musicBlocked) {
+                        message.channel.send(message.author + ", music commands are currently blocked.");
+                        return;
+                    }
                 
-                return;
+                    if (musicLocal.hasOwnProperty(commandName)) {
+                        playLocal(server, musicCommand.file, musicCommand.volume);
+                    } else {
+                        playYouTube(server, musicCommand.link, musicCommand.volume);
+                    }
+                    
+                    return;
+                }
             }
             
             // Image Command Check
@@ -81,6 +84,21 @@ module.exports = {
             for (var commandType in allCommands) {
                 if (allCommands[commandType][commandName]) {
                     try {
+                        if (channelType == "dm") {
+                            if ((commandType == "mod" || commandType == "master") && id != botMaster) {
+                                message.channel.send(message.author + ", you do not have sufficient permission to run this command.");
+                                return;
+                            }
+                            
+                            if (allCommands[commandType][commandName].command.toString().contains("server.")) {
+                                message.channel.send(message.author + ", that command can only be used on servers.");
+                                return;
+                            }
+                            
+                            allCommands[commandType][commandName].command(message, server, command, channel);
+                            return;
+                        }
+                        
                         if (servers[server.id].isTestingServer || id == botMaster) {
                             allCommands[commandType][commandName].command(message, server, command, channel);
                             return;
@@ -99,10 +117,6 @@ module.exports = {
                         
                         for (var j in rolesArray) {
                             roles.push(rolesArray[j].name);
-                        }
-                        
-                        if (commandType == "secret") {
-                            return;
                         }
                         
                         if (commandType == "mod" && !hasModRole(rolesArray)) {
