@@ -167,8 +167,8 @@ module.exports = {
                 
                 var roles = [], rolesArray = server.members.get(id).roles.array(), k;
                 
-                for (k in rolesArray) {
-                    roles.push(rolesArray[j].name);
+                for (k = 0; k < rolesArray.length; k++) {
+                    roles.push(rolesArray[k].name);
                 }
                 
                 if (commandType == "mod" && !hasModRole(rolesArray)) {

@@ -113,7 +113,7 @@
             }
             
             message.author.createDM().then(DMchannel => {
-                DMchannel.send("```" + list + "```").then(message => console.log(timeStamp() + "Sent an !aliases DM to " + message.author.username + ".")).catch(console.error);
+                DMchannel.send("Your aliases on " + server.name + ":\n```" + list + "```").then(msg => channel.send("Sent an alias DM to " + message.author.username + ".").catch(console.error)).catch(console.error);
             }).catch(console.error);
         }
     },
@@ -240,56 +240,6 @@
             
             user.removeRole(lewdAccess);
             channel.send(message.author + " has been removed from the lewd channel!");
-        }
-    },
-    
-    th16: {
-        help: function (command, symbol) {
-            return "`" + symbol + command + "`: to grant yourself access to the HSiFS channel.";
-        },
-        
-        command: function (message, server, command, channel) {
-            var servers = permData.servers;
-            
-            if (!servers[server.id].hsifsAccessRole) {
-                channel.send(message.author + ", this server does not have a HSiFS access role.");
-                return;
-            }
-            
-            var hsifsAccess = server.roles.get(servers[server.id].hsifsAccessRole), user = server.members.get(message.author.id);
-            
-            if (user.roles.get(servers[server.id].hsifsAccessRole)) {
-                channel.send(message.author + ", you already have HSiFS access!");
-                return;
-            }
-            
-            user.addRole(hsifsAccess);
-            channel.send(message.author + " has been granted HSiFS access!");
-        }
-    },
-    
-    unth16: {
-        help: function (command, symbol) {
-            return "`" + symbol + command + "`: to remove yourself from the HSiFS channel.";
-        },
-        
-        command: function (message, server, command, channel) {
-            var servers = permData.servers;
-            
-            if (!servers[server.id].hsifsAccessRole) {
-                channel.send(message.author + ", this server does not have a HSiFS access role.");
-                return;
-            }
-            
-            var hsifsAccess = server.roles.get(servers[server.id].hsifsAccessRole), user = server.members.get(message.author.id);
-            
-            if (!user.roles.get(servers[server.id].hsifsAccessRole)) {
-                channel.send(message.author + ", you do not have HSiFS access!");
-                return;
-            }
-            
-            user.removeRole(hsifsAccess);
-            channel.send(message.author + " has been removed from the HSiFS channel!");
         }
     },
     
@@ -586,7 +536,7 @@
     
     wr: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <game> [difficulty]^[shottype/route]`: shows the world record in `game` `difficulty` `shottype/route`." +
+            return "`" + symbol + command + " <game> [difficulty] [shottype/route]`: shows the world record in `game` `difficulty` `shottype/route`.\n" +
             "If `difficulty` or `shottype/route` are not specified, selects the overall world record of the game or difficulty.";
         },
         
@@ -659,7 +609,7 @@
     
     wrlist: {
          help: function (command, symbol) {
-            return "`" + symbol + command + " <game> <difficulty> [order]`: shows the list of world records in `game` `difficulty`, sorted by `order`, which is 'shot(type)' or 'score'." +
+            return "`" + symbol + command + " <game> <difficulty> [order]`: shows the list of world records in `game` `difficulty`, sorted by `order`, which is 'shot(type)' or 'score'.\n" +
             "If `order` is not specified, orders the world records by shottype.";
         },
         

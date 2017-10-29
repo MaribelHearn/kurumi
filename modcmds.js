@@ -30,7 +30,7 @@
     
     ban: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <user> [reason]^[deletedays]`: bans `user` for `reason` and deletes their messages from the last `deletedays` days (default 0).";
+            return "`" + symbol + command + " <user> [reason] [deletedays]`: bans `user` for `reason` and deletes their messages from the last `deletedays` days (default 0).";
         },
         
         command: function (message, server, command, channel) {

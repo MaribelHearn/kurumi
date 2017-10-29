@@ -54,7 +54,7 @@
     
     choice: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <option 1> <option 2> [option 3]^...`: makes me choose out of the specified options for you. At least two options must be specified.";
+            return "`" + symbol + command + " <option 1> <option 2> [option 3] ...`: makes me choose out of the specified options for you. At least two options must be specified.";
         },
         
         command: function (message, server, command, channel) {
@@ -75,7 +75,7 @@
     
     roll: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " [filter]`: roll a random Touhou category. `filter` can be Windows, PC-98, a game or a difficulty.";
+            return "`" + symbol + command + " [filter]`: roll a random Touhou category. `filter` can be nothing, Windows, PC-98, a game or a difficulty.";
         },
         
         command: function (message, server, command, channel) {
@@ -205,7 +205,7 @@
     
     fanwaifu: {
         help: function (command, symbol) {
-            return "`" + symbol + command + "`: tells you who is your fanmeme waifu today.";
+            return "`" + symbol + command + "`: tells you who is your fangame waifu today.";
         },
         
         command: function (message, server, command, channel) {
