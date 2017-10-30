@@ -107,9 +107,12 @@
             shot = Object.keys(WRs[game][category])[rangedRNG(0, Object.keys(WRs[game][category]).length)].replace("Team", " Team");
             message = message.author + " You must play... **" + game + " " + category + "**" + (shot.length <= 2 || shot == "Makai" || shot == "Jigoku" ? " " : " with ");
             message += (shot == '-' ? "" : "**" + shot + "**") + "!";
-            channel.send(message, {"file": "./games/" + game + ".jpg"});
-            cooldown = true;
-            timers.setInterval(function () { cooldown = false; }, permData.servers[server.id].cooldownSecs * 1000);
+            channel.send(message, {"file": "./games/" + game + ".jpg"}).catch(console.error);
+            
+            if (channel.type != "dm") {
+                cooldown = true;
+                timers.setInterval(function () { cooldown = false; }, permData.servers[server.id].cooldownSecs * 1000);
+            }
         }
     },
     

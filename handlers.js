@@ -139,7 +139,7 @@ module.exports = {
                         return;
                     }
                     
-                    if (allCommands[commandType][commandName].command.toString().contains("server.")) {
+                    if (commandFunction.toString().contains("server.") && commandFunction.toString().indexOf("server.") != commandFunction.toString().indexOf("server.id].cooldownSecs")) {
                         message.channel.send("That command can only be used on servers.");
                         return;
                     }

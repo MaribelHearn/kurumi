@@ -1022,8 +1022,11 @@
                 embed.addField("Humidity", humidity + "%", true);
                 embed.addField("Wind Speed", wind + " m/s" + direction, true);
                 channel.send({embed}).catch(console.error);
-                cooldown = true;
-                timers.setInterval(function () { cooldown = false; }, permData.servers[server.id].cooldownSecs * 1000);
+                
+                if (channel.type != "dm") {
+                    cooldown = true;
+                    timers.setInterval(function () { cooldown = false; }, permData.servers[server.id].cooldownSecs * 1000);
+                }
             });
         }
     },
