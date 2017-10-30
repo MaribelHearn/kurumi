@@ -110,19 +110,11 @@ bot.on("disconnect", function () {
 });
 
 bot.on("warn", function (warning) {
-    for (var id in servers) {
-        if (servers[id].isTestingServer) {
-            bot.guilds.get(id).defaultchannel.send(warning);
-        }
-    }
+    console.log("Warning:", warning);
 });
 
 bot.on("error", function (error) {
-    for (var id in servers) {
-        if (servers[id].isTestingServer) {
-            bot.guilds.get(id).defaultchannel.send(error);
-        }
-    }
+    console.log("Error:", error);
 });
 
 bot.on("guildCreate", function (server) {
