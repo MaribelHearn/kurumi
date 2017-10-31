@@ -235,6 +235,12 @@ module.exports = {
             return result;
         };
         
+        global.isServerOnly = function (commandFunction) {
+            var string = commandFunction.toString();
+            
+            return (string.contains("server.") || string.contains("playYouTube")) && string.indexOf("server.") != string.indexOf("server.id].cooldownSecs");
+        }
+        
         global.strip = function (string) {
             return string.replace(/<\/?[^>]*>/g, "");
         };
@@ -778,19 +784,23 @@ module.exports = {
             
             var voiceChannel = server.channels.get(permData.servers[server.id].voiceChannel);
             
-            voiceChannel.join().then(connection => {
-                const stream = ytdl(music, {filter: "audioonly"});
-                
-                const dispatcher = connection.playStream(stream, streamOptions);
-                
-                dispatcher.on("end", reason => {
-                    console.log(timeStamp() + "Dispatcher ended. Reason: " + reason);
-                });
-                
-                dispatcher.on("error", err => {
-                    channel.send(err).catch(console.error);
-                });
-            }).catch(console.error);
+            try {
+                voiceChannel.join().then(connection => {
+                    const stream = ytdl(music, {filter: "audioonly"});
+                    
+                    const dispatcher = connection.playStream(stream, streamOptions);
+                    
+                    dispatcher.on("end", reason => {
+                        console.log(timeStamp() + "Dispatcher ended. Reason: " + reason);
+                    });
+                    
+                    dispatcher.on("error", err => {
+                        channel.send(err).catch(console.error);
+                    });
+                }).catch(console.error);
+            } catch (err) {
+                channel.send(err);
+            }
         };
         
         global.countLNNs = function (game) {

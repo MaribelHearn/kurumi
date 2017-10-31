@@ -16,7 +16,7 @@ module.exports = {
                 // Get command name
                 var commandName = content.slice(1).split(' ')[0];
                 
-                // No aliases or music commands in DMs
+                // No aliases in DMs
                 if (server) {
                     // Alias Check
                     aliasesList = serverData[server.id].aliasesList;
@@ -32,29 +32,34 @@ module.exports = {
                             return;
                         }
                     }
+                }
                 
-                    // Music Command Check
-                    if (musicLocal.hasOwnProperty(commandName) || musicYouTube.hasOwnProperty(commandName)) {
-                        var musicCommand = (musicLocal.hasOwnProperty(commandName) ? musicLocal[commandName] : musicYouTube[commandName]);
-                        
-                        if (!servers[server.id].voiceChannel) {
-                            channel.send(message.author + ", music commands are currently unusable, since I have not been assigned a voice channel.");
-                            return;
-                        }
-                        
-                        if (musicBlocked) {
-                            message.channel.send(message.author + ", music commands are currently blocked.");
-                            return;
-                        }
+                // Music Command Check
+                if (musicLocal.hasOwnProperty(commandName) || musicYouTube.hasOwnProperty(commandName)) {
+                    var musicCommand = (musicLocal.hasOwnProperty(commandName) ? musicLocal[commandName] : musicYouTube[commandName]);
                     
-                        if (musicLocal.hasOwnProperty(commandName)) {
-                            playLocal(server, musicCommand.file, musicCommand.volume);
-                        } else {
-                            playYouTube(server, musicCommand.link, musicCommand.volume);
-                        }
-                        
+                    if (channelType == "dm") {
+                        message.channel.send("Music commands can only be used on servers.");
                         return;
                     }
+                    
+                    if (!servers[server.id].voiceChannel) {
+                        channel.send(message.author + ", music commands are currently unusable, since I have not been assigned a voice channel.");
+                        return;
+                    }
+                    
+                    if (musicBlocked) {
+                        message.channel.send(message.author + ", music commands are currently blocked.");
+                        return;
+                    }
+                
+                    if (musicLocal.hasOwnProperty(commandName)) {
+                        playLocal(server, musicCommand.file, musicCommand.volume);
+                    } else {
+                        playYouTube(server, musicCommand.link, musicCommand.volume);
+                    }
+                    
+                    return;
                 }
                 
                 // Image Command Check
@@ -139,7 +144,7 @@ module.exports = {
                         return;
                     }
                     
-                    if (commandFunction.toString().contains("server.") && commandFunction.toString().indexOf("server.") != commandFunction.toString().indexOf("server.id].cooldownSecs")) {
+                    if (isServerOnly(commandFunction)) {
                         message.channel.send("That command can only be used on servers.");
                         return;
                     }
