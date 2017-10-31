@@ -238,7 +238,7 @@ module.exports = {
         global.isServerOnly = function (commandFunction) {
             var string = commandFunction.toString();
             
-            return (string.contains("server.") || string.contains("playYouTube")) && string.indexOf("server.") != string.indexOf("server.id].cooldownSecs");
+            return (string.contains("server.") || string.contains("playYouTube")) && (string.indexOf("server.") == -1 || string.indexOf("server.") != string.indexOf("server.id].cooldownSecs"));
         }
         
         global.strip = function (string) {
