@@ -173,7 +173,7 @@
     
     serverinfo: {
         help: function (command, symbol) {
-            return "`" + symbol + command + "`: posts information about the server";
+            return "`" + symbol + command + "`: posts information about the server.";
         },
         
         command: function (message, server, command, channel) {
@@ -190,6 +190,21 @@
             embed.addField("Roles", sep(server.roles.size), true);
             embed.addField("Icon Source", "[Link](" + server.iconURL + ")", true);
             channel.send({embed}).catch(console.error);
+        }
+    },
+    
+    emojis: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + "`: posts the current server emojis.";
+        },
+        
+        command: function (message, server, command, channel) {
+            if (server.emojis.size === 0) {
+                channel.send("There are no server emojis!").catch(console.error);
+                return;
+            }
+            
+            channel.send("Server emojis: " + server.emojis.array().join(' ') + "\nThere are currently **" + server.emojis.size + "** emojis total.").catch(console.error);
         }
     },
     
