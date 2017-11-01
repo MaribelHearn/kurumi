@@ -91,7 +91,7 @@
             
             delete aliasesList[id][alias];
             save("aliasesList", server);
-            channel.send("Alias deleted.");
+            channel.send("Alias deleted.").catch(console.error);
         }
     },
     
@@ -214,7 +214,7 @@
             }
             
             user.addRole(lewdAccess);
-            channel.send(message.author + " has been granted lewd access!");
+            channel.send(message.author + " has been granted lewd access!").catch(console.error);
         }
     },
     
@@ -239,7 +239,7 @@
             }
             
             user.removeRole(lewdAccess);
-            channel.send(message.author + " has been removed from the lewd channel!");
+            channel.send(message.author + " has been removed from the lewd channel!").catch(console.error);
         }
     },
     
@@ -269,14 +269,14 @@
             
             if (user.roles.has(factions.water) || user.roles.has(factions.earth) || user.roles.has(factions.wind)) {
                 user.removeRoles(otherFactions).then(member => {
-                    member.addRole(fire).then().catch(console.error);
+                    member.addRole(fire).catch(console.error);
                     channel.send(member + " is now a " + fire + "!");
                     return;
                 }).catch(console.error);
             }
             
-            user.addRole(fire).then().catch(console.error);
-            channel.send(user + " is now a " + fire + "!");
+            user.addRole(fire).catch(console.error);
+            channel.send(user + " is now a " + fire + "!").catch(console.error);
         }
     },
     
@@ -306,14 +306,14 @@
             
             if (user.roles.has(factions.fire) || user.roles.has(factions.earth) || user.roles.has(factions.wind)) {
                 user.removeRoles(otherFactions).then(member => {
-                    member.addRole(water).then().catch(console.error);
+                    member.addRole(water).catch(console.error);
                     channel.send(member + " is now a " + water + "!");
                     return;
                 }).catch(console.error);
             }
             
-            user.addRole(water).then().catch(console.error);
-            channel.send(user + " is now a " + water + "!");
+            user.addRole(water).catch(console.error);
+            channel.send(user + " is now a " + water + "!").catch(console.error);
         }
     },
     
@@ -343,14 +343,14 @@
             
             if (user.roles.has(factions.fire) || user.roles.has(factions.water) || user.roles.has(factions.wind)) {
                 user.removeRoles(otherFactions).then(member => {
-                    member.addRole(earth).then().catch(console.error);
+                    member.addRole(earth).catch(console.error);
                     channel.send(member + " is now a " + earth + "!");
                     return;
                 }).catch(console.error);
             }
             
-            user.addRole(earth).then().catch(console.error);
-            channel.send(user + " is now a " + earth + "!");
+            user.addRole(earth).catch(console.error);
+            channel.send(user + " is now a " + earth + "!").catch(console.error);
         }
     },
     
@@ -380,14 +380,14 @@
             
             if (user.roles.has(factions.fire) || user.roles.has(factions.water) || user.roles.has(factions.earth)) {
                 user.removeRoles(otherFactions).then(member => {
-                    member.addRole(wind).then().catch(console.error);
+                    member.addRole(wind).catch(console.error);
                     channel.send(member + " is now a " + wind + "!");
                     return;
                 }).catch(console.error);
             }
             
-            user.addRole(wind).then().catch(console.error);
-            channel.send(user + " is now a " + wind + "!");
+            user.addRole(wind).catch(console.error);
+            channel.send(user + " is now a " + wind + "!").catch(console.error);
         }
     },
     
@@ -428,7 +428,8 @@
                 }
             }
             
-            channel.send("Member counts for the Kuruminist factions:\n" + fire + ": " + fireMembers + "\n" + water + ": " + waterMembers + "\n" + earth + ": " + earthMembers + "\n" + wind + ": " + windMembers);
+            channel.send("Member counts for the Kuruminist factions:\n" + fire + ": " + fireMembers + "\n" + water +
+            ": " + waterMembers + "\n" + earth + ": " + earthMembers + "\n" + wind + ": " + windMembers).catch(console.error);
         }
     },
     
@@ -441,7 +442,7 @@
             var role = command[1];
             
             if (!role) {
-                channel.send(message.author + ", please specify a role to check the member count of.");
+                channel.send(message.author + ", please specify a role to check the member count of.").catch(console.error);
                 return;
             }
             
@@ -454,12 +455,12 @@
             }
             
             if (!roleNames.hasOwnProperty(role)) {
-                channel.send(message.author + ", please specify a valid role to check the member count of.");
+                channel.send(message.author + ", please specify a valid role to check the member count of.").catch(console.error);
                 return;
             }
             
             role = server.roles.find("name", roleNames[role]);
-            channel.send("Member count for " + (role.mentionable ? role.name : role) + ": " + sep(role.members.size));
+            channel.send("Member count for " + (role.mentionable ? role.name : role) + ": " + sep(role.members.size)).catch(console.error);
         }
     },
     
@@ -473,14 +474,14 @@
             var game = command[1], acronym = "LNN", LNNs = permData.LNNs;
             
             if (!game) {
-                channel.send(message.author + ", please specify a game to check LNNs of.");
+                channel.send(message.author + ", please specify a game to check LNNs of.").catch(console.error);
                 return;
             }
             
             game = gameName(game.toLowerCase());
             
             if (!LNNs.hasOwnProperty(game)) {
-                channel.send(message.author + ", please specify a valid game to check LNNs of.");
+                channel.send(message.author + ", please specify a valid game to check LNNs of.").catch(console.error);
                 return;
             }
             
@@ -502,17 +503,17 @@
                 }
                 
                 if (!LNNs[game][shot]) {
-                    channel.send(message.author + ", " + shot.replace("Team", " Team") + " is not a valid shottype or route.");
+                    channel.send(message.author + ", " + shot.replace("Team", " Team") + " is not a valid shottype or route.").catch(console.error);
                     return;
                 } else if (LNNs[game][shot].length === 0) {
-                    channel.send("There are no " + game + " " + acronym + " runs with " + shot + ".");
+                    channel.send("There are no " + game + " " + acronym + " runs with " + shot + ".").catch(console.error);
                     return;
                 }
                 
                 list = LNNs[game][shot].sort().join(", ");
                 total += LNNs[game][shot].length;
                 channel.send("List of players who have " + game + " " + acronym + " with " + shot.replace("Team", " Team") + ":```" + list + "```\n" +
-                "Total number of players who have " + game + " " + acronym + " with " + shot.replace("Team", " Team") + ": " + total + ".");
+                "Total number of players who have " + game + " " + acronym + " with " + shot.replace("Team", " Team") + ": " + total + ".").catch(console.error);
                 return;
             }
             
@@ -525,12 +526,12 @@
             count = countLNNs(game);
                 
             if (count === 0) {
-                channel.send("There are no " + game + " " + acronym + " runs.");
+                channel.send("There are no " + game + " " + acronym + " runs.").catch(console.error);
                 return;
             }
             
             channel.send("List of players who have " + game + " " + acronym + ":\n```\n" + list + "```\n" +
-            "Total number of players who have " + game + " " + acronym + ": " + count + ".\n");
+            "Total number of players who have " + game + " " + acronym + ": " + count + ".\n").catch(console.error);
         }
     },
     
@@ -544,14 +545,14 @@
             var game = command[1];
             
             if (!game) {
-                channel.send(message.author + ", please specify a game to check a world record of.");
+                channel.send(message.author + ", please specify a game to check a world record of.").catch(console.error);
                 return;
             }
             
             game = gameName(game.toLowerCase());
             
             if (!permData.WRs.hasOwnProperty(game)) {
-                channel.send(message.author + ", please specify a valid game to check a world record of.");
+                channel.send(message.author + ", please specify a valid game to check a world record of.").catch(console.error);
                 return;
             }
             
@@ -564,7 +565,7 @@
             }
             
             if (!permData.WRs[game][difficulty]) {
-                channel.send(message.author + ", please specify a valid difficulty to check a world record of.");
+                channel.send(message.author + ", please specify a valid difficulty to check a world record of.").catch(console.error);
                 return;
             }
             
@@ -578,7 +579,7 @@
                 }
                 
                 if (!permData.WRs[game][difficulty][shot]) {
-                    channel.send(message.author + ", " + shot.replace("Team", " Team") + " is not a valid shottype or route.");
+                    channel.send(message.author + ", " + shot.replace("Team", " Team") + " is not a valid shottype or route.").catch(console.error);
                     return;
                 }
             }
@@ -599,11 +600,12 @@
             var wrArray = difficultyWRs[shot], wr = sep(wrArray[0]), player = wrArray[1], replay = wrArray[2];
             
             if (wr === "0") {
-                channel.send("There is no known world record for that category!");
+                channel.send("There is no known world record for that category!").catch(console.error);
                 return;
             }
             
-            channel.send("The world record for " + game + " " + difficulty + " " + shot.replace("Team", " Team") + " is " + wr + " by " + player + "." + (shot == overall ? " (overall WR)" : ""));
+            channel.send("The world record for " + game + " " + difficulty + " " + shot.replace("Team", " Team") +
+            " is " + wr + " by " + player + "." + (shot == overall ? " (overall WR)" : "")).catch(console.error);
         }
     },
     
@@ -617,33 +619,33 @@
             var game = command[1];
             
             if (!game) {
-                channel.send(message.author + ", please specify a game to check the world records of.");
+                channel.send(message.author + ", please specify a game to check the world records of.").catch(console.error);
                 return;
             }
             
             game = gameName(game.toLowerCase());
             
             if (!permData.WRs[game]) {
-                channel.send(message.author + ", please specify a valid game to check the world records of.");
+                channel.send(message.author + ", please specify a valid game to check the world records of.").catch(console.error);
                 return;
             }
             
             var difficulty = command[2];
             
             if (!difficulty) {
-                channel.send(message.author + ", please specify a difficulty to check the world records of.");
+                channel.send(message.author + ", please specify a difficulty to check the world records of.").catch(console.error);
                 return
             }
             
             difficulty = cap(difficulty.toLowerCase());
             
             if (!permData.WRs[game][difficulty]) {
-                channel.send(message.author + ", please specify a valid difficulty to check the world records of.");
+                channel.send(message.author + ", please specify a valid difficulty to check the world records of.").catch(console.error);
                 return;
             }
             
             if (game == "GFW" && difficulty == "Extra") {
-                channel.send(message.author + " >implying GFW Extra has a list of records");
+                channel.send(message.author + " >implying GFW Extra has a list of records").catch(console.error);
                 return;
             }
             
@@ -655,7 +657,7 @@
                 order = order.toLowerCase().replace("type", "").replace("shots", "shot").replace("scores", "score");
                 
                 if (order != "shot" && order != "score") {
-                    channel.send(message.author + ", please specify a valid order to sort the world records with.");
+                    channel.send(message.author + ", please specify a valid order to sort the world records with.").catch(console.error);
                     return;
                 }
                 
@@ -700,11 +702,11 @@
             
             
             if (list === "") {
-                channel.send("There are no known world records for that difficulty!");
+                channel.send("There are no known world records for that difficulty!").catch(console.error);
                 return;
             }
             
-            channel.send("List of " + game + " " + difficulty + " records (ordered by " + order + "):\n```Markdown\n" + list + "```");
+            channel.send("List of " + game + " " + difficulty + " records (ordered by " + order + "):\n```Markdown\n" + list + "```").catch(console.error);
         }
     },
     
@@ -717,35 +719,35 @@
             var game = command[1];
             
             if (!game) {
-                channel.send(message.author + ", please specify a game to update a world record of.");
+                channel.send(message.author + ", please specify a game to update a world record of.").catch(console.error);
                 return;
             }
             
             game = gameName(game.toLowerCase());
             
             if (!permData.WRs[game]) {
-                channel.send(message.author + ", please specify a valid game to update a world record of.");
+                channel.send(message.author + ", please specify a valid game to update a world record of.").catch(console.error);
                 return;
             }
             
             var difficulty = command[2];
             
             if (!difficulty) {
-                channel.send(message.author + ", please specify a difficulty to update a world record of.");
+                channel.send(message.author + ", please specify a difficulty to update a world record of.").catch(console.error);
                 return;
             }
             
             difficulty = cap(difficulty.toLowerCase());
             
             if (!permData.WRs[game][difficulty]) {
-                channel.send(message.author + ", please specify a valid difficulty to update a world record of.");
+                channel.send(message.author + ", please specify a valid difficulty to update a world record of.").catch(console.error);
                 return;
             }
             
             var shot = command[3], difficultyWRs = permData.WRs[game][difficulty];
             
             if (!shot) {
-                channel.send(message.author + ", please specify a shottype or route to update the world record of.");
+                channel.send(message.author + ", please specify a shottype or route to update the world record of.").catch(console.error);
                 return;
             }
              
@@ -757,7 +759,7 @@
                 }
                 
                 if (!permData.WRs[game][difficulty][shot]) {
-                    channel.send(message.author + ", " + shot + " is not a valid shottype or route.");
+                    channel.send(message.author + ", " + shot + " is not a valid shottype or route.").catch(console.error);
                     return;
                 }
             }
@@ -765,12 +767,12 @@
             var newWR = command[4];
             
             if (!newWR || isNaN(newWR.replace(/\./g, "").replace(/\,/g, ""))) {
-                channel.send(message.author + ", please specify the new world record.");
+                channel.send(message.author + ", please specify the new world record.").catch(console.error);
                 return;
             }
             
             if (Number(newWR) > MAX_SCORE || Number(newWR) <= 0) {
-                channel.send(message.author + ", please specify a valid new world record.");
+                channel.send(message.author + ", please specify a valid new world record.").catch(console.error);
                 return;
             }
             
@@ -779,7 +781,7 @@
             var player = command[5];
             
             if (!player) {
-                channel.send(message.author + ", please specify the player that got the new world record.");
+                channel.send(message.author + ", please specify the player that got the new world record.").catch(console.error);
                 return;
             }
             
@@ -788,7 +790,7 @@
             WRarray = [newWR, player, replay, game, difficulty, shot];
             permData.notifyQueue.push(WRarray);
             save("notifyQueue");
-            channel.send("New WR added to the queue, waiting to be accepted by a mod.");
+            channel.send("New WR added to the queue, waiting to be accepted by a mod.").catch(console.error);
         }
     },
     
@@ -798,7 +800,7 @@
         },
         
         command: function (message, server, command, channel) {
-            channel.send("The world records were last updated at " + permData.WRsLastUpdated + ".");
+            channel.send("The world records were last updated at " + permData.WRsLastUpdated + ".").catch(console.error);
         }
     },
     
@@ -813,14 +815,14 @@
             var symbol = message.content.charAt(0);
             
             if (!feetAndInches) {
-                channel.send(message.author + ", use `" + symbol + "help meters` to learn how to use this command.");
+                channel.send(message.author + ", use `" + symbol + "help meters` to learn how to use this command.").catch(console.error);
                 return;
             }
             
             var notation = /(\d+)'\s*(\d+)''/; // e.g. 6' 4'' or 6'4''
             
             if (!notation.test(feetAndInches)) {
-                channel.send(message.author + ", use `" + symbol + "help meters` to learn how to use this command.");
+                channel.send(message.author + ", use `" + symbol + "help meters` to learn how to use this command.").catch(console.error);
                 return;
             }
             
@@ -837,7 +839,7 @@
             
             var meters = feetAndInchesToMeters(feetAndInches);
             
-            channel.send(message.author + ", " + feetAndInches + " is equal to " + meters + " meters in the metric system.");
+            channel.send(message.author + ", " + feetAndInches + " is equal to " + meters + " meters in the metric system.").catch(console.error);
         }
     },
     
@@ -850,12 +852,12 @@
             var meters = command[1];
             
             if (!meters) {
-                channel.send(message.author + ", please specify a number of meters to convert.");
+                channel.send(message.author + ", please specify a number of meters to convert.").catch(console.error);
                 return;
             }
             
             if (isNaN(meters)) {
-                channel.send(message.author + ", please specify a number of meters to convert.");
+                channel.send(message.author + ", please specify a number of meters to convert.").catch(console.error);
                 return;
             }
             
@@ -871,7 +873,7 @@
             
             var feetAndInches = metersToFeetAndInches(meters);
             
-            channel.send(message.author + ", " + meters + " meters is equal to " + feetAndInches + " in the imperial system.");
+            channel.send(message.author + ", " + meters + " meters is equal to " + feetAndInches + " in the imperial system.").catch(console.error);
         }
     },
     
@@ -884,18 +886,18 @@
             var miles = command[1];
             
             if (!miles) {
-                channel.send(message.author + ", please specify a number of miles to convert.");
+                channel.send(message.author + ", please specify a number of miles to convert.").catch(console.error);
                 return;
             }
             
             if (isNaN(miles)) {
-                channel.send(message.author + ", please specify a number of miles to convert.");
+                channel.send(message.author + ", please specify a number of miles to convert.").catch(console.error);
                 return;
             }
             
             var km = Math.round(miles * 1.609344);
             
-            channel.send(message.author + ", " + miles + " miles are equal to " + km + " kilometers.");
+            channel.send(message.author + ", " + miles + " miles are equal to " + km + " kilometers.").catch(console.error);
         }
     },
     
@@ -908,12 +910,12 @@
             var km = command[1];
             
             if (!km) {
-                channel.send(message.author + ", please specify a number of kilometers to convert.");
+                channel.send(message.author + ", please specify a number of kilometers to convert.").catch(console.error);
                 return;
             }
             
             if (isNaN(km)) {
-                channel.send(message.author + ", please specify a number of kilometers to convert.");
+                channel.send(message.author + ", please specify a number of kilometers to convert.").catch(console.error);
                 return;
             }
             
@@ -944,19 +946,19 @@
             var timezone = command[1], date = new Date(), offset, msUTC, msTimezone, localTime;
             
             if (!timezone) {
-                channel.send(message.author + ", please specify a UTC offset.");
+                channel.send(message.author + ", please specify a UTC offset.").catch(console.error);
                 return;
             }
             
             offset = Number(timezone.replace("UTC", "").replace("GMT", "").replace(':', '.'));
             
             if (isNaN(offset)) {
-                channel.send(message.author + ", please specify a UTC offset.");
+                channel.send(message.author + ", please specify a UTC offset.").catch(console.error);
                 return;
             }
             
             if (offset < -12 || offset > 14) {
-                channel.send(message.author + ", that time zone does not exist.");
+                channel.send(message.author + ", that time zone does not exist.").catch(console.error);
                 return;
             }
             
@@ -974,19 +976,19 @@
         
         command: function (message, server, command, channel) {
             if (permData.weatherKey === "") {
-                channel.send("This command is currently disabled. Use `!setweatherapi <API key>` to enable it.");
+                channel.send("This command is currently disabled. Use `!setweatherapi <API key>` to enable it.").catch(console.error);
                 return;
             }
             
             if (cooldown) {
-                channel.send("Please do not flood the channel!");
+                channel.send("Please do not flood the channel!").catch(console.error);
                 return;
             }
             
             var place = command[1];
             
             if (!place) {
-                channel.send(message.author + ", please specify a place to look up.");
+                channel.send(message.author + ", please specify a place to look up.").catch(console.error);
                 return;
             }
             
@@ -1040,18 +1042,18 @@
             var celsius = command[1];
             
             if (!celsius) {
-                channel.send(message.author + ", please specify a number of degrees Celsius to convert.");
+                channel.send(message.author + ", please specify a number of degrees Celsius to convert.").catch(console.error);
                 return;
             }
             
             if (isNaN(celsius)) {
-                channel.send(message.author + ", please specify a valid number of degrees Celsius to convert.");
+                channel.send(message.author + ", please specify a valid number of degrees Celsius to convert.").catch(console.error);
                 return;
             }
             
             var fahrenheit = Math.round(celsius * 1.8 + 32);
             
-            channel.send(message.author + ", " + celsius + " °C is equal to " + fahrenheit + " °F.");
+            channel.send(message.author + ", " + celsius + " °C is equal to " + fahrenheit + " °F.").catch(console.error);
         }
     },
     
@@ -1064,18 +1066,18 @@
             var celsius = command[1];
             
             if (!celsius) {
-                channel.send(message.author + ", please specify a number of degrees Celsius to convert.");
+                channel.send(message.author + ", please specify a number of degrees Celsius to convert.").catch(console.error);
                 return;
             }
             
             if (isNaN(celsius)) {
-                channel.send(message.author + ", please specify a valid number of degrees Celsius to convert.");
+                channel.send(message.author + ", please specify a valid number of degrees Celsius to convert.").catch(console.error);
                 return;
             }
             
             var kelvin = Math.round(Number(celsius) + 273.15);
             
-            channel.send(message.author + ", " + celsius + " °C is equal to " + kelvin + " °K.");
+            channel.send(message.author + ", " + celsius + " °C is equal to " + kelvin + " °K.").catch(console.error);
         }
     },
     
@@ -1088,18 +1090,18 @@
             var fahrenheit = command[1];
             
             if (!fahrenheit) {
-                channel.send(message.author + ", please specify a number of degrees Fahrenheit to convert.");
+                channel.send(message.author + ", please specify a number of degrees Fahrenheit to convert.").catch(console.error);
                 return;
             }
             
             if (isNaN(fahrenheit)) {
-                channel.send(message.author + ", please specify a valid number of degrees Fahrenheit to convert.");
+                channel.send(message.author + ", please specify a valid number of degrees Fahrenheit to convert.").catch(console.error);
                 return;
             }
             
             var celsius = Math.round((fahrenheit - 32) / 1.8);
             
-            channel.send(message.author + ", " + fahrenheit + " °F is equal to " + celsius + " °C.");
+            channel.send(message.author + ", " + fahrenheit + " °F is equal to " + celsius + " °C.").catch(console.error);
         }
     },
     
@@ -1112,18 +1114,18 @@
             var fahrenheit = command[1];
             
             if (!fahrenheit) {
-                channel.send(message.author + ", please specify a number of degrees Fahrenheit to convert.");
+                channel.send(message.author + ", please specify a number of degrees Fahrenheit to convert.").catch(console.error);
                 return;
             }
             
             if (isNaN(fahrenheit)) {
-                channel.send(message.author + ", please specify a valid number of degrees Fahrenheit to convert.");
+                channel.send(message.author + ", please specify a valid number of degrees Fahrenheit to convert.").catch(console.error);
                 return;
             }
             
             var kelvin = Math.round((Number(fahrenheit) + 459.67) / 1.8);
             
-            channel.send(message.author + ", " + fahrenheit + " °F is equal to " + kelvin + " °K.");
+            channel.send(message.author + ", " + fahrenheit + " °F is equal to " + kelvin + " °K.").catch(console.error);
         }
     },
     
@@ -1136,18 +1138,18 @@
             var kelvin = command[1];
             
             if (!kelvin) {
-                channel.send(message.author + ", please specify a number of degrees Kelvin to convert.");
+                channel.send(message.author + ", please specify a number of degrees Kelvin to convert.").catch(console.error);
                 return;
             }
             
             if (isNaN(kelvin)) {
-                channel.send(message.author + ", please specify a valid number of degrees Kelvin to convert.");
+                channel.send(message.author + ", please specify a valid number of degrees Kelvin to convert.").catch(console.error);
                 return;
             }
             
             var celsius = Math.round(kelvin - 273.15);
             
-            channel.send(message.author + ", " + kelvin + " °K is equal to " + celsius + " °C.");
+            channel.send(message.author + ", " + kelvin + " °K is equal to " + celsius + " °C.").catch(console.error);
         }
     },
     
@@ -1160,18 +1162,18 @@
             var kelvin = command[1];
             
             if (!kelvin) {
-                channel.send(message.author + ", please specify a number of degrees Kelvin to convert.");
+                channel.send(message.author + ", please specify a number of degrees Kelvin to convert.").catch(console.error);
                 return;
             }
             
             if (isNaN(kelvin)) {
-                channel.send(message.author + ", please specify a valid number of degrees Kelvin to convert.");
+                channel.send(message.author + ", please specify a valid number of degrees Kelvin to convert.").catch(console.error);
                 return;
             }
             
             var fahrenheit = Math.round(kelvin * 1.8 - 459.67);
             
-            channel.send(message.author + ", " + kelvin + " °K is equal to " + fahrenheit + " °F.");
+            channel.send(message.author + ", " + kelvin + " °K is equal to " + fahrenheit + " °F.").catch(console.error);
         }
     },
     
@@ -1184,26 +1186,26 @@
             var value = command[1];
             
             if (!value) {
-                channel.send(message.author + ", please specify an amount of a currency to convert.");
+                channel.send(message.author + ", please specify an amount of a currency to convert.").catch(console.error);
                 return;
             }
             
             if (isNaN(value)) {
-                channel.send(message.author + ", please specify a valid amount of a currency to convert.");
+                channel.send(message.author + ", please specify a valid amount of a currency to convert.").catch(console.error);
                 return;
             }
             
             var currency1 = command[2];
             
             if (!currency1) {
-                channel.send(message.author + ", please specify the currency to be converted into another.");
+                channel.send(message.author + ", please specify the currency to be converted into another.").catch(console.error);
                 return;
             }
             
             var currency2 = command[3];
             
             if (!currency2) {
-                channel.send(message.author + ", please specify the currency for the former to be converted into.");
+                channel.send(message.author + ", please specify the currency for the former to be converted into.").catch(console.error);
                 return;
             }
             
@@ -1219,12 +1221,12 @@
             var currencies = permData.currencies;
             
             if (!currencies.hasOwnProperty(currency1)) {
-                channel.send(message.author + ", please specify a valid currency to be converted into another.");
+                channel.send(message.author + ", please specify a valid currency to be converted into another.").catch(console.error);
                 return;
             }
             
             if (!currencies.hasOwnProperty(currency2)) {
-                channel.send(message.author + ", please specify a valid currency for the former to be converted into.");
+                channel.send(message.author + ", please specify a valid currency for the former to be converted into.").catch(console.error);
                 return;
             }
             
@@ -1232,7 +1234,8 @@
                 if (!error && response.statusCode == 200) {
                     var result = JSON.parse(body)[currency1 + "_" + currency2];
                     
-                    channel.send(message.author + ", " + currencies[currency1].currencySymbol + value + " is equal to " + currencies[currency2].currencySymbol + sep(result * value) + ".");
+                    channel.send(message.author + ", " + currencies[currency1].currencySymbol + value +
+                    " is equal to " + currencies[currency2].currencySymbol + sep(result * value) + ".").catch(console.error);
                 }
             });
         }

@@ -771,7 +771,7 @@ module.exports = {
                     }
                 }).catch(console.error);
             } catch (err) {
-                channel.send(err);
+                channel.send(err).catch(console.error);
             }
         };
         
@@ -799,7 +799,7 @@ module.exports = {
                     });
                 }).catch(console.error);
             } catch (err) {
-                channel.send(err);
+                channel.send(err).catch(console.error);
             }
         };
         

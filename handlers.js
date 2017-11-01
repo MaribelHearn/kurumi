@@ -9,7 +9,7 @@ module.exports = {
             try {
                 // Maintenance Mode
                 if (permData.maintenanceMode && (!server || !permData.servers[server.id].isTestingServer)) {
-                    message.channel.send(message.author + ", commands are currently disabled due to maintenance. They will return soon!");
+                    channel.send(message.author + ", commands are currently disabled due to maintenance. They will return soon!").catch(console.error);
                     return;
                 }
                 
@@ -28,7 +28,7 @@ module.exports = {
                     
                     for (var userId in aliasesList) {
                         if (userId != id && aliasesList[userId].hasOwnProperty(commandName) && (!server || servers[server.id].botChannels.contains(channel.id))) {
-                            message.channel.send(message.author + ", that is someone's alias for the `" + firstChar + aliasesList[userId][commandName] + "` command!");
+                            channel.send(message.author + ", that is someone's alias for the `" + firstChar + aliasesList[userId][commandName] + "` command!").catch(console.error);
                             return;
                         }
                     }
@@ -39,17 +39,17 @@ module.exports = {
                     var musicCommand = (musicLocal.hasOwnProperty(commandName) ? musicLocal[commandName] : musicYouTube[commandName]);
                     
                     if (channelType == "dm") {
-                        message.channel.send("Music commands can only be used on servers.");
+                        channel.send("Music commands can only be used on servers.").catch(console.error);
                         return;
                     }
                     
                     if (!servers[server.id].voiceChannel) {
-                        channel.send(message.author + ", music commands are currently unusable, since I have not been assigned a voice channel.");
+                        channel.send(message.author + ", music commands are currently unusable, since I have not been assigned a voice channel.").catch(console.error);
                         return;
                     }
                     
                     if (musicBlocked) {
-                        message.channel.send(message.author + ", music commands are currently blocked.");
+                        channel.send(message.author + ", music commands are currently blocked.").catch(console.error);
                         return;
                     }
                 
@@ -65,7 +65,7 @@ module.exports = {
                 // Image Command Check
                 if (images.hasOwnProperty(commandName)) {
                     if (fs.existsSync("./images/" + images[commandName].file)) {
-                        channel.send("", {"file": "./images/" + images[commandName].file});
+                        channel.send("", {"file": "./images/" + images[commandName].file}).catch(console.error);
                         cooldown = true;
                         
                         if (server) {
@@ -132,7 +132,7 @@ module.exports = {
                 // Argument Length Limit
                 for (i in command) {
                     if (command[i].length > permData.maxLength && id != botMaster && (!server || servers[server.id].botChannels.contains(channel.id))) {
-                        message.channel.send(message.author + ", please give me shorter command arguments.");
+                        channel.send(message.author + ", please give me shorter command arguments.").catch(console.error);
                         return;
                     }
                 }
@@ -140,12 +140,12 @@ module.exports = {
                 // DM Handler
                 if (channelType == "dm") {
                     if ((commandType == "mod" || commandType == "master") && id != botMaster) {
-                        message.channel.send("You do not have sufficient permission to run this command.");
+                        channel.send("You do not have sufficient permission to run this command.").catch(console.error);
                         return;
                     }
                     
                     if (isServerOnly(commandFunction)) {
-                        message.channel.send("That command can only be used on servers.");
+                        channel.send("That command can only be used on servers.").catch(console.error);
                         return;
                     }
                     
@@ -166,7 +166,7 @@ module.exports = {
                 
                 // Permissions
                 if (commandType == "master" && id != botMaster) {
-                    message.channel.send(message.author + ", you do not have sufficient permission to run this command.");
+                    channel.send(message.author + ", you do not have sufficient permission to run this command.").catch(console.error);
                     return;
                 }
                 
@@ -177,14 +177,14 @@ module.exports = {
                 }
                 
                 if (commandType == "mod" && !hasModRole(rolesArray)) {
-                    message.channel.send(message.author + ", you do not have sufficient permission to run this command.");
+                    channel.send(message.author + ", you do not have sufficient permission to run this command.").catch(console.error);
                     return;
                 }
                 
                 // Run the command
                 commandFunction(message, server, command, channel);
             } catch (err) {
-                message.channel.send("An error occurred while trying to run the `" + firstChar + commandName + "` command: " + err);
+                channel.send("An error occurred while trying to run the `" + firstChar + commandName + "` command: " + err).catch(console.error);
             }
             
             return;
@@ -192,7 +192,7 @@ module.exports = {
         
         /* Kek Detection */
         if (id != bot.user.id && servers[server.id].kekDetection && servers[server.id].botChannels.contains(channel.id) && (lower.detect("kek") || lower.detect("topkek") || lower.detect("topfuckingkek"))) {
-            channel.send("Please don't kek in here.");
+            channel.send("Please don't kek in here.").catch(console.error);
         }
         
         /* YouTube Links */
@@ -205,14 +205,14 @@ module.exports = {
                 request(googleUrl(vid), function (error, response, body) {
                     if (!error && response.statusCode == 200) {
                         if (!JSON.parse(body).items[0]) {
-                            message.channel.send("An error occurred while trying to fetch the YouTube video data.");
+                            channel.send("An error occurred while trying to fetch the YouTube video data.").catch(console.error);
                             return;
                         }
                         
                         var date = JSON.parse(body).items[0].snippet.publishedAt.UTC(), stats = JSON.parse(body).items[0].statistics;
                         
-                        message.channel.send("Published: " + date + ", " +
-                        "Views: " + sep(stats.viewCount) + ", Likes: " + sep(stats.likeCount) + ", Dislikes: " + sep(stats.dislikeCount) + ", Comments: " + sep(stats.commentCount));
+                        channel.send("Published: " + date + ", " + "Views: " + sep(stats.viewCount) + ", Likes: " + sep(stats.likeCount) +
+                        ", Dislikes: " + sep(stats.dislikeCount) + ", Comments: " + sep(stats.commentCount)).catch(console.error);
                     }
                 });
             }

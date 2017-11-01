@@ -8,7 +8,7 @@
             var id = message.author.id, username = message.author.username, badOpinions = serverData[server.id].badOpinions, goodOpinions = serverData[server.id].goodOpinions, opinion, opinionCount, rng;
             
             if (badOpinions.length === 0 && goodOpinions.length === 0) {
-                channel.send("There are no opinions I can choose from! How disappointing.");
+                channel.send("There are no opinions I can choose from! How disappointing.").catch(console.error);
                 return;
             }
             
@@ -31,7 +31,7 @@
                 }
             }
             
-            channel.send(opinion.replace(/%t/gi, TOUHOU_SHMUPS.rand()));
+            channel.send(opinion.replace(/%t/gi, TOUHOU_SHMUPS.rand())).catch(console.error);
         }
     },
     
@@ -44,11 +44,11 @@
             var question = command[1];
             
             if (!question) {
-                channel.send(message.author + ", please specify a question.");
+                channel.send(message.author + ", please specify a question.").catch(console.error);
                 return;
             }
             
-            channel.send(ANSWERS.rand());
+            channel.send(ANSWERS.rand()).catch(console.error);
         }
     },
     
@@ -59,17 +59,17 @@
         
         command: function (message, server, command, channel) {
             if (!command[1]) {
-                channel.send(message.author + ", please specify options.");
+                channel.send(message.author + ", please specify options.").catch(console.error);
                 return;
             }
             
             if (!command[2]) {
-                channel.send(message.author + ", please specify at least a second option.");
+                channel.send(message.author + ", please specify at least a second option.").catch(console.error);
                 return;
             }
             
             command.splice(0, 1);
-            channel.send(CHOICE.rand().replace("%o", command.rand()));
+            channel.send(CHOICE.rand().replace("%o", command.rand())).catch(console.error);
         }
     },
     
@@ -80,7 +80,7 @@
         
         command: function (message, server, command, channel) {
             if (cooldown) {
-                channel.send("Please do not flood the channel!");
+                channel.send("Please do not flood the channel!").catch(console.error);
                 return;
             }
             
@@ -125,7 +125,7 @@
             var originalQuery = command[1];
             
             if (!originalQuery) {
-                channel.send(message.author + ", please specify a search query.");
+                channel.send(message.author + ", please specify a search query.").catch(console.error);
                 return;
             }
             
@@ -138,12 +138,12 @@
                     var suggestions = JSON.parse(body)[1].join('\n');
                     
                     if (suggestions === "") {
-                        channel.send("No Google suggestions for that query.");
+                        channel.send("No Google suggestions for that query.").catch(console.error);
                     } else {
-                        channel.send(":regional_indicator_g: `Google` Suggestions for '" + originalQuery + "': ```" + suggestions + "```");
+                        channel.send(":regional_indicator_g: `Google` Suggestions for '" + originalQuery + "': ```" + suggestions + "```").catch(console.error);
                     }
                 } else {
-                    channel.send("Error " + statusCode + " " + camel(response.statusMessage) + ".");
+                    channel.send("Error " + statusCode + " " + camel(response.statusMessage) + ".").catch(console.error);
                 }
             });
         }
@@ -173,7 +173,7 @@
                 waifu = waifus[id];
             }
             
-            channel.send(message.author + " Your waifu today is **" + waifu + "**!");
+            channel.send(message.author + " Your waifu today is **" + waifu + "**!").catch(console.error);
         }
     },
     
@@ -202,7 +202,7 @@
                 touhouWaifu = touhouWaifus[id];
             }
             
-            channel.send(message.author + " Your Touhou waifu today is **" + touhouWaifu + "**!");
+            channel.send(message.author + " Your Touhou waifu today is **" + touhouWaifu + "**!").catch(console.error);
         }
     },
     
@@ -231,7 +231,7 @@
                 fanmemeWaifu = fanmemeWaifus[id];
             }
             
-            channel.send(message.author + " Your fanmeme waifu today is **" + fanmemeWaifu + "**!");
+            channel.send(message.author + " Your fanmeme waifu today is **" + fanmemeWaifu + "**!").catch(console.error);
         }
     },
     
@@ -260,7 +260,7 @@
                 lenenwaifu = lenenWaifus[id];
             }
             
-            channel.send(message.author + " Your Len'en waifu today is **" + lenenwaifu + "**!");
+            channel.send(message.author + " Your Len'en waifu today is **" + lenenwaifu + "**!").catch(console.error);
         }
     },
     
@@ -279,23 +279,23 @@
             }
             
             if (!waifu) {
-                channel.send(">not having a waifu");
-                channel.send("0/10");
+                channel.send(">not having a waifu").catch(console.error);
+                channel.send("0/10").catch(console.error);
                 return;
             }
             
             if (waifu.toLowerCase() == "kurumi") {
-                channel.send(":100: I rate that waifu **10/10**, of course!");
+                channel.send(":100: I rate that waifu **10/10**, of course!").catch(console.error);
                 return;
             }
             
             if (waifu == "The Challenge") {
-                channel.send(server.emojis.find("name", "HaveYouActuallyPlayedIt") + " I rate that waifu **Infinity/10**.");
+                channel.send(server.emojis.find("name", "HaveYouActuallyPlayedIt") + " I rate that waifu **Infinity/10**.").catch(console.error);
                 return;
             }
             
             if (waifu == "ur waifu") {
-                channel.send("ur waifu a shit");
+                channel.send("ur waifu a shit").catch(console.error);
                 return;
             }
             
@@ -316,7 +316,7 @@
                 emote = "thumb" + (rating >= 6 ? "up" : "down");
             }
             
-            channel.send(":" + emote + ": I rate that waifu **" + rating + "/10**.");
+            channel.send(":" + emote + ": I rate that waifu **" + rating + "/10**.").catch(console.error);
         }
     },
     
@@ -329,18 +329,18 @@
             var author = command[1], quotes = serverData[server.id].quotes;
             
             if (quotes.isEmpty()) {
-                channel.send(message.author + ", there are no saved quotes.");
+                channel.send(message.author + ", there are no saved quotes.").catch(console.error);
                 return;
             }
             
             author = (author ? author.toLowerCase() : Object.keys(quotes).rand());
         
             if (!quotes.hasOwnProperty(author)) {
-                channel.send(message.author + ", that author does not have any saved quotes.");
+                channel.send(message.author + ", that author does not have any saved quotes.").catch(console.error);
                 return;
             }
             
-            channel.send("```" + quotes[author].list.rand() + "```\n- " + quotes[author].name);
+            channel.send("```" + quotes[author].list.rand() + "```\n- " + quotes[author].name).catch(console.error);
         }
     },
     
@@ -353,23 +353,23 @@
             var author = command[1], quotes = serverData[server.id].quotes;
             
             if (!author) {
-                channel.send(message.author + ", please specify an author.");
+                channel.send(message.author + ", please specify an author.").catch(console.error);
                 return;
             }
             
             if (quotes.isEmpty()) {
-                channel.send(message.author + ", there are no saved quotes.");
+                channel.send(message.author + ", there are no saved quotes.").catch(console.error);
                 return;
             }
             
             author = author.toLowerCase();
             
             if (!quotes[author]) {
-                channel.send(message.author + ", that author does not have any saved quotes.");
+                channel.send(message.author + ", that author does not have any saved quotes.").catch(console.error);
                 return;
             }
             
-            channel.send(quotes[author].name + " has been quoted **" + quotes[author].list.length + "** times.");
+            channel.send(quotes[author].name + " has been quoted **" + quotes[author].list.length + "** times.").catch(console.error);
         }
     },
     
@@ -382,7 +382,7 @@
             var quotes = serverData[server.id].quotes, total = 0, names = [], author;
             
             if (quotes.isEmpty()) {
-                channel.send(message.author + ", there are no saved quotes.");
+                channel.send(message.author + ", there are no saved quotes.").catch(console.error);
                 return;
             }
             
@@ -392,7 +392,7 @@
             }
             
             channel.send("There are currently **" + total + "** quotes total, and **" + Object.keys(quotes).length +
-            "** different authors have been quoted.\nQuoted authors: " + names.join(", ") + ".");
+            "** different authors have been quoted.\nQuoted authors: " + names.join(", ") + ".").catch(console.error);
         }
     },
     
@@ -406,19 +406,18 @@
             var name = command[1], quotes = serverData[server.id].quotes, members, author;
             
             if (!name) {
-                channel.send(message.author + ", please specify an author to add a quote to.");
+                channel.send(message.author + ", please specify an author to add a quote to.").catch(console.error);
                 return;
             }
             
             var quote = command[2];
             
             if (!quote) {
-                channel.send(message.author + ", please specify a quote to add.");
+                channel.send(message.author + ", please specify a quote to add.").catch(console.error);
                 return;
             }
             
             members = toUsers(server.members);
-            console.log(members);
             author = name.toLowerCase();
             
             if (members.hasOwnProperty(author)) {
@@ -430,13 +429,13 @@
             }
             
             if (quotes[author].list.contains(quote)) {
-                channel.send(message.author + ", that line has already been quoted.");
+                channel.send(message.author + ", that line has already been quoted.").catch(console.error);
                 return;
             }
             
             quotes[author].list.push(quote);
             save("quotes", server);
-            channel.send("Quote added.");
+            channel.send("Quote added.").catch(console.error);
         }
     },
     
@@ -452,13 +451,13 @@
                 user = user.toLowerCase();
                 
                 if (members.hasOwnProperty(user)) {
-                    channel.send(":heart: **" + members[user].username + "** has been attracted by " + name + "! :heart:");
+                    channel.send(":heart: **" + members[user].username + "** has been attracted by " + name + "! :heart:").catch(console.error);
                     return;
                 }
                 
-                channel.send(":heart: **" + command[1] + "** has been attracted by " + name + "! :heart:");
+                channel.send(":heart: **" + command[1] + "** has been attracted by " + name + "! :heart:").catch(console.error);
             } else {
-                channel.send(":heart: **" + server.members.random().user.username + "** has been attracted by " + name + "! :heart:");
+                channel.send(":heart: **" + server.members.random().user.username + "** has been attracted by " + name + "! :heart:").catch(console.error);
             }
         }
     },
@@ -475,13 +474,13 @@
                 user = user.toLowerCase();
                 
                 if (members.hasOwnProperty(user)) {
-                    channel.send(":fire: **" + members[user].username + "** has been burned by " + name + "! :fire:");
+                    channel.send(":fire: **" + members[user].username + "** has been burned by " + name + "! :fire:").catch(console.error);
                     return;
                 }
                 
-                channel.send(":fire: **" + command[1] + "** has been burned by " + name + "! :fire:");
+                channel.send(":fire: **" + command[1] + "** has been burned by " + name + "! :fire:").catch(console.error);
             } else {
-                channel.send(":fire: **" + server.members.random().user.username + "** has been burned by " + name + "! :fire:");
+                channel.send(":fire: **" + server.members.random().user.username + "** has been burned by " + name + "! :fire:").catch(console.error);
             }
         }
     },
@@ -498,13 +497,13 @@
                 user = user.toLowerCase();
                 
                 if (members.hasOwnProperty(user)) {
-                    channel.send(":question: **" + members[user].username + "** has been confused by " + name + "! :question:");
+                    channel.send(":question: **" + members[user].username + "** has been confused by " + name + "! :question:").catch(console.error);
                     return;
                 }
                 
-                channel.send(":question: **" + command[1] + "** has been confused by " + name + "! :question:");
+                channel.send(":question: **" + command[1] + "** has been confused by " + name + "! :question:").catch(console.error);
             } else {
-                channel.send(":question: **" + server.members.random().user.username + "** has been confused by " + name + "! :question:");
+                channel.send(":question: **" + server.members.random().user.username + "** has been confused by " + name + "! :question:").catch(console.error);
             }
         }
     },
@@ -521,13 +520,13 @@
                 user = user.toLowerCase();
                 
                 if (members.hasOwnProperty(user)) {
-                    channel.send(":snowflake: **" + members[user].username + "** has been frozen by " + name + "! :snowflake:");
+                    channel.send(":snowflake: **" + members[user].username + "** has been frozen by " + name + "! :snowflake:").catch(console.error);
                     return;
                 }
                 
-                channel.send(":snowflake: **" + command[1] + "** has been frozen by " + name + "! :snowflake:");
+                channel.send(":snowflake: **" + command[1] + "** has been frozen by " + name + "! :snowflake:").catch(console.error);
             } else {
-                channel.send(":snowflake: **" + server.members.random().user.username + "** has been frozen by " + name + "! :snowflake:");
+                channel.send(":snowflake: **" + server.members.random().user.username + "** has been frozen by " + name + "! :snowflake:").catch(console.error);
             }
         }
     },
@@ -544,13 +543,13 @@
                 user = user.toLowerCase();
                 
                 if (members.hasOwnProperty(user)) {
-                    channel.send(":radioactive: **" + members[user].username + "** has been nuked by " + name + "! :radioactive:");
+                    channel.send(":radioactive: **" + members[user].username + "** has been nuked by " + name + "! :radioactive:").catch(console.error);
                     return;
                 }
                 
-                channel.send(":radioactive: **" + command[1] + "** has been nuked by " + name + "! :radioactive:");
+                channel.send(":radioactive: **" + command[1] + "** has been nuked by " + name + "! :radioactive:").catch(console.error);
             } else {
-                channel.send(":radioactive: **" + server.members.random().user.username + "** has been nuked by " + name + "! :radioactive:");
+                channel.send(":radioactive: **" + server.members.random().user.username + "** has been nuked by " + name + "! :radioactive:").catch(console.error);
             }
         }
     },
@@ -567,13 +566,13 @@
                 user = user.toLowerCase();
                 
                 if (members.hasOwnProperty(user)) {
-                    channel.send(":skull: **" + members[user].username + "** has been poisoned by " + name + "! :skull:");
+                    channel.send(":skull: **" + members[user].username + "** has been poisoned by " + name + "! :skull:").catch(console.error);
                     return;
                 }
                 
-                channel.send(":skull: **" + command[1] + "** has been poisoned by " + name + "! :skull:");
+                channel.send(":skull: **" + command[1] + "** has been poisoned by " + name + "! :skull:").catch(console.error);
             } else {
-                channel.send(":skull: **" + server.members.random().user.username + "** has been poisoned by " + name + "! :skull:");
+                channel.send(":skull: **" + server.members.random().user.username + "** has been poisoned by " + name + "! :skull:").catch(console.error);
             }
         }
     },
@@ -590,13 +589,13 @@
                 user = user.toLowerCase();
                 
                 if (members.hasOwnProperty(user)) {
-                    channel.send(":zap: **" + members[user].username + "** has been paralyzed by " + name + "! :zap:");
+                    channel.send(":zap: **" + members[user].username + "** has been paralyzed by " + name + "! :zap:").catch(console.error);
                     return;
                 }
                 
-                channel.send(":zap: **" + command[1] + "** has been paralyzed by " + name + "! :zap:");
+                channel.send(":zap: **" + command[1] + "** has been paralyzed by " + name + "! :zap:").catch(console.error);
             } else {
-                channel.send(":zap: **" + server.members.random().user.username + "** has been paralyzed by " + name + "! :zap:");
+                channel.send(":zap: **" + server.members.random().user.username + "** has been paralyzed by " + name + "! :zap:").catch(console.error);
             }
         }
     },
@@ -613,13 +612,13 @@
                 user = user.toLowerCase();
                 
                 if (members.hasOwnProperty(user)) {
-                    channel.send(":zzz: **" + members[user].username + "** has been put to sleep by " + name + "! :zzz:");
+                    channel.send(":zzz: **" + members[user].username + "** has been put to sleep by " + name + "! :zzz:").catch(console.error);
                     return;
                 }
                 
-                channel.send(":zzz: **" + command[1] + "** has been put to sleep by " + name + "! :zzz:");
+                channel.send(":zzz: **" + command[1] + "** has been put to sleep by " + name + "! :zzz:").catch(console.error);
             } else {
-                channel.send(":zzz: **" + server.members.random().user.username + "** has been put to sleep by " + name + "! :zzz:");
+                channel.send(":zzz: **" + server.members.random().user.username + "** has been put to sleep by " + name + "! :zzz:").catch(console.error);
             }
         }
     },
@@ -633,14 +632,14 @@
             var link = command[1];
         
             if (!link) {
-                channel.send(message.author + ", please specify the YouTube video to be streamed.");
+                channel.send(message.author + ", please specify the YouTube video to be streamed.").catch(console.error);
                 return;
             }
             
             link = url.parse(link);
             
             if (link.hostname != "youtu.be" && (link.hostname != "www.youtube.com" || link.pathname != "/watch" || link.search.substring(0, 3) != "?v=")) {
-                channel.send(message.author + ", that is not a YouTube video!");
+                channel.send(message.author + ", that is not a YouTube video!").catch(console.error);
                 return;
             }
             

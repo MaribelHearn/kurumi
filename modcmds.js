@@ -8,7 +8,7 @@
             var toBeKicked = command[1];
             
             if (!toBeKicked) {
-                channel.send(message.author + ", please specify the user to be kicked.");
+                channel.send(message.author + ", please specify the user to be kicked.").catch(console.error);
                 return;
             }
             
@@ -19,12 +19,12 @@
             if (members.hasOwnProperty(toBeKicked)) {
                 var reason = (command[2] ? command[2] : permData.servers[server.id].defaultReason);
                 
-                channel.send("**" + members[toBeKicked].username + "** has been kicked from the server! [Reason: " + reason + "]");
+                channel.send("**" + members[toBeKicked].username + "** has been kicked from the server! [Reason: " + reason + "]").catch(console.error);
                 server.members.get(members[toBeKicked].id).kick();
                 return;
             }
             
-            channel.send(message.author + ", there is no such user on this server.");
+            channel.send(message.author + ", there is no such user on this server.").catch(console.error);
         }
     },
     
@@ -37,7 +37,7 @@
             var toBeBanned = command[1];
             
             if (!toBeBanned) {
-                channel.send(message.author + ", please specify the user to be banned.");
+                channel.send(message.author + ", please specify the user to be banned.").catch(console.error);
                 return;
             }
             
@@ -51,16 +51,16 @@
                 var deleteDays = (command[3] ? command[3] : 0);
                 
                 if (isNaN(deleteDays) || deleteDays < 0 || deleteDays > 7) {
-                    channel.send(message.author + ", please specify a valid number of delete days (must be 0 to 7).");
+                    channel.send(message.author + ", please specify a valid number of delete days (must be 0 to 7).").catch(console.error);
                     return;
                 }
                 
-                channel.send("**" + members[toBeBanned].username + "** has been banned from the server! [Reason: " + reason + "]");
+                channel.send("**" + members[toBeBanned].username + "** has been banned from the server! [Reason: " + reason + "]").catch(console.error);
                 server.members.get(members[toBeBanned].id).ban(Math.round(deleteDays));
                 return;
             }
             
-            channel.send(message.author + ", there is no such user on this server.");
+            channel.send(message.author + ", there is no such user on this server.").catch(console.error);
         }
     },
     
@@ -78,7 +78,7 @@
             save("waifus", server);
             save("touhouWaifus", server);
             save("ratings", server);
-            channel.send("RNG-generated values have been reset.");
+            channel.send("RNG-generated values have been reset.").catch(console.error);
         }
     },
     
@@ -91,21 +91,21 @@
             var author = command[1], quotes = serverData[server.id].quotes;
             
             if (!author) {
-                channel.send(message.author + ", please specify an author to remove a quote from.");
+                channel.send(message.author + ", please specify an author to remove a quote from.").catch(console.error);
                 return;
             }
             
             var quote = command[2];
             
             if (!quote) {
-                channel.send(message.author + ", please specify a quote to remove.");
+                channel.send(message.author + ", please specify a quote to remove.").catch(console.error);
                 return;
             }
             
             author = author.toLowerCase();
             
             if (!quotes[author]) {
-                channel.send(message.author + ", that author does not have any saved quotes.");
+                channel.send(message.author + ", that author does not have any saved quotes.").catch(console.error);
                 return;
             }
             
@@ -116,7 +116,7 @@
             }
             
             save("quotes", server);
-            channel.send("Quote removed.");
+            channel.send("Quote removed.").catch(console.error);
         }
     },
     
@@ -129,24 +129,24 @@
             var opinion = command[1], type = command[2], badOpinions = serverData[server.id].badOpinions, goodOpinions = serverData[server.id].goodOpinions;
             
             if (!opinion) {
-                channel.send(message.author + ", please specify an opinion to add.");
+                channel.send(message.author + ", please specify an opinion to add.").catch(console.error);
                 return;
             }
             
             if (badOpinions.contains(opinion) || goodOpinions.contains(opinion)) {
-                channel.send(message.author + ", that opinion already exists.");
+                channel.send(message.author + ", that opinion already exists.").catch(console.error);
                 return;
             }
             
             if (!type) {
-                channel.send(message.author + ", please specify whether the opinion is good or bad.");
+                channel.send(message.author + ", please specify whether the opinion is good or bad.").catch(console.error);
                 return;
             }
             
             type = type.toLowerCase();
             
             if (!["bad", "good"].contains(type)) {
-                channel.send(message.author + ", please specify whether the opinion is good or bad.");
+                channel.send(message.author + ", please specify whether the opinion is good or bad.").catch(console.error);
                 return;
             }
             
@@ -158,7 +158,7 @@
                 save("goodOpinions", server);
             }
             
-            channel.send("Opinion added.");
+            channel.send("Opinion added.").catch(console.error);
         }
     },
     
@@ -171,24 +171,24 @@
             var opinion = command[1], type = command[2], badOpinions = serverData[server.id].badOpinions, goodOpinions = serverData[server.id].goodOpinions;
             
             if (!opinion) {
-                channel.send(message.author + ", please specify an opinion to remove.");
+                channel.send(message.author + ", please specify an opinion to remove.").catch(console.error);
                 return;
             }
             
             if (!badOpinions.contains(opinion) || !goodOpinions.contains(opinion)) {
-                channel.send(message.author + ", that opinion does not exist.");
+                channel.send(message.author + ", that opinion does not exist.").catch(console.error);
                 return;
             }
             
             if (!type) {
-                channel.send(message.author + ", please specify whether the opinion is good or bad.");
+                channel.send(message.author + ", please specify whether the opinion is good or bad.").catch(console.error);
                 return;
             }
             
             type = type.toLowerCase();
             
             if (!["bad", "good"].contains(type)) {
-                channel.send(message.author + ", please specify whether the opinion is good or bad.");
+                channel.send(message.author + ", please specify whether the opinion is good or bad.").catch(console.error);
                 return;
             }
             
@@ -200,7 +200,7 @@
                 save("goodOpinions", server);
             }
             
-            channel.send("Opinion removed.");
+            channel.send("Opinion removed.").catch(console.error);
         }
     },
     
@@ -270,7 +270,7 @@
             
             permData.servers[server.id].cooldownSecs = seconds;
             save("servers");
-            channel.send("Big command cooldown set to " + seconds + " seconds.");
+            channel.send("Big command cooldown set to " + seconds + " seconds.").catch(console.error);
         }
     },
     
@@ -283,35 +283,35 @@
             var game = command[1], WRs = permData.WRs;
             
             if (!game) {
-                channel.send(message.author + ", please specify a game to update a world record of.");
+                channel.send(message.author + ", please specify a game to update a world record of.").catch(console.error);
                 return;
             }
             
             game = gameName(game.toLowerCase());
             
             if (!WRs[game]) {
-                channel.send(message.author + ", please specify a valid game to update a world record of.");
+                channel.send(message.author + ", please specify a valid game to update a world record of.").catch(console.error);
                 return;
             }
             
             var difficulty = command[2];
             
             if (!difficulty) {
-                channel.send(message.author + ", please specify a difficulty to update a world record of.");
+                channel.send(message.author + ", please specify a difficulty to update a world record of.").catch(console.error);
                 return;
             }
             
             difficulty = cap(difficulty.toLowerCase());
             
             if (!WRs[game][difficulty]) {
-                channel.send(message.author + ", please specify a valid difficulty to update a world record of.");
+                channel.send(message.author + ", please specify a valid difficulty to update a world record of.").catch(console.error);
                 return;
             }
             
             var shot = command[3], difficultyWRs = WRs[game][difficulty];
             
             if (!shot) {
-                channel.send(message.author + ", please specify a shottype or route to update the world record of.");
+                channel.send(message.author + ", please specify a shottype or route to update the world record of.").catch(console.error);
                 return;
             }
              
@@ -323,7 +323,7 @@
                 }
                 
                 if (!WRs[game][difficulty][shot]) {
-                    channel.send(message.author + ", " + shot + " is not a valid shottype or route.");
+                    channel.send(message.author + ", " + shot + " is not a valid shottype or route.").catch(console.error);
                     return;
                 }
             }
@@ -331,12 +331,12 @@
             var newWR = command[4];
             
             if (!newWR || isNaN(newWR.replace(/\./g, "").replace(/\,/g, ""))) {
-                channel.send(message.author + ", please specify the new world record.");
+                channel.send(message.author + ", please specify the new world record.").catch(console.error);
                 return;
             }
             
             if (Number(newWR) > MAX_SCORE || Number(newWR) <= 0) {
-                channel.send(message.author + ", please specify a valid new world record.");
+                channel.send(message.author + ", please specify a valid new world record.").catch(console.error);
                 return;
             }
             
@@ -345,7 +345,7 @@
             var newPlayer = command[5];
             
             if (!newPlayer) {
-                channel.send(message.author + ", please specify the player that got the new world record.");
+                channel.send(message.author + ", please specify the player that got the new world record.").catch(console.error);
                 return;
             }
             
@@ -362,7 +362,7 @@
             save("WRs");
             save("WRsLastUpdated");
             channel.send(server.emojis.find("name", "Scoarr") + " `Score Update` New WR in " + game + " " + difficulty +
-            " " + shot.replace("Team", " Team") + ": " + sep(oldWR) + " by " + oldPlayer + " -> " + sep(newWR) + " by " + newPlayer + "!");
+            " " + shot.replace("Team", " Team") + ": " + sep(oldWR) + " by " + oldPlayer + " -> " + sep(newWR) + " by " + newPlayer + "!").catch(console.error);
         }
     },
     
@@ -375,35 +375,35 @@
             var game = command[1], WRs = permData.WRs;
             
             if (!game) {
-                channel.send(message.author + ", please specify a game to update a world record of.");
+                channel.send(message.author + ", please specify a game to update a world record of.").catch(console.error);
                 return;
             }
             
             game = gameName(game.toLowerCase());
             
             if (!WRs[game]) {
-                channel.send(message.author + ", please specify a valid game to update a world record of.");
+                channel.send(message.author + ", please specify a valid game to update a world record of.").catch(console.error);
                 return;
             }
             
             var difficulty = command[2];
             
             if (!difficulty) {
-                channel.send(message.author + ", please specify a difficulty to update a world record of.");
+                channel.send(message.author + ", please specify a difficulty to update a world record of.").catch(console.error);
                 return;
             }
             
             difficulty = cap(difficulty.toLowerCase());
             
             if (!WRs[game][difficulty]) {
-                channel.send(message.author + ", please specify a valid difficulty to update a world record of.");
+                channel.send(message.author + ", please specify a valid difficulty to update a world record of.").catch(console.error);
                 return;
             }
             
             var shot = command[3], difficultyWRs = WRs[game][difficulty];
             
             if (!shot) {
-                channel.send(message.author + ", please specify a shottype or route to update the world record of.");
+                channel.send(message.author + ", please specify a shottype or route to update the world record of.").catch(console.error);
                 return;
             }
              
@@ -415,7 +415,7 @@
                 }
                 
                 if (!WRs[game][difficulty][shot]) {
-                    channel.send(message.author + ", please specify a valid shottype or route to update the world record of.");
+                    channel.send(message.author + ", please specify a valid shottype or route to update the world record of.").catch(console.error);
                     return;
                 }
             }
@@ -425,7 +425,7 @@
             queueItem = findQueueItem(game, difficulty, shot);
             
             if (queueItem === null) {
-                channel.send(message.author + ", there is no new score in that category!");
+                channel.send(message.author + ", there is no new score in that category!").catch(console.error);
                 return;
             }
             
@@ -441,7 +441,7 @@
             save("WRsLastUpdated");
             save("notifyQueue");
             channel.send(server.emojis.find("name", "Scoarr") + " `Score Update` New WR in " + game + " " + difficulty +
-            " " + shot.replace("Team", " Team") + ": " + sep(oldWR) + " by " + oldPlayer + " -> " + sep(newWR) + " by " + newPlayer + "!");
+            " " + shot.replace("Team", " Team") + ": " + sep(oldWR) + " by " + oldPlayer + " -> " + sep(newWR) + " by " + newPlayer + "!").catch(console.error);
         }
     },
     
@@ -453,7 +453,7 @@
         command: function (message, server, command, channel) {
             permData.notifyQueue = [];
             save("notifyQueue");
-            channel.send("The notification queue has been purged!");
+            channel.send("The notification queue has been purged!").catch(console.error);
         }
     },
     
@@ -466,7 +466,7 @@
             var queue = permData.notifyQueue, message = "", index = 1, game, difficulty, shot, score;
             
             if (queue.length === 0) {
-                channel.send("The notification queue is currently empty.");
+                channel.send("The notification queue is currently empty.").catch(console.error);
                 return;
             }
             
@@ -480,7 +480,7 @@
                 index++;
             }
             
-            channel.send("```Markdown\n" + message + "\n```");
+            channel.send("```Markdown\n" + message + "\n```").catch(console.error);
         }
     },
     
@@ -493,14 +493,14 @@
             var game = command[1], LNNs = permData.LNNs;
             
             if (!game) {
-                channel.send(message.author + ", please specify a game to add an LNN player to.");
+                channel.send(message.author + ", please specify a game to add an LNN player to.").catch(console.error);
                 return;
             }
             
             game = gameName(game.toLowerCase());
             
             if (!LNNs.hasOwnProperty(game)) {
-                channel.send(message.author + ", please specify a valid game to add an LNN player to.");
+                channel.send(message.author + ", please specify a valid game to add an LNN player to.").catch(console.error);
                 return;
             }
             
@@ -515,7 +515,7 @@
             }
             
             if (!shot) {
-                channel.send(message.author + ", please specify the shottype that was used or the route that was followed.");
+                channel.send(message.author + ", please specify the shottype that was used or the route that was followed.").catch(console.error);
                 return;
             }
             
@@ -526,25 +526,26 @@
             }
             
             if (!LNNs[game].hasOwnProperty(shot)) {
-                channel.send(message.author + ", please specify a valid shottype or route to add an LNN player to.");
+                channel.send(message.author + ", please specify a valid shottype or route to add an LNN player to.").catch(console.error);
                 return;
             }
             
             var player = command[3];
             
             if (!player) {
-                channel.send(message.author + ", please specify the player that got the new LNN.");
+                channel.send(message.author + ", please specify the player that got the new LNN.").catch(console.error);
                 return;
             }
             
             if (LNNs[game][shot].contains(player)) {
-                channel.send(message.author + ", that player already has that LNN!");
+                channel.send(message.author + ", that player already has that LNN!").catch(console.error);
                 return;
             }
             
             LNNs[game][shot].push(player);
             save("LNNs");
-            channel.send(server.emojis.find("name", "Power") + " `Survival Update` " + player + " got a" + grammar + game + " " + acronym + " with " + shot.replace("Team", " Team") + "!");
+            channel.send(server.emojis.find("name", "Power") + " `Survival Update` " + player +
+            " got a" + grammar + game + " " + acronym + " with " + shot.replace("Team", " Team") + "!").catch(console.error);
         }
     },
     
@@ -557,14 +558,14 @@
             var servers = permData.servers;
             
             if (!servers[server.id].voiceChannel) {
-                channel.send(message.author + ", please tell me which voice channel to use (using the voicechannel command).");
+                channel.send(message.author + ", please tell me which voice channel to use (using the voicechannel command).").catch(console.error);
                 return;
             }
             
             var voiceChannel = server.channels.get(servers[server.id].voiceChannel);
             
             if (!voiceChannel.connection === null) {
-                channel.send(message.author + ", I am already in the voice channel!");
+                channel.send(message.author + ", I am already in the voice channel!").catch(console.error);
                 return;
             }
             
@@ -581,14 +582,14 @@
             var servers = permData.servers;
             
             if (!servers[server.id].voiceChannel) {
-                channel.send(message.author + ", please tell me which voice channel to use (using the voicechannel command).");
+                channel.send(message.author + ", please tell me which voice channel to use (using the voicechannel command).").catch(console.error);
                 return;
             }
             
             var voiceChannel = server.channels.get(servers[server.id].voiceChannel);
             
             if (voiceChannel.connection === null) {
-                channel.send(message.author + ", I am not in the voice channel!");
+                channel.send(message.author + ", I am not in the voice channel!").catch(console.error);
                 return;
             }
             
@@ -605,7 +606,7 @@
             var servers = permData.servers;
             
             if (!servers[server.id].voiceChannel) {
-                channel.send(message.author + ", please tell me which voice channel to use (using the voicechannel command).");
+                channel.send(message.author + ", please tell me which voice channel to use (using the voicechannel command).").catch(console.error);
                 return;
             }
             
@@ -616,7 +617,7 @@
             }
             
             musicBlocked = !musicBlocked;
-            channel.send("Music commands have been " + (!musicBlocked ? "un" : "") + "blocked!");
+            channel.send("Music commands have been " + (!musicBlocked ? "un" : "") + "blocked!").catch(console.error);
         }
     },
     
@@ -629,18 +630,18 @@
             var voiceChannel = command[1];
             
             if (!voiceChannel) {
-                channel.send(message.author + ", please specify a voice channel.");
+                channel.send(message.author + ", please specify a voice channel.").catch(console.error);
                 return;
             }
             
             if (!server.channels.find("name", voiceChannel) || server.channels.find("name", voiceChannel).type != "voice") {
-                channel.send(message.author + ", that is not a voice channel!");
+                channel.send(message.author + ", that is not a voice channel!").catch(console.error);
                 return;
             }
             
             permData.servers[server.id].voiceChannel = server.channels.find("name", voiceChannel).id;
             save("servers");
-            channel.send(message.author + ", I will now use " + voiceChannel + "!");
+            channel.send(message.author + ", I will now use " + voiceChannel + "!").catch(console.error);
         }
     },
     
@@ -653,13 +654,13 @@
             var key = command[1];
             
             if (!key) {
-                channel.send(message.author + ", please specify an API key.");
+                channel.send(message.author + ", please specify an API key.").catch(console.error);
                 return;
             }
             
             permData.weatherKey = key;
             save("weatherKey");
-            channel.send("API key set successfully. The weather command is now enabled.");
+            channel.send("API key set successfully. The weather command is now enabled.").catch(console.error);
         }
     },
     
@@ -671,7 +672,7 @@
         command: function (message, server, command, channel) {
             permData.weatherKey = "";
             save("weatherKey");
-            channel.send("API key removed successfully. The weather command is now disabled.");
+            channel.send("API key removed successfully. The weather command is now disabled.").catch(console.error);
         }
     },
     
@@ -684,13 +685,13 @@
             var key = command[1];
             
             if (!key) {
-                channel.send(message.author + ", please specify an API key.");
+                channel.send(message.author + ", please specify an API key.").catch(console.error);
                 return;
             }
             
             permData.googleKey = key;
             save("googleKey");
-            channel.send("API key set successfully. Automatic replies to YouTube links now enabled.");
+            channel.send("API key set successfully. Automatic replies to YouTube links now enabled.").catch(console.error);
         }
     },
     
@@ -702,7 +703,7 @@
         command: function (message, server, command, channel) {
             permData.googleKey = "";
             save("googleKey");
-            channel.send("API key removed successfully. Automatic replies to YouTube links are now disabled.");
+            channel.send("API key removed successfully. Automatic replies to YouTube links are now disabled.").catch(console.error);
         }
     },
     
@@ -715,7 +716,7 @@
             var image = command[1], name, ext, description = command[2];
             
             if (!image) {
-                channel.send(message.author + ", please specify an image file.");
+                channel.send(message.author + ", please specify an image file.").catch(console.error);
                 return;
             }
             
@@ -723,23 +724,23 @@
             ext = path.parse(image).ext;
             
             if (![".gif", ".jpg", ".png"].contains(ext)) {
-                channel.send(message.author + ", that file extension is not supported.");
+                channel.send(message.author + ", that file extension is not supported.").catch(console.error);
                 return;
             }
             
             if (!fs.existsSync("images/" + image)) {
-                channel.send(message.author + ", that file does not exist.");
+                channel.send(message.author + ", that file does not exist.").catch(console.error);
                 return;
             }
             
             if (!description) {
-                channel.send(message.author + ", please specify a description for the help command.");
+                channel.send(message.author + ", please specify a description for the help command.").catch(console.error);
                 return;
             }
             
             permData.images[name] = {"help": description, "file": image};
             save("images");
-            channel.send("The image command " + name + " has been added.");
+            channel.send("The image command " + name + " has been added.").catch(console.error);
         }
     },
     
@@ -752,18 +753,18 @@
             var image = command[1], images = permData.images;
             
             if (!image) {
-                channel.send(message.author + ", please specify an image command.");
+                channel.send(message.author + ", please specify an image command.").catch(console.error);
                 return;
             }
             
             if (!images.hasOwnProperty(image)) {
-                channel.send(message.author + ", that is not an image command.");
+                channel.send(message.author + ", that is not an image command.").catch(console.error);
                 return;
             }
             
             delete permData.images[image];
             save("images");
-            channel.send("The image command " + image + " has been removed.");
+            channel.send("The image command " + image + " has been removed.").catch(console.error);
         }
     },
     
@@ -776,7 +777,7 @@
             var music = command[1], url, name, ext, description = command[2], volume = command[3];
             
             if (!music) {
-                channel.send(message.author + ", please specify music.");
+                channel.send(message.author + ", please specify music.").catch(console.error);
                 return;
             }
             
@@ -784,23 +785,23 @@
             ext = path.parse(music).ext;
             
             if (![".wav", ".mp3"].contains(ext)) {
-                channel.send(message.author + ", that file extension is not supported.");
+                channel.send(message.author + ", that file extension is not supported.").catch(console.error);
                 return;
             }
             
             if (!fs.existsSync("music/" + music)) {
-                channel.send(message.author + ", that file does not exist.");
+                channel.send(message.author + ", that file does not exist.").catch(console.error);
                 return;
             }
             
             if (!description) {
-                channel.send(message.author + ", please specify a description for the help command.");
+                channel.send(message.author + ", please specify a description for the help command.").catch(console.error);
                 return;
             }
             
             permData.musicLocal[name] = {"help": description, "file": music, "volume": (volume ? volume : 0.5)};
             save("musicLocal");
-            channel.send("The music command " + name + " has been added.");
+            channel.send("The music command " + name + " has been added.").catch(console.error);
         }
     },
     
@@ -813,30 +814,30 @@
             var name = command[1], video = command[2], url, description = command[3], volume = command[4];
             
             if (!name) {
-                channel.send(message.author + ", please specify a command name.");
+                channel.send(message.author + ", please specify a command name.").catch(console.error);
                 return;
             }
             
             if (!video) {
-                channel.send(message.author + ", please specify a YouTube video.");
+                channel.send(message.author + ", please specify a YouTube video.").catch(console.error);
                 return;
             }
             
             url = url.parse(video);
             
             if (url.hostname != "youtu.be" && (url.hostname != "www.youtube.com" || url.pathname != "/watch" || url.search.substring(0, 3) != "?v=")) {
-                channel.send(message.author + ", that is not a YouTube video.");
+                channel.send(message.author + ", that is not a YouTube video.").catch(console.error);
                 return;
             }
             
             if (!description) {
-                channel.send(message.author + ", please specify a description for the help command.");
+                channel.send(message.author + ", please specify a description for the help command.").catch(console.error);
                 return;
             }
             
             permData.musicYouTube[name] = {"help": description, "link": video, "volume": (volume ? volume : 0.5)};
             save("musicYouTube");
-            channel.send("The music command " + name + " has been added.");
+            channel.send("The music command " + name + " has been added.").catch(console.error);
         }
     },
     
@@ -849,20 +850,20 @@
             var music = command[1], musicLocal = permData.musicLocal, musicYouTube = permData.musicYouTube;
             
             if (!music) {
-                channel.send(message.author + ", please specify a music command.");
+                channel.send(message.author + ", please specify a music command.").catch(console.error);
                 return;
             }
             
             if (musicLocal.hasOwnProperty(image)) {
                 delete permData.musicLocal[music];
-                channel.send("The music command " + name + " has been removed.");
+                channel.send("The music command " + name + " has been removed.").catch(console.error);
                 save("musicLocal");
             } else if (musicYouTube.hasOwnProperty(image)) {
                 delete permData.musicYouTube[music];
-                channel.send("The music command " + name + " has been removed.");
+                channel.send("The music command " + name + " has been removed.").catch(console.error);
                 save("musicYouTube");
             } else {
-                channel.send(message.author + ", that is not a music command.");
+                channel.send(message.author + ", that is not a music command.").catch(console.error);
             }
         }
     },
@@ -875,7 +876,7 @@
         command: function (message, server, command, channel) {
             permData.servers[server.id].kekDetection = !permData.servers[server.id].kekDetection;
             save("servers");
-            channel.send("Kek detection has been turned **" + (permData.servers[server.id].kekDetection ? "on" : "off") + "**.");
+            channel.send("Kek detection has been turned **" + (permData.servers[server.id].kekDetection ? "on" : "off") + "**.").catch(console.error);
         }
     },
     
@@ -893,7 +894,7 @@
                 }
             }
             
-            channel.send(unusedRoles.length === 0 ? "There are no unused roles." : "Unused roles: " + unusedRoles);
+            channel.send(unusedRoles.length === 0 ? "There are no unused roles." : "Unused roles: " + unusedRoles).catch(console.error);
         }
     },
     
@@ -910,7 +911,7 @@
             
             permData.botMaster = message.author.id;
             save("botMaster");
-            channel.send(message.author + ", you are now my master!");
+            channel.send(message.author + ", you are now my master!").catch(console.error);
         }
     }
 };
