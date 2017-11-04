@@ -46,6 +46,11 @@
                 return;
             }
             
+            if (alias.contains(' ')) {
+                channel.send(message.author + ", you cannot use an alias that contains spaces.").catch(console.error);
+                return;
+            }
+            
             var id = message.author.id;
             
             aliasesList = serverData[server.id].aliasesList;
@@ -727,7 +732,7 @@
     
     notifywr: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <game> <difficulty> <shottype/route> <new WR> <player> [replay]`: adds `new WR` by `player` in `game` `difficulty` `shottype/route` to a queue, waiting to be accepted by a mod.";
+            return "`" + symbol + command + " <game> <difficulty> <shottype/route> <new WR> <player>`: adds `new WR` by `player` in `game` `difficulty` `shottype/route` to a queue, waiting to be accepted by a mod.";
         },
         
         command: function (message, server, command, channel) {
@@ -800,9 +805,9 @@
                 return;
             }
             
-            var replay = (command[6] ? command[6] : ""), WRarray;
+            var WRarray;
             
-            WRarray = [newWR, player, replay, game, difficulty, shot];
+            WRarray = [newWR, player, "", game, difficulty, shot];
             permData.notifyQueue.push(WRarray);
             save("notifyQueue");
             channel.send("New WR added to the queue, waiting to be accepted by a mod.").catch(console.error);

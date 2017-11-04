@@ -202,8 +202,8 @@ module.exports = {
 
         /* Variables */
         global.permData = {
-            "servers": {}, "WRs": {}, "LNNs": {}, "currencies": {}, "images": {}, "musicLocal": {}, "musicYouTube": {}, "notifyQueue": [], "commandSymbols": ["!"],
-            "token": "", "botMaster": "", "WRsLastUpdated": "", "weatherKey": "", "googleKey": "", "maxLength": 200, "maintenanceMode": false
+            "servers": {}, "WRs": {}, "bestInTheWest": {}, "LNNs": {}, "currencies": {}, "images": {}, "musicLocal": {}, "musicYouTube": {}, "notifyQueue": [],
+            "commandSymbols": ["!"], "token": "", "botMaster": "", "WRsLastUpdated": "", "weatherKey": "", "googleKey": "", "maxLength": 200, "maintenanceMode": false
         };
         
         global.serverData = {};

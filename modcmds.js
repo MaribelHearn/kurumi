@@ -276,7 +276,8 @@
     
     updatewr: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <game> <difficulty> <shottype/route> <new WR> <player> [replay]`: updates the world record in `game` `difficulty` `shottype/route` to `new WR` by `player`.";
+            return "`" + symbol + command + " <game> <difficulty> <shottype/route> <new WR> <player> [west]`: updates the world record in `game` `difficulty` `shottype/route` to `new WR` by `player`." +
+            "\nAdd 'west' after `player` if the player is western.";
         },
         
         command: function (message, server, command, channel) {
@@ -349,18 +350,20 @@
                 return;
             }
             
-            var replay = command[6], oldWR, oldPlayer;
-            
-            if (!replay) {
-                replay = "";
-            }
+            var west = command[6], oldWR, oldPlayer;
             
             oldWR = WRs[game][difficulty][shot][0];
             oldPlayer = WRs[game][difficulty][shot][1];
-            WRs[game][difficulty][shot] = [newWR, newPlayer, replay];
+            WRs[game][difficulty][shot] = [newWR, newPlayer, ""];
             permData.WRsLastUpdated = new Date().UTC();
             save("WRs");
             save("WRsLastUpdated");
+            
+            if (west == "west") {
+                permData.bestInTheWest[game][difficulty] = [newWR, newPlayer, shot];
+                save("bestInTheWest");
+            }
+            
             channel.send(server.emojis.find("name", "Scoarr") + " `Score Update` New WR in " + game + " " + difficulty +
             " " + shot.replace("Team", " Team") + ": " + sep(oldWR) + " by " + oldPlayer + " -> " + sep(newWR) + " by " + newPlayer + "!").catch(console.error);
         }
@@ -368,7 +371,8 @@
     
     acceptwr: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <game> <difficulty> <shottype/route>`: accepts the new world record in `game` `difficulty` `shottype/route` from the notification queue as being valid, updating the world records in the process.";
+            return "`" + symbol + command + " <game> <difficulty> <shottype/route> [west]`: accepts the new world record in `game` `difficulty` `shottype/route` from" +
+            "the notification queue as being valid, updating the world records in the process. Add 'west' after `player` if the player is western.";
         },
         
         command: function (message, server, command, channel) {
