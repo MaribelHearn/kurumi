@@ -153,8 +153,8 @@ module.exports = {
                     return;
                 }
                 
-                // Always allow commands in testing servers or run by the master
-                if (servers[server.id].isTestingServer || id == botMaster) {
+                // Always allow commands run by the master
+                if (id == botMaster) {
                     commandFunction(message, server, command, channel);
                     return;
                 }
