@@ -35,7 +35,7 @@ module.exports = {
                 }
                 
                 // Music Command Check
-                if (musicLocal.hasOwnProperty(commandName) || musicYouTube.hasOwnProperty(commandName)) {
+                if (musicLocal.hasOwnProperty(commandName) || musicYouTube.hasOwnProperty(commandName) && !servers[server.id].botChannels.contains(channel.id) && servers[server.id].botChannels.length !== 0) {
                     var musicCommand = (musicLocal.hasOwnProperty(commandName) ? musicLocal[commandName] : musicYouTube[commandName]);
                     
                     if (channelType == "dm") {
@@ -63,7 +63,7 @@ module.exports = {
                 }
                 
                 // Image Command Check
-                if (images.hasOwnProperty(commandName)) {
+                if (images.hasOwnProperty(commandName) && (servers[server.id].botChannels.contains(channel.id) || servers[server.id].botChannels.length === 0)) {
                     if (fs.existsSync("./images/" + images[commandName].file)) {
                         channel.send("", {"file": "./images/" + images[commandName].file}).catch(console.error);
                         cooldown = true;
