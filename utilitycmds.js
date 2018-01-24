@@ -1045,7 +1045,7 @@
                 embed.addField("Wind Speed", wind + " m/s" + direction, true);
                 channel.send({embed}).catch(console.error);
                 
-                if (channel.type != "dm") {
+                if (channel.type != "dm" && permData.servers[server.id].cooldownSecs > 0) {
                     cooldown = true;
                     timers.setInterval(function () { cooldown = false; }, permData.servers[server.id].cooldownSecs * 1000);
                 }

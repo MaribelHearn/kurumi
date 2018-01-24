@@ -153,7 +153,7 @@ module.exports = {
         "Kasen Ibaraki", "Unnamed dragon", "Unnamed dapeng", "Shirou Sendai", "Unnamed kuda-gitsune", "Kume", "Kanda", "Unnamed okuri-inu",
         "Unshou", "Kosuzu Motoori", "Kosuzu's Grampa", "Tupai", "Evil Dragon", "Giant Toad", "Daitengu", "Dragon", "Maribel Hearn",
         "Renko Usami", "Hieda no Akyuu", "Etarnity Larva", "Nemuno Sakata", "Lily White", "Aunn Komano", "Narumi Yatadera", "Satono Nishida",
-        "Mai Teireida", "Okina Matara", "the unnamed girl on the Dolls in Pseudo Paradise jacket"];
+        "Mai Teireida", "Okina Matara", "the unnamed girl on the Dolls in Pseudo Paradise jacket", "Joon Yorigami", "Shion Yorigami"];
         
         global.FANMEME_CHARS = ["Marry Shepherd", "Corin Charite", "Phiased Pescar", "Mumumu Mikaboshi", "Janet Arc'Angelo", "Michel Sant'Angelo",
         "Iesua Nazarenus", "Elfin Mint", "Zankurou", "Kodama", "Aragami no Kusuko", "Momo Tobikura", "Saraka Sant'Angelo", "Tenmu Suitokuin",
