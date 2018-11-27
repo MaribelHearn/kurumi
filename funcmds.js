@@ -206,6 +206,35 @@
         }
     },
     
+    spellwaifu: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + "`: tells you who is your Touhou Spell Card waifu today.";
+        },
+        
+        command: function (message, server, command, channel) {
+            var servers = permData.servers, date = servers[server.id].date, exceptions = serverData[server.id].touhouWaifusExceptions, id = message.author.id, touhouWaifu;
+            
+            dateCheck(server);
+            
+            if (date != servers[server.id].date) {
+                allCommands.mod.reset.command(message, server, command, channel);
+            }
+            
+            var spellWaifus = serverData[server.id].spellWaifus;
+            
+            if (!spellWaifus[id]) {
+                spellWaifu = (exceptions[id] ? exceptions[id] : TOUHOU_SPELLS.rand());
+                
+                spellWaifus[id] = spellWaifu;
+                save("spellWaifus", server);
+            } else {
+                spellWaifu = spellWaifus[id];
+            }
+            
+            channel.send(message.author + " Your Touhou Spell Card waifu today is **" + spellWaifu + "**!").catch(console.error);
+        }
+    },
+    
     fanwaifu: {
         help: function (command, symbol) {
             return "`" + symbol + command + "`: tells you who is your fangame waifu today.";

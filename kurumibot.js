@@ -65,8 +65,6 @@ enabled = true;
 
 /* Events */
 bot.on("ready", function () {
-    console.log(timeStamp() + "Logged in!");
-    
     if (!permData) {
         console.log("Something went horribly wrong here...");
         bot.destroy();
@@ -205,5 +203,5 @@ if (permData.token === "") {
     console.log(timeStamp() + "Please put your token into the token.txt data file, and make sure it is in quotes!");
 	process.exit();
 } else {
-    bot.login(permData.token);
+    bot.login(permData.token).then(console.log(timeStamp() + "Logged in!")).catch(console.error);
 }

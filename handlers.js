@@ -21,9 +21,9 @@ module.exports = {
                     // Alias Check
                     aliasesList = serverData[server.id].aliasesList;
                 
-                    if (aliasesList[id] && aliasesList[id].hasOwnProperty(commandName)) {
-                        content = content.replace(commandName, aliasesList[id][commandName]);
-                        commandName = aliasesList[id][commandName];
+                    if (aliasesList[id] && aliasesList[id].hasOwnProperty(commandName.toLowerCase())) {
+                        content = content.replace(commandName, aliasesList[id][commandName.toLowerCase()]);
+                        commandName = aliasesList[id][commandName.toLowerCase()];
                     }
                     
                     for (var userId in aliasesList) {

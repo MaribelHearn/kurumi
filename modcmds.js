@@ -72,11 +72,15 @@
         command: function (message, server, command, channel) {
             serverData[server.id].waifus = {};
             serverData[server.id].touhouWaifus = {};
+            serverData[server.id].spellWaifus = {};
             serverData[server.id].fanmemeWaifus = {};
             serverData[server.id].lenenWaifus = {};
             serverData[server.id].ratings = {};
             save("waifus", server);
             save("touhouWaifus", server);
+            save("spellWaifus", server);
+            save("fanmemeWaifus", server);
+            save("lenenWaifus", server);
             save("ratings", server);
             channel.send("RNG-generated values have been reset.").catch(console.error);
         }
@@ -276,7 +280,7 @@
     
     updatewr: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <game> <difficulty> <shottype/route> <new WR> <player> [west]`: updates the world record in `game` `difficulty` `shottype/route` to `new WR` by `player`." +
+            return "`" + symbol + command + " <game> <difficulty> <shottype/route> <new WR> <player> [replay] [west]`: updates the world record in `game` `difficulty` `shottype/route` to `new WR` by `player`." +
             "\nAdd 'west' after `player` if the player is western.";
         },
         
@@ -350,16 +354,16 @@
                 return;
             }
             
-            var west = command[6], oldWR, oldPlayer;
+            var arg6 = command[6], arg7 = command[7], oldWR, oldPlayer;
             
             oldWR = WRs[game][difficulty][shot][0];
             oldPlayer = WRs[game][difficulty][shot][1];
-            WRs[game][difficulty][shot] = [newWR, newPlayer, ""];
+            WRs[game][difficulty][shot] = [newWR, newPlayer, (arg6 && arg6 != "west" ? arg6 : "")];
             permData.WRsLastUpdated = new Date().UTC();
             save("WRs");
             save("WRsLastUpdated");
             
-            if (west == "west") {
+            if (arg6 == "west" || arg7 && arg7 == "west") {
                 permData.bestInTheWest[game][difficulty] = [newWR, newPlayer, shot];
                 save("bestInTheWest");
             }

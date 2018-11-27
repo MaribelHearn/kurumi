@@ -539,7 +539,7 @@
             
             for (shottype in LNNs[game]) {
                 if (LNNs[game][shottype].length !== 0) {
-                    list += shottype.replace("Team", " Team").replace("Final", " Final") + ": " + LNNs[game][shottype].sort().join(", ") + "\n";
+                    list += shottype.replace("Team", " Team").replace("Final", " Final").replace("UFOs", " UFOs") + ": " + LNNs[game][shottype].sort().join(", ") + "\n";
                 }
             }
             
