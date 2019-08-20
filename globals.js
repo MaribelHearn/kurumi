@@ -94,42 +94,42 @@ module.exports = {
     define: function () {
         /* Node Utilities */
         global.fs = require("fs");
-        
+
         global.os = require("os");
-        
+
         global.request = require("request");
-        
+
         global.dns = require("dns");
-        
+
         global.path = require("path");
-        
+
         global.timers = require("timers");
-        
+
         global.ytdl = require("ytdl-core");
-        
+
         global.url = require("url");
-        
+
         /* Constants */
         global.WEATHER_BASE_URL = "http://api.openweathermap.org/data/2.5/weather?q=";
-        
+
         global.CURRENCY_BASE_URL = "http://free.currencyconverterapi.com/api/v3/convert?q=";
-        
+
         global.CURRENCIES_BASE_URL = "http://free.currencyconverterapi.com/api/v3/currencies";
-        
+
         global.GOOGLE_BASE_URL = "https://www.googleapis.com/youtube/v3/videos?id=";
-        
+
         global.MAPS_BASE_URL = "https://www.google.com/maps?q=";
 
         global.GOOGLE_SUGGESTS_BASE_URL = "https://suggestqueries.google.com/complete/search?json&client=firefox&hl=en&q=";
 
         global.DEFAULT_COOLDOWN = 15;
-        
+
         global.MAX_SCORE = 9999999990;
 
         global.CATEGORIES = ["Easy", "Normal", "Hard", "Lunatic", "Extra"];
 
         global.TOUHOU_SHMUPS = ["SoEW", "PoDD", "LLS", "MS", "EoSD", "PCB", "IN", "MoF", "SA", "UFO", "GFW", "TD", "DDC", "LoLK", "HSiFS"];
-        
+
         global.TOUHOU_CHARS = ["Reimu Hakurei", "Marisa Kirisame", "ShinGyoku", "YuugenMagan", "Elis", "Sariel", "Mima", "Kikuri", "Konngara",
         "Genjii", "Rika", "Noroiko", "Meira", "Two Red Dots", "Five Magic Stones", "Matenshi", "Ellen", "Kotohime", "Kana Anaberal",
         "Rikako Asakura", "Chiyuri Kitashirakawa", "Yumemi Okazaki", "Sokrates", "Ruukoto", "Multi", "Mimi-Chan", "Bewitching Lotus Flower",
@@ -153,8 +153,9 @@ module.exports = {
         "Kasen Ibaraki", "Unnamed dragon", "Unnamed dapeng", "Shirou Sendai", "Unnamed kuda-gitsune", "Kume", "Kanda", "Unnamed okuri-inu",
         "Unshou", "Kosuzu Motoori", "Kosuzu's Grampa", "Tupai", "Evil Dragon", "Giant Toad", "Daitengu", "Dragon", "Maribel Hearn",
         "Renko Usami", "Hieda no Akyuu", "Etarnity Larva", "Nemuno Sakata", "Aunn Komano", "Narumi Yatadera", "Satono Nishida",
-        "Mai Teireida", "Okina Matara", "the unnamed girl on the Dolls in Pseudo Paradise jacket", "Joon Yorigami", "Shion Yorigami"];
-        
+        "Mai Teireida", "Okina Matara", "the unnamed girl on the Dolls in Pseudo Paradise jacket", "Joon Yorigami", "Shion Yorigami",
+        "Eika Ebisu", "Urumi Ushizaki", "Kutaka Niwatari", "Yachi Kitcho", "Mayumi Joutougu", "Keiki Haniyasushin", "Saki Kurokoma"];
+
         global.TOUHOU_SPELLS = ["Moon Sign \"Moonlight Ray\"", "Night Sign \"Night Bird\"", "Darkness Sign \"Demarcation\"", "Ice Sign \"Icicle Fall\"",
         "Hail Sign \"Hailstorm\"", "Freeze Sign \"Perfect Freeze\"", "Snow Sign \"Diamond Blizzard\"", "Flower Sign \"Gorgeous Sweet Flower\"",
         "Flower Sign \"Selaginella 9\"", "Rainbow Sign \"Wind Chime of Colorful Rainbow\"", "Illusion Sign \"Flower Imaginary Dream Vine\"",
@@ -293,7 +294,7 @@ module.exports = {
         "\"End of Imperishable Night -Dead of Night-\"", "\"End of Imperishable Night -Half After 2-\"", "\"End of Imperishable Night -3 o'Clock-\"",
         "\"End of Imperishable Night -Half After 3-\"", "\"End of Imperishable Night -4 o'Clock-\"", "\"End of Imperishable Night -Half After 4-\"",
         "\"End of Imperishable Night -Morning Mist-\"", "\"End of Imperishable Night -Dawn-\"", "\"End of Imperishable Night -Morning Star-\"",
-        "\"End of Imperishable Night -Rising World-\"", "Past \"Ancient History -Old History-\"", "Reincarnation \"Returning-Bridge Ichijo\"", 
+        "\"End of Imperishable Night -Rising World-\"", "Past \"Ancient History -Old History-\"", "Reincarnation \"Returning-Bridge Ichijo\"",
         "Future \"New History Of Phantasm -Next History-\"", "Limiting Edict \"Curse of Tsuki-no-Iwakasa\"", "Immortal \"Fire Bird -Flying Phoenix-\"",
         "Fujiwara \"Flaw of Forgiving Shrine\"", "Deathless \"Xu Fu's Dimension\"", "Forgiveness \"Honest Man's Death\"", "Hollow Giant \"Woo\"",
         "Everlasting \"Phoenix's Tail\"", "Hourai \"South Wind, Clear Sky -Fujiyama Volcano-\"", "\"Possessed by Phoenix\"", "\"Hourai Doll\"",
@@ -324,7 +325,7 @@ module.exports = {
         "Divine Tool \"Moriya's Iron Ring\"", "Spring Sign \"Jade of the Horrid River\"", "Frog Hunt \"The Snake Eats the Croaking Frog\"",
         "Native God \"Seven Stones and Seven Trees\"", "Native God \"Kero-chan Braves the Wind and Rain\"", "Native God \"Red Frogs of Houei Four\"",
         "\"Suwa War ~ Native Myth vs. Central Myth\"", "Scourge Sign \"Mishaguji-sama\"", "Horror \"Tsurube-Otoshi Apparition\"",
-        "Trap Sign \"Capture Web\"", "Spider \"Cave Spider's Nest\"", "Miasma Sign \"Filled Miasma\"", "Miasma \"Unexplained Fever\"", 
+        "Trap Sign \"Capture Web\"", "Spider \"Cave Spider's Nest\"", "Miasma Sign \"Filled Miasma\"", "Miasma \"Unexplained Fever\"",
         "Jealousy Sign \"Green-Eyed Monster\"", "Envy \"Green-Eyed Invisible Monster\"", "Grandpa Hanasaka \"Jealousy of the Kind & Lovely\"",
         "Grandpa Hanasaka \"Shiro's Ashes\"", "Tongue-Cut Sparrow \"Hate for the Humble & Rich\"", "Tongue-Cut Sparrow \"Large Box & Small Box\"",
         "Malice Sign \"Shrine Visit in the Dead of Night\"", "Malice Sign \"Day 7 of the Shrine Visits in the Dead of Night\"",
@@ -332,9 +333,9 @@ module.exports = {
         "Shackles Sign \"Shackles a Criminal Can't Take Off\"", "Feat of Strength \"Storm on Mt. Ooe\"",
         "Feat of Strength \"Wind Blowing Down from Mt. Ooe\"", "Big Four Arcanum \"Knock Out In Three Steps\"",
         "Big Four Arcanum \"Knock Out In Three Steps\"", "Recollection \"Terrible Souvenir\"", "Recollection \"Terrifying Hypnotism\"",
-        "Recollection \"Double Black Death Butterfly\"", "Recollection \"Flying Insect's Nest\"", "Recollection \"Border of Wave & Particle\"", 
+        "Recollection \"Double Black Death Butterfly\"", "Recollection \"Flying Insect's Nest\"", "Recollection \"Border of Wave & Particle\"",
         "Recollection \"Throwing Mt. Togakushi\"", "Recollection \"Pandemonium\"", "Recollection \"Deep Mist Labyrinth\"",
-        "Recollection \"Wind God Hidden Among Tree Leaves\"", "Recollection \"Tengu's Macroburst\"", "Recollection \"Torii Whorl-Wind\"", 
+        "Recollection \"Wind God Hidden Among Tree Leaves\"", "Recollection \"Tengu's Macroburst\"", "Recollection \"Torii Whorl-Wind\"",
         "Recollection \"Spring Kyoto Dolls\"", "Recollection \"Straw Doll Kamikaze\"", "Recollection \"Return Inanimateness\"",
         "Recollection \"Mercury Poison\"", "Recollection \"Princess Undine\"", "Recollection \"Philosopher's Stone\"", "Recollection \"Extending Arm\"",
         "Recollection \"Kappa's Pororoca\"", "Recollection \"Trauma in the Glimmering Depths\"", "Cat Sign \"Cat's Walk\"",
@@ -345,10 +346,10 @@ module.exports = {
         "Atomic Fire \"Uncontainable Nuclear Reaction\"", "Explosion Sign \"Petit Flare\"", "Explosion Sign \"Mega Flare\"",
         "Explosion Sign \"Giga Flare\"", "Explosion Sign \"Peta Flare\"", "Blazing Star \"Fixed Star\"", "Blazing Star \"Planetary Revolution\"",
         "Blazing Star \"Ten Evil Stars\"", "\"Hell & Heaven Meltdown\"", "\"Hell's Tokamak\"", "\"Hell's Artificial Sun\"", "\"Subterranean Sun\"",
-        "Esoterica \"Nine Syllable Stabs\"", "Miracle \"Miracle Fruit\"", "Divine Virtue \"Bumper Crop Rice Shower\"", 
+        "Esoterica \"Nine Syllable Stabs\"", "Miracle \"Miracle Fruit\"", "Divine Virtue \"Bumper Crop Rice Shower\"",
         "Symbol \"All Ancestors Standing Beside Your Bed\"", "Symbol \"Danmaku Paranoia\"", "Instinct \"Release of the Id\"", "Suppression \"Superego\"",
         "Response \"Youkai Polygraph\"", "Subconscious \"Rorschach in Danmaku\"", "Rekindled \"The Embers of Love\"", "Depths \"Genetics of the Subconscious\"",
-        "\"Philosophy of a Hated Person\"", "\"Subterranean Rose\"", "Rod Sign \"Busy Rod\"", "Search Sign \"Rare Metal Detector\"", 
+        "\"Philosophy of a Hated Person\"", "\"Subterranean Rose\"", "Rod Sign \"Busy Rod\"", "Search Sign \"Rare Metal Detector\"",
         "Search Sign \"Gold Detector\"", "Vision Sign \"Nazrin Pendulum\"", "Vision Sign \"High Sensitivity Nazrin Pendulum\"",
         "Defense Sign \"Pendulum Guard\"", "Large Ring \"Umbrella Halo\"", "Large Ring \"Hello Forgotten World\"", "Umbrella Sign \"Parasol Star Symphony\"",
         "Umbrella Sign \"Parasol Star Memories\"", "Rain Sign \"A Rainy Night's Ghost Story\"", "Umbrella \"Super Water-Repelling Bone-Dry Monster\"",
@@ -441,7 +442,7 @@ module.exports = {
         "Hidden Summer \"Scorched Earth of Abnormal Ferocious Heat\"", "Hidden Fall \"Starving Preta of Abnormal Blight\"",
         "Hidden Spring \"Sorcerer of Abnormal Falling Flowers\"", "Magic Sign \"Gigantic Pet Bullet Lifeform\"", "Mad Dance \"Frenzied Tengu-Frightening\"",
         "Secret Ceremony \"Shot in the Back\"", "Secret Ceremony \"Flames of the Impure\""];
-        
+
         global.FANMEME_CHARS = ["Marry Shepherd", "Corin Charite", "Phiased Pescar", "Mumumu Mikaboshi", "Janet Arc'Angelo", "Michel Sant'Angelo",
         "Iesua Nazarenus", "Elfin Mint", "Zankurou", "Kodama", "Aragami no Kusuko", "Momo Tobikura", "Saraka Sant'Angelo", "Tenmu Suitokuin",
         "An Yaezaki", "Mitama Magahara", "Riko Toone", "Hatsuna Magatsuji", "Ruri", "Suitenguu no Himemiko", "Nomi no Hanie", "Takenouchi no Tarumi",
@@ -449,7 +450,7 @@ module.exports = {
         "Ichiyou Mochizuki", "Nezu Akitsu", "Fuma Mishandra", "Sengo Sanada", "Tamako Sant'Angelo", "Ami", "Rakuki Momosame", "Seiryuu Sya",
         "Kage Mimeima", "Rakukun Momosame", "Tensei Muriya", "Rika Kirigakure", "Konoha Susanomori", "Naruko Uzushima", "Miyo Amazu",
         "Tsubame Minazuki", "Kasumi Shindou", "Megumi Yaobi", "Mikoto Yaobi", "Otohime Kanpukugu", "Nix", "Sachiko Kobayashi"];
-        
+
         global.LENEN_CHARS = ["Yabusame Houlen", "Tsubakura Enraku", "Kurohebi", "Aoji Shitodo", "Tsurubami Senri (disguised as Tsubakura Enraku)",
         "Hooaka Shitodo", "Kuroji Shitodo", "Wilhelm von Clausewitz Halcyon HISUIMARU", "Tsurubami Senri", "Jun Amanomiya", "Shou Amanomori",
         "Lumen Celeritas", "Hibaru Kokutenshi", "Sukune Katano", "Adagumo no Yaorochi", "Adagumo no Saragimaru", "Jinbei", "Sese Kitsugai",
@@ -457,18 +458,18 @@ module.exports = {
         "Mitsumo", "Terumi", "Medias Moritake", "Kujiru Kesa", "Kunimitsu Ooya", "Kaisen Azuma", "Kaoru Kashiwagi", "Garaiya Ogata",
         "Fujiwara no Shirogane no Sanra", "Para", "Ooama no Ake no Mitori", "Taira no Chouki", "Suzumi Kuzu", "Xeno a", "Haiji Senri",
         "Yago Ametsukana", "Suzumi Kuzu (disguised as Tsurubami Senri)", "Tsubakura's mother"];
-        
+
         global.ANSWERS = ["It is certain.", "Without a doubt.", "It is decidedly so.", "Yes, definitely.", "You may rely on it.",
         "As I see it, yes.", "Most likely.", "Outlook good.", "Yes.", "Signs point to yes.", "Don't count on it.", "My reply is no.",
         "My sources say no.", "Outlook not so good.", "Very doubtful."];
-        
+
         global.CHOICE = ["%o imo.", "%o tbh.", "I choose %o.", "%o!", "I say %o.", "I'd pick %o if I were you.", "%o is the best option.", "Why not %o?"];
-        
+
         global.SERVER_DATA_DEFAULTS = {
             "aliasesList": {}, "quotes": {}, "waifus": {}, "touhouWaifus": {}, "spellWaifus": {}, "fanmemeWaifus": {}, "lenenWaifus": {}, "waifusExceptions": {},
             "touhouWaifusExceptions": {}, "ratings": {}, "badOpinions": [], "goodOpinions": [], "opinionExceptions": []
         };
-        
+
         global.SERVER_SPECIFICS = {
             "botChannels": [],
             "factions": {},
@@ -492,7 +493,7 @@ module.exports = {
             "servers": {}, "WRs": {}, "bestInTheWest": {}, "LNNs": {}, "currencies": {}, "images": {}, "musicLocal": {}, "musicYouTube": {}, "notifyQueue": [],
             "commandSymbols": ["!"], "token": "", "botMaster": "", "WRsLastUpdated": "", "weatherKey": "", "googleKey": "", "maxLength": 200, "maintenanceMode": false
         };
-        
+
         global.serverData = {};
 
         global.enabled = false;
@@ -502,32 +503,32 @@ module.exports = {
         global.musicBlocked = false;
 
         global.currencyUpdate = true;
-        
+
         global.maxArgc = 7;
 
         /* Functions */
         global.debugPrint = function (variable, value) {
             console.log(timeStamp() + variable + ": '" + value + "'");
         };
-        
+
         global.getArgc = function (commandFunction) {
             var string = commandFunction.toString(), result = 0;
-            
+
             for (i = 1; i < maxArgc; i++) {
                 if (string.contains("command[" + i + "]")) {
                     result += 1;
                 }
             }
-            
+
             return result;
         };
-        
+
         global.isServerOnly = function (commandFunction) {
             var string = commandFunction.toString();
-            
+
             return (string.contains("server.") || string.contains("playYouTube")) && (string.indexOf("server.") == -1 || string.indexOf("server.") != string.indexOf("server.id].cooldownSecs"));
         }
-        
+
         global.strip = function (string) {
             return string.replace(/<\/?[^>]*>/g, "");
         };
@@ -536,15 +537,15 @@ module.exports = {
             if (isNaN(num)) {
                 return '-';
             }
-            
+
             num = num.toString();
-            
+
             if (num.contains('.')) {
                 var array = num.toString().split('.');
-            
+
                 return array[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '.' + array[1];
             }
-            
+
             return num.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
         };
 
@@ -556,66 +557,66 @@ module.exports = {
                     milliseconds -= 3600000;
                     hours += 1;
                 }
-                
+
                 result += hours + " hour" + (hours != 1 ? 's' : "") + ", ";
             }
-            
+
             if (milliseconds >= 60000) {
                 while (milliseconds >= 60000) {
                     milliseconds -= 60000;
                     minutes += 1;
                 }
-                
+
                 result += minutes + " minute" + (minutes != 1 ? 's' : "") + ", ";
             }
-            
+
             if (milliseconds >= 1000) {
                 while (milliseconds >= 1000) {
                     milliseconds -= 1000;
                     seconds += 1;
                 }
-                
+
                 result += seconds + " second" + (seconds != 1 ? 's' : "") + " and ";
             }
-            
+
             result += milliseconds + " millisecond" + (milliseconds != 1 ? 's' : "");
-            
+
             return result;
         };
 
         global.yearsMonths = function (days) {
             var result = "", years = 0, months = 0;
-            
+
             if (days >= 365) {
                 while (days >= 365) {
                     days -= 365;
                     years += 1;
                 }
-                
+
                 result += years + " year" + (years != 1 ? 's' : "") + "";
             }
-            
+
             if (days === 0) {
                 return result;
             }
-            
+
             if (days >= 30) {
                 while (days >= 30) {
                     days -= 30;
                     months += 1;
                 }
-                
+
                 result += " and " + months + " month" + (months != 1 ? 's' : "");
             }
-            
+
             if (days === 0) {
                 return result;
             }
-            
+
             result = result.replace(" and", ',');
-            
+
             result += " and " + days + " day" + (days != 1 ? 's' : "");
-            
+
             return result;
         };
 
@@ -633,27 +634,27 @@ module.exports = {
             var yAppendix, mAppendix, dAppendix;
 
             var days = date2_UTC.getDate() - date1_UTC.getDate();
-            
+
             if (days < 0) {
                 date2_UTC.setMonth(date2_UTC.getMonth() - 1);
                 days += daysInMonth(date2_UTC);
             }
-            
+
             var months = date2_UTC.getMonth() - date1_UTC.getMonth();
-            
+
             if (months < 0) {
                 date2_UTC.setFullYear(date2_UTC.getFullYear() - 1);
                 months += 12;
             }
-            
+
             var years = date2_UTC.getFullYear() - date1_UTC.getFullYear();
 
             yAppendix = (years != 1 ? " years" : " year");
             mAppendix = (months != 1 ? " months" : " month");
             dAppendix = (days != 1 ? " days" : " day");
-            
+
             var result = (years !== 0 ? years + yAppendix : "") + (years !== 0 && months !== 0 && days !== 0 ? ", " : "") + (years !== 0 && months !== 0 && days === 0 ? " and " : "") + (months !== 0 ? months + mAppendix : "");
-            
+
             result += ((years !== 0 || months !== 0) && days !== 0 ? " and " : "") + (days !== 0 ? days + dAppendix : "");
 
             return result;
@@ -712,30 +713,30 @@ module.exports = {
 
         global.similarity = function (a, b) {
             var m = a.length, n = b.length, C = [], i, j;
-                
+
             for (i = 0; i <= m; i++) {
                 C.push([0]);
             }
-            
+
             for (j = 0; j < n; j++) {
                 C[0].push(0);
             }
-            
+
             for (i = 0; i < m; i++) {
                 for (j = 0; j < n; j++) {
                     C[i + 1][j + 1] = a[i] === b[j] ? C[i][j] + 1 : Math.max(C[i + 1][j], C[i][j + 1]);
                 }
             }
-            
+
             return (function bt(i, j) {
                 if (i * j === 0) {
                     return "";
                 }
-                
+
                 if (a[i - 1] === b[j - 1]) {
                     return bt(i - 1, j - 1) + a[i - 1];
                 }
-                
+
                 return (C[i][j - 1] > C[i - 1][j]) ? bt(i, j - 1) : bt(i - 1, j);
             }(m, n)).length;
         };
@@ -750,7 +751,7 @@ module.exports = {
 
         global.save = function (object, server) {
             var data = (server ? serverData[server.id][object] : permData[object]);
-            
+
             fs.writeFileSync("./data/" + (server ? server.id + "/" : "") + object + ".txt", JSON.stringify(data));
         };
 
@@ -760,13 +761,13 @@ module.exports = {
 
         global.camel = function (string) {
             var temp;
-            
+
             var strings = string.split(' ');
-            
+
             for (var i in strings) {
                 strings[i] = cap(strings[i]);
             }
-            
+
             return strings.join(' ');
         };
 
@@ -776,13 +777,13 @@ module.exports = {
 
         global.isNumber = function (string) {
             var digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'], i;
-            
+
             for (i = 0; i < string.length; i++) {
                 if (!digits.contains(string.charAt(i))) {
                     return false;
                 }
             }
-            
+
             return true;
         };
 
@@ -793,9 +794,9 @@ module.exports = {
         global.caretReplace = function (expression) {
             if (expression.contains('^')) {
                 var tab = [];
-                
+
                 var joker = "___joker___";
-                
+
                 while (expression.contains('(')) {
                     expression = expression.replace(/(\([^\(\)]*\))/g, function(m, t) {
                         tab.push(t);
@@ -804,16 +805,16 @@ module.exports = {
                 }
 
                 tab.push(expression);
-                
+
                 expression = joker + (tab.length - 1);
-                
+
                 while (expression.contains(joker)) {
                     expression = expression.replace(new RegExp(joker + "(\\d+)", "g"), function(m, d) {
                         return tab[d].replace(/(\w*)\^(\w*)/g, "Math.pow($1,$2)");
                     });
                 }
             }
-            
+
             return expression;
         };
 
@@ -829,29 +830,29 @@ module.exports = {
                     return true;
                 }
             }
-            
+
             return false;
         };
 
         global.dateCheck = function (server) {
             var date = new Date();
-            
+
             permData.servers[server.id].date = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
             save("servers");
         };
 
         global.toUsers = function (members) {
             var users = {};
-            
+
             members = members.array();
-            
+
             for (var i = 0; i < members.length; i++) {
                 users[members[i].user.username.toLowerCase()] = members[i].user;
             }
-            
+
             return users;
         };
-        
+
         global.formatType = function (type) {
             return ({
                 "Windows_NT": "Windows",
@@ -876,7 +877,7 @@ module.exports = {
                 "russia": "ru"
             })[region];
         };
-        
+
         global.formatRegion = function (region) {
             return ({
                 "us-west": "US West",
@@ -912,22 +913,29 @@ module.exports = {
                 "td": "TD",
                 "ddc": "DDC",
                 "lolk": "LoLK",
-                "hsifs": "HSiFS"
+                "hsifs": "HSiFS",
+                "wbawc": "WBaWC"
             })[game];
         };
 
         global.shotName = function (shot) {
             var shotNames = {
                 "Reimua": "ReimuA",
+                "Reimuaufos": "ReimuAUFOs",
                 "Reimub": "ReimuB",
+                "Reimubufos": "ReimuBUFOs",
                 "Reimuc": "ReimuC",
                 "Marisaa": "MarisaA",
+                "Marisaaufos": "MarisaAUFOs",
                 "Marisab": "MarisaB",
+                "Marisabufos": "MarisaBUFOs",
                 "Marisac": "MarisaC",
                 "Sakuyaa": "SakuyaA",
                 "Sakuyab": "SakuyaB",
                 "Sanaea": "SanaeA",
+                "Sanaeaufos": "SanaeAUFOs",
                 "Sanaeb": "SanaeB",
+                "Sanaebufos": "SanaeBUFOs",
                 "Reimuspring": "ReimuSpring",
                 "Reimusummer": "ReimuSummer",
                 "Reimuautumn": "ReimuAutumn",
@@ -944,11 +952,20 @@ module.exports = {
                 "Marisasummer": "MarisaSummer",
                 "Marisaautumn": "MarisaAutumn",
                 "Marisawinter": "MarisaWinter",
+                "Reimuwolf": "ReimuWolf",
+                "Reimuotter": "ReimuOtter",
+                "Reimueagle": "ReimuEagle",
+                "Marisawolf": "MarisaWolf",
+                "Marisaotter": "MarisaOtter",
+                "Marisaeagle": "MarisaEagle",
+                "Youmuwolf": "YoumuWolf",
+                "Youmuotter": "YoumuOtter",
+                "Youmueagle": "YoumuEagle"
             };
-            
+
             return (shotNames.hasOwnProperty(shot) ? shotNames[shot] : shot);
         };
-        
+
         global.weatherEmoji = function (weather) {
             if (weather == "clear sky") {
                 return ":sunny: ";
@@ -972,24 +989,24 @@ module.exports = {
         global.weatherUrl = function (place) {
             return WEATHER_BASE_URL + place + "&APPID=" + permData.weatherKey;
         };
-        
+
         global.currencyUrl = function (currency1, currency2) {
             return CURRENCY_BASE_URL + currency1 + "_" + currency2 + "&compact=ultra";
         };
-        
+
         global.googleUrl = function (vid) {
             return GOOGLE_BASE_URL + vid + "&key=" + permData.googleKey + "&part=snippet,statistics";
         };
-        
+
         global.mapsUrl = function (city, countryCode) {
             return MAPS_BASE_URL + city.replace(/ /g, '+') + ",+" + countryCode;
         }
-        
+
         global.generateCurrencies = function () {
             request(CURRENCIES_BASE_URL, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     var result = JSON.parse(body);
-                    
+
                     permData.currencies = result.results;
                     save("currencies");
                     console.log(timeStamp() + "Updated exchange rates.");
@@ -999,13 +1016,13 @@ module.exports = {
 
         global.findQueueItem = function (game, category, shot) {
             var queue = permData.notifyQueue;
-            
+
             for (var i in queue) {
                 if (queue[i][3] == game && queue[i][4] == category && queue[i][5] == shot) {
                     return queue[i];
                 }
             }
-            
+
             return null;
         };
 
@@ -1015,41 +1032,41 @@ module.exports = {
                     return true;
                 }
             }
-            
+
             return false;
         };
 
         global.spaces = function (number) {
             var spaces = "", index = 0;
-            
+
             while (index < number) {
                 spaces += " ";
                 index++;
             }
-            
+
             return spaces;
         };
-        
+
         global.playLocal = function (server, music, volume) {
             if (!music) {
                 return;
             }
-            
+
             music = "./music/" + music;
-            
+
             const streamOptions = {seek: 0, volume: (volume ? volume : 1)};
-            
+
             var voiceChannel = server.channels.get(permData.servers[server.id].voiceChannel);
-            
+
             try {
                 voiceChannel.join().then(connection => {
                     if (fs.existsSync(music)) {
                         const dispatcher = connection.playFile(music, streamOptions);
-                        
+
                         dispatcher.on("end", reason => {
                             console.log(timeStamp() + "Dispatcher ended. Reason: " + reason);
                         });
-                        
+
                         dispatcher.on("error", err => {
                             channel.send(err).catch(console.error);
                         });
@@ -1061,26 +1078,26 @@ module.exports = {
                 channel.send(err).catch(console.error);
             }
         };
-        
+
         global.playYouTube = function (server, music, volume) {
             if (!music) {
                 return;
             }
-            
+
             const streamOptions = {seek: 0, volume: (volume ? volume : 1)};
-            
+
             var voiceChannel = server.channels.get(permData.servers[server.id].voiceChannel);
-            
+
             try {
                 voiceChannel.join().then(connection => {
                     const stream = ytdl(music, {filter: "audioonly"});
-                    
+
                     const dispatcher = connection.playStream(stream, streamOptions);
-                    
+
                     dispatcher.on("end", reason => {
                         console.log(timeStamp() + "Dispatcher ended. Reason: " + reason);
                     });
-                    
+
                     dispatcher.on("error", err => {
                         channel.send(err).catch(console.error);
                     });
@@ -1089,22 +1106,22 @@ module.exports = {
                 channel.send(err).catch(console.error);
             }
         };
-        
+
         global.countLNNs = function (game) {
             var players = [], LNNs = permData.LNNs[game], stage, shottype, player;
-            
+
             for (shottype in LNNs) {
                 if (LNNs[shottype].length === 0) {
                     continue;
                 }
-                
+
                 for (player in LNNs[shottype]) {
                     if (!players.contains(LNNs[shottype][player])) {
                         players.push(LNNs[shottype][player]);
                     }
                 }
             }
-            
+
             return players.length;
         };
     }
