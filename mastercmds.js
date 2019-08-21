@@ -45,7 +45,7 @@
 
                     delete require.cache[process.cwd() + (os.type() == "Windows_NT" ? "\\" : '/') + module + ".js"];
 
-                    module.contains("cmds") ? allCommands[module.replace("cmds", "")] = require(module + ".js") : global[module] = require( module + ".js");
+                    module.contains("cmds") ? allCommands[module.replace("cmds", "")] = require("./" + module + ".js") : global[module] = require("./" + module + ".js");
                 } catch (err) {
                     channel.send("An error occurred while loading the `" + module + "` module: " + err).catch(console.error);
                     return;
