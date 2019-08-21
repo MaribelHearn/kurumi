@@ -90,9 +90,7 @@
 
             if (lower == "windows") {
                 min = 5;
-            }
-
-            if (lower.replace(/-/g, "") == "pc98") {
+            } else if (lower.replace(/-/g, "") == "pc98") {
                 max = 5;
             }
 
@@ -105,7 +103,8 @@
             }
 
             shot = Object.keys(WRs[game][category])[rangedRNG(0, Object.keys(WRs[game][category]).length)].replace("Team", " Team");
-            message = message.author + " You must play... **" + game + " " + category + "**" + (shot.length <= 2 || shot == "Makai" || shot == "Jigoku" ? " " : " with ");
+            message = (channel.type != "dm" ? message.author + " " : "") + "You must play... **" + game +
+            " " + category + "**" + (shot.length <= 2 || shot == "Makai" || shot == "Jigoku" ? " " : " with ");
             message += (shot == '-' ? "" : "**" + shot + "**") + "!";
             channel.send(message, {"file": "games/" + game + ".jpg"}).catch(console.error);
 
