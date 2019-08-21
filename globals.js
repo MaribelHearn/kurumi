@@ -105,8 +105,6 @@ module.exports = {
 
         global.timers = require("timers");
 
-        global.ytdl = require("ytdl-core");
-
         global.url = require("url");
 
         /* Constants */
