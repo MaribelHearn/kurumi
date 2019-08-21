@@ -45,7 +45,7 @@
 
                     delete require.cache[process.cwd() + (os.type() == "Windows_NT" ? "\\" : '/') + module + ".js"];
 
-                    module.contains("cmds") ? allCommands[module.replace("cmds", "")] = require("./" + module + ".js") : global[module] = require("./" + module + ".js");
+                    module.contains("cmds") ? allCommands[module.replace("cmds", "")] = require(module + ".js") : global[module] = require( module + ".js");
                 } catch (err) {
                     channel.send("An error occurred while loading the `" + module + "` module: " + err).catch(console.error);
                     return;
@@ -57,13 +57,13 @@
 
             for (var j in permData) {
                 try {
-                    if (fs.existsSync("./data/" + j + ".txt")) {
+                    if (fs.existsSync("data/" + j + ".txt")) {
                         // console.log(timeStamp() + "Reading " + j + ".txt...");
-                        permData[j] = fs.readFileSync("./data/" + j + ".txt");
+                        permData[j] = fs.readFileSync("data/" + j + ".txt");
                         permData[j] = String(permData[j]).replace(/^\uFEFF/, "");
                         permData[j] = JSON.parse(permData[j]);
                     } else {
-                        fs.writeFileSync("./data/" + j + ".txt", JSON.stringify(permData[j]));
+                        fs.writeFileSync("data/" + j + ".txt", JSON.stringify(permData[j]));
                         console.log(timeStamp() + "Data file " + j + ".txt created.");
                     }
                 } catch (err) {
@@ -84,7 +84,7 @@
                 }
 
                 for (var l in SERVER_DATA_DEFAULTS) {
-                    filename = "./data/" + id;
+                    filename = "data/" + id;
 
                     if (!fs.existsSync(filename)) {
                         fs.mkdirSync(filename);

@@ -2,7 +2,7 @@ module.exports = {
     messageHandler: function (message) {
         var id = message.author.id, channel = message.channel, server = message.guild, content = message.content, lower = content.toLowerCase(), servers = permData.servers, images = permData.images;
 
-        var channelType = message.channel.type, firstChar = content.charAt(0), botMaster = permData.botMaster, musicLocal = permData.musicLocal, musicYouTube = permData.musicYouTube;
+        var firstChar = content.charAt(0), botMaster = permData.botMaster, musicLocal = permData.musicLocal, musicYouTube = permData.musicYouTube;
 
         /* Command Handler */
         if (permData.commandSymbols.contains(firstChar) && content.length > 1) {
@@ -35,13 +35,16 @@ module.exports = {
                 }
 
                 // Music Command Check
-                if (musicLocal.hasOwnProperty(commandName) && (servers[server.id].botChannels.contains(channel.id) || servers[server.id].botChannels.length === 0)) {
+                if (musicLocal.hasOwnProperty(commandName)) {
                     var musicCommand = musicLocal[commandName];
 
-                    console.log(commandName);
-
-                    if (channelType == "dm") {
+                    if (!server) {
                         channel.send("Music commands can only be used on servers.").catch(console.error);
+                        return;
+                    }
+
+                    if (!servers[server.id].botChannels.contains(channel.id) || servers[server.id].botChannels.length === 0) {
+                        channel.send(message.author + ", you do not have sufficient permission to run music commands outside bot channels.").catch(console.error);
                         return;
                     }
 
@@ -60,16 +63,21 @@ module.exports = {
                 }
 
                 // Image Command Check
-                if (images.hasOwnProperty(commandName) && (servers[server.id].botChannels.contains(channel.id) || servers[server.id].botChannels.length === 0)) {
-                    if (fs.existsSync("./images/" + images[commandName].file)) {
-                        channel.send("", {"file": "./images/" + images[commandName].file}).catch(console.error);
+                if (images.hasOwnProperty(commandName)) {
+                    if (server && (!servers[server.id].botChannels.contains(channel.id) || servers[server.id].botChannels.length === 0)) {
+                        channel.send(message.author + ", you do not have sufficient permission to run image commands outside bot channels.").catch(console.error);
+                        return;
+                    }
+
+                    if (fs.existsSync("images/" + images[commandName].file)) {
+                        channel.send("", {"file": "images/" + images[commandName].file}).catch(console.error);
                         cooldown = true;
 
                         if (server) {
                             timers.setInterval(function () { cooldown = false; }, servers[server.id].cooldownSecs * 1000);
                         }
                     } else {
-                        console.log(timeStamp() + "Image file './images/" + images[commandName].file + "' not found.");
+                        console.log(timeStamp() + "Image file 'images/" + images[commandName].file + "' not found.");
                     }
 
                     return;
@@ -135,7 +143,7 @@ module.exports = {
                 }
 
                 // DM Handler
-                if (channelType == "dm") {
+                if (!server) {
                     if ((commandType == "mod" || commandType == "master") && id != botMaster) {
                         channel.send("You do not have sufficient permission to run this command.").catch(console.error);
                         return;

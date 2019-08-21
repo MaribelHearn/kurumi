@@ -254,7 +254,7 @@
             var avatar = command[1];
 
             if (!avatar) {
-                bot.user.setAvatar("./images/avatar.png");
+                bot.user.setAvatar("images/avatar.png");
                 channel.send("Avatar reset to the default avatar.").catch(console.error);
                 return;
             }
@@ -379,125 +379,6 @@
             " " + shot.replace("Team", " Team") + ": " + sep(oldWR) + " by " + oldPlayer + " -> " + sep(newWR) + " by " + newPlayer + "!").catch(console.error);
         }
     },
-
-    /*acceptwr: {
-        help: function (command, symbol) {
-            return "`" + symbol + command + " <game> <difficulty> <shottype/route> [west]`: accepts the new world record in `game` `difficulty` `shottype/route` from" +
-            "the notification queue as being valid, updating the world records in the process. Add 'west' after `player` if the player is western.";
-        },
-
-        command: function (message, server, command, channel) {
-            var game = command[1], WRs = permData.WRs;
-
-            if (!game) {
-                channel.send(message.author + ", please specify a game to update a world record of.").catch(console.error);
-                return;
-            }
-
-            game = gameName(game.toLowerCase());
-
-            if (!WRs[game]) {
-                channel.send(message.author + ", please specify a valid game to update a world record of.").catch(console.error);
-                return;
-            }
-
-            var difficulty = command[2];
-
-            if (!difficulty) {
-                channel.send(message.author + ", please specify a difficulty to update a world record of.").catch(console.error);
-                return;
-            }
-
-            difficulty = cap(difficulty.toLowerCase());
-
-            if (!WRs[game][difficulty]) {
-                channel.send(message.author + ", please specify a valid difficulty to update a world record of.").catch(console.error);
-                return;
-            }
-
-            var shot = command[3], difficultyWRs = WRs[game][difficulty];
-
-            if (!shot) {
-                channel.send(message.author + ", please specify a shottype or route to update the world record of.").catch(console.error);
-                return;
-            }
-
-            if (shot) {
-                shot = (shotName(cap(shot)) ? shotName(cap(shot)) : cap(shot));
-
-                if (shot.contains("team")) {
-                    shot = shot.replace(/team/i, "Team").replace(/ /gi, "");
-                }
-
-                if (!WRs[game][difficulty][shot]) {
-                    channel.send(message.author + ", please specify a valid shottype or route to update the world record of.").catch(console.error);
-                    return;
-                }
-            }
-
-            var queueItem, oldWR, oldPlayer, newWR, newPlayer, replay;
-
-            queueItem = findQueueItem(game, difficulty, shot);
-
-            if (queueItem === null) {
-                channel.send(message.author + ", there is no new score in that category!").catch(console.error);
-                return;
-            }
-
-            oldWR = WRs[game][difficulty][shot][0];
-            oldPlayer = WRs[game][difficulty][shot][1];
-            newWR = queueItem[0];
-            newPlayer = queueItem[1];
-            replay = queueItem[2];
-            WRs[game][difficulty][shot] = [newWR, newPlayer, replay];
-            permData.WRsLastUpdated = new Date().UTC();
-            permData.notifyQueue.remove(queueItem);
-            save("WRs");
-            save("WRsLastUpdated");
-            save("notifyQueue");
-            channel.send(server.emojis.find("name", "Scoarr") + " `Score Update` New WR in " + game + " " + difficulty +
-            " " + shot.replace("Team", " Team") + ": " + sep(oldWR) + " by " + oldPlayer + " -> " + sep(newWR) + " by " + newPlayer + "!").catch(console.error);
-        }
-    },
-
-    purgewrs: {
-        help: function (command, symbol) {
-            return "`" + symbol + command + "`: purges the notification queue.";
-        },
-
-        command: function (message, server, command, channel) {
-            permData.notifyQueue = [];
-            save("notifyQueue");
-            channel.send("The notification queue has been purged!").catch(console.error);
-        }
-    },
-
-    queue: {
-        help: function (command, symbol) {
-            return "`" + symbol + command + "`: shows the current notification queue for world record updates.";
-        },
-
-        command: function (message, server, command, channel) {
-            var queue = permData.notifyQueue, message = "", index = 1, game, difficulty, shot, score;
-
-            if (queue.length === 0) {
-                channel.send("The notification queue is currently empty.").catch(console.error);
-                return;
-            }
-
-            for (var item in queue) {
-                game = queue[item][3];
-                difficulty = queue[item][4];
-                shot = queue[item][5];
-                score = sep(queue[item][0]);
-                message += index + ". " + game + " " + (game.length == 3 ? " " : "") + difficulty + " " + spaces(7 - difficulty.length) + shot +
-                " " + spaces(11 - shot.length) + score + " " + spaces(13 - score.length) + "by " + queue[item][1] + "\n";
-                index++;
-            }
-
-            channel.send("```Markdown\n" + message + "\n```").catch(console.error);
-        }
-    },*/
 
     addlnn: {
         help: function (command, symbol) {

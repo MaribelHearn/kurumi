@@ -767,7 +767,7 @@ module.exports = {
         global.save = function (object, server) {
             var data = (server ? serverData[server.id][object] : permData[object]);
 
-            fs.writeFileSync("./data/" + (server ? server.id + "/" : "") + object + ".txt", JSON.stringify(data));
+            fs.writeFileSync("data/" + (server ? server.id + "/" : "") + object + ".txt", JSON.stringify(data));
         };
 
         global.cap = function (string) {
