@@ -126,7 +126,7 @@ module.exports = {
 
         global.CATEGORIES = ["Easy", "Normal", "Hard", "Lunatic", "Extra"];
 
-        global.TOUHOU_SHMUPS = ["SoEW", "PoDD", "LLS", "MS", "EoSD", "PCB", "IN", "MoF", "SA", "UFO", "GFW", "TD", "DDC", "LoLK", "HSiFS"];
+        global.TOUHOU_SHMUPS = ["SoEW", "PoDD", "LLS", "MS", "EoSD", "PCB", "IN", "MoF", "SA", "UFO", "GFW", "TD", "DDC", "LoLK", "HSiFS", "WBaWC"];
 
         global.TOUHOU_CHARS = ["Reimu Hakurei", "Marisa Kirisame", "ShinGyoku", "YuugenMagan", "Elis", "Sariel", "Mima", "Kikuri", "Konngara",
         "Genjii", "Rika", "Noroiko", "Meira", "Two Red Dots", "Five Magic Stones", "Matenshi", "Ellen", "Kotohime", "Kana Anaberal",
@@ -539,7 +539,7 @@ module.exports = {
         global.isServerOnly = function (commandFunction) {
             var string = commandFunction.toString();
 
-            return (string.contains("server.") || string.contains("playYouTube")) && (string.indexOf("server.") == -1 || string.indexOf("server.") != string.indexOf("server.id].cooldownSecs"));
+            return string.contains("server.") && (string.indexOf("server.") == -1 || string.indexOf("server.") != string.indexOf("server.id].cooldownSecs"));
         }
 
         global.strip = function (string) {
