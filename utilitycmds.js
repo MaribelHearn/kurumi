@@ -705,7 +705,8 @@
                 while (count <= Object.keys(difficultyWRs).length) {
                     for (shot in difficultyWRs) {
                         if (difficultyWRs[shot][0] == scores[count - 1]) {
-                            list += count + ". " + shot + ": " + sep(difficultyWRs[shot][0]) + " by " + difficultyWRs[shot][1] + "\n";
+                            list += count + ". " + shot + ": " + sep(difficultyWRs[shot][0]) +
+                            " by " + difficultyWRs[shot][1] + " on " + difficultyWRs[shot][2] + "\n";
                             break;
                         }
                     }
@@ -718,7 +719,8 @@
                         continue;
                     }
 
-                    list += shot + ": " + (shot == overall ? "**" + sep(difficultyWRs[shot][0]) + "**" : sep(difficultyWRs[shot][0])) + " by " + difficultyWRs[shot][1] + "\n";
+                    list += shot + ": " + (shot == overall ? "**" + sep(difficultyWRs[shot][0]) + "**" : sep(difficultyWRs[shot][0])) +
+                    " by " + difficultyWRs[shot][1] + " on " + difficultyWRs[shot][2] + "\n";
                 }
             }
 
