@@ -527,6 +527,8 @@
                 acronym = "LNNFS";
             } else if (game == "PCB" || game == "TD" || game == "HSiFS") {
                 acronym = "LNNN";
+            } else if (game == "WBaWC") {
+                acronym = "LNNNN";
             }
 
             if (!shot) {
@@ -734,7 +736,7 @@
 
     addmusic: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <music> <description> [volume]`: adds a command that plays `music` on a voice channel and has `description` when `" + symbol + "help` is used on it.\nThe music must either be a YouTube video URL or a file in the `music` folder.\nIf `volume` is not specified, it will be set to 0.5.";
+            return "`" + symbol + command + " <music> <description> [volume]`: adds a command that plays `music` on a voice channel and has `description` when `" + symbol + "help` is used on it.\nThe music must either be a file in the `music` folder.\nIf `volume` is not specified, it will be set to 0.5.";
         },
 
         command: function (message, server, command, channel) {
@@ -769,49 +771,13 @@
         }
     },
 
-    addmusicyt: {
-        help: function (command, symbol) {
-            return "`" + symbol + command + " <name> <YouTube video> <description> [volume]`: adds a command called `name` that plays `YouTube video` on a voice channel.\nIt will have `description` when `" + symbol + "help` is used on it.\nIf `volume` is not specified, it will be set to 0.5.";
-        },
-
-        command: function (message, server, command, channel) {
-            var name = command[1], video = command[2], url, description = command[3], volume = command[4];
-
-            if (!name) {
-                channel.send(message.author + ", please specify a command name.").catch(console.error);
-                return;
-            }
-
-            if (!video) {
-                channel.send(message.author + ", please specify a YouTube video.").catch(console.error);
-                return;
-            }
-
-            url = url.parse(video);
-
-            if (url.hostname != "youtu.be" && (url.hostname != "www.youtube.com" || url.pathname != "/watch" || url.search.substring(0, 3) != "?v=")) {
-                channel.send(message.author + ", that is not a YouTube video.").catch(console.error);
-                return;
-            }
-
-            if (!description) {
-                channel.send(message.author + ", please specify a description for the help command.").catch(console.error);
-                return;
-            }
-
-            permData.musicYouTube[name] = {"help": description, "link": video, "volume": (volume ? volume : 0.5)};
-            save("musicYouTube");
-            channel.send("The music command " + name + " has been added.").catch(console.error);
-        }
-    },
-
     removemusic: {
         help: function (command, symbol) {
             return "`" + symbol + command + " <music command>`: removes `music command`. Note that this does not delete the actual music file, if there is one.";
         },
 
         command: function (message, server, command, channel) {
-            var music = command[1], musicLocal = permData.musicLocal, musicYouTube = permData.musicYouTube;
+            var music = command[1], musicLocal = permData.musicLocal;
 
             if (!music) {
                 channel.send(message.author + ", please specify a music command.").catch(console.error);
@@ -822,10 +788,6 @@
                 delete permData.musicLocal[music];
                 channel.send("The music command " + name + " has been removed.").catch(console.error);
                 save("musicLocal");
-            } else if (musicYouTube.hasOwnProperty(image)) {
-                delete permData.musicYouTube[music];
-                channel.send("The music command " + name + " has been removed.").catch(console.error);
-                save("musicYouTube");
             } else {
                 channel.send(message.author + ", that is not a music command.").catch(console.error);
             }

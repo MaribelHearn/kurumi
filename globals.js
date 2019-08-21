@@ -441,7 +441,22 @@ module.exports = {
         "Back Sign \"Halo of the Absolute Secret God\"", "Hidden Winter \"Snowman of Abnormal Snowfall\"",
         "Hidden Summer \"Scorched Earth of Abnormal Ferocious Heat\"", "Hidden Fall \"Starving Preta of Abnormal Blight\"",
         "Hidden Spring \"Sorcerer of Abnormal Falling Flowers\"", "Magic Sign \"Gigantic Pet Bullet Lifeform\"", "Mad Dance \"Frenzied Tengu-Frightening\"",
-        "Secret Ceremony \"Shot in the Back\"", "Secret Ceremony \"Flames of the Impure\""];
+        "Secret Ceremony \"Shot in the Back\"", "Secret Ceremony \"Flames of the Impure\"", "Stone Sign \"Stone Woods\"", "Stone Sign \"Stone Conifers\"",
+        "Stone Sign \"Children's Limbo\"", "Stone Sign \"Adult Children's Limbo\"", "Stone Sign \"Stone Baby\"", "Stone Sign \"Heavy Stone Baby\"",
+        "Drowning Sign \"Drowning in the Sanzu\"", "Oni Sign \"Purgatordeal of Oniwatari\"", "Oni Sign \"High-Level Purgatordeal of Oniwatari\"",
+        "Oni Sign \"Demon Siege\"", "Oni Sign \"Hungry Demon Siege\"", "Oni Sign \"Hell-Level Purgatordeal of Oniwatari\"", "Water Sign \"Ordeal of Water Distribution\"",
+        "Water Sign \"High-Level Purgatordeal of Water Distribution\"", "Water Sign \"Ultimate Purgatordeal of Water Distribution\"", "Light Sign \"Ordeal of Surveying\"",
+        "Light Sign \"High-Level Purgatordeal of Surveying\"", "Light Sign \"Ultimate Purgatordeal of Surveying\"", "Oni Sign \"Hell-Level Purgatordeal of Oniwatari\"",
+        "Tortoise Sign \"Tortoiseshell Hell\"", "Haniwa \"Archer Haniwa\"", "Haniwa \"Heat-Treated Archer Haniwa\"", "Haniwa \"Fencer Haniwa\"",
+        "Haniwa \"Heat-Treated Fencer Haniwa\"", "Haniwa \"Cavalry Haniwa\"", "Haniwa \"Heat-Treated Cavalry Haniwa\"", "Haniwa \"Hollow Inexhaustible Troops\"",
+        "Haniwa \"Undefeated Inexhaustible Troops\"", "Square Shape \"Square-Shaped Sculpting Art\"", "Square Shape \"Square Creature\"",
+        "Circular Shape \"Perfect Circle Sculpting Art\"", "Circular Shape \"Circle Creature\"", "Linear Shape \"Line-Shaped Sculpting Art\"",
+        "Linear Shape \"Linear Creature\"", "Haniwa \"Horse-and-Rider Idol Sculpting Art\"","Haniwa \"Idol Creature\"", "\"Oni-Shaped Sculpting Art\"",
+        "\"Geometric Creature\"", "\"Idola Diabolus\"", "Bloody Battle \"Watershed of Blood\"", "Bloody Battle \"Hell Realm Sight-Line\"",
+        "Bloody Battle \"All-Spirit Oniwatari\"", "Agile Skill \"Thrilling Shot\"", "Agile Skill \"Lightning Neigh\"", "Agile Skill \"Dense Crowd\"",
+        "Agile Skill \"Beast Epidemicity\"", "Agile Skill \"Triangle Chase\"", "Agile Skill \"Black Pegasus Meteor Shot\"", "Agile Skill \"Muscle Explosion\"",
+        "\"Follow Me Unafraid\"", "\"Oni-Shaped Hoi Polloi\"", "\"Deeds of Devilish Beasts\"", "Oni Sign \"Beasts Attacking from the Rear\"",
+        "Oni Sign \"Mangy Beasts Attacking from the Rear\"", "Oni Sign \"Devilish Beasts Attacking from the Rear\"", "Dragon Sign \"Dragon Crest Bullets\""];
 
         global.FANMEME_CHARS = ["Marry Shepherd", "Corin Charite", "Phiased Pescar", "Mumumu Mikaboshi", "Janet Arc'Angelo", "Michel Sant'Angelo",
         "Iesua Nazarenus", "Elfin Mint", "Zankurou", "Kodama", "Aragami no Kusuko", "Momo Tobikura", "Saraka Sant'Angelo", "Tenmu Suitokuin",
@@ -490,7 +505,7 @@ module.exports = {
 
         /* Variables */
         global.permData = {
-            "servers": {}, "WRs": {}, "bestInTheWest": {}, "LNNs": {}, "currencies": {}, "images": {}, "musicLocal": {}, "musicYouTube": {}, "notifyQueue": [],
+            "servers": {}, "WRs": {}, "bestInTheWest": {}, "LNNs": {}, "currencies": {}, "images": {}, "musicLocal": {}, "notifyQueue": [],
             "commandSymbols": ["!"], "token": "", "botMaster": "", "WRsLastUpdated": "", "weatherKey": "", "googleKey": "", "maxLength": 200, "maintenanceMode": false
         };
 
@@ -1052,7 +1067,7 @@ module.exports = {
                 return;
             }
 
-            music = "./music/" + music;
+            music = "music/" + music;
 
             const streamOptions = {seek: 0, volume: (volume ? volume : 1)};
 
@@ -1073,34 +1088,6 @@ module.exports = {
                     } else {
                         console.log(timeStamp() + "Music file '" + music + "' not found.");
                     }
-                }).catch(console.error);
-            } catch (err) {
-                channel.send(err).catch(console.error);
-            }
-        };
-
-        global.playYouTube = function (server, music, volume) {
-            if (!music) {
-                return;
-            }
-
-            const streamOptions = {seek: 0, volume: (volume ? volume : 1)};
-
-            var voiceChannel = server.channels.get(permData.servers[server.id].voiceChannel);
-
-            try {
-                voiceChannel.join().then(connection => {
-                    const stream = ytdl(music, {filter: "audioonly"});
-
-                    const dispatcher = connection.playStream(stream, streamOptions);
-
-                    dispatcher.on("end", reason => {
-                        console.log(timeStamp() + "Dispatcher ended. Reason: " + reason);
-                    });
-
-                    dispatcher.on("error", err => {
-                        channel.send(err).catch(console.error);
-                    });
                 }).catch(console.error);
             } catch (err) {
                 channel.send(err).catch(console.error);

@@ -511,6 +511,8 @@
                 acronym = "LNNFS";
             } else if (game == "PCB" || game == "TD" || game == "HSiFS") {
                 acronym = "LNNN";
+            } else if (game == "WBaWC") {
+                acronym = "LNNNN";
             }
 
             var shot = command[2], list = "", total = 0, shottype, count;
