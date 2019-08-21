@@ -619,7 +619,7 @@
                 shot = overall;
             }
 
-            var wrArray = difficultyWRs[shot], wr = sep(wrArray[0]), player = wrArray[1], replay = wrArray[2];
+            var wrArray = difficultyWRs[shot], wr = sep(wrArray[0]), player = wrArray[1], date = wrArray[2];
 
             if (wr === "0") {
                 channel.send("There is no known world record for that category!").catch(console.error);
@@ -627,7 +627,7 @@
             }
 
             channel.send("The world record for " + game + " " + difficulty + " " + shot.replace("Team", " Team") +
-            " is " + wr + " by " + player + "." + (shot == overall ? " (overall WR)" : "")).catch(console.error);
+            " is " + wr + " by " + player + ", set on " + date + "." + (shot == overall ? " (overall WR)" : "")).catch(console.error);
         }
     },
 

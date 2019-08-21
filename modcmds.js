@@ -280,7 +280,7 @@
 
     updatewr: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <game> <difficulty> <shottype/route> <new WR> <player> [replay] [west]`: updates the world record in `game` `difficulty` `shottype/route` to `new WR` by `player`." +
+            return "`" + symbol + command + " <game> <difficulty> <shottype/route> <new WR> <player> [date] [west]`: updates the world record in `game` `difficulty` `shottype/route` to `new WR` by `player`." +
             "\nAdd 'west' after `player` if the player is western.";
         },
 
