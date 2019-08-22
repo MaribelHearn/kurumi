@@ -284,6 +284,8 @@ module.exports = {
             "</table>" + (game == "MoF" ? "<p>* This record is suspected of cheating. If it is found to have been cheated, the record will be 2,209,324,900 by nanamaru.</p>" : "") + "</div>";
         }
 
-        console.log(list);
+        if (fs.existsSync("../maribelhearn.com")) {
+            fs.writeFileSync("../maribelhearn.com/wrlist.html", list);
+        }
     }
-}
+};
