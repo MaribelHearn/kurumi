@@ -211,10 +211,9 @@ module.exports = {
                         list += "<td id='HSiFS" + difficulty + shottype + (difficulty == "Extra" ? "Small" : "") + "'>";
 
                         if (score > 0) {
-                            list += '<a class="replay" href="' + replay +
-                            '">' + sep(score) + '</a><br>by <em>' + player +
-                            '</em><span class="datestring" style="display:none"><span class="dimgrey"><br>' + date +
-                            '</span></span>';
+                            list += '<a class="replay" href="' + replay + '">' + sep(score) + '</a><br>by <em>' + player +
+                            '</em>' + (difficulty != 'Extra' ? ' (' + bestSeason(difficulty, shottype) + ')' : '') +
+                            '<span class="datestring" style="display:none"><span class="dimgrey"><br>' + date + '</span></span>';
                         } else {
                             list += "-";
                         }
@@ -263,8 +262,7 @@ module.exports = {
                     "'" + (game == "HSiFS" && difficulty == "Extra" ? " rowspan='4'" : "") + ">";
 
                     if (score > 0) {
-                        list += '<a class="replay" href="' + replay +
-                        '">' + sep(score) + '</a><br>by <em>' + player +
+                        list += '<a class="replay" href="' + replay + '">' + sep(score) + '</a><br>by <em>' + player +
                         '</em><span class="datestring" style="display:none"><span class="dimgrey"><br>' + date +
                         '</span></span>';
                     } else {
