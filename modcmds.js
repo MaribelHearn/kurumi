@@ -457,6 +457,11 @@
 
             LNNs[game][shot].push(player);
             save("LNNs");
+
+            if (fs.existsSync("../maribelhearn.com/json/lnnlist.json")) {
+                fs.copyFileSync("data/LNNs.txt", "../maribelhearn.com/json/lnnlist.json");
+            }
+
             channel.send(server.emojis.find("name", "Power") + " `Survival Update` " + player +
             " got a" + grammar + game + " " + acronym + (shot.contains("UFOs") ? "" : "N") +
             " with " + shot.replace("Team", " Team").replace("UFOs", "") + "!").catch(console.error);
