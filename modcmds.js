@@ -365,12 +365,25 @@
 
             oldWR = WRs[game][difficulty][shot][0];
             oldPlayer = WRs[game][difficulty][shot][1];
-            WRs[game][difficulty][shot] = [newWR, newPlayer, date];
+
+            if (west) {
+                if (west == "west") {
+                    permData.bestInTheWest[game][difficulty] = [newWR, newPlayer, shot];
+                    save("bestInTheWest");
+                } else {
+                    WRs[game][difficulty][shot] = [newWR, newPlayer, date, west]; // PC-98 video link
+                }
+            } else {
+                oldWR = WRs[game][difficulty][shot][0];
+                oldPlayer = WRs[game][difficulty][shot][1];
+                WRs[game][difficulty][shot] = [newWR, newPlayer, date];
+            }
+
             permData.WRsLastUpdated = new Date().UTC();
             save("WRs");
             save("WRsLastUpdated");
 
-            if (west && west == "west") {
+            if (command[8] && command[8] == "west") { // PC-98 west after video
                 permData.bestInTheWest[game][difficulty] = [newWR, newPlayer, shot];
                 save("bestInTheWest");
             }
