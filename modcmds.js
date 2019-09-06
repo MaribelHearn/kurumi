@@ -403,7 +403,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var game = command[1], LNNs = permData.LNNs;
+            var game = command[1], LNNs = permData.LNNs, date = new Date(), dateString;
 
             if (!game) {
                 channel.send(message.author + ", please specify a game to add an LNN player to.").catch(console.error);
@@ -468,6 +468,10 @@
             }
 
             LNNs[game][shot].push(player);
+            dateString = ('0' + date.getDate()).slice(-2) +
+            '/' + ('0' + (date.getMonth() + 1)).slice(-2) +
+            '/' + date.getFullYear();
+            LNNs.LM = dateString;
             save("LNNs");
 
             if (fs.existsSync("../maribelhearn.com/json/lnnlist.json")) {
