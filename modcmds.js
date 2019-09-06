@@ -377,7 +377,6 @@
 
             if (fs.existsSync("../maribelhearn.com/json/wrlist.json")) {
                 fs.copyFileSync("data/WRs.txt", "../maribelhearn.com/json/wrlist.json");
-                generator.generate();
             }
 
             channel.send(server.emojis.find("name", "Scoarr") + " `Score Update` New WR in " + game + " " + difficulty +
