@@ -392,7 +392,7 @@
                 fs.copyFileSync("data/WRs.txt", "../maribelhearn.com/json/wrlist.json");
             }
 
-            channel.send(server.emojis.find("name", "Scoarr") + " `Score Update` New WR in " + game + " " + difficulty +
+            channel.send("`Score Update` New WR in " + game + " " + difficulty +
             " " + shot.replace("Team", " Team") + ": " + sep(oldWR) + " by " + oldPlayer + " -> " + sep(newWR) + " by " + newPlayer + "!").catch(console.error);
         }
     },
@@ -478,7 +478,7 @@
                 fs.copyFileSync("data/LNNs.txt", "../maribelhearn.com/json/lnnlist.json");
             }
 
-            channel.send(server.emojis.find("name", "Power") + " `Survival Update` " + player +
+            channel.send("`Survival Update` " + player +
             " got a" + grammar + game + " " + acronym + (shot.contains("UFOs") ? "" : "N") +
             " with " + shot.replace("Team", " Team").replace("UFOs", "") + "!").catch(console.error);
         }
