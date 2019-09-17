@@ -461,8 +461,9 @@
 
             var oldWR, oldPlayer;
 
-            oldWR = WestRs[game][difficulty][0];
-            oldShot = WestRs[game][difficulty][1];
+            oldWestR = WestRs[game][difficulty][0];
+            oldPlayer = WestRs[game][difficulty][1];
+            oldShot = WestRs[game][difficulty][2];
             WestRs[game][difficulty] = [newWR, newPlayer, shottype];
             permData.bestInTheWest[game][difficulty] = [newWR, newPlayer, shottype];
             save("bestInTheWest");
@@ -472,7 +473,7 @@
             }
 
             channel.send("`Score Update` New Western record in " + game + " " + difficulty +
-            ": " + sep(oldWR) + " by " + oldPlayer + " with " + oldShot.replace("Team", " Team") + " -> " + sep(newWR) +
+            ": " + sep(oldWestR) + " by " + oldPlayer + " with " + oldShot.replace("Team", " Team") + " -> " + sep(newWR) +
             " by " + newPlayer + " with " + shottype.replace("Team", " Team") + "!").catch(console.error);
         }
     },
