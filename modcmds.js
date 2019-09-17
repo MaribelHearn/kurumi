@@ -280,7 +280,7 @@
 
     updatewr: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <game> <difficulty> <shottype/route> <new WR> <player> [date] [west]`: updates the world record in `game` `difficulty` `shottype/route` to `new WR` by `player`." +
+            return "`" + symbol + command + " <game> <difficulty> <shottype/route> <new WR> <player> <date> [west]`: updates the world record in `game` `difficulty` `shottype/route` to `new WR` by `player`." +
             "\nAdd 'west' after `player` if the player is western.";
         },
 
@@ -394,6 +394,86 @@
 
             channel.send("`Score Update` New WR in " + game + " " + difficulty +
             " " + shot.replace("Team", " Team") + ": " + sep(oldWR) + " by " + oldPlayer + " -> " + sep(newWR) + " by " + newPlayer + "!").catch(console.error);
+        }
+    },
+
+    updatewest: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <game> <difficulty> <new WestR> <player> <shottype>`: updates the Western record in `game` `difficulty` `shottype/route` to `new WestR` by `player`.";
+        },
+
+        command: function (message, server, command, channel) {
+            var game = command[1], WestRs = permData.bestInTheWest;
+
+            if (!game) {
+                channel.send(message.author + ", please specify a game to update a Western record of.").catch(console.error);
+                return;
+            }
+
+            game = gameName(game.toLowerCase());
+
+            if (!WestRs[game]) {
+                channel.send(message.author + ", please specify a valid game to update a Western record of.").catch(console.error);
+                return;
+            }
+
+            var difficulty = command[2];
+
+            if (!difficulty) {
+                channel.send(message.author + ", please specify a difficulty to update a Western record of.").catch(console.error);
+                return;
+            }
+
+            difficulty = cap(difficulty.toLowerCase());
+
+            if (!WestRs[game][difficulty]) {
+                channel.send(message.author + ", please specify a valid difficulty to update a Western record of.").catch(console.error);
+                return;
+            }
+
+            var newWR = command[3];
+
+            if (!newWR || isNaN(newWR.replace(/\./g, "").replace(/\,/g, ""))) {
+                channel.send(message.author + ", please specify the new Western record.").catch(console.error);
+                return;
+            }
+
+            if (Number(newWR) > MAX_SCORE || Number(newWR) <= 0) {
+                channel.send(message.author + ", please specify a valid new Western record.").catch(console.error);
+                return;
+            }
+
+            newWR = Number(newWR.replace(/\./g, "").replace(/\,/g, ""));
+
+            var newPlayer = command[4];
+
+            if (!newPlayer) {
+                channel.send(message.author + ", please specify the player that got the new Western record.").catch(console.error);
+                return;
+            }
+
+            var shottype = command[5];
+
+            if (!shottype) {
+                channel.send(message.author + ", please specify a shottype or route.").catch(console.error);
+                return;
+            }
+
+            var oldWR, oldPlayer;
+
+            oldWR = WestRs[game][difficulty][0];
+            oldShot = WestRs[game][difficulty][1];
+            WestRs[game][difficulty] = [newWR, newPlayer, shottype];
+            permData.bestInTheWest[game][difficulty] = [newWR, newPlayer, shot];
+            save("bestInTheWest");
+
+            if (fs.existsSync("../maribelhearn.com/json/bestinthewest.json")) {
+                fs.copyFileSync("data/bestInTheWest.txt", "../maribelhearn.com/json/bestinthewest.json");
+            }
+
+            channel.send("`Score Update` New Western record in " + game + " " + difficulty +
+            " " + shot.replace("Team", " Team") + ": " + sep(oldWR) + " by " + oldPlayer + " -> " + sep(newWR) +
+            " by " + newPlayer + "!").catch(console.error);
         }
     },
 
