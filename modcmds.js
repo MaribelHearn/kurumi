@@ -464,7 +464,7 @@
             oldWR = WestRs[game][difficulty][0];
             oldShot = WestRs[game][difficulty][1];
             WestRs[game][difficulty] = [newWR, newPlayer, shottype];
-            permData.bestInTheWest[game][difficulty] = [newWR, newPlayer, shot];
+            permData.bestInTheWest[game][difficulty] = [newWR, newPlayer, shottype];
             save("bestInTheWest");
 
             if (fs.existsSync("../maribelhearn.com/json/bestinthewest.json")) {
@@ -472,8 +472,8 @@
             }
 
             channel.send("`Score Update` New Western record in " + game + " " + difficulty +
-            " " + shot.replace("Team", " Team") + ": " + sep(oldWR) + " by " + oldPlayer + " -> " + sep(newWR) +
-            " by " + newPlayer + "!").catch(console.error);
+            ": " + sep(oldWR) + " by " + oldPlayer + " with " + oldShot.replace("Team", " Team") + " -> " + sep(newWR) +
+            " by " + newPlayer + " with " + shottype.replace("Team", " Team") + "!").catch(console.error);
         }
     },
 
