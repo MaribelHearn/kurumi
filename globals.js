@@ -563,7 +563,16 @@ module.exports = {
         };
 
         global.time = function (milliseconds) {
-            var result = "", hours = 0, minutes = 0, seconds = 0;
+            var result = "", days = 0, hours = 0, minutes = 0, seconds = 0;
+
+            if (milliseconds >= 86400000) {
+                while (milliseconds >= 86400000) {
+                    milliseconds -= 86400000;
+                    days += 1;
+                }
+
+                result += days + " day" + (days != 1 ? 's' : "") + ", ";
+            }
 
             if (milliseconds >= 3600000) {
                 while (milliseconds >= 3600000) {
