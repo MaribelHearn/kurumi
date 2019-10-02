@@ -41,11 +41,22 @@
                 var module = MODULES[i];
 
                 try {
-                    console.log(timeStamp() + "Evaluating module " + module + ".js...");
+                    console.log(timeStamp() + "Downloading module " + module + ".js...");
 
-                    delete require.cache[process.cwd() + (os.type() == "Windows_NT" ? "\\" : '/') + module + ".js"];
+                    request(SCRIPT_BASE_URL + module + ".js", function (error, response, body) {
+                        if (!error && response.statusCode == 200) {
+                            fs.writeFileSync(module + ".js", body);
+                            console.log(timeStamp() + "Evaluating module " + module + ".js...");
 
-                    module.contains("cmds") ? allCommands[module.replace("cmds", "")] = require("./" + module + ".js") : global[module] = require("./" + module + ".js");
+                            delete require.cache[process.cwd() + (os.type() == "Windows_NT" ? "\\" : '/') + module + ".js"];
+
+                            module.contains("cmds") ? allCommands[module.replace("cmds", "")] = require("./" + module + ".js") : global[module] = require("./" + module + ".js");
+                        } else {
+                            channel.send("An error occurred while downloading the `" + module +
+                            "` module: " + error + ", status code " + response.statusCode).catch(console.error);
+                            return;
+                        }
+                    }
                 } catch (err) {
                     channel.send("An error occurred while loading the `" + module + "` module: " + err).catch(console.error);
                     return;
@@ -58,7 +69,6 @@
             for (var j in permData) {
                 try {
                     if (fs.existsSync("data/" + j + ".txt")) {
-                        // console.log(timeStamp() + "Reading " + j + ".txt...");
                         permData[j] = fs.readFileSync("data/" + j + ".txt");
                         permData[j] = String(permData[j]).replace(/^\uFEFF/, "");
                         permData[j] = JSON.parse(permData[j]);

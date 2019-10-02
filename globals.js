@@ -108,6 +108,8 @@ module.exports = {
         global.url = require("url");
 
         /* Constants */
+        global.SCRIPT_BASE_URL = "https://raw.githubusercontent.com/MaribelHearn/kurumi/master/";
+
         global.WEATHER_BASE_URL = "http://api.openweathermap.org/data/2.5/weather?q=";
 
         global.CURRENCY_BASE_URL = "http://free.currencyconverterapi.com/api/v3/convert?q=";
