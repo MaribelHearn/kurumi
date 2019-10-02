@@ -56,7 +56,7 @@
                             "` module: " + error + ", status code " + response.statusCode).catch(console.error);
                             return;
                         }
-                    }
+                    });
                 } catch (err) {
                     channel.send("An error occurred while loading the `" + module + "` module: " + err).catch(console.error);
                     return;
