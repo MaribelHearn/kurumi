@@ -388,8 +388,12 @@
                 save("bestInTheWest");
             }
 
-            if (fs.existsSync("../maribelhearn.com/json/wrlist.json")) {
-                fs.copyFileSync("data/WRs.txt", "../maribelhearn.com/json/wrlist.json");
+            if (fs.existsSync("/var/www/maribelhearn.com/json/wrlist.json")) {
+                fs.copyFileSync("data/WRs.txt", "/var/www/maribelhearn.com/json/wrlist.json");
+            }
+
+            if (fs.existsSync("/var/www/maribelhearn.com/json/bestinthewest.json")) {
+                fs.copyFileSync("data/bestInTheWest.txt", "/var/www/maribelhearn.com/json/bestinthewest.json");
             }
 
             channel.send("`Score Update` New WR in " + game + " " + difficulty +
@@ -468,8 +472,8 @@
             permData.bestInTheWest[game][difficulty] = [newWR, newPlayer, shottype];
             save("bestInTheWest");
 
-            if (fs.existsSync("../maribelhearn.com/json/bestinthewest.json")) {
-                fs.copyFileSync("data/bestInTheWest.txt", "../maribelhearn.com/json/bestinthewest.json");
+            if (fs.existsSync("/var/www/maribelhearn.com/json/bestinthewest.json")) {
+                fs.copyFileSync("data/bestInTheWest.txt", "/var/www/maribelhearn.com/json/bestinthewest.json");
             }
 
             channel.send("`Score Update` New Western record in " + game + " " + difficulty +
@@ -555,8 +559,8 @@
             LNNs.LM = dateString;
             save("LNNs");
 
-            if (fs.existsSync("../maribelhearn.com/json/lnnlist.json")) {
-                fs.copyFileSync("data/LNNs.txt", "../maribelhearn.com/json/lnnlist.json");
+            if (fs.existsSync("/var/www/maribelhearn.com/json/lnnlist.json")) {
+                fs.copyFileSync("data/LNNs.txt", "/var/www/maribelhearn.com/json/lnnlist.json");
             }
 
             channel.send("`Survival Update` " + player +
