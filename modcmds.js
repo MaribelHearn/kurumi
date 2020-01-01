@@ -564,7 +564,7 @@
             }
 
             channel.send("`Survival Update` " + player +
-            " got a" + grammar + game + " " + acronym + (shot.contains("UFOs") ? "" : "N") +
+            " got a" + grammar + game + " " + acronym + (shot.contains("UFOs") ? "N" : "") +
             " with " + shot.replace("Team", " Team").replace("UFOs", "") + "!").catch(console.error);
         }
     },
