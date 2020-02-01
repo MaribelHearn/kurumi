@@ -676,7 +676,7 @@
                 }
             }
 
-            bot.destroy();
+            bot.destroy();//
         }
     }
 };
