@@ -107,6 +107,8 @@ module.exports = {
 
         global.url = require("url");
 
+        global.exec = require("child_process").exec;
+
         /* Constants */
         global.SCRIPT_BASE_URL = "https://raw.githubusercontent.com/MaribelHearn/kurumi/master/";
 
@@ -988,6 +990,97 @@ module.exports = {
             };
 
             return (shotNames.hasOwnProperty(shot) ? shotNames[shot] : shot);
+        };
+
+        global.replayName = function (difficulty, shottype) {
+            var games = {
+                    "EoSD": "th6_ud",
+                    "PCB": "th7_ud",
+                    "IN": "th8_ud",
+                    "PoFV": "th9_ud",
+                    "MoF": "th10_ud",
+                    "SA": "th11_ud",
+                    "UFO": "th12_ud",
+                    "GFW": "th128_ud",
+                    "TD": "th13_ud",
+                    "DDC": "th14_ud",
+                    "LoLK": "th15_ud",
+                    "HSiFS": "th16_ud",
+                    "WBaWC": "th17_ud",
+                },
+                difficulties = {
+                    "Easy": "Ea",
+                    "Normal": "No",
+                    "Hard": "Ha",
+                    "Lunatic": "Lu",
+                    "Extra": "Ex",
+                    "Phantasm": "Ph"
+                },
+                shotNames = {
+                    "BorderTeam": "BT",
+                    "MagicTeam": "MT",
+                    "ScarletTeam": "ST",
+                    "GhostTeam": "GT",
+                    "Reimu": "Re",
+                    "Yukari": "Yu",
+                    "Marisa": "Ma",
+                    "Alice": "Al",
+                    "Sakuya": "Sa",
+                    "Remilia": "Rr",
+                    "Youmu": "Yo",
+                    "Yuyuko": "Yy",
+                    "Reisen": "Ud",
+                    "Cirno": "Ci",
+                    "Lyrica": "Ly",
+                    "Mystia": "My",
+                    "Tewi": "Te",
+                    "Aya": "Ay",
+                    "Medicine": "Me",
+                    "Yuuka": "Yu",
+                    "Komachi": "Ko",
+                    "Eiki": "Ei",
+                    "Sanae": "Sa",
+                    "ReimuA": "RA",
+                    "ReimuB": "RB",
+                    "ReimuC": "RC",
+                    "MarisaA": "MA",
+                    "MarisaB": "MB",
+                    "MarisaC": "MC",
+                    "SakuyaA": "SA",
+                    "SakuyaB": "SB",
+                    "SanaeA": "SA",
+                    "SanaeB": "SB",
+                    "ReimuSpring": "RS",
+                    "ReimuSummer": "RU",
+                    "ReimuAutumn": "RA",
+                    "ReimuWinter": "RW",
+                    "CirnoSpring": "CS",
+                    "CirnoSummer": "CU",
+                    "CirnoAutumn": "CA",
+                    "CirnoWinter": "CW",
+                    "AyaSpring": "AS",
+                    "AyaSummer": "AU",
+                    "AyaAutumn": "AA",
+                    "AyaWinter": "AW",
+                    "MarisaSpring": "MS",
+                    "MarisaSummer": "MU",
+                    "MarisaAutumn": "MA",
+                    "MarisaWinter": "MW",
+                    "ReimuWolf": "RW",
+                    "ReimuOtter": "RO",
+                    "ReimuEagle": "RE",
+                    "MarisaWolf": "MW",
+                    "MarisaOtter": "MO",
+                    "MarisaEagle": "ME",
+                    "YoumuWolf": "YW",
+                    "YoumuOtter": "YO",
+                    "YoumuEagle": "YE"
+                };
+
+            difficulty = (difficulties.hasOwnProperty(difficulty) ? difficulties[difficulty] : difficulty);
+            shot = (shotNames.hasOwnProperty(shot) ? shotNames[shot] : shot);
+
+            return difficulty + shot;
         };
 
         global.weatherEmoji = function (weather) {
