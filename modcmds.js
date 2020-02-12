@@ -382,20 +382,11 @@
             }
 
             permData.WRsLastUpdated = new Date().UTC();
-            save("WRs");
             save("WRsLastUpdated");
-
-            if (command[8] && command[8] == "west") { // PC-98 west after video
-                permData.bestInTheWest[game][difficulty] = [newWR, newPlayer, shot];
-                save("bestInTheWest");
-            }
+            save("WRs");
 
             if (fs.existsSync("/var/www/maribelhearn.com/json/wrlist.json")) {
                 fs.copyFileSync("data/WRs.txt", "/var/www/maribelhearn.com/json/wrlist.json");
-            }
-
-            if (fs.existsSync("/var/www/maribelhearn.com/json/bestinthewest.json")) {
-                fs.copyFileSync("data/bestInTheWest.txt", "/var/www/maribelhearn.com/json/bestinthewest.json");
             }
 
             channel.send("`Score Update` New WR in " + game + " " + difficulty +
