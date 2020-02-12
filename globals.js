@@ -1079,9 +1079,9 @@ module.exports = {
 
             game = (games.hasOwnProperty(game) ? games[game] : game);
             difficulty = (difficulties.hasOwnProperty(difficulty) ? difficulties[difficulty] : difficulty);
-            shot = (shotNames.hasOwnProperty(shot) ? shotNames[shot] : shot);
+            shottype = (shotNames.hasOwnProperty(shottype) ? shotNames[shottype] : shottype);
 
-            return game + difficulty + shot + ".rpy";
+            return game + difficulty + shottype + ".rpy";
         };
 
         global.weatherEmoji = function (weather) {
