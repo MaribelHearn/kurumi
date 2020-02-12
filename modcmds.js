@@ -371,7 +371,7 @@
                 } else {
                     WRs[game][difficulty][shot] = [newWR, newPlayer, date];
                     fileName = replayName(game, difficulty, shot);
-                    child = exec("wget " + replay + " -o /var/www/maribelhearn.com/replays/" + fileName, function (error, stdout, stderr) {
+                    child = exec("wget " + replay + " -O /var/www/maribelhearn.com/replays/" + fileName, function (error, stdout, stderr) {
                         if (error !== null) {
                             console.log(timeStamp() + "Exec error: " + error);
                         }
