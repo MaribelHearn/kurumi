@@ -280,8 +280,7 @@
 
     updatewr: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <game> <difficulty> <shottype/route> <new WR> <player> <date> [west]`: updates the world record in `game` `difficulty` `shottype/route` to `new WR` by `player`." +
-            "\nAdd 'west' after `player` if the player is western.";
+            return "`" + symbol + command + " <game> <difficulty> <shottype/route> <new WR> <player> <date> <replay>`: updates the world record in `game` `difficulty` `shottype/route` to `new WR` by `player`.";
         },
 
         command: function (message, server, command, channel) {
@@ -361,21 +360,24 @@
                 return;
             }
 
-            var west = command[7], oldWR, oldPlayer;
+            var replay = command[7], oldWR, oldPlayer, fileName;
 
             oldWR = WRs[game][difficulty][shot][0];
             oldPlayer = WRs[game][difficulty][shot][1];
 
-            if (west) {
-                if (west == "west") {
-                    permData.bestInTheWest[game][difficulty] = [newWR, newPlayer, shot];
-                    save("bestInTheWest");
+            if (replay) {
+                if (["HRtP", "SoEW", "PoDD", "LLS", "MS"].contains(game)) {
+                    WRs[game][difficulty][shot] = [newWR, newPlayer, date, replay]; // PC-98 video link
                 } else {
-                    WRs[game][difficulty][shot] = [newWR, newPlayer, date, west]; // PC-98 video link
+                    WRs[game][difficulty][shot] = [newWR, newPlayer, date];
+                    fileName = replayName(game, difficulty, shot);
+                    child = exec("wget " + replay + " -o /var/www/maribelhearn.com/replays/" + fileName, function (error, stdout, stderr) {
+                        if (error !== null) {
+                            console.log(timeStamp() + "Exec error: " + error);
+                        }
+                    });
                 }
             } else {
-                oldWR = WRs[game][difficulty][shot][0];
-                oldPlayer = WRs[game][difficulty][shot][1];
                 WRs[game][difficulty][shot] = [newWR, newPlayer, date];
             }
 
