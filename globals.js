@@ -992,7 +992,7 @@ module.exports = {
             return (shotNames.hasOwnProperty(shot) ? shotNames[shot] : shot);
         };
 
-        global.replayName = function (difficulty, shottype) {
+        global.replayName = function (game, difficulty, shottype) {
             var games = {
                     "EoSD": "th6_ud",
                     "PCB": "th7_ud",
@@ -1077,10 +1077,11 @@ module.exports = {
                     "YoumuEagle": "YE"
                 };
 
+            game = (games.hasOwnProperty(game) ? games[game] : game);
             difficulty = (difficulties.hasOwnProperty(difficulty) ? difficulties[difficulty] : difficulty);
             shot = (shotNames.hasOwnProperty(shot) ? shotNames[shot] : shot);
 
-            return difficulty + shot;
+            return game + difficulty + shot + ".rpy";
         };
 
         global.weatherEmoji = function (weather) {
