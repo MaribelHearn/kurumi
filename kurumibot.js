@@ -138,6 +138,7 @@ bot.on("guildDelete", function (server) {
 
     delete serverData[server.id];
 
+    fs.rmdirSync(path);
     console.log(timeStamp() + "Left " + server.name + "!");
 });
 
