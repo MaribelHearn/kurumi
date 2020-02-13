@@ -136,10 +136,16 @@ bot.on("guildCreate", function (server) {
 bot.on("guildDelete", function (server) {
     var path = "data/" + server.id, file;
 
+    for (file in SERVER_DATA_DEFAULTS) {;
+        filename = "data/" + server.id + "/" + file + ".txt";
+        fs.unlinkSync(filename);
+        console.log(timeStamp() + server.name + " specific data file " + file + ".txt deleted.");
+    }
+
     delete serverData[server.id];
 
     fs.rmdirSync(path);
-    console.log(timeStamp() + "Left " + server.name + "!");
+    console.log(timeStamp() + "Left " + server.name + " and deleted its data folder.");
 });
 
 bot.on("guildMemberAdd", function (user) {
