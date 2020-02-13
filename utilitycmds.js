@@ -219,16 +219,14 @@
         },
 
         command: function (message, server, command, channel) {
-            var servers = permData.servers;
-
-            if (!servers[server.id].lewdAccessRole) {
+            if (!serverData[server.id].lewdAccessRole) {
                 channel.send(message.author + ", this server does not have a lewd access role.");
                 return;
             }
 
-            var lewdAccess = server.roles.get(servers[server.id].lewdAccessRole), user = server.members.get(message.author.id);
+            var lewdAccess = server.roles.get(serverData[server.id].lewdAccessRole), user = server.members.get(message.author.id);
 
-            if (user.roles.get(servers[server.id].lewdAccessRole)) {
+            if (user.roles.get(serverData[server.id].lewdAccessRole)) {
                 channel.send(message.author + ", you already have lewd access!");
                 return;
             }
@@ -244,16 +242,14 @@
         },
 
         command: function (message, server, command, channel) {
-            var servers = permData.servers;
-
-            if (!servers[server.id].lewdAccessRole) {
+            if (!serverData[server.id].lewdAccessRole) {
                 channel.send(message.author + ", this server does not have a lewd access role.");
                 return;
             }
 
-            var lewdAccess = server.roles.get(servers[server.id].lewdAccessRole), user = server.members.get(message.author.id);
+            var lewdAccess = server.roles.get(serverData[server.id].lewdAccessRole), user = server.members.get(message.author.id);
 
-            if (!user.roles.get(servers[server.id].lewdAccessRole)) {
+            if (!user.roles.get(serverData[server.id].lewdAccessRole)) {
                 channel.send(message.author + ", you do not have lewd access!");
                 return;
             }
@@ -269,14 +265,12 @@
         },
 
         command: function (message, server, command, channel) {
-            var servers = permData.servers;
-
-            if (Object.keys(servers[server.id].factions).length < 4) {
+            if (Object.keys(serverData[server.id].factions).length < 4) {
                 channel.send(message.author + ", this command cannot be used on this server.");
                 return;
             }
 
-            var factions = servers[server.id].factions;
+            var factions = serverData[server.id].factions;
 
             var fire = server.roles.get(factions.fire), otherFactions = [factions.water, factions.earth, factions.wind];
 
@@ -306,14 +300,12 @@
         },
 
         command: function (message, server, command, channel) {
-            var servers = permData.servers;
-
-            if (Object.keys(servers[server.id].factions).length < 4) {
+            if (Object.keys(serverData[server.id].factions).length < 4) {
                 channel.send(message.author + ", this command cannot be used on this server.");
                 return;
             }
 
-            var factions = servers[server.id].factions;
+            var factions = serverData[server.id].factions;
 
             var water = server.roles.get(factions.water), otherFactions = [factions.fire, factions.earth, factions.wind];
 
@@ -343,14 +335,12 @@
         },
 
         command: function (message, server, command, channel) {
-            var servers = permData.servers;
-
-            if (Object.keys(servers[server.id].factions).length < 4) {
+            if (Object.keys(serverData[server.id].factions).length < 4) {
                 channel.send(message.author + ", this command cannot be used on this server.");
                 return;
             }
 
-            var factions = servers[server.id].factions;
+            var factions = serverData[server.id].factions;
 
             var earth = server.roles.get(factions.earth), otherFactions = [factions.fire, factions.water, factions.wind];
 
@@ -380,14 +370,12 @@
         },
 
         command: function (message, server, command, channel) {
-            var servers = permData.servers;
-
-            if (Object.keys(servers[server.id].factions).length < 4) {
+            if (Object.keys(serverData[server.id].factions).length < 4) {
                 channel.send(message.author + ", this command cannot be used on this server.");
                 return;
             }
 
-            var factions = servers[server.id].factions;
+            var factions = serverData[server.id].factions;
 
             var wind = server.roles.get(factions.wind), otherFactions = [factions.fire, factions.water, factions.earth];
 
@@ -417,14 +405,12 @@
         },
 
         command: function (message, server, command, channel) {
-            var servers = permData.servers;
-
-            if (Object.keys(servers[server.id].factions).length < 4) {
+            if (Object.keys(serverData[server.id].factions).length < 4) {
                 channel.send(message.author + ", this command cannot be used on this server.");
                 return;
             }
 
-            var factions = servers[server.id].factions;
+            var factions = serverData[server.id].factions;
 
             var fire = server.roles.get(factions.fire), water = server.roles.get(factions.water), earth = server.roles.get(factions.earth), wind = server.roles.get(factions.wind);
 
@@ -965,9 +951,9 @@
                 embed.addField("Wind Speed", wind + " m/s" + direction, true);
                 channel.send({embed}).catch(console.error);
 
-                if (channel.type != "dm" && permData.servers[server.id].cooldownSecs > 0) {
+                if (channel.type != "dm" && serverData[server.id].cooldownSecs > 0) {
                     cooldown = true;
-                    timers.setInterval(function () { cooldown = false; }, permData.servers[server.id].cooldownSecs * 1000);
+                    timers.setInterval(function () { cooldown = false; }, serverData[server.id].cooldownSecs * 1000);
                 }
             });
         }

@@ -17,7 +17,7 @@
             toBeKicked = toBeKicked.toLowerCase();
 
             if (members.hasOwnProperty(toBeKicked)) {
-                var reason = (command[2] ? command[2] : permData.servers[server.id].defaultReason);
+                var reason = (command[2] ? command[2] : serverData[server.id].defaultReason);
 
                 channel.send("**" + members[toBeKicked].username + "** has been kicked from the server! [Reason: " + reason + "]").catch(console.error);
                 server.members.get(members[toBeKicked].id).kick();
@@ -46,7 +46,7 @@
             toBeBanned = toBeBanned.toLowerCase();
 
             if (members.hasOwnProperty(toBeBanned)) {
-                var reason = (command[2] ? command[2] : permData.servers[server.id].defaultReason);
+                var reason = (command[2] ? command[2] : serverData[server.id].defaultReason);
 
                 var deleteDays = (command[3] ? command[3] : 0);
 
@@ -218,7 +218,7 @@
                 return;
             }
 
-            var post = command[1], mainChannel = permData.servers[server.id].mainChannel;
+            var post = command[1], mainChannel = serverData[server.id].mainChannel;
 
             if (mainChannel) {
                 server.channels.get(mainChannel).send(post).catch(console.error);
@@ -272,8 +272,8 @@
         command: function (message, server, command, channel) {
             var seconds = command[1] ? Number(command[1]) : DEFAULT_COOLDOWN;
 
-            permData.servers[server.id].cooldownSecs = seconds;
-            save("servers");
+            serverData[server.id].cooldownSecs = seconds;
+            save("cooldownSecs", server);
             channel.send("Big command cooldown set to " + seconds + " seconds.").catch(console.error);
         }
     },
@@ -568,14 +568,12 @@
         },
 
         command: function (message, server, command, channel) {
-            var servers = permData.servers;
-
-            if (!servers[server.id].voiceChannel) {
+            if (!serverData[server.id].voiceChannel) {
                 channel.send(message.author + ", please tell me which voice channel to use (using the voicechannel command).").catch(console.error);
                 return;
             }
 
-            var voiceChannel = server.channels.get(servers[server.id].voiceChannel);
+            var voiceChannel = server.channels.get(serverData[server.id].voiceChannel);
 
             if (!voiceChannel.connection === null) {
                 channel.send(message.author + ", I am already in the voice channel!").catch(console.error);
@@ -592,14 +590,12 @@
         },
 
         command: function (message, server, command, channel) {
-            var servers = permData.servers;
-
-            if (!servers[server.id].voiceChannel) {
+            if (!serverData[server.id].voiceChannel) {
                 channel.send(message.author + ", please tell me which voice channel to use (using the voicechannel command).").catch(console.error);
                 return;
             }
 
-            var voiceChannel = server.channels.get(servers[server.id].voiceChannel);
+            var voiceChannel = server.channels.get(serverData[server.id].voiceChannel);
 
             if (voiceChannel.connection === null) {
                 channel.send(message.author + ", I am not in the voice channel!").catch(console.error);
@@ -616,14 +612,12 @@
         },
 
         command: function (message, server, command, channel) {
-            var servers = permData.servers;
-
-            if (!servers[server.id].voiceChannel) {
+            if (!serverData[server.id].voiceChannel) {
                 channel.send(message.author + ", please tell me which voice channel to use (using the voicechannel command).").catch(console.error);
                 return;
             }
 
-            var voiceChannel = server.channels.get(servers[server.id].voiceChannel);
+            var voiceChannel = server.channels.get(serverData[server.id].voiceChannel);
 
             if (!musicBlocked && voiceChannel.connection !== null) {
                 voiceChannel.leave();
@@ -652,8 +646,8 @@
                 return;
             }
 
-            permData.servers[server.id].voiceChannel = server.channels.find("name", voiceChannel).id;
-            save("servers");
+            serverData[server.id].voiceChannel = server.channels.find("name", voiceChannel).id;
+            save("voiceChannel", server);
             channel.send(message.author + ", I will now use " + voiceChannel + "!").catch(console.error);
         }
     },
@@ -785,9 +779,9 @@
         },
 
         command: function (message, server, command, channel) {
-            permData.servers[server.id].kekDetection = !permData.servers[server.id].kekDetection;
-            save("servers");
-            channel.send("Kek detection has been turned **" + (permData.servers[server.id].kekDetection ? "on" : "off") + "**.").catch(console.error);
+            serverData[server.id].kekDetection = !serverData[server.id].kekDetection;
+            save("kekDetection", server);
+            channel.send("Kek detection has been turned **" + (serverData[server.id].kekDetection ? "on" : "off") + "**.").catch(console.error);
         }
     },
 
@@ -815,7 +809,7 @@
         },
 
         command: function (message, server, command, channel) {
-            if (!permData.servers[server.id].isTestingServer) {
+            if (!serverData[server.id].isTestingServer) {
                 channel.send(message.author + ", this command cannot be used on this server.");
                 return;
             }

@@ -70,7 +70,7 @@ bot.on("ready", function () {
         bot.destroy();
     }
 
-    var serversArray = bot.guilds.array(), servers = permData.servers, id, filename;
+    var serversArray = bot.guilds.array(), id, filename;
 
     for (var k in serversArray) {
         id = serversArray[k].id;
@@ -116,13 +116,7 @@ bot.on("error", function (error) {
 });
 
 bot.on("guildCreate", function (server) {
-    var servers = permData.servers, id = server.id, file;
-
-    servers[id] = {};
-
-    for (value in SERVER_SPECIFICS) {
-        servers[id][value] = SERVER_SPECIFICS[value];
-    }
+    var id = server.id, file;
 
     var filename = "data/" + id;
 
@@ -136,38 +130,34 @@ bot.on("guildCreate", function (server) {
         console.log(timeStamp() + server.name + " specific data file " + file + ".txt created.");
     }
 
-    save("servers");
     console.log(timeStamp() + "Joined " + server.name + "!");
 });
 
 bot.on("guildDelete", function (server) {
-    var servers = permData.servers, path = "data/" + server.id, file;
+    var path = "data/" + server.id, file;
 
-    delete servers[server.id];
     delete serverData[server.id];
-
-    save("servers");
 
     console.log(timeStamp() + "Left " + server.name + "!");
 });
 
 bot.on("guildMemberAdd", function (user) {
-    var server = user.guild, servers = permData.servers;
+    var server = user.guild;
 
-    var logChannel = servers[server.id].logChannel;
+    var logChannel = serverData[server.id].logChannel;
 
     if (logChannel) {
-        server.channels.get(logChannel).send(servers[server.id].entryMessage.replace("%u", "**" + user.user.username + "**")).catch(console.error);
+        server.channels.get(logChannel).send(serverData[server.id].entryMessage.replace("%u", "**" + user.user.username + "**")).catch(console.error);
     }
 });
 
 bot.on("guildMemberRemove", function (user) {
-    var server = user.guild, servers = permData.servers;
+    var server = user.guild;
 
-    var logChannel = servers[server.id].logChannel;
+    var logChannel = serverData[server.id].logChannel;
 
     if (logChannel) {
-        server.channels.get(logChannel).send(servers[server.id].leaveMessage.replace("%u", "**" + user.user.username + "**")).catch(console.error);
+        server.channels.get(logChannel).send(serverData[server.id].leaveMessage.replace("%u", "**" + user.user.username + "**")).catch(console.error);
     }
 
     if (serverData[server.id].aliasesList[user.id]) {

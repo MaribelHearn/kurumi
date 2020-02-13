@@ -484,30 +484,15 @@ module.exports = {
 
         global.SERVER_DATA_DEFAULTS = {
             "aliasesList": {}, "quotes": {}, "waifus": {}, "touhouWaifus": {}, "spellWaifus": {}, "fanmemeWaifus": {}, "lenenWaifus": {}, "waifusExceptions": {},
-            "touhouWaifusExceptions": {}, "ratings": {}, "badOpinions": [], "goodOpinions": [], "opinionExceptions": []
-        };
-
-        global.SERVER_SPECIFICS = {
-            "botChannels": [],
-            "factions": {},
-            "lewdAccessRole": undefined,
-            "hsifsAccessRole": undefined,
-            "logChannel": undefined,
-            "mainChannel": undefined,
-            "voiceChannel": undefined,
-            "entryMessage": "Greetings, %u!",
-            "leaveMessage": "Bye, %u!",
-            "logoutMessage": "Logging out.",
-            "defaultReason": "Unknown.",
-            "isTestingServer": false,
-            "kekDetection": false,
-            "cooldownSecs": DEFAULT_COOLDOWN,
-            "date": ""
+            "touhouWaifusExceptions": {}, "ratings": {}, "factions": {}, "badOpinions": [], "goodOpinions": [], "opinionExceptions": [], "botChannels": [],
+            "lewdAccessRole": undefined, "hsifsAccessRole": undefined, "logChannel": undefined, "mainChannel": undefined, "voiceChannel": undefined,
+            "entryMessage": "Greetings, %u!", "leaveMessage": "Bye, %u!", "logoutMessage": "Logging out.", "defaultReason": "Unknown.",
+            "isTestingServer": false, "kekDetection": false, "cooldownSecs": DEFAULT_COOLDOWN, "date": ""
         };
 
         /* Variables */
         global.permData = {
-            "servers": {}, "WRs": {}, "bestInTheWest": {}, "LNNs": {}, "currencies": {}, "images": {}, "musicLocal": {}, "notifyQueue": [],
+            "WRs": {}, "bestInTheWest": {}, "LNNs": {}, "currencies": {}, "images": {}, "musicLocal": {}, "notifyQueue": [],
             "commandSymbols": ["!"], "token": "", "botMaster": "", "WRsLastUpdated": "", "weatherKey": "", "googleKey": "", "maxLength": 200, "maintenanceMode": false
         };
 
@@ -863,8 +848,8 @@ module.exports = {
         global.dateCheck = function (server) {
             var date = new Date();
 
-            permData.servers[server.id].date = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
-            save("servers");
+            serverData[server.id].date = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+            save("date", server);
         };
 
         global.toUsers = function (members) {
@@ -1174,7 +1159,7 @@ module.exports = {
 
             const streamOptions = {seek: 0, volume: (volume ? volume : 1)};
 
-            var voiceChannel = server.channels.get(permData.servers[server.id].voiceChannel);
+            var voiceChannel = server.channels.get(serverData[server.id].voiceChannel);
 
             try {
                 voiceChannel.join().then(connection => {
