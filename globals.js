@@ -485,9 +485,9 @@ module.exports = {
         global.SERVER_DATA_DEFAULTS = {
             "aliasesList": {}, "quotes": {}, "waifus": {}, "touhouWaifus": {}, "spellWaifus": {}, "fanmemeWaifus": {}, "lenenWaifus": {}, "waifusExceptions": {},
             "touhouWaifusExceptions": {}, "ratings": {}, "factions": {}, "badOpinions": [], "goodOpinions": [], "opinionExceptions": [], "botChannels": [],
-            "lewdAccessRole": undefined, "hsifsAccessRole": undefined, "logChannel": undefined, "mainChannel": undefined, "voiceChannel": undefined,
+            "lewdAccessRole": "", "hsifsAccessRole": "", "logChannel": "", "mainChannel": "", "voiceChannel": "", "date": "",
             "entryMessage": "Greetings, %u!", "leaveMessage": "Bye, %u!", "logoutMessage": "Logging out.", "defaultReason": "Unknown.",
-            "isTestingServer": false, "kekDetection": false, "cooldownSecs": DEFAULT_COOLDOWN, "date": ""
+            "isTestingServer": false, "kekDetection": false, "cooldownSecs": DEFAULT_COOLDOWN
         };
 
         /* Variables */
