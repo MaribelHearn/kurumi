@@ -360,7 +360,7 @@
                 return;
             }
 
-            var replay = command[7], oldWR, oldPlayer, fileName;
+            var replay = command[7], oldWR, oldPlayer, fileName, child;
 
             oldWR = WRs[game][difficulty][shot][0];
             oldPlayer = WRs[game][difficulty][shot][1];
@@ -371,9 +371,9 @@
                 } else {
                     WRs[game][difficulty][shot] = [newWR, newPlayer, date];
                     fileName = replayName(game, difficulty, shot);
-                    child = exec("wget " + replay + " -O /var/www/maribelhearn.com/replays/" + fileName, function (error, stdout, stderr) {
+                    child = exec("wget " + replay + " -O /var/www/maribelhearn.com/replays/" + fileName + " && chmod 755 /var/www/maribelhearn.com/replays" + fileName, function (error, stdout, stderr) {
                         if (error !== null) {
-                            console.log(timeStamp() + "Exec error: " + error);
+                            channel.send("Error while downloading replay: " + error);
                         }
                     });
                 }
