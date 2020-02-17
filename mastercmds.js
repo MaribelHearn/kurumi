@@ -37,28 +37,30 @@
         },
 
         command: function (message, server, command, channel) {
+            var scriptModule, i;
+
             for (var i in MODULES) {
-                var module = MODULES[i];
+                scriptModule = MODULES[i];
 
                 try {
-                    console.log(timeStamp() + "Downloading module " + module + ".js...");
+                    console.log(timeStamp() + "Downloading module " + scriptModule + ".js...");
 
-                    request(SCRIPT_BASE_URL + module + ".js", function (error, response, body) {
+                    request(SCRIPT_BASE_URL + scriptModule + ".js", function (error, response, body) {
                         if (!error && response.statusCode == 200) {
-                            fs.writeFileSync(module + ".js", body);
-                            console.log(timeStamp() + "Evaluating module " + module + ".js...");
+                            fs.writeFileSync(scriptModule + ".js", body);
+                            console.log(timeStamp() + "Evaluating module " + scriptModule + ".js...");
 
-                            delete require.cache[process.cwd() + (os.type() == "Windows_NT" ? "\\" : '/') + module + ".js"];
+                            delete require.cache[process.cwd() + (os.type() == "Windows_NT" ? "\\" : '/') + scriptModule + ".js"];
 
-                            module.contains("cmds") ? allCommands[module.replace("cmds", "")] = require("./" + module + ".js") : global[module] = require("./" + module + ".js");
+                            module.contains("cmds") ? allCommands[module.replace("cmds", "")] = require("./" + scriptModule + ".js") : global[scriptModule] = require("./" + scriptModule + ".js");
                         } else {
-                            channel.send("An error occurred while downloading the `" + module +
+                            channel.send("An error occurred while downloading the `" + scriptModule +
                             "` module: " + error + ", status code " + response.statusCode).catch(console.error);
                             return;
                         }
                     });
                 } catch (err) {
-                    channel.send("An error occurred while loading the `" + module + "` module: " + err).catch(console.error);
+                    channel.send("An error occurred while loading the `" + scriptModule + "` module: " + err).catch(console.error);
                     return;
                 }
             }
@@ -106,7 +108,6 @@
                         fs.writeFileSync(filename, SERVER_DATA_DEFAULTS[l]);
                         console.log(timeStamp() + serversArray[k].name + " specific data file " + l + ".txt created.");
                     } else {
-                        // console.log(timeStamp() + "Reading the " + serversArray[k].name + " " + l + ".txt...");
                         serverData[id][l] = fs.readFileSync(filename);
                         serverData[id][l] = String(serverData[id][l]).replace(/^\uFEFF/, "");
                         serverData[id][l] = JSON.parse(serverData[id][l]);
