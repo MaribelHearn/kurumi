@@ -636,7 +636,7 @@
             channel.send("Removed " + player + " 's " + game + " " + acronym + (shot.contains("UFOs") ? "N" : "") +
             " with " + shot.replace("Team", " Team").replace("UFOs", "") + ".").catch(console.error);
         }
-    }
+    },
 
     joinvoice: {
         help: function (command, symbol) {
