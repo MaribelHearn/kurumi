@@ -522,8 +522,6 @@
                 shot = shot.replace(/finala/i, "FinalA").replace(/finalb/i, "FinalB");
             }
 
-            console.log(shot);
-
             if (shot.contains("ufos")) {
                 shot = shot.replace(/ufos/i, "UFOs");
             }
@@ -561,6 +559,84 @@
             " with " + shot.replace("Team", " Team").replace("UFOs", "") + "!").catch(console.error);
         }
     },
+
+    removelnn: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <game> <shottype/route> <player>`: removes `player` from the list of `game` LNNs with `shottype/route`.";
+        },
+
+        command: function (message, server, command, channel) {
+            var game = command[1], LNNs = permData.LNNs, date = new Date(), dateString;
+
+            if (!game) {
+                channel.send(message.author + ", please specify a game to remove an LNN player from.").catch(console.error);
+                return;
+            }
+
+            game = gameName(game.toLowerCase());
+
+            if (!LNNs.hasOwnProperty(game)) {
+                channel.send(message.author + ", please specify a valid game to remove an LNN player from.").catch(console.error);
+                return;
+            }
+
+            var shot = command[2], acronym = "LNN", grammar = (game.charAt(0).match(/[E|I|H]/) ? "n " : " ");
+
+            if (game == "UFO") {
+                acronym = "LNN";
+            } else if (game == "IN") {
+                acronym = "LNNFS";
+            } else if (game == "PCB" || game == "TD" || game == "HSiFS") {
+                acronym = "LNNN";
+            } else if (game == "WBaWC") {
+                acronym = "LNNNN";
+            }
+
+            if (!shot) {
+                channel.send(message.author + ", please specify the shottype that was used or the route that was followed.").catch(console.error);
+                return;
+            }
+
+            shot = (shotName(cap(shot)) ? shotName(cap(shot)) : cap(shot));
+
+            if (shot.contains("team")) {
+                shot = shot.replace(/team/i, "Team").replace(/ /gi, "");
+            }
+
+            if (shot.contains("final")) {
+                shot = shot.replace(/finala/i, "FinalA").replace(/finalb/i, "FinalB");
+            }
+
+            if (shot.contains("ufos")) {
+                shot = shot.replace(/ufos/i, "UFOs");
+            }
+
+            if (!LNNs[game].hasOwnProperty(shot)) {
+                channel.send(message.author + ", please specify a valid shottype or route to remove an LNN player from.").catch(console.error);
+                return;
+            }
+
+            var player = command[3];
+
+            if (!player) {
+                channel.send(message.author + ", please specify the player to remove.").catch(console.error);
+                return;
+            }
+
+            LNNs[game][shot].remove(player);
+            dateString = ('0' + date.getDate()).slice(-2) +
+            '/' + ('0' + (date.getMonth() + 1)).slice(-2) +
+            '/' + date.getFullYear();
+            save("LNNs");
+
+            if (fs.existsSync("/var/www/maribelhearn.com/json/lnnlist.json")) {
+                fs.copyFileSync("data/LNNs.txt", "/var/www/maribelhearn.com/json/lnnlist.json");
+            }
+
+            channel.send("Removed " + player + " 's " + game + " " + acronym + (shot.contains("UFOs") ? "N" : "") +
+            " with " + shot.replace("Team", " Team").replace("UFOs", "") + ".").catch(console.error);
+        }
+    }
 
     joinvoice: {
         help: function (command, symbol) {
