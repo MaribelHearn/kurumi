@@ -53,6 +53,10 @@
                             delete require.cache[process.cwd() + (os.type() == "Windows_NT" ? "\\" : '/') + scriptModule + ".js"];
 
                             module.contains("cmds") ? allCommands[module.replace("cmds", "")] = require("./" + scriptModule + ".js") : global[scriptModule] = require("./" + scriptModule + ".js");
+
+                            if (scriptModule == "globals") {
+                                globals.define();
+                            }
                         } else {
                             channel.send("An error occurred while downloading the `" + scriptModule +
                             "` module: " + error + ", status code " + response.statusCode).catch(console.error);
@@ -65,7 +69,6 @@
                 }
             }
 
-            globals.define();
             console.log(timeStamp() + "Modules loaded.");
 
             for (var j in permData) {
