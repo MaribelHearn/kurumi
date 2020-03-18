@@ -4,6 +4,7 @@ module.exports = {
 
         var firstChar = content.charAt(0), botMaster = permData.botMaster, musicLocal = permData.musicLocal, musicYouTube = permData.musicYouTube;
 
+        content = content.replace(/\n/g, ' ');
         /* Command Handler */
         if (permData.commandSymbols.contains(firstChar) && content.length > 1) {
             try {
