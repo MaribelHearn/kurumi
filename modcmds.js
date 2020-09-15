@@ -360,14 +360,15 @@
                 return;
             }
 
-            var replay = command[7], oldWR, oldPlayer, fileName, child;
+            var replay = command[7], oldWR, oldPlayer, extension, fileName, child;
 
             oldWR = WRs[game][difficulty][shot][0];
             oldPlayer = WRs[game][difficulty][shot][1];
 
             if (replay) {
-                if (["HRtP", "SoEW", "PoDD", "LLS", "MS"].contains(game)) {
-                    WRs[game][difficulty][shot] = [newWR, newPlayer, date, replay]; // PC-98 video link
+                extension = replay.substr(-4);
+                if (extension != ".rpy" || ["HRtP", "SoEW", "PoDD", "LLS", "MS"].contains(game)) {
+                    WRs[game][difficulty][shot] = [newWR, newPlayer, date, replay]; // video link
                 } else {
                     WRs[game][difficulty][shot] = [newWR, newPlayer, date];
                     fileName = replayName(game, difficulty, shot);
@@ -543,7 +544,29 @@
                 return;
             }
 
-            LNNs[game][shot].push(player);
+            var replay = command[4], extension, folder, fileName, child;
+
+            if (replay) {
+                extension = replay.substr(-4);
+                if (extension != ".rpy" || ["HRtP", "SoEW", "PoDD", "LLS", "MS"].contains(game)) {
+                    LNNs[game][shot].push(player); // video link TBD
+                } else {
+                    folder = removeSpaces(player);
+                    fileName = replayNameLNN(player, game, shot);
+                    LNNs[game][shot].push([player, fileName]);
+                    if (!fs.existsSync("/var/www/maribelhearn.com/replays/lnn/" + folder)) {
+                        fs.mkdirSync("/var/www/maribelhearn.com/replays/lnn/" + folder);
+                    }
+                    child = exec("wget " + replay + " -O /var/www/maribelhearn.com/replays/lnn/" + folder + "/" + fileName, function (error, stdout, stderr) {
+                        if (error !== null) {
+                            channel.send("Error while downloading replay: " + error);
+                        }
+                    });
+                }
+            } else {
+                LNNs[game][shot].push(player);
+            }
+
             dateString = ('0' + date.getDate()).slice(-2) +
             '/' + ('0' + (date.getMonth() + 1)).slice(-2) +
             '/' + date.getFullYear();

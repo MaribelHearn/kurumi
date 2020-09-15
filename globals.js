@@ -1069,6 +1069,10 @@ module.exports = {
             return game + difficulty + shottype + ".rpy";
         };
 
+        global.replayNameLNN = function (player, game, shottype) {
+            return replayName(game, "Lunatic", shottype).replace("Lu", player.charAt(0) + player.charAt(player.length - 1));
+        };
+
         global.weatherEmoji = function (weather) {
             if (weather == "clear sky") {
                 return ":sunny: ";
