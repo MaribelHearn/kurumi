@@ -478,7 +478,7 @@
 
     addlnn: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <game> <shottype/route> <player>`: adds `player` to the list of `game` LNNs with `shottype/route`. Windows games (excl. PoFV) only.";
+            return "`" + symbol + command + " <game> <shottype/route> <player> [replay]`: adds `player` to the list of `game` LNNs with `shottype/route`. Windows games (excl. PoFV) only.";
         },
 
         command: function (message, server, command, channel) {
@@ -553,7 +553,7 @@
                 } else {
                     folder = removeSpaces(player);
                     fileName = replayNameLNN(player, game, shot);
-                    LNNs[game][shot].push([player, fileName]);
+                    LNNs[game][shot].push(player);
                     if (!fs.existsSync("/var/www/maribelhearn.com/replays/lnn/" + folder)) {
                         fs.mkdirSync("/var/www/maribelhearn.com/replays/lnn/" + folder);
                     }
@@ -580,6 +580,103 @@
             channel.send("`Survival Update` " + player +
             " got a" + grammar + game + " " + acronym + (shot.contains("UFOs") ? "N" : "") +
             " with " + shot.replace("Team", " Team").replace("UFOs", "") + "!").catch(console.error);
+        }
+    },
+
+    lnnreplay: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <game> <shottype/route> <player> <replay>`: sets that LNN's replay or video to <replay>.";
+        },
+
+        command: function (message, server, command, channel) {
+            var game = command[1], LNNs = permData.LNNs, date = new Date(), dateString;
+
+            if (!game) {
+                channel.send(message.author + ", please specify a game.").catch(console.error);
+                return;
+            }
+
+            game = gameName(game.toLowerCase());
+
+            if (!LNNs.hasOwnProperty(game)) {
+                channel.send(message.author + ", please specify a valid game.").catch(console.error);
+                return;
+            }
+
+            var shot = command[2], acronym = "LNN", grammar = (game.charAt(0).match(/[E|I|H]/) ? "n " : " ");
+
+            if (game == "UFO") {
+                acronym = "LNN";
+            } else if (game == "IN") {
+                acronym = "LNNFS";
+            } else if (game == "PCB" || game == "TD" || game == "HSiFS") {
+                acronym = "LNNN";
+            } else if (game == "WBaWC") {
+                acronym = "LNNNN";
+            }
+
+            if (!shot) {
+                channel.send(message.author + ", please specify the shottype that was used or the route that was followed.").catch(console.error);
+                return;
+            }
+
+            shot = (shotName(cap(shot)) ? shotName(cap(shot)) : cap(shot));
+
+            if (shot.contains("team")) {
+                shot = shot.replace(/team/i, "Team").replace(/ /gi, "");
+            }
+
+            if (shot.contains("final")) {
+                shot = shot.replace(/finala/i, "FinalA").replace(/finalb/i, "FinalB");
+            }
+
+            if (shot.contains("ufos")) {
+                shot = shot.replace(/ufos/i, "UFOs");
+            }
+
+            if (!LNNs[game].hasOwnProperty(shot)) {
+                channel.send(message.author + ", please specify a valid shottype or route.").catch(console.error);
+                return;
+            }
+
+            var player = command[3];
+
+            if (!player) {
+                channel.send(message.author + ", please specify the player that got the LNN.").catch(console.error);
+                return;
+            }
+
+            if (!LNNs[game][shot].contains(player)) {
+                channel.send(message.author + ", that player does not have that LNN!").catch(console.error);
+                return;
+            }
+
+            var replay = command[4], extension, folder, fileName, child;
+
+            if (!replay) {
+                channel.send(message.author + ", please specify the new replay or video.").catch(console.error);
+                return;
+            }
+
+            extension = replay.substr(-4);
+
+            if (extension != ".rpy") { // video link TBD
+                channel.send(message.author + ", please specify only replays for now.").catch(console.error);
+                return;
+            }
+
+            folder = removeSpaces(player);
+            fileName = replayNameLNN(player, game, shot);
+            if (!fs.existsSync("/var/www/maribelhearn.com/replays/lnn/" + folder)) {
+                fs.mkdirSync("/var/www/maribelhearn.com/replays/lnn/" + folder);
+            }
+            child = exec("wget " + replay + " -O /var/www/maribelhearn.com/replays/lnn/" + folder + "/" + fileName, function (error, stdout, stderr) {
+                if (error !== null) {
+                    channel.send("Error while downloading replay: " + error);
+                }
+            });
+
+            channel.send("The replay for that LNN has been saved!").catch(console.error);
         }
     },
 
