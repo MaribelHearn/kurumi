@@ -496,7 +496,7 @@
                 return;
             }
 
-            var shot = command[2], acronym = "LNN", grammar = (game.charAt(0).match(/[E|I|H]/) ? "n " : " "), original;
+            var shot = command[2], acronym = "LNN", grammar = (game.charAt(0).match(/[E|I|H]/) ? "n " : " "), type;
 
             if (game == "UFO") {
                 acronym = "LNN";
@@ -514,7 +514,7 @@
             }
 
             shot = (shotName(cap(shot)) ? shotName(cap(shot)) : cap(shot));
-            data = shot.replace(/[^(FinalA|FinalB|UFOs)]/gi, "");
+            type = shot.replace(/[^(FinalA|FinalB|UFOs)]/gi, "");
 
             if (shot.contains("team")) {
                 shot = shot.replace(/team/i, "Team").replace(/ /gi, "");
@@ -553,7 +553,7 @@
                     LNNs[game][shot].push(player); // video link TBD
                 } else {
                     folder = removeSpaces(player);
-                    fileName = replayNameLNN(player, game, shot, data);
+                    fileName = replayNameLNN(player, game, shot, type);
                     LNNs[game][shot].push(player);
                     if (!fs.existsSync("/var/www/maribelhearn.com/replays/lnn/" + folder)) {
                         fs.mkdirSync("/var/www/maribelhearn.com/replays/lnn/" + folder);
@@ -604,7 +604,7 @@
                 return;
             }
 
-            var shot = command[2], acronym = "LNN", grammar = (game.charAt(0).match(/[E|I|H]/) ? "n " : " ");
+            var shot = command[2], acronym = "LNN", grammar = (game.charAt(0).match(/[E|I|H]/) ? "n " : " "), type;
 
             if (game == "UFO") {
                 acronym = "LNN";
@@ -622,6 +622,7 @@
             }
 
             shot = (shotName(cap(shot)) ? shotName(cap(shot)) : cap(shot));
+            type = shot.replace(/[^(FinalA|FinalB|UFOs)]/gi, "");
 
             if (shot.contains("team")) {
                 shot = shot.replace(/team/i, "Team").replace(/ /gi, "");
@@ -667,7 +668,7 @@
             }
 
             folder = removeSpaces(player);
-            fileName = replayNameLNN(player, game, shot);
+            fileName = replayNameLNN(player, game, shot, type);
             if (!fs.existsSync("/var/www/maribelhearn.com/replays/lnn/" + folder)) {
                 fs.mkdirSync("/var/www/maribelhearn.com/replays/lnn/" + folder);
             }

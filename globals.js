@@ -1069,26 +1069,26 @@ module.exports = {
             return game + difficulty + shottype + ".rpy";
         };
 
-        global.replayNameLNN = function (player, game, shottype) {
-            var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
+        global.replayNameLNN = function (player, game, shot, data) {
+            var alphaNums = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
                 first = player.charAt(0), last = player.charAt(player.length - 1);
 
             player = player.replace(/[^0-9a-z]/gi, "");
 
             if (!/[0-9a-z]/gi.test(player)) {
                 if (first == last) {
-                    first = characters.charAt(player.length - 1);
+                    first = alphaNums.charAt(player.length - 1);
                     last = first;
                 } else {
-                    first = characters.charAt(player.length - 1);
-                    last = characters.charAt(player.length);
+                    first = alphaNums.charAt(player.length - 1);
+                    last = alphaNums.charAt(player.length);
                 }
+            } else {
+                first = player.charAt(0);
+                last = (type !== "" ? type.charAt(type.length - 1) : player.charAt(player.length - 1));
             }
 
-            first = player.charAt(0);
-            last = (data !== "" ? data.charAt(data.length - 1) : player.charAt(player.length - 1));
-
-            return replayName(game, "Lunatic", shottype).replace("Lu",  + first + last);
+            return replayName(game, "Lunatic", shot).replace("Lu",  + first + last);
         };
 
         global.weatherEmoji = function (weather) {
