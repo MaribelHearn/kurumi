@@ -1069,7 +1069,7 @@ module.exports = {
             return game + difficulty + shottype + ".rpy";
         };
 
-        global.replayNameLNN = function (player, game, shot, data) {
+        global.replayNameLNN = function (player, game, shot, type) {
             var alphaNums = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
                 original = player, first = player.charAt(0), last = player.charAt(player.length - 1);
 
