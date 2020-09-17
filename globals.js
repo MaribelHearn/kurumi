@@ -1085,7 +1085,10 @@ module.exports = {
                 }
             }
 
-            return replayName(game, "Lunatic", shottype).replace("Lu", player.charAt(0) + player.charAt(player.length - 1));
+            first = player.charAt(0);
+            last = (data !== "" ? data.charAt(data.length - 1) : player.charAt(player.length - 1));
+
+            return replayName(game, "Lunatic", shottype).replace("Lu",  + first + last);
         };
 
         global.weatherEmoji = function (weather) {
