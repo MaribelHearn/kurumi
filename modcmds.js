@@ -622,7 +622,6 @@
             }
 
             shot = (shotName(cap(shot)) ? shotName(cap(shot)) : cap(shot));
-            type = shot.replace(/[^(FinalA|FinalB|UFOs)]/gi, "");
 
             if (shot.contains("team")) {
                 shot = shot.replace(/team/i, "Team").replace(/ /gi, "");
@@ -635,6 +634,8 @@
             if (shot.contains("ufos")) {
                 shot = shot.replace(/ufos/i, "UFOs");
             }
+
+            type = shot.replace(shot, "");
 
             if (!LNNs[game].hasOwnProperty(shot)) {
                 channel.send(message.author + ", please specify a valid shottype or route.").catch(console.error);
