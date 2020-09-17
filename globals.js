@@ -1088,7 +1088,7 @@ module.exports = {
                 last = (type !== "" ? type.charAt(type.length - 1) : player.charAt(player.length - 1));
             }
 
-            return replayName(game, "Lunatic", shot).replace("Lu",  + first + last);
+            return replayName(game, "Lunatic", shot).replace("Lu", first + last);
         };
 
         global.weatherEmoji = function (weather) {
