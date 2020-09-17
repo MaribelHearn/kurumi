@@ -1071,17 +1071,17 @@ module.exports = {
 
         global.replayNameLNN = function (player, game, shot, data) {
             var alphaNums = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
-                first = player.charAt(0), last = player.charAt(player.length - 1);
+                original = player, first = player.charAt(0), last = player.charAt(player.length - 1);
 
             player = player.replace(/[^0-9a-z]/gi, "");
 
             if (!/[0-9a-z]/gi.test(player)) {
                 if (first == last) {
-                    first = alphaNums.charAt(player.length - 1);
+                    first = alphaNums.charAt(original.length - 1);
                     last = first;
                 } else {
-                    first = alphaNums.charAt(player.length - 1);
-                    last = alphaNums.charAt(player.length);
+                    first = alphaNums.charAt(original.length - 1);
+                    last = alphaNums.charAt(original.length);
                 }
             } else {
                 first = player.charAt(0);
