@@ -1070,6 +1070,21 @@ module.exports = {
         };
 
         global.replayNameLNN = function (player, game, shottype) {
+            var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
+                first = player.charAt(0), last = player.charAt(player.length - 1);
+
+            player = player.replace(/[^0-9a-z]/gi, "");
+
+            if (!/[0-9a-z]/gi.test(player)) {
+                if (first == last) {
+                    first = characters.charAt(player.length - 1);
+                    last = first;
+                } else {
+                    first = characters.charAt(player.length - 1);
+                    last = characters.charAt(player.length);
+                }
+            }
+
             return replayName(game, "Lunatic", shottype).replace("Lu", player.charAt(0) + player.charAt(player.length - 1));
         };
 
