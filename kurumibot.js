@@ -14,11 +14,11 @@ try {
 console.log(timeStamp() + "Node version: " + process.versions.node + "\n" + timeStamp() + "Discord.js version: " + Discord.version);
 
 /* Load Modules And Data */
-MODULES = ["globals", "handlers", "helpcmds", "funcmds", "utilitycmds", "modcmds", "mastercmds"];
-allCommands = {};
+const MODULES = ["globals", "handlers", "helpcmds", "funcmds", "utilitycmds", "modcmds", "mastercmds"];
+var allCommands = {}, module, i;
 
-for (var i in MODULES) {
-    var module = MODULES[i];
+for (i in MODULES) {
+    module = MODULES[i];
 
     try {
         console.log(timeStamp() + "Evaluating module " + module + ".js...");
