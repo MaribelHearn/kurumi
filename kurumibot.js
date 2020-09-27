@@ -1,7 +1,7 @@
 ﻿/* Setup */
 try {
     timeStamp = function () {
-        return "[" + new Date().toTimeString().split(' ')[0] + "] ";
+        return "[" + new Date().toISOString().split('T')[0] + " " + new Date().toTimeString().split(' ')[0] + "] ";
     };
 
     Discord = require("discord.js");
