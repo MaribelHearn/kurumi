@@ -14,8 +14,9 @@ try {
 console.log(timeStamp() + "Node version: " + process.versions.node + "\n" + timeStamp() + "Discord.js version: " + Discord.version);
 
 /* Load Modules And Data */
+allCommands = {};
 const MODULES = ["globals", "handlers", "helpcmds", "funcmds", "utilitycmds", "modcmds", "mastercmds"];
-var allCommands = {}, module, i;
+var module, i;
 
 for (i in MODULES) {
     module = MODULES[i];
