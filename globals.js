@@ -1089,7 +1089,7 @@ module.exports = {
                 if (["IN", "UFO"].contains(game) && type !== "") {
                     last = type.charAt(type.length - 1);
                 } else {
-                    player.charAt(player.length - 1));
+                    player.charAt(player.length - 1);
                 }
             }
 
