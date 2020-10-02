@@ -1085,7 +1085,12 @@ module.exports = {
                 }
             } else {
                 first = player.charAt(0);
-                last = (type !== "" ? type.charAt(type.length - 1) : player.charAt(player.length - 1));
+
+                if (["IN", "UFO"].contains(game) && type !== "") {
+                    last = type.charAt(type.length - 1);
+                } else {
+                    player.charAt(player.length - 1));
+                }
             }
 
             return replayName(game, "Lunatic", shot).replace("Lu", first + last);
