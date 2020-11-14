@@ -176,13 +176,7 @@ module.exports = {
                     return;
                 }
 
-                var roles = [], rolesArray = server.members.get(id).roles.array(), k;
-
-                for (k = 0; k < rolesArray.length; k++) {
-                    roles.push(rolesArray[k].name);
-                }
-
-                if (commandType == "mod" && !hasModRole(rolesArray)) {
+                if (commandType == "mod" && !server.members.resolve(message.author.id).hasPermission("BAN_MEMBERS")) {
                     channel.send(message.author + ", you do not have sufficient permission to run this command.").catch(console.error);
                     return;
                 }

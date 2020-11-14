@@ -71,7 +71,7 @@ bot.on("ready", function () {
         bot.destroy();
     }
 
-    var serversArray = bot.guilds.array(), id, filename;
+    var serversArray = bot.guilds.cache.array(), id, filename;
 
     for (var k in serversArray) {
         id = serversArray[k].id;

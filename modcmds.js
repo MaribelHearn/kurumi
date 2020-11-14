@@ -20,7 +20,7 @@
                 var reason = (command[2] ? command[2] : serverData[server.id].defaultReason);
 
                 channel.send("**" + members[toBeKicked].username + "** has been kicked from the server! [Reason: " + reason + "]").catch(console.error);
-                server.members.get(members[toBeKicked].id).kick();
+                server.members.cache.get(members[toBeKicked].id).kick();
                 return;
             }
 
@@ -56,7 +56,7 @@
                 }
 
                 channel.send("**" + members[toBeBanned].username + "** has been banned from the server! [Reason: " + reason + "]").catch(console.error);
-                server.members.get(members[toBeBanned].id).ban(Math.round(deleteDays));
+                server.members.cache.get(members[toBeBanned].id).ban(Math.round(deleteDays));
                 return;
             }
 
@@ -221,7 +221,7 @@
             var post = command[1], mainChannel = serverData[server.id].mainChannel;
 
             if (mainChannel) {
-                server.channels.get(mainChannel).send(post).catch(console.error);
+                server.channels.cache.get(mainChannel).send(post).catch(console.error);
             }
         }
     },
@@ -772,7 +772,7 @@
                 return;
             }
 
-            var voiceChannel = server.channels.get(serverData[server.id].voiceChannel);
+            var voiceChannel = server.channels.cache.get(serverData[server.id].voiceChannel);
 
             if (!voiceChannel.connection === null) {
                 channel.send(message.author + ", I am already in the voice channel!").catch(console.error);
@@ -794,7 +794,7 @@
                 return;
             }
 
-            var voiceChannel = server.channels.get(serverData[server.id].voiceChannel);
+            var voiceChannel = server.channels.cache.get(serverData[server.id].voiceChannel);
 
             if (voiceChannel.connection === null) {
                 channel.send(message.author + ", I am not in the voice channel!").catch(console.error);
@@ -816,7 +816,7 @@
                 return;
             }
 
-            var voiceChannel = server.channels.get(serverData[server.id].voiceChannel);
+            var voiceChannel = server.channels.cache.get(serverData[server.id].voiceChannel);
 
             if (!musicBlocked && voiceChannel.connection !== null) {
                 voiceChannel.leave();

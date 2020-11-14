@@ -1156,16 +1156,6 @@ module.exports = {
             return null;
         };
 
-        global.hasModRole = function (roles) {
-            for (var i in roles) {
-                if (roles[i].hasPermission("BAN_MEMBERS")) {
-                    return true;
-                }
-            }
-
-            return false;
-        };
-
         global.spaces = function (number) {
             var spaces = "", index = 0;
 
