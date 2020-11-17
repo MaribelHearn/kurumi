@@ -10,7 +10,7 @@ module.exports = {
             try {
                 // Maintenance Mode
                 if (permData.maintenanceMode && (!server || !serverData[server.id].isTestingServer)) {
-                    channel.send(message.author + ", commands are currently disabled due to maintenance. They will return soon!").catch(console.error);
+                    channel.send(message.author.username + ", commands are currently disabled due to maintenance. They will return soon!").catch(console.error);
                     return;
                 }
 
@@ -29,7 +29,7 @@ module.exports = {
 
                     for (var userId in aliasesList) {
                         if (userId != id && aliasesList[userId].hasOwnProperty(commandName) && (!server || serverData[server.id].botChannels.contains(channel.id))) {
-                            channel.send(message.author + ", that is someone's alias for the `" + firstChar + aliasesList[userId][commandName] + "` command!").catch(console.error);
+                            channel.send(message.author.username + ", that is someone's alias for the `" + firstChar + aliasesList[userId][commandName] + "` command!").catch(console.error);
                             return;
                         }
                     }
@@ -45,17 +45,17 @@ module.exports = {
                     }
 
                     if (!serverData[server.id].botChannels.contains(channel.id) || serverData[server.id].botChannels.length === 0) {
-                        channel.send(message.author + ", you do not have sufficient permission to run music commands outside bot channels.").catch(console.error);
+                        channel.send(message.author.username + ", you do not have sufficient permission to run music commands outside bot channels.").catch(console.error);
                         return;
                     }
 
                     if (!serverData[server.id].voiceChannel) {
-                        channel.send(message.author + ", music commands are currently unusable, since I have not been assigned a voice channel.").catch(console.error);
+                        channel.send(message.author.username + ", music commands are currently unusable, since I have not been assigned a voice channel.").catch(console.error);
                         return;
                     }
 
                     if (musicBlocked) {
-                        channel.send(message.author + ", music commands are currently blocked.").catch(console.error);
+                        channel.send(message.author.username + ", music commands are currently blocked.").catch(console.error);
                         return;
                     }
 
@@ -66,7 +66,7 @@ module.exports = {
                 // Image Command Check
                 if (images.hasOwnProperty(commandName)) {
                     if (server && (!serverData[server.id].botChannels.contains(channel.id) || serverData[server.id].botChannels.length === 0)) {
-                        channel.send(message.author + ", you do not have sufficient permission to run image commands outside bot channels.").catch(console.error);
+                        channel.send(message.author.username + ", you do not have sufficient permission to run image commands outside bot channels.").catch(console.error);
                         return;
                     }
 
@@ -138,7 +138,7 @@ module.exports = {
                 // Argument Length Limit
                 for (i in command) {
                     if (command[i].length > permData.maxLength && id != botMaster && (!server || serverData[server.id].botChannels.contains(channel.id))) {
-                        channel.send(message.author + ", please give me shorter command arguments.").catch(console.error);
+                        channel.send(message.author.username + ", please give me shorter command arguments.").catch(console.error);
                         return;
                     }
                 }
@@ -172,12 +172,12 @@ module.exports = {
 
                 // Permissions
                 if (commandType == "master" && id != botMaster) {
-                    channel.send(message.author + ", you do not have sufficient permission to run this command.").catch(console.error);
+                    channel.send(message.author.username + ", you do not have sufficient permission to run this command.").catch(console.error);
                     return;
                 }
 
                 if (commandType == "mod" && !server.members.resolve(message.author.id).hasPermission("BAN_MEMBERS")) {
-                    channel.send(message.author + ", you do not have sufficient permission to run this command.").catch(console.error);
+                    channel.send(message.author.username + ", you do not have sufficient permission to run this command.").catch(console.error);
                     return;
                 }
 

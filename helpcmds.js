@@ -39,7 +39,7 @@
                 return;
             }
 
-            channel.send(message.author + ", that command doesn't exist.").catch(console.error);
+            channel.send(message.author.username + ", that command doesn't exist.").catch(console.error);
         }
     },
 

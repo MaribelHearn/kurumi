@@ -8,7 +8,7 @@
             var toBeKicked = command[1];
 
             if (!toBeKicked) {
-                channel.send(message.author + ", please specify the user to be kicked.").catch(console.error);
+                channel.send(message.author.username + ", please specify the user to be kicked.").catch(console.error);
                 return;
             }
 
@@ -24,7 +24,7 @@
                 return;
             }
 
-            channel.send(message.author + ", there is no such user on this server.").catch(console.error);
+            channel.send(message.author.username + ", there is no such user on this server.").catch(console.error);
         }
     },
 
@@ -37,7 +37,7 @@
             var toBeBanned = command[1];
 
             if (!toBeBanned) {
-                channel.send(message.author + ", please specify the user to be banned.").catch(console.error);
+                channel.send(message.author.username + ", please specify the user to be banned.").catch(console.error);
                 return;
             }
 
@@ -51,7 +51,7 @@
                 var deleteDays = (command[3] ? command[3] : 0);
 
                 if (isNaN(deleteDays) || deleteDays < 0 || deleteDays > 7) {
-                    channel.send(message.author + ", please specify a valid number of delete days (must be 0 to 7).").catch(console.error);
+                    channel.send(message.author.username + ", please specify a valid number of delete days (must be 0 to 7).").catch(console.error);
                     return;
                 }
 
@@ -60,7 +60,7 @@
                 return;
             }
 
-            channel.send(message.author + ", there is no such user on this server.").catch(console.error);
+            channel.send(message.author.username + ", there is no such user on this server.").catch(console.error);
         }
     },
 
@@ -95,21 +95,21 @@
             var author = command[1], quotes = serverData[server.id].quotes;
 
             if (!author) {
-                channel.send(message.author + ", please specify an author to remove a quote from.").catch(console.error);
+                channel.send(message.author.username + ", please specify an author to remove a quote from.").catch(console.error);
                 return;
             }
 
             var quote = command[2];
 
             if (!quote) {
-                channel.send(message.author + ", please specify a quote to remove.").catch(console.error);
+                channel.send(message.author.username + ", please specify a quote to remove.").catch(console.error);
                 return;
             }
 
             author = author.toLowerCase();
 
             if (!quotes[author]) {
-                channel.send(message.author + ", that author does not have any saved quotes.").catch(console.error);
+                channel.send(message.author.username + ", that author does not have any saved quotes.").catch(console.error);
                 return;
             }
 
@@ -133,24 +133,24 @@
             var opinion = command[1], type = command[2], badOpinions = serverData[server.id].badOpinions, goodOpinions = serverData[server.id].goodOpinions;
 
             if (!opinion) {
-                channel.send(message.author + ", please specify an opinion to add.").catch(console.error);
+                channel.send(message.author.username + ", please specify an opinion to add.").catch(console.error);
                 return;
             }
 
             if (badOpinions.contains(opinion) || goodOpinions.contains(opinion)) {
-                channel.send(message.author + ", that opinion already exists.").catch(console.error);
+                channel.send(message.author.username + ", that opinion already exists.").catch(console.error);
                 return;
             }
 
             if (!type) {
-                channel.send(message.author + ", please specify whether the opinion is good or bad.").catch(console.error);
+                channel.send(message.author.username + ", please specify whether the opinion is good or bad.").catch(console.error);
                 return;
             }
 
             type = type.toLowerCase();
 
             if (!["bad", "good"].contains(type)) {
-                channel.send(message.author + ", please specify whether the opinion is good or bad.").catch(console.error);
+                channel.send(message.author.username + ", please specify whether the opinion is good or bad.").catch(console.error);
                 return;
             }
 
@@ -175,24 +175,24 @@
             var opinion = command[1], type = command[2], badOpinions = serverData[server.id].badOpinions, goodOpinions = serverData[server.id].goodOpinions;
 
             if (!opinion) {
-                channel.send(message.author + ", please specify an opinion to remove.").catch(console.error);
+                channel.send(message.author.username + ", please specify an opinion to remove.").catch(console.error);
                 return;
             }
 
             if (!badOpinions.contains(opinion) || !goodOpinions.contains(opinion)) {
-                channel.send(message.author + ", that opinion does not exist.").catch(console.error);
+                channel.send(message.author.username + ", that opinion does not exist.").catch(console.error);
                 return;
             }
 
             if (!type) {
-                channel.send(message.author + ", please specify whether the opinion is good or bad.").catch(console.error);
+                channel.send(message.author.username + ", please specify whether the opinion is good or bad.").catch(console.error);
                 return;
             }
 
             type = type.toLowerCase();
 
             if (!["bad", "good"].contains(type)) {
-                channel.send(message.author + ", please specify whether the opinion is good or bad.").catch(console.error);
+                channel.send(message.author.username + ", please specify whether the opinion is good or bad.").catch(console.error);
                 return;
             }
 
@@ -287,35 +287,35 @@
             var game = command[1], WRs = permData.WRs;
 
             if (!game) {
-                channel.send(message.author + ", please specify a game to update a world record of.").catch(console.error);
+                channel.send(message.author.username + ", please specify a game to update a world record of.").catch(console.error);
                 return;
             }
 
             game = gameName(game.toLowerCase());
 
             if (!WRs[game]) {
-                channel.send(message.author + ", please specify a valid game to update a world record of.").catch(console.error);
+                channel.send(message.author.username + ", please specify a valid game to update a world record of.").catch(console.error);
                 return;
             }
 
             var difficulty = command[2];
 
             if (!difficulty) {
-                channel.send(message.author + ", please specify a difficulty to update a world record of.").catch(console.error);
+                channel.send(message.author.username + ", please specify a difficulty to update a world record of.").catch(console.error);
                 return;
             }
 
             difficulty = cap(difficulty.toLowerCase());
 
             if (!WRs[game][difficulty]) {
-                channel.send(message.author + ", please specify a valid difficulty to update a world record of.").catch(console.error);
+                channel.send(message.author.username + ", please specify a valid difficulty to update a world record of.").catch(console.error);
                 return;
             }
 
             var shot = command[3], difficultyWRs = WRs[game][difficulty];
 
             if (!shot) {
-                channel.send(message.author + ", please specify a shottype or route to update the world record of.").catch(console.error);
+                channel.send(message.author.username + ", please specify a shottype or route to update the world record of.").catch(console.error);
                 return;
             }
 
@@ -327,7 +327,7 @@
                 }
 
                 if (!WRs[game][difficulty][shot]) {
-                    channel.send(message.author + ", " + shot + " is not a valid shottype or route.").catch(console.error);
+                    channel.send(message.author.username + ", " + shot + " is not a valid shottype or route.").catch(console.error);
                     return;
                 }
             }
@@ -335,12 +335,12 @@
             var newWR = command[4];
 
             if (!newWR || isNaN(newWR.replace(/\./g, "").replace(/\,/g, ""))) {
-                channel.send(message.author + ", please specify the new world record.").catch(console.error);
+                channel.send(message.author.username + ", please specify the new world record.").catch(console.error);
                 return;
             }
 
             if (Number(newWR) > MAX_SCORE || Number(newWR) <= 0) {
-                channel.send(message.author + ", please specify a valid new world record.").catch(console.error);
+                channel.send(message.author.username + ", please specify a valid new world record.").catch(console.error);
                 return;
             }
 
@@ -349,14 +349,14 @@
             var newPlayer = command[5];
 
             if (!newPlayer) {
-                channel.send(message.author + ", please specify the player that got the new world record.").catch(console.error);
+                channel.send(message.author.username + ", please specify the player that got the new world record.").catch(console.error);
                 return;
             }
 
             var date = command[6];
 
             if (!date) {
-                channel.send(message.author + ", please specify the date of the new world record.").catch(console.error);
+                channel.send(message.author.username + ", please specify the date of the new world record.").catch(console.error);
                 return;
             }
 
@@ -404,40 +404,40 @@
             var game = command[1], WestRs = permData.bestInTheWest;
 
             if (!game) {
-                channel.send(message.author + ", please specify a game to update a Western record of.").catch(console.error);
+                channel.send(message.author.username + ", please specify a game to update a Western record of.").catch(console.error);
                 return;
             }
 
             game = gameName(game.toLowerCase());
 
             if (!WestRs[game]) {
-                channel.send(message.author + ", please specify a valid game to update a Western record of.").catch(console.error);
+                channel.send(message.author.username + ", please specify a valid game to update a Western record of.").catch(console.error);
                 return;
             }
 
             var difficulty = command[2];
 
             if (!difficulty) {
-                channel.send(message.author + ", please specify a difficulty to update a Western record of.").catch(console.error);
+                channel.send(message.author.username + ", please specify a difficulty to update a Western record of.").catch(console.error);
                 return;
             }
 
             difficulty = cap(difficulty.toLowerCase());
 
             if (!WestRs[game][difficulty]) {
-                channel.send(message.author + ", please specify a valid difficulty to update a Western record of.").catch(console.error);
+                channel.send(message.author.username + ", please specify a valid difficulty to update a Western record of.").catch(console.error);
                 return;
             }
 
             var newWR = command[3];
 
             if (!newWR || isNaN(newWR.replace(/\./g, "").replace(/\,/g, ""))) {
-                channel.send(message.author + ", please specify the new Western record.").catch(console.error);
+                channel.send(message.author.username + ", please specify the new Western record.").catch(console.error);
                 return;
             }
 
             if (Number(newWR) > MAX_SCORE || Number(newWR) <= 0) {
-                channel.send(message.author + ", please specify a valid new Western record.").catch(console.error);
+                channel.send(message.author.username + ", please specify a valid new Western record.").catch(console.error);
                 return;
             }
 
@@ -446,14 +446,14 @@
             var newPlayer = command[4];
 
             if (!newPlayer) {
-                channel.send(message.author + ", please specify the player that got the new Western record.").catch(console.error);
+                channel.send(message.author.username + ", please specify the player that got the new Western record.").catch(console.error);
                 return;
             }
 
             var shottype = command[5];
 
             if (!shottype) {
-                channel.send(message.author + ", please specify a shottype or route.").catch(console.error);
+                channel.send(message.author.username + ", please specify a shottype or route.").catch(console.error);
                 return;
             }
 
@@ -485,14 +485,14 @@
             var game = command[1], LNNs = permData.LNNs, date = new Date(), dateString;
 
             if (!game) {
-                channel.send(message.author + ", please specify a game to add an LNN player to.").catch(console.error);
+                channel.send(message.author.username + ", please specify a game to add an LNN player to.").catch(console.error);
                 return;
             }
 
             game = gameName(game.toLowerCase());
 
             if (!LNNs.hasOwnProperty(game)) {
-                channel.send(message.author + ", please specify a valid game to add an LNN player to.").catch(console.error);
+                channel.send(message.author.username + ", please specify a valid game to add an LNN player to.").catch(console.error);
                 return;
             }
 
@@ -509,7 +509,7 @@
             }
 
             if (!shot) {
-                channel.send(message.author + ", please specify the shottype that was used or the route that was followed.").catch(console.error);
+                channel.send(message.author.username + ", please specify the shottype that was used or the route that was followed.").catch(console.error);
                 return;
             }
 
@@ -529,19 +529,19 @@
             }
 
             if (!LNNs[game].hasOwnProperty(shot)) {
-                channel.send(message.author + ", please specify a valid shottype or route to add an LNN player to.").catch(console.error);
+                channel.send(message.author.username + ", please specify a valid shottype or route to add an LNN player to.").catch(console.error);
                 return;
             }
 
             var player = command[3];
 
             if (!player) {
-                channel.send(message.author + ", please specify the player that got the new LNN.").catch(console.error);
+                channel.send(message.author.username + ", please specify the player that got the new LNN.").catch(console.error);
                 return;
             }
 
             if (LNNs[game][shot].contains(player)) {
-                channel.send(message.author + ", that player already has that LNN!").catch(console.error);
+                channel.send(message.author.username + ", that player already has that LNN!").catch(console.error);
                 return;
             }
 
@@ -593,14 +593,14 @@
             var game = command[1], LNNs = permData.LNNs, date = new Date(), dateString;
 
             if (!game) {
-                channel.send(message.author + ", please specify a game.").catch(console.error);
+                channel.send(message.author.username + ", please specify a game.").catch(console.error);
                 return;
             }
 
             game = gameName(game.toLowerCase());
 
             if (!LNNs.hasOwnProperty(game)) {
-                channel.send(message.author + ", please specify a valid game.").catch(console.error);
+                channel.send(message.author.username + ", please specify a valid game.").catch(console.error);
                 return;
             }
 
@@ -617,7 +617,7 @@
             }
 
             if (!shot) {
-                channel.send(message.author + ", please specify the shottype that was used or the route that was followed.").catch(console.error);
+                channel.send(message.author.username + ", please specify the shottype that was used or the route that was followed.").catch(console.error);
                 return;
             }
 
@@ -638,33 +638,33 @@
             type = shot.replace(shot, "");
 
             if (!LNNs[game].hasOwnProperty(shot)) {
-                channel.send(message.author + ", please specify a valid shottype or route.").catch(console.error);
+                channel.send(message.author.username + ", please specify a valid shottype or route.").catch(console.error);
                 return;
             }
 
             var player = command[3];
 
             if (!player) {
-                channel.send(message.author + ", please specify the player that got the LNN.").catch(console.error);
+                channel.send(message.author.username + ", please specify the player that got the LNN.").catch(console.error);
                 return;
             }
 
             if (!LNNs[game][shot].contains(player)) {
-                channel.send(message.author + ", that player does not have that LNN!").catch(console.error);
+                channel.send(message.author.username + ", that player does not have that LNN!").catch(console.error);
                 return;
             }
 
             var replay = command[4], extension, folder, fileName, child;
 
             if (!replay) {
-                channel.send(message.author + ", please specify the new replay or video.").catch(console.error);
+                channel.send(message.author.username + ", please specify the new replay or video.").catch(console.error);
                 return;
             }
 
             extension = replay.substr(-4);
 
             if (extension != ".rpy") { // video link TBD
-                channel.send(message.author + ", please specify only replays for now.").catch(console.error);
+                channel.send(message.author.username + ", please specify only replays for now.").catch(console.error);
                 return;
             }
 
@@ -692,14 +692,14 @@
             var game = command[1], LNNs = permData.LNNs, date = new Date(), dateString;
 
             if (!game) {
-                channel.send(message.author + ", please specify a game to remove an LNN player from.").catch(console.error);
+                channel.send(message.author.username + ", please specify a game to remove an LNN player from.").catch(console.error);
                 return;
             }
 
             game = gameName(game.toLowerCase());
 
             if (!LNNs.hasOwnProperty(game)) {
-                channel.send(message.author + ", please specify a valid game to remove an LNN player from.").catch(console.error);
+                channel.send(message.author.username + ", please specify a valid game to remove an LNN player from.").catch(console.error);
                 return;
             }
 
@@ -716,7 +716,7 @@
             }
 
             if (!shot) {
-                channel.send(message.author + ", please specify the shottype that was used or the route that was followed.").catch(console.error);
+                channel.send(message.author.username + ", please specify the shottype that was used or the route that was followed.").catch(console.error);
                 return;
             }
 
@@ -735,14 +735,14 @@
             }
 
             if (!LNNs[game].hasOwnProperty(shot)) {
-                channel.send(message.author + ", please specify a valid shottype or route to remove an LNN player from.").catch(console.error);
+                channel.send(message.author.username + ", please specify a valid shottype or route to remove an LNN player from.").catch(console.error);
                 return;
             }
 
             var player = command[3];
 
             if (!player) {
-                channel.send(message.author + ", please specify the player to remove.").catch(console.error);
+                channel.send(message.author.username + ", please specify the player to remove.").catch(console.error);
                 return;
             }
 
@@ -768,18 +768,18 @@
 
         command: function (message, server, command, channel) {
             if (!serverData[server.id].voiceChannel) {
-                channel.send(message.author + ", please tell me which voice channel to use (using the voicechannel command).").catch(console.error);
+                channel.send(message.author.username + ", please tell me which voice channel to use (using the voicechannel command).").catch(console.error);
                 return;
             }
 
             var voiceChannel = server.channels.cache.get(serverData[server.id].voiceChannel);
 
             if (!voiceChannel.connection === null) {
-                channel.send(message.author + ", I am already in the voice channel!").catch(console.error);
+                channel.send(message.author.username + ", I am already in the voice channel!").catch(console.error);
                 return;
             }
 
-            voiceChannel.join().then(connection => channel.send(message.author + ", I have connected to the voice channel.")).catch(console.error);
+            voiceChannel.join().then(connection => channel.send(message.author.username + ", I have connected to the voice channel.")).catch(console.error);
         }
     },
 
@@ -790,14 +790,14 @@
 
         command: function (message, server, command, channel) {
             if (!serverData[server.id].voiceChannel) {
-                channel.send(message.author + ", please tell me which voice channel to use (using the voicechannel command).").catch(console.error);
+                channel.send(message.author.username + ", please tell me which voice channel to use (using the voicechannel command).").catch(console.error);
                 return;
             }
 
             var voiceChannel = server.channels.cache.get(serverData[server.id].voiceChannel);
 
             if (voiceChannel.connection === null) {
-                channel.send(message.author + ", I am not in the voice channel!").catch(console.error);
+                channel.send(message.author.username + ", I am not in the voice channel!").catch(console.error);
                 return;
             }
 
@@ -812,7 +812,7 @@
 
         command: function (message, server, command, channel) {
             if (!serverData[server.id].voiceChannel) {
-                channel.send(message.author + ", please tell me which voice channel to use (using the voicechannel command).").catch(console.error);
+                channel.send(message.author.username + ", please tell me which voice channel to use (using the voicechannel command).").catch(console.error);
                 return;
             }
 
@@ -836,18 +836,18 @@
             var voiceChannel = command[1];
 
             if (!voiceChannel) {
-                channel.send(message.author + ", please specify a voice channel.").catch(console.error);
+                channel.send(message.author.username + ", please specify a voice channel.").catch(console.error);
                 return;
             }
 
             if (!server.channels.find("name", voiceChannel) || server.channels.find("name", voiceChannel).type != "voice") {
-                channel.send(message.author + ", that is not a voice channel!").catch(console.error);
+                channel.send(message.author.username + ", that is not a voice channel!").catch(console.error);
                 return;
             }
 
             serverData[server.id].voiceChannel = server.channels.find("name", voiceChannel).id;
             save("voiceChannel", server);
-            channel.send(message.author + ", I will now use " + voiceChannel + "!").catch(console.error);
+            channel.send(message.author.username + ", I will now use " + voiceChannel + "!").catch(console.error);
         }
     },
 
@@ -860,7 +860,7 @@
             var image = command[1], name, ext, description = command[2];
 
             if (!image) {
-                channel.send(message.author + ", please specify an image file.").catch(console.error);
+                channel.send(message.author.username + ", please specify an image file.").catch(console.error);
                 return;
             }
 
@@ -868,17 +868,17 @@
             ext = path.parse(image).ext;
 
             if (![".gif", ".jpg", ".png"].contains(ext)) {
-                channel.send(message.author + ", that file extension is not supported.").catch(console.error);
+                channel.send(message.author.username + ", that file extension is not supported.").catch(console.error);
                 return;
             }
 
             if (!fs.existsSync("images/" + image)) {
-                channel.send(message.author + ", that file does not exist.").catch(console.error);
+                channel.send(message.author.username + ", that file does not exist.").catch(console.error);
                 return;
             }
 
             if (!description) {
-                channel.send(message.author + ", please specify a description for the help command.").catch(console.error);
+                channel.send(message.author.username + ", please specify a description for the help command.").catch(console.error);
                 return;
             }
 
@@ -897,12 +897,12 @@
             var image = command[1], images = permData.images;
 
             if (!image) {
-                channel.send(message.author + ", please specify an image command.").catch(console.error);
+                channel.send(message.author.username + ", please specify an image command.").catch(console.error);
                 return;
             }
 
             if (!images.hasOwnProperty(image)) {
-                channel.send(message.author + ", that is not an image command.").catch(console.error);
+                channel.send(message.author.username + ", that is not an image command.").catch(console.error);
                 return;
             }
 
@@ -921,7 +921,7 @@
             var music = command[1], url, name, ext, description = command[2], volume = command[3];
 
             if (!music) {
-                channel.send(message.author + ", please specify music.").catch(console.error);
+                channel.send(message.author.username + ", please specify music.").catch(console.error);
                 return;
             }
 
@@ -929,17 +929,17 @@
             ext = path.parse(music).ext;
 
             if (![".wav", ".mp3"].contains(ext)) {
-                channel.send(message.author + ", that file extension is not supported.").catch(console.error);
+                channel.send(message.author.username + ", that file extension is not supported.").catch(console.error);
                 return;
             }
 
             if (!fs.existsSync("music/" + music)) {
-                channel.send(message.author + ", that file does not exist.").catch(console.error);
+                channel.send(message.author.username + ", that file does not exist.").catch(console.error);
                 return;
             }
 
             if (!description) {
-                channel.send(message.author + ", please specify a description for the help command.").catch(console.error);
+                channel.send(message.author.username + ", please specify a description for the help command.").catch(console.error);
                 return;
             }
 
@@ -958,7 +958,7 @@
             var music = command[1], musicLocal = permData.musicLocal;
 
             if (!music) {
-                channel.send(message.author + ", please specify a music command.").catch(console.error);
+                channel.send(message.author.username + ", please specify a music command.").catch(console.error);
                 return;
             }
 
@@ -967,7 +967,7 @@
                 channel.send("The music command " + name + " has been removed.").catch(console.error);
                 save("musicLocal");
             } else {
-                channel.send(message.author + ", that is not a music command.").catch(console.error);
+                channel.send(message.author.username + ", that is not a music command.").catch(console.error);
             }
         }
     },
@@ -1009,13 +1009,13 @@
 
         command: function (message, server, command, channel) {
             if (!serverData[server.id].isTestingServer) {
-                channel.send(message.author + ", this command cannot be used on this server.");
+                channel.send(message.author.username + ", this command cannot be used on this server.");
                 return;
             }
 
             permData.botMaster = message.author.id;
             save("botMaster");
-            channel.send(message.author + ", you are now my master!").catch(console.error);
+            channel.send(message.author.username + ", you are now my master!").catch(console.error);
         }
     }
 };

@@ -8,7 +8,7 @@
             var code = command[1];
 
             if (!code) {
-                channel.send(message.author + ", please specify code to evaluate.");
+                channel.send(message.author.username + ", please specify code to evaluate.");
                 return;
             }
 
@@ -182,12 +182,12 @@
             var botChannel = command[1];
 
             if (!botChannel) {
-                channel.send(message.author + ", please specify a channel.").catch(console.error);
+                channel.send(message.author.username + ", please specify a channel.").catch(console.error);
                 return;
             }
 
             if (!server.channels.find("name", botChannel) || server.channels.find("name", botChannel).type != "text") {
-                channel.send(message.author + ", that is not a channel!").catch(console.error);
+                channel.send(message.author.username + ", that is not a channel!").catch(console.error);
                 return;
             }
 
@@ -213,19 +213,19 @@
             var botChannel = command[1];
 
             if (!botChannel) {
-                channel.send(message.author + ", please specify a channel.").catch(console.error);
+                channel.send(message.author.username + ", please specify a channel.").catch(console.error);
                 return;
             }
 
             if (!server.channels.find("name", botChannel) || server.channels.find("name", botChannel).type != "text") {
-                channel.send(message.author + ", that is not a channel!").catch(console.error);
+                channel.send(message.author.username + ", that is not a channel!").catch(console.error);
                 return;
             }
 
             botChannel = server.channels.find("name", botChannel).id;
 
             if (!serverData[server.id].botChannels.contains(botChannel)) {
-                channel.send(message.author + ", that is not a bot channel!").catch(console.error);
+                channel.send(message.author.username + ", that is not a bot channel!").catch(console.error);
                 return;
             }
 
@@ -256,7 +256,7 @@
             }
 
             if (!server.channels.find("name", logChannel) || server.channels.find("name", logChannel).type != "text") {
-                channel.send(message.author + ", that is not a channel!");
+                channel.send(message.author.username + ", that is not a channel!");
                 return;
             }
 
@@ -276,12 +276,12 @@
             var mainChannel = command[1];
 
             if (!mainChannel) {
-                channel.send(message.author + ", please specify a channel.").catch(console.error);
+                channel.send(message.author.username + ", please specify a channel.").catch(console.error);
                 return;
             }
 
             if (!server.channels.find("name", mainChannel) || server.channels.find("name", mainChannel).type != "text") {
-                channel.send(message.author + ", that is not a channel!").catch(console.error);
+                channel.send(message.author.username + ", that is not a channel!").catch(console.error);
                 return;
             }
 
@@ -301,12 +301,12 @@
             var lewdAccessRole = command[1];
 
             if (!lewdAccessRole) {
-                channel.send(message.author + ", please specify a role.").catch(console.error);
+                channel.send(message.author.username + ", please specify a role.").catch(console.error);
                 return;
             }
 
             if (!server.roles.find("name", lewdAccessRole)) {
-                channel.send(message.author + ", that is not a role!").catch(console.error);
+                channel.send(message.author.username + ", that is not a role!").catch(console.error);
                 return;
             }
 
@@ -325,12 +325,12 @@
             var factionRole = command[1];
 
             if (!factionRole) {
-                channel.send(message.author + ", please specify a role.").catch(console.error);
+                channel.send(message.author.username + ", please specify a role.").catch(console.error);
                 return;
             }
 
             if (!server.roles.find("name", factionRole)) {
-                channel.send(message.author + ", that is not a role!").catch(console.error);
+                channel.send(message.author.username + ", that is not a role!").catch(console.error);
                 return;
             }
 
@@ -349,12 +349,12 @@
             var factionRole = command[1];
 
             if (!factionRole) {
-                channel.send(message.author + ", please specify a role.").catch(console.error);
+                channel.send(message.author.username + ", please specify a role.").catch(console.error);
                 return;
             }
 
             if (!server.roles.find("name", factionRole)) {
-                channel.send(message.author + ", that is not a role!").catch(console.error);
+                channel.send(message.author.username + ", that is not a role!").catch(console.error);
                 return;
             }
 
@@ -373,12 +373,12 @@
             var factionRole = command[1];
 
             if (!factionRole) {
-                channel.send(message.author + ", please specify a role.").catch(console.error);
+                channel.send(message.author.username + ", please specify a role.").catch(console.error);
                 return;
             }
 
             if (!server.roles.find("name", factionRole)) {
-                channel.send(message.author + ", that is not a role!").catch(console.error);
+                channel.send(message.author.username + ", that is not a role!").catch(console.error);
                 return;
             }
 
@@ -397,12 +397,12 @@
             var factionRole = command[1];
 
             if (!factionRole) {
-                channel.send(message.author + ", please specify a role.").catch(console.error);
+                channel.send(message.author.username + ", please specify a role.").catch(console.error);
                 return;
             }
 
             if (!server.roles.find("name", factionRole)) {
-                channel.send(message.author + ", that is not a role!").catch(console.error);
+                channel.send(message.author.username + ", that is not a role!").catch(console.error);
                 return;
             }
 
@@ -426,7 +426,7 @@
             }
 
             if (!entryMessage.contains("%u")) {
-                channel.send(message.author + ", the entry message should contain '%u' for the username.").catch(console.error);
+                channel.send(message.author.username + ", the entry message should contain '%u' for the username.").catch(console.error);
                 return;
             }
 
@@ -450,7 +450,7 @@
             }
 
             if (!leaveMessage.contains("%u")) {
-                channel.send(message.author + ", the leave message should contain '%u' for the username.").catch(console.error);
+                channel.send(message.author.username + ", the leave message should contain '%u' for the username.").catch(console.error);
                 return;
             }
 
@@ -539,12 +539,12 @@
             var symbol = command[1];
 
             if (!symbol) {
-                channel.send(message.author + ", please specify a symbol.").catch(console.error);
+                channel.send(message.author.username + ", please specify a symbol.").catch(console.error);
                 return;
             }
 
             if (symbol.length !== 1) {
-                channel.send(message.author + ", the symbol must be a single character.").catch(console.error);
+                channel.send(message.author.username + ", the symbol must be a single character.").catch(console.error);
                 return;
             }
 
@@ -563,12 +563,12 @@
             var symbol = command[1], commandSymbols = permData.commandSymbols;
 
             if (!symbol) {
-                channel.send(message.author + ", please specify a symbol.").catch(console.error);
+                channel.send(message.author.username + ", please specify a symbol.").catch(console.error);
                 return;
             }
 
             if (commandSymbols.length === 1) {
-                channel.send(message.author + ", there must be at least one command symbol.").catch(console.error);
+                channel.send(message.author.username + ", there must be at least one command symbol.").catch(console.error);
                 return;
             }
 
@@ -587,7 +587,7 @@
             var key = command[1];
 
             if (!key) {
-                channel.send(message.author + ", please specify an API key.").catch(console.error);
+                channel.send(message.author.username + ", please specify an API key.").catch(console.error);
                 return;
             }
 
@@ -618,7 +618,7 @@
             var key = command[1];
 
             if (!key) {
-                channel.send(message.author + ", please specify an API key.").catch(console.error);
+                channel.send(message.author.username + ", please specify an API key.").catch(console.error);
                 return;
             }
 
@@ -654,7 +654,7 @@
             }
 
             if (isNaN(maxLength)) {
-                channel.send(message.author + ", that is not a number.").catch(console.error);
+                channel.send(message.author.username + ", that is not a number.").catch(console.error);
                 return;
             }
 
