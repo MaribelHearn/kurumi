@@ -89,7 +89,7 @@
 
             console.log(timeStamp() + "Permanent data loaded.");
 
-            var serversArray = bot.guilds.array(), id, filename;
+            var serversArray = bot.guilds.cache.array(), id, filename;
 
             for (var k in serversArray) {
                 id = serversArray[k].id;

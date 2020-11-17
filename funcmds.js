@@ -165,7 +165,7 @@
             var waifus = serverData[server.id].waifus;
 
             if (!waifus[id]) {
-                waifu = (exceptions[id] ? exceptions[id] : server.members.random().user.username);
+                waifu = (exceptions[id] ? exceptions[id] : server.members.cache.random().user.username);
                 waifus[id] = waifu;
                 save("waifus", server);
             } else {
@@ -485,7 +485,7 @@
 
                 channel.send(":heart: **" + command[1] + "** has been attracted by " + name + "! :heart:").catch(console.error);
             } else {
-                channel.send(":heart: **" + server.members.random().user.username + "** has been attracted by " + name + "! :heart:").catch(console.error);
+                channel.send(":heart: **" + server.members.cache.random().user.username + "** has been attracted by " + name + "! :heart:").catch(console.error);
             }
         }
     },
@@ -508,7 +508,7 @@
 
                 channel.send(":fire: **" + command[1] + "** has been burned by " + name + "! :fire:").catch(console.error);
             } else {
-                channel.send(":fire: **" + server.members.random().user.username + "** has been burned by " + name + "! :fire:").catch(console.error);
+                channel.send(":fire: **" + server.members.cache.random().user.username + "** has been burned by " + name + "! :fire:").catch(console.error);
             }
         }
     },
@@ -531,7 +531,7 @@
 
                 channel.send(":question: **" + command[1] + "** has been confused by " + name + "! :question:").catch(console.error);
             } else {
-                channel.send(":question: **" + server.members.random().user.username + "** has been confused by " + name + "! :question:").catch(console.error);
+                channel.send(":question: **" + server.members.cache.random().user.username + "** has been confused by " + name + "! :question:").catch(console.error);
             }
         }
     },
@@ -554,7 +554,7 @@
 
                 channel.send(":snowflake: **" + command[1] + "** has been frozen by " + name + "! :snowflake:").catch(console.error);
             } else {
-                channel.send(":snowflake: **" + server.members.random().user.username + "** has been frozen by " + name + "! :snowflake:").catch(console.error);
+                channel.send(":snowflake: **" + server.members.cache.random().user.username + "** has been frozen by " + name + "! :snowflake:").catch(console.error);
             }
         }
     },
@@ -577,7 +577,7 @@
 
                 channel.send(":radioactive: **" + command[1] + "** has been nuked by " + name + "! :radioactive:").catch(console.error);
             } else {
-                channel.send(":radioactive: **" + server.members.random().user.username + "** has been nuked by " + name + "! :radioactive:").catch(console.error);
+                channel.send(":radioactive: **" + server.members.cache.random().user.username + "** has been nuked by " + name + "! :radioactive:").catch(console.error);
             }
         }
     },
@@ -600,7 +600,7 @@
 
                 channel.send(":skull: **" + command[1] + "** has been poisoned by " + name + "! :skull:").catch(console.error);
             } else {
-                channel.send(":skull: **" + server.members.random().user.username + "** has been poisoned by " + name + "! :skull:").catch(console.error);
+                channel.send(":skull: **" + server.members.cache.random().user.username + "** has been poisoned by " + name + "! :skull:").catch(console.error);
             }
         }
     },
@@ -623,7 +623,7 @@
 
                 channel.send(":zap: **" + command[1] + "** has been paralyzed by " + name + "! :zap:").catch(console.error);
             } else {
-                channel.send(":zap: **" + server.members.random().user.username + "** has been paralyzed by " + name + "! :zap:").catch(console.error);
+                channel.send(":zap: **" + server.members.cache.random().user.username + "** has been paralyzed by " + name + "! :zap:").catch(console.error);
             }
         }
     },
@@ -646,7 +646,7 @@
 
                 channel.send(":zzz: **" + command[1] + "** has been put to sleep by " + name + "! :zzz:").catch(console.error);
             } else {
-                channel.send(":zzz: **" + server.members.random().user.username + "** has been put to sleep by " + name + "! :zzz:").catch(console.error);
+                channel.send(":zzz: **" + server.members.cache.random().user.username + "** has been put to sleep by " + name + "! :zzz:").catch(console.error);
             }
         }
     },

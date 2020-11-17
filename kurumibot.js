@@ -74,6 +74,7 @@ bot.on("ready", function () {
     var serversArray = bot.guilds.cache.array(), id, filename;
 
     for (var k in serversArray) {
+        serversArray[k].members.fetch();
         id = serversArray[k].id;
 
         if (!serverData[id]) {

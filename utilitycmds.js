@@ -139,8 +139,8 @@
             var members = server.members, roleArray = [], maxPosition = -1, i, j, userObject, roles, color, embed;
 
             for (i = 0; i < members.size; i++) {
-                if (members.array()[i].user.username.toLowerCase() == user.toLowerCase()) {
-                    userObject = members.array()[i];
+                if (members.cache.array()[i].user.username.toLowerCase() == user.toLowerCase()) {
+                    userObject = members.cache.array()[i];
                     roles = userObject.roles.array();
 
                     for (j = 0; j < roles.length; j++) {

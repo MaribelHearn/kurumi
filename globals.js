@@ -855,7 +855,7 @@ module.exports = {
         global.toUsers = function (members) {
             var users = {};
 
-            members = members.array();
+            members = members.cache.array();
 
             for (var i = 0; i < members.length; i++) {
                 users[members[i].user.username.toLowerCase()] = members[i].user;
