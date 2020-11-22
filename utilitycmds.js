@@ -7,7 +7,7 @@
         command: function (message, server, command, channel) {
             var embed = new Discord.MessageEmbed();
 
-            embed.setThumbnail(bot.user.avatarURL);
+            embed.setThumbnail(bot.user.avatarURL());
             embed.addField("Name", bot.user.username, true);
             embed.addField("Master", (permData.botMaster !== "" ? server.members.resolve(permData.botMaster).user.username : '-'), true);
             embed.addField("Host OS", formatType(os.type()));
