@@ -36,33 +36,34 @@
             return "`" + symbol + command + "`: updates the script modules and reloads the data files.";
         },
 
-        command: function (message, server, command, channel) {
-            var scriptModule, i;
+        loadModule: function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                fs.writeFileSync(scriptModule + ".js", body);
+                console.log(timeStamp() + "Evaluating module " + scriptModule + ".js...");
 
-            for (var i in MODULES) {
+                delete require.cache[process.cwd() + (os.type() == "Windows_NT" ? "\\" : '/') + scriptModule + ".js"];
+
+                module.contains("cmds") ? allCommands[module.replace("cmds", "")] = require("./" + scriptModule + ".js") : global[scriptModule] = require("./" + scriptModule + ".js");
+
+                if (scriptModule == "globals") {
+                    globals.define();
+                }
+            } else {
+                channel.send("An error occurred while downloading the `" + scriptModule +
+                "` module: " + error + ", status code " + response.statusCode).catch(console.error);
+            }
+        },
+
+        command: function (message, server, command, channel) {
+            var scriptModule, i, j, k;
+
+            for (i in MODULES) {
                 scriptModule = MODULES[i];
 
                 try {
                     console.log(timeStamp() + "Downloading module " + scriptModule + ".js...");
 
-                    request(SCRIPT_BASE_URL + scriptModule + ".js", function (error, response, body) {
-                        if (!error && response.statusCode == 200) {
-                            fs.writeFileSync(scriptModule + ".js", body);
-                            console.log(timeStamp() + "Evaluating module " + scriptModule + ".js...");
-
-                            delete require.cache[process.cwd() + (os.type() == "Windows_NT" ? "\\" : '/') + scriptModule + ".js"];
-
-                            module.contains("cmds") ? allCommands[module.replace("cmds", "")] = require("./" + scriptModule + ".js") : global[scriptModule] = require("./" + scriptModule + ".js");
-
-                            if (scriptModule == "globals") {
-                                globals.define();
-                            }
-                        } else {
-                            channel.send("An error occurred while downloading the `" + scriptModule +
-                            "` module: " + error + ", status code " + response.statusCode).catch(console.error);
-                            return;
-                        }
-                    });
+                    request(SCRIPT_BASE_URL + scriptModule + ".js", loadModule);
                 } catch (err) {
                     channel.send("An error occurred while loading the `" + scriptModule + "` module: " + err).catch(console.error);
                     return;
@@ -71,7 +72,7 @@
 
             console.log(timeStamp() + "Modules loaded.");
 
-            for (var j in permData) {
+            for (j in permData) {
                 try {
                     if (fs.existsSync("data/" + j + ".txt")) {
                         permData[j] = fs.readFileSync("data/" + j + ".txt");
@@ -91,7 +92,7 @@
 
             var serversArray = bot.guilds.cache.array(), id, filename;
 
-            for (var k in serversArray) {
+            for (k in serversArray) {
                 id = serversArray[k].id;
 
                 if (!serverData[id]) {

@@ -473,7 +473,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var user = command[1], name = (server.members.get(message.author.id).nickname === null ? message.author.username : server.members.get(message.author.id).nickname), members = toUsers(server.members);
+            var user = command[1], name = (server.members.resolve(message.author.id).nickname === null ? message.author.username : server.members.resolve(message.author.id).nickname), members = toUsers(server.members);
 
             if (user) {
                 user = user.toLowerCase();
@@ -496,7 +496,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var user = command[1], name = (server.members.get(message.author.id).nickname === null ? message.author.username : server.members.get(message.author.id).nickname), members = toUsers(server.members);
+            var user = command[1], name = (server.members.resolve(message.author.id).nickname === null ? message.author.username : server.members.resolve(message.author.id).nickname), members = toUsers(server.members);
 
             if (user) {
                 user = user.toLowerCase();
@@ -519,7 +519,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var user = command[1], name = (server.members.get(message.author.id).nickname === null ? message.author.username : server.members.get(message.author.id).nickname), members = toUsers(server.members);
+            var user = command[1], name = (server.members.resolve(message.author.id).nickname === null ? message.author.username : server.members.resolve(message.author.id).nickname), members = toUsers(server.members);
 
             if (user) {
                 user = user.toLowerCase();
@@ -542,7 +542,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var user = command[1], name = (server.members.get(message.author.id).nickname === null ? message.author.username : server.members.get(message.author.id).nickname), members = toUsers(server.members);
+            var user = command[1], name = (server.members.resolve(message.author.id).nickname === null ? message.author.username : server.members.resolve(message.author.id).nickname), members = toUsers(server.members);
 
             if (user) {
                 user = user.toLowerCase();
@@ -565,7 +565,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var user = command[1], name = (server.members.get(message.author.id).nickname === null ? message.author.username : server.members.get(message.author.id).nickname), members = toUsers(server.members);
+            var user = command[1], name = (server.members.resolve(message.author.id).nickname === null ? message.author.username : server.members.resolve(message.author.id).nickname), members = toUsers(server.members);
 
             if (user) {
                 user = user.toLowerCase();
@@ -588,7 +588,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var user = command[1], name = (server.members.get(message.author.id).nickname === null ? message.author.username : server.members.get(message.author.id).nickname), members = toUsers(server.members);
+            var user = command[1], name = (server.members.resolve(message.author.id).nickname === null ? message.author.username : server.members.resolve(message.author.id).nickname), members = toUsers(server.members);
 
             if (user) {
                 user = user.toLowerCase();
@@ -611,7 +611,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var user = command[1], name = (server.members.get(message.author.id).nickname === null ? message.author.username : server.members.get(message.author.id).nickname), members = toUsers(server.members);
+            var user = command[1], name = (server.members.resolve(message.author.id).nickname === null ? message.author.username : server.members.resolve(message.author.id).nickname), members = toUsers(server.members);
 
             if (user) {
                 user = user.toLowerCase();
@@ -634,7 +634,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var user = command[1], name = (server.members.get(message.author.id).nickname === null ? message.author.username : server.members.get(message.author.id).nickname), members = toUsers(server.members);
+            var user = command[1], name = (server.members.resolve(message.author.id).nickname === null ? message.author.username : server.members.resolve(message.author.id).nickname), members = toUsers(server.members);
 
             if (user) {
                 user = user.toLowerCase();

@@ -9,7 +9,7 @@
 
             embed.setThumbnail(bot.user.avatarURL);
             embed.addField("Name", bot.user.username, true);
-            embed.addField("Master", (permData.botMaster !== "" ? server.members.get(permData.botMaster).user.username : '-'), true);
+            embed.addField("Master", (permData.botMaster !== "" ? server.members.resolve(permData.botMaster).user.username : '-'), true);
             embed.addField("Host OS", formatType(os.type()));
             embed.addField("Uptime", time(bot.uptime));
             channel.send({embed}).catch(console.error);
@@ -224,7 +224,7 @@
                 return;
             }
 
-            var lewdAccess = server.roles.get(serverData[server.id].lewdAccessRole), user = server.members.get(message.author.id);
+            var lewdAccess = server.roles.get(serverData[server.id].lewdAccessRole), user = server.members.resolve(message.author.id);
 
             if (user.roles.get(serverData[server.id].lewdAccessRole)) {
                 channel.send(message.author.username + ", you already have lewd access!");
@@ -247,7 +247,7 @@
                 return;
             }
 
-            var lewdAccess = server.roles.get(serverData[server.id].lewdAccessRole), user = server.members.get(message.author.id);
+            var lewdAccess = server.roles.get(serverData[server.id].lewdAccessRole), user = server.members.resolve(message.author.id);
 
             if (!user.roles.get(serverData[server.id].lewdAccessRole)) {
                 channel.send(message.author.username + ", you do not have lewd access!");
@@ -274,7 +274,7 @@
 
             var fire = server.roles.get(factions.fire), otherFactions = [factions.water, factions.earth, factions.wind];
 
-            var user = server.members.get(message.author.id);
+            var user = server.members.resolve(message.author.id);
 
             if (user.roles.has(factions.fire)) {
                 channel.send(message.author.username + ", you are already in the Fire faction of Kuruminism!");
@@ -309,7 +309,7 @@
 
             var water = server.roles.get(factions.water), otherFactions = [factions.fire, factions.earth, factions.wind];
 
-            var user = server.members.get(message.author.id);
+            var user = server.members.resolve(message.author.id);
 
             if (user.roles.has(factions.water)) {
                 channel.send(message.author.username + ", you are already in the Water faction of Kuruminism!");
@@ -344,7 +344,7 @@
 
             var earth = server.roles.get(factions.earth), otherFactions = [factions.fire, factions.water, factions.wind];
 
-            var user = server.members.get(message.author.id);
+            var user = server.members.resolve(message.author.id);
 
             if (user.roles.has(factions.earth)) {
                 channel.send(message.author.username + ", you are already in the Earth faction of Kuruminism!");
@@ -379,7 +379,7 @@
 
             var wind = server.roles.get(factions.wind), otherFactions = [factions.fire, factions.water, factions.earth];
 
-            var user = server.members.get(message.author.id);
+            var user = server.members.resolve(message.author.id);
 
             if (user.roles.has(factions.wind)) {
                 channel.send(message.author.username + ", you are already in the Wind faction of Kuruminism!");
