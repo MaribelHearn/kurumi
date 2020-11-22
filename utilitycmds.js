@@ -5,7 +5,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var embed = new Discord.RichEmbed();
+            var embed = new Discord.MessageEmbed();
 
             embed.setThumbnail(bot.user.avatarURL);
             embed.addField("Name", bot.user.username, true);
@@ -154,7 +154,7 @@
                         }
                     }
 
-                    embed = new Discord.RichEmbed();
+                    embed = new Discord.MessageEmbed();
                     embed.setColor(color);
                     embed.setThumbnail(userObject.user.avatarURL);
                     embed.addField("Username", userObject.user.username, true);
@@ -184,7 +184,7 @@
         command: function (message, server, command, channel) {
             var flag = ":flag_" + (regionFlag(server.region)) + ": ", createdDate = "`" + server.createdAt.UTC() + "`", embed;
 
-            embed = new Discord.RichEmbed();
+            embed = new Discord.MessageEmbed();
             embed.setThumbnail(server.iconURL);
             embed.addField("Name", server.name, true);
             embed.addField("Owner", server.owner.user.username, true);
@@ -943,7 +943,7 @@
                 direction = (direction ? " (" + direction + ")" : "");
                 weather = weatherEmoji(weather) + weather;
                 fahrenheit = (celsius * 1.8 + 32).toFixed(2);
-                embed = new Discord.RichEmbed();
+                embed = new Discord.MessageEmbed();
                 embed.addField("Location", ":flag_" + countryCode.toLowerCase() + ": " + "[" + result.name + "](" + mapsUrl(place, countryCode) + ")");
                 embed.addField("Weather", weather);
                 embed.addField("Temperature", celsius + " °C / " + fahrenheit + " °F", true);
