@@ -93,8 +93,6 @@ Object.defineProperty(Object.prototype, "isEmpty", {
 module.exports = {
     define: function () {
         /* Node Utilities */
-        global.fs = require("fs");
-
         global.os = require("os");
 
         global.request = require("request");

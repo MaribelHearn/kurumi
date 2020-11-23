@@ -4,6 +4,7 @@ const COMMAND_DIR = "./commands/";
 
 try {
     Discord = require("discord.js");
+    global.fs = require("fs");
     bot = new Discord.Client();
     allCommands = {};
 
