@@ -17,24 +17,6 @@ module.exports = {
                 // Get command name
                 var commandName = content.slice(1).split(' ')[0];
 
-                // No aliases in DMs
-                if (server) {
-                    // Alias Check
-                    aliasesList = serverData[server.id].aliasesList;
-
-                    if (aliasesList[id] && aliasesList[id].hasOwnProperty(commandName.toLowerCase())) {
-                        content = content.replace(commandName, aliasesList[id][commandName.toLowerCase()]);
-                        commandName = aliasesList[id][commandName.toLowerCase()];
-                    }
-
-                    for (var userId in aliasesList) {
-                        if (userId != id && aliasesList[userId].hasOwnProperty(commandName) && (!server || serverData[server.id].botChannels.contains(channel.id))) {
-                            channel.send(message.author.username + ", that is someone's alias for the `" + firstChar + aliasesList[userId][commandName] + "` command!").catch(console.error);
-                            return;
-                        }
-                    }
-                }
-
                 // Music Command Check
                 if (musicLocal.hasOwnProperty(commandName)) {
                     var musicCommand = musicLocal[commandName];

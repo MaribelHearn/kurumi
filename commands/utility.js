@@ -16,113 +16,6 @@
         }
     },
 
-    alias: {
-        help: function (command, symbol) {
-            return "`" + symbol + command + " <command> <alias>`: makes `alias` a personal alias for `command`.";
-        },
-
-        command: function (message, server, command, channel) {
-            var cmd = command[1];
-
-            if (!cmd) {
-                channel.send(message.author.username + ", please specify a command to create an alias for.").catch(console.error);
-                return;
-            }
-
-            if (!isCommand(cmd)) {
-                channel.send(message.author.username + ", that command does not exist.").catch(console.error);
-                return;
-            }
-
-            var alias = command[2];
-
-            if (!alias) {
-                channel.send(message.author.username + ", please specify an alias.").catch(console.error);
-                return;
-            }
-
-            if (isCommand(alias)) {
-                channel.send(message.author.username + ", you cannot use an alias that is equal to a command name.").catch(console.error);
-                return;
-            }
-
-            if (alias.contains(' ')) {
-                channel.send(message.author.username + ", you cannot use an alias that contains spaces.").catch(console.error);
-                return;
-            }
-
-            var id = message.author.id;
-
-            aliasesList = serverData[server.id].aliasesList;
-
-            if (!aliasesList[id]) {
-                aliasesList[id] = {};
-            }
-
-            aliasesList[id][alias.toLowerCase()] = cmd.toLowerCase();
-            save("aliasesList", server);
-            channel.send("Alias created.").catch(console.error);
-        }
-    },
-
-    removealias: {
-        help: function (command, symbol) {
-            return "`" + symbol + command + " <alias>`: removes `alias` from your aliases.";
-        },
-
-        command: function (message, server, command, channel) {
-            var alias = command[1];
-
-            if (!alias) {
-                channel.send(message.author.username + ", please specify an alias.");
-                return;
-            }
-
-            var id = message.author.id;
-
-            aliasesList = serverData[server.id].aliasesList;
-
-            if (!aliasesList[id]) {
-                channel.send(message.author.username + ", you do not have any aliases.");
-                return;
-            }
-
-            alias = alias.toLowerCase();
-
-            if (!aliasesList[id][alias]) {
-                channel.send(message.author.username + ", that alias either is not yours or does not exist at all.");
-                return;
-            }
-
-            delete aliasesList[id][alias];
-            save("aliasesList", server);
-            channel.send("Alias deleted.").catch(console.error);
-        }
-    },
-
-    aliases: {
-        help: function (command, symbol) {
-            return "`" + symbol + command + ": sends you a DM with your list of aliases.";
-        },
-
-        command: function (message, server, command, channel) {
-            var aliases = serverData[server.id].aliasesList[message.author.id], symbol = message.content.charAt(0), list = "", alias;
-
-            for (alias in aliases) {
-                list += symbol + alias + " -> " + symbol + aliases[alias] + "\n";
-            }
-
-            if (list === "") {
-                channel.send(message.author.username + ", you do not have any aliases.").catch(console.error);
-                return;
-            }
-
-            message.author.createDM().then(DMchannel => {
-                DMchannel.send("Your aliases on " + server.name + ":\n```" + list + "```").then(msg => channel.send("Sent an alias DM to " + message.author.username + ".").catch(console.error)).catch(console.error);
-            }).catch(console.error);
-        }
-    },
-
     whois: {
         help: function (command, symbol) {
             return "`" + symbol + command + " <user>`: posts information about `user`.";
@@ -191,8 +84,8 @@
             embed.addField("Region", flag + formatRegion(server.region));
             embed.addField("Created At", createdDate);
             embed.addField("Members", sep(server.memberCount), true);
-            embed.addField("Channels", sep(server.channels.size), true);
-            embed.addField("Roles", sep(server.roles.size), true);
+            embed.addField("Channels", sep(server.channels.cache.size), true);
+            embed.addField("Roles", sep(server.roles.cache.size), true);
             embed.addField("Icon Source", "[Link](" + server.iconURL() + ")", true);
             channel.send({embed}).catch(console.error);
         }

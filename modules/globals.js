@@ -481,7 +481,7 @@ module.exports = {
         global.CHOICE = ["%o imo.", "%o tbh.", "I choose %o.", "%o!", "I say %o.", "I'd pick %o if I were you.", "%o is the best option.", "Why not %o?"];
 
         global.SERVER_DATA_DEFAULTS = {
-            "aliasesList": {}, "quotes": {}, "waifus": {}, "touhouWaifus": {}, "spellWaifus": {}, "fanmemeWaifus": {}, "lenenWaifus": {}, "waifusExceptions": {},
+            "quotes": {}, "waifus": {}, "touhouWaifus": {}, "spellWaifus": {}, "fanmemeWaifus": {}, "lenenWaifus": {}, "waifusExceptions": {},
             "touhouWaifusExceptions": {}, "ratings": {}, "factions": {}, "badOpinions": [], "goodOpinions": [], "opinionExceptions": [], "botChannels": [],
             "lewdAccessRole": "", "hsifsAccessRole": "", "logChannel": "", "mainChannel": "", "voiceChannel": "", "date": "",
             "entryMessage": "Greetings, %u!", "leaveMessage": "Bye, %u!", "logoutMessage": "Logging out.", "defaultReason": "Unknown.",
