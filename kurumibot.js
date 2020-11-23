@@ -28,7 +28,7 @@ for (file of MODULES) {
 
     try {
         console.log(timeStamp() + "Loading module " + file + "...");
-        global[file] = require(MODULE_DIR + file);
+        global[fileName] = require(MODULE_DIR + file);
     } catch (err) {
         console.log(timeStamp() + "An error occurred while loading " + file + ": " + err);
     }
