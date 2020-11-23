@@ -185,7 +185,7 @@
             var flag = ":flag_" + (regionFlag(server.region)) + ": ", createdDate = "`" + server.createdAt.UTC() + "`", embed;
 
             embed = new Discord.MessageEmbed();
-            embed.setThumbnail(server.iconURL);
+            embed.setThumbnail(server.iconURL());
             embed.addField("Name", server.name, true);
             embed.addField("Owner", server.owner.user.username, true);
             embed.addField("Region", flag + formatRegion(server.region));
@@ -193,7 +193,7 @@
             embed.addField("Members", sep(server.memberCount), true);
             embed.addField("Channels", sep(server.channels.size), true);
             embed.addField("Roles", sep(server.roles.size), true);
-            embed.addField("Icon Source", "[Link](" + server.iconURL + ")", true);
+            embed.addField("Icon Source", "[Link](" + server.iconURL() + ")", true);
             channel.send({embed}).catch(console.error);
         }
     },

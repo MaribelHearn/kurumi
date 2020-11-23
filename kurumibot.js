@@ -1,11 +1,15 @@
 ﻿/* Setup */
+const MODULE_DIR = "./modules/";
+const COMMAND_DIR = "./commands/";
+
 try {
+    Discord = require("discord.js");
+    bot = new Discord.Client();
+    allCommands = {};
+
     timeStamp = function () {
         return "[" + new Date().toISOString().split('T')[0] + " " + new Date().toTimeString().split(' ')[0] + "] ";
     };
-
-    Discord = require("discord.js");
-    bot = new Discord.Client();
 } catch (err) {
 	console.log(timeStamp() + err.stack + "\n" + timeStamp() + process.versions.node + "\n" + timeStamp() + "Run npm install without any having any errors occur!");
 	process.exit();
@@ -13,26 +17,43 @@ try {
 
 console.log(timeStamp() + "Node version: " + process.versions.node + "\n" + timeStamp() + "Discord.js version: " + Discord.version);
 
-/* Load Modules And Data */
-allCommands = {};
-const MODULES = ["globals", "handlers", "helpcmds", "funcmds", "utilitycmds", "modcmds", "mastercmds"];
-var module, i;
+var file, fileName, command, i;
 
-for (i in MODULES) {
-    module = MODULES[i];
+/* Load Modules */
+const MODULES = fs.readdirSync(MODULE_DIR).filter(file => file.endsWith(".js"));
+
+for (file of MODULES) {
+    fileName = file.replace(".js", "");
 
     try {
-        console.log(timeStamp() + "Evaluating module " + module + ".js...");
-
-        module.indexOf("cmds") > -1 ? allCommands[module.replace("cmds", "")] = require("./" + module + ".js") : global[module] = require("./" + module + ".js");
+        console.log(timeStamp() + "Loading module " + file + "...");
+        global[file] = require(MODULE_DIR + file);
     } catch (err) {
-        console.log(timeStamp() + "An error occurred while loading the " + module + " module: " + err);
+        console.log(timeStamp() + "An error occurred while loading " + file + ": " + err);
     }
 }
 
 globals.define();
 console.log(timeStamp() + "Modules loaded.");
 
+/* Load Commands */
+const COMMAND_FILES = fs.readdirSync(COMMAND_DIR).filter(file => file.endsWith(".js"));
+
+for (file of COMMAND_FILES) {
+    commands = require(COMMAND_DIR + file);
+    fileName = file.replace(".js", "");
+
+    try {
+        console.log(timeStamp() + "Loading command file " + file + "...");
+        allCommands[fileName] = commands;
+    } catch (err) {
+        console.log(timeStamp() + "An error occurred while loading " + file + ": " + err);
+    }
+}
+
+console.log(timeStamp() + "Commands loaded.");
+
+/* Load Data */
 if (!fs.existsSync("data")) {
     fs.mkdirSync("data");
 }
@@ -45,24 +66,32 @@ if (!fs.existsSync("music")) {
     fs.mkdirSync("music");
 }
 
-for (var j in permData) {
+for (i in permData) {
     try {
-        if (fs.existsSync("data/" + j + ".txt")) {
-            // console.log(timeStamp() + "Reading " + j + ".txt...");
-            permData[j] = fs.readFileSync("data/" + j + ".txt");
-            permData[j] = String(permData[j]).replace(/^\uFEFF/, "");
-            permData[j] = JSON.parse(permData[j]);
-        } else if (j != "serverData") {
-            fs.writeFileSync("data/" + j + ".txt", JSON.stringify(permData[j]));
-            console.log(timeStamp() + "Data file " + j + ".txt created.");
+        if (fs.existsSync("data/" + i + ".txt")) {
+            // console.log(timeStamp() + "Reading " + i + ".txt...");
+            permData[i] = fs.readFileSync("data/" + i + ".txt");
+            permData[i] = String(permData[i]).replace(/^\uFEFF/, "");
+            permData[i] = JSON.parse(permData[i]);
+        } else if (i != "serverData") {
+            fs.writeFileSync("data/" + i + ".txt", JSON.stringify(permData[i]));
+            console.log(timeStamp() + "Data file " + i + ".txt created.");
         }
     } catch (err) {
-        console.log(timeStamp() + "An error occurred while loading the " + j + " data file: " + err);
+        console.log(timeStamp() + "An error occurred while loading the " + i + " data file: " + err);
     }
 }
 
-console.log(timeStamp() + "Permanent data loaded.");
+console.log(timeStamp() + "Data loaded.");
 enabled = true;
+
+/* Login */
+if (permData.token === "") {
+    console.log(timeStamp() + "Please put your token into the token.txt data file, and make sure it is in quotes!");
+	process.exit();
+} else {
+    bot.login(permData.token).then(console.log(timeStamp() + "Logged in!")).catch(console.error);
+}
 
 /* Events */
 bot.on("ready", function () {
@@ -197,10 +226,3 @@ bot.on("message", function (message) {
 bot.on("messageUpdate", function (oldMessage, newMessage) {
     handlers.messageHandler(newMessage);
 });
-
-if (permData.token === "") {
-    console.log(timeStamp() + "Please put your token into the token.txt data file, and make sure it is in quotes!");
-	process.exit();
-} else {
-    bot.login(permData.token).then(console.log(timeStamp() + "Logged in!")).catch(console.error);
-}
