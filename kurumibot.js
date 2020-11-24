@@ -199,10 +199,6 @@ bot.on("guildMemberRemove", function (user) {
         server.channels.get(logChannel).send(serverData[server.id].leaveMessage.replace("%u", "**" + user.user.username + "**")).catch(console.error);
     }
 
-    if (serverData[server.id].aliasesList[user.id]) {
-        delete serverData[server.id].aliasesList[user.id];
-    }
-
     if (serverData[server.id].waifus[user.id]) {
         delete serverData[server.id].waifus[user.id];
     }
