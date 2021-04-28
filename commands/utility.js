@@ -49,7 +49,7 @@
 
                     embed = new Discord.MessageEmbed();
                     embed.setColor(color);
-                    embed.setThumbnail(userObject.user.avatarURL);
+                    embed.setThumbnail(userObject.user.avatarURL());
                     embed.addField("Username", userObject.user.username, true);
 
                     if (userObject.nickname) {
@@ -59,7 +59,7 @@
                     embed.addField("Roles", (roleArray.length === 0 ? '-' : "`" + roleArray.join("`, `") + "`"));
                     embed.addField("Joined Discord", "`" + new Date(userObject.user.createdAt).UTC() + "`", true);
                     embed.addField("Joined This Server", "`" + new Date(userObject.joinedAt).UTC() + "`", true);
-                    embed.addField("Avatar Source", "[Link](" + userObject.user.avatarURL + ")");
+                    embed.addField("Avatar Source", "[Link](" + userObject.user.avatarURL() + ")");
                     channel.send({embed}).catch(console.error);
                     return;
                 }
