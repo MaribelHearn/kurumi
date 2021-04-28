@@ -170,12 +170,12 @@
 
             var user = server.members.resolve(message.author.id);
 
-            if (user.roles.has(factions.fire)) {
+            if (user.roles.cache.has(factions.fire)) {
                 channel.send(message.author.username + ", you are already in the Fire faction of Kuruminism!");
                 return;
             }
 
-            if (user.roles.has(factions.water) || user.roles.has(factions.earth) || user.roles.has(factions.wind)) {
+            if (user.roles.cache.has(factions.water) || user.roles.cache.has(factions.earth) || user.roles.cache.has(factions.wind)) {
                 user.roles.remove(otherFactions).then(member => {
                     member.roles.add(fire).catch(console.error);
                     channel.send(member + " is now a " + fire + "!");
@@ -205,12 +205,12 @@
 
             var user = server.members.resolve(message.author.id);
 
-            if (user.roles.has(factions.water)) {
+            if (user.roles.cache.has(factions.water)) {
                 channel.send(message.author.username + ", you are already in the Water faction of Kuruminism!");
                 return;
             }
 
-            if (user.roles.has(factions.fire) || user.roles.has(factions.earth) || user.roles.has(factions.wind)) {
+            if (user.roles.cache.has(factions.fire) || user.roles.cache.has(factions.earth) || user.roles.cache.has(factions.wind)) {
                 user.roles.remove(otherFactions).then(member => {
                     member.roles.add(water).catch(console.error);
                     channel.send(member + " is now a " + water + "!");
@@ -240,12 +240,12 @@
 
             var user = server.members.resolve(message.author.id);
 
-            if (user.roles.has(factions.earth)) {
+            if (user.roles.cache.has(factions.earth)) {
                 channel.send(message.author.username + ", you are already in the Earth faction of Kuruminism!");
                 return;
             }
 
-            if (user.roles.has(factions.fire) || user.roles.has(factions.water) || user.roles.has(factions.wind)) {
+            if (user.roles.cache.has(factions.fire) || user.roles.cache.has(factions.water) || user.roles.cache.has(factions.wind)) {
                 user.roles.remove(otherFactions).then(member => {
                     member.roles.add(earth).catch(console.error);
                     channel.send(member + " is now a " + earth + "!");
@@ -275,12 +275,12 @@
 
             var user = server.members.resolve(message.author.id);
 
-            if (user.roles.has(factions.wind)) {
+            if (user.roles.cache.has(factions.wind)) {
                 channel.send(message.author.username + ", you are already in the Wind faction of Kuruminism!");
                 return;
             }
 
-            if (user.roles.has(factions.fire) || user.roles.has(factions.water) || user.roles.has(factions.earth)) {
+            if (user.roles.cache.has(factions.fire) || user.roles.cache.has(factions.water) || user.roles.cache.has(factions.earth)) {
                 user.roles.remove(otherFactions).then(member => {
                     member.roles.add(wind).catch(console.error);
                     channel.send(member + " is now a " + wind + "!");
@@ -306,9 +306,12 @@
 
             var factions = serverData[server.id].factions;
 
-            var fire = server.roles.get(factions.fire), water = server.roles.get(factions.water), earth = server.roles.get(factions.earth), wind = server.roles.get(factions.wind);
+            var fire = server.roles.resolve(factions.fire), water = server.roles.resolve(factions.water),
+                earth = server.roles.resolve(factions.earth), wind = server.roles.resolve(factions.wind);
 
-            var fireMembers = fire.members.size, waterMembers = water.members.size, earthMembers = earth.members.size, windMembers = wind.members.size, factionMembers, biggest;
+            var fireMembers = fire.members.size, waterMembers = water.members.size,
+                earthMembers = earth.members.size, windMembers = wind.members.size,
+                factionMembers, biggest;
 
             factionMembers = [fireMembers, waterMembers, earthMembers, windMembers].sort(numericSort);
 
