@@ -29,11 +29,11 @@
                 return;
             }
 
-            var members = server.members, roleArray = [], maxPosition = -1, i, j, userObject, roles, color, embed;
+            var members = server.members.cache, roleArray = [], maxPosition = -1, i, j, userObject, roles, color, embed;
 
             for (i = 0; i < members.size; i++) {
-                if (members.cache.array()[i].user.username.toLowerCase() == user.toLowerCase()) {
-                    userObject = members.cache.array()[i];
+                if (members.array()[i].user.username.toLowerCase() == user.toLowerCase()) {
+                    userObject = members.array()[i];
                     roles = userObject.roles.array();
 
                     for (j = 0; j < roles.length; j++) {
@@ -97,12 +97,13 @@
         },
 
         command: function (message, server, command, channel) {
-            if (server.emojis.size === 0) {
+            if (server.emojis.cache.size === 0) {
                 channel.send("There are no server emojis!").catch(console.error);
                 return;
             }
 
-            channel.send("Server emojis: " + server.emojis.array().join(' ') + "\nThere are currently **" + server.emojis.size + "** emojis total.").catch(console.error);
+            channel.send("Server emojis: " + server.emojis.cache.array().join(' ') +
+            "\nThere are currently **" + server.emojis.cache.size + "** emojis total.").catch(console.error);
         }
     },
 
@@ -347,7 +348,7 @@
 
             role = role.toLowerCase();
 
-            var roles = server.roles.array(), roleNames = {}, i;
+            var roles = server.roles.cache.array(), roleNames = {}, i;
 
             for (i in roles) {
                 roleNames[roles[i].name.toLowerCase()] = roles[i].name;
@@ -358,7 +359,7 @@
                 return;
             }
 
-            role = server.roles.find("name", roleNames[role]);
+            role = server.roles.cache.find(role => role.name = roleNames[role]);
             channel.send("Member count for " + (role.mentionable ? role.name : role) + ": " + sep(role.members.size)).catch(console.error);
         }
     },
@@ -769,7 +770,11 @@
                 return;
             }
 
-            offset = Number(timezone.replace("UTC", "").replace("GMT", "").replace(':', '.'));
+            if (timezone.contains(':')) {
+                timezone = timezone.split(':')[0] + '.' + (Number(timezone.split(':')[1]) / 6);
+            }
+
+            offset = Number(timezone.replace("UTC", "").replace("GMT", ""));
 
             if (isNaN(offset)) {
                 channel.send(message.author.username + ", please specify a UTC offset.").catch(console.error);
@@ -996,7 +1001,7 @@
         }
     },
 
-    convert: {
+    /*convert: {
         help: function (command, symbol) {
             return "`" + symbol + command + " <amount> <currency 1> <currency 2>`: converts `amount` `currency 1` into `currency 2`.";
         },
@@ -1058,5 +1063,5 @@
                 }
             });
         }
-    }
+    }*/
 };

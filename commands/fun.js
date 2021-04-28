@@ -318,7 +318,7 @@
             }
 
             if (waifu == "The Challenge") {
-                channel.send(server.emojis.find("name", "playedit") + " I rate that waifu **Infinity/10**.").catch(console.error);
+                channel.send(server.emojis.cache.find(emoji => emoji.name == "playedit") + " I rate that waifu **Infinity/10**.").catch(console.error);
                 return;
             }
 

@@ -114,7 +114,8 @@ module.exports = {
 
         global.CURRENCY_BASE_URL = "http://free.currencyconverterapi.com/api/v3/convert?q=";
 
-        global.CURRENCIES_BASE_URL = "http://free.currencyconverterapi.com/api/v3/currencies";
+        //global.CURRENCIES_BASE_URL = "http://free.currencyconverterapi.com/api/v3/currencies";
+        // now requires a free API key
 
         global.GOOGLE_BASE_URL = "https://www.googleapis.com/youtube/v3/videos?id=";
 
@@ -1130,7 +1131,7 @@ module.exports = {
             return MAPS_BASE_URL + city.replace(/ /g, '+') + ",+" + countryCode;
         }
 
-        global.generateCurrencies = function () {
+        /*global.generateCurrencies = function () {
             request(CURRENCIES_BASE_URL, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     var result = JSON.parse(body);
@@ -1140,7 +1141,7 @@ module.exports = {
                     console.log(timeStamp() + "Updated exchange rates.");
                 }
             });
-        };
+        };*/
 
         global.findQueueItem = function (game, category, shot) {
             var queue = permData.notifyQueue;
