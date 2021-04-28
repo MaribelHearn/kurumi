@@ -331,8 +331,9 @@
                 }
             }
 
-            channel.send("Member counts for the Kuruminist factions:\n" + fire + ": " + fireMembers + "\n" + water +
-            ": " + waterMembers + "\n" + earth + ": " + earthMembers + "\n" + wind + ": " + windMembers).catch(console.error);
+            channel.send("Member counts for the Kuruminist factions:\n<@&" + fire + ">: " + fireMembers +
+            "\n<@&" + water + ">: " + waterMembers + "\n<@&" + earth + ">: " + earthMembers +
+            "\n<@&" + wind + ">: " + windMembers).catch(console.error);
         }
     },
 
