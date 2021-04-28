@@ -106,7 +106,7 @@
             message = (channel.type != "dm" ? message.author.username + " " : "") + "You must play... **" + game +
             " " + category + "**" + (shot.length <= 2 || shot == "Makai" || shot == "Jigoku" ? " " : " with ");
             message += (shot == '-' ? "" : "**" + shot + "**") + "!";
-            channel.send(message, {"file": "games/" + game + ".jpg"}).catch(console.error);
+            channel.send(message, {"files": ["games/" + game + ".jpg"]}).catch(console.error);
 
             if (channel.type != "dm") {
                 cooldown = true;
@@ -298,7 +298,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var waifu = command[1], date = serverData[server.id].date, ratings = serverData[server.id].ratings;
+            var waifu = command[1], date = serverData[server.id].date, ratings = serverData[server.id].ratings, emoji;
 
             dateCheck(server);
 
@@ -317,12 +317,13 @@
                 return;
             }
 
-            if (waifu == "The Challenge") {
-                channel.send(server.emojis.cache.find(emoji => emoji.name == "playedit") + " I rate that waifu **Infinity/10**.").catch(console.error);
+            if (waifu.toLowerCase() == "The Challenge") {
+                emoji = server.emojis.cache.find(emoji => emoji.name == "playedit");
+                channel.send("<:" + emoji.name + ":" + emoji.id + "> I rate that waifu **Infinity/10**.").catch(console.error);
                 return;
             }
 
-            if (waifu == "ur waifu") {
+            if (waifu.toLowerCase() == "ur waifu") {
                 channel.send("ur waifu a shit").catch(console.error);
                 return;
             }

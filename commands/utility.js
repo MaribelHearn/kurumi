@@ -34,7 +34,7 @@
             for (i = 0; i < members.size; i++) {
                 if (members.array()[i].user.username.toLowerCase() == user.toLowerCase()) {
                     userObject = members.array()[i];
-                    roles = userObject.roles.array();
+                    roles = userObject.roles.cache.array();
 
                     for (j = 0; j < roles.length; j++) {
                         if (roles[j].name != "@everyone") {
@@ -330,37 +330,6 @@
 
             channel.send("Member counts for the Kuruminist factions:\n" + fire + ": " + fireMembers + "\n" + water +
             ": " + waterMembers + "\n" + earth + ": " + earthMembers + "\n" + wind + ": " + windMembers).catch(console.error);
-        }
-    },
-
-    rolecount: {
-        help: function (command, symbol) {
-            return "`" + symbol + command + " <role>`: shows the member count for `role`.";
-        },
-
-        command: function (message, server, command, channel) {
-            var role = command[1];
-
-            if (!role) {
-                channel.send(message.author.username + ", please specify a role to check the member count of.").catch(console.error);
-                return;
-            }
-
-            role = role.toLowerCase();
-
-            var roles = server.roles.cache.array(), roleNames = {}, i;
-
-            for (i in roles) {
-                roleNames[roles[i].name.toLowerCase()] = roles[i].name;
-            }
-
-            if (!roleNames.hasOwnProperty(role)) {
-                channel.send(message.author.username + ", please specify a valid role to check the member count of.").catch(console.error);
-                return;
-            }
-
-            role = server.roles.cache.find(role => role.name = roleNames[role]);
-            channel.send("Member count for " + (role.mentionable ? role.name : role) + ": " + sep(role.members.size)).catch(console.error);
         }
     },
 
@@ -771,13 +740,22 @@
             }
 
             if (timezone.contains(':')) {
-                timezone = timezone.split(':')[0] + '.' + (Number(timezone.split(':')[1]) / 6);
+                timezone = timezone.split(':')[0] + '.';
+
+                if (timezone.split(':')[1] == "30") {
+                    timezone += "5";
+                } else if (timezone.split(':')[1] == "45") {
+                    timezone += "75";
+                } else {
+                    channel.send(message.author.username + ", please specify a valid UTC offset.").catch(console.error);
+                    return;
+                }
             }
 
             offset = Number(timezone.replace("UTC", "").replace("GMT", ""));
 
             if (isNaN(offset)) {
-                channel.send(message.author.username + ", please specify a UTC offset.").catch(console.error);
+                channel.send(message.author.username + ", please specify a valid UTC offset.").catch(console.error);
                 return;
             }
 
