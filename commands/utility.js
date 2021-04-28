@@ -736,7 +736,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var timezone = command[1], date = new Date(), offset, msUTC, msTimezone, localTime;
+            var timezone = command[1], date = new Date(), offset, msUTC, msTimezone, localTime, timezoneText = timezone;
 
             if (!timezone) {
                 channel.send(message.author.username + ", please specify a UTC offset.").catch(console.error);
@@ -768,10 +768,14 @@
                 return;
             }
 
+            if (timezone == offset) {
+                timezoneText = "UTC" + (offset >= 0 ? "+" : "") + offset;
+            }
+
             msUTC = date.getTime() + (date.getTimezoneOffset() * 60000);
             msTimezone = msUTC + (3600000 * offset);
             localTime = new Date(msTimezone - (date.getTimezoneOffset() * 60000)).local();
-            channel.send("The local time in " + timezone + " is " + localTime + ".").catch(console.error);
+            channel.send("The local time in " + timezoneText + " is " + localTime + ".").catch(console.error);
         }
     },
 
