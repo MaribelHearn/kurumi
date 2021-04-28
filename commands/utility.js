@@ -118,14 +118,14 @@
                 return;
             }
 
-            var lewdAccess = server.roles.get(serverData[server.id].lewdAccessRole), user = server.members.resolve(message.author.id);
+            var lewdAccess = server.roles.resolve(serverData[server.id].lewdAccessRole), user = server.members.resolve(message.author.id);
 
-            if (user.roles.get(serverData[server.id].lewdAccessRole)) {
+            if (user.roles.cache.get(serverData[server.id].lewdAccessRole)) {
                 channel.send(message.author.username + ", you already have lewd access!");
                 return;
             }
 
-            user.addRole(lewdAccess);
+            user.roles.add(lewdAccess);
             channel.send(message.author.username + " has been granted lewd access!").catch(console.error);
         }
     },
@@ -141,14 +141,14 @@
                 return;
             }
 
-            var lewdAccess = server.roles.get(serverData[server.id].lewdAccessRole), user = server.members.resolve(message.author.id);
+            var lewdAccess = server.roles.resolve(serverData[server.id].lewdAccessRole), user = server.members.resolve(message.author.id);
 
-            if (!user.roles.get(serverData[server.id].lewdAccessRole)) {
+            if (!user.roles.cache.get(serverData[server.id].lewdAccessRole)) {
                 channel.send(message.author.username + ", you do not have lewd access!");
                 return;
             }
 
-            user.removeRole(lewdAccess);
+            user.roles.remove(lewdAccess);
             channel.send(message.author.username + " has been removed from the lewd channel!").catch(console.error);
         }
     },
@@ -166,7 +166,7 @@
 
             var factions = serverData[server.id].factions;
 
-            var fire = server.roles.get(factions.fire), otherFactions = [factions.water, factions.earth, factions.wind];
+            var fire = server.roles.resolve(factions.fire), otherFactions = [factions.water, factions.earth, factions.wind];
 
             var user = server.members.resolve(message.author.id);
 
@@ -176,14 +176,14 @@
             }
 
             if (user.roles.has(factions.water) || user.roles.has(factions.earth) || user.roles.has(factions.wind)) {
-                user.removeRoles(otherFactions).then(member => {
-                    member.addRole(fire).catch(console.error);
+                user.roles.remove(otherFactions).then(member => {
+                    member.roles.add(fire).catch(console.error);
                     channel.send(member + " is now a " + fire + "!");
                     return;
                 }).catch(console.error);
             }
 
-            user.addRole(fire).catch(console.error);
+            user.roles.add(fire).catch(console.error);
             channel.send(user + " is now a " + fire + "!").catch(console.error);
         }
     },
@@ -201,7 +201,7 @@
 
             var factions = serverData[server.id].factions;
 
-            var water = server.roles.get(factions.water), otherFactions = [factions.fire, factions.earth, factions.wind];
+            var water = server.roles.resolve(factions.water), otherFactions = [factions.fire, factions.earth, factions.wind];
 
             var user = server.members.resolve(message.author.id);
 
@@ -211,14 +211,14 @@
             }
 
             if (user.roles.has(factions.fire) || user.roles.has(factions.earth) || user.roles.has(factions.wind)) {
-                user.removeRoles(otherFactions).then(member => {
-                    member.addRole(water).catch(console.error);
+                user.roles.remove(otherFactions).then(member => {
+                    member.roles.add(water).catch(console.error);
                     channel.send(member + " is now a " + water + "!");
                     return;
                 }).catch(console.error);
             }
 
-            user.addRole(water).catch(console.error);
+            user.roles.add(water).catch(console.error);
             channel.send(user + " is now a " + water + "!").catch(console.error);
         }
     },
@@ -236,7 +236,7 @@
 
             var factions = serverData[server.id].factions;
 
-            var earth = server.roles.get(factions.earth), otherFactions = [factions.fire, factions.water, factions.wind];
+            var earth = server.roles.resolve(factions.earth), otherFactions = [factions.fire, factions.water, factions.wind];
 
             var user = server.members.resolve(message.author.id);
 
@@ -246,14 +246,14 @@
             }
 
             if (user.roles.has(factions.fire) || user.roles.has(factions.water) || user.roles.has(factions.wind)) {
-                user.removeRoles(otherFactions).then(member => {
-                    member.addRole(earth).catch(console.error);
+                user.roles.remove(otherFactions).then(member => {
+                    member.roles.add(earth).catch(console.error);
                     channel.send(member + " is now a " + earth + "!");
                     return;
                 }).catch(console.error);
             }
 
-            user.addRole(earth).catch(console.error);
+            user.roles.add(earth).catch(console.error);
             channel.send(user + " is now a " + earth + "!").catch(console.error);
         }
     },
@@ -271,7 +271,7 @@
 
             var factions = serverData[server.id].factions;
 
-            var wind = server.roles.get(factions.wind), otherFactions = [factions.fire, factions.water, factions.earth];
+            var wind = server.roles.resolve(factions.wind), otherFactions = [factions.fire, factions.water, factions.earth];
 
             var user = server.members.resolve(message.author.id);
 
@@ -281,14 +281,14 @@
             }
 
             if (user.roles.has(factions.fire) || user.roles.has(factions.water) || user.roles.has(factions.earth)) {
-                user.removeRoles(otherFactions).then(member => {
-                    member.addRole(wind).catch(console.error);
+                user.roles.remove(otherFactions).then(member => {
+                    member.roles.add(wind).catch(console.error);
                     channel.send(member + " is now a " + wind + "!");
                     return;
                 }).catch(console.error);
             }
 
-            user.addRole(wind).catch(console.error);
+            user.roles.add(wind).catch(console.error);
             channel.send(user + " is now a " + wind + "!").catch(console.error);
         }
     },
