@@ -664,14 +664,16 @@
         },
 
         command: function (message, server, command, channel) {
-            var link = command[1];
+            var link = command[1], originalLink;
 
             if (!link) {
                 channel.send(message.author.username + ", please specify the YouTube video to be streamed.").catch(console.error);
                 return;
             }
 
-            link = url.parse(link.replace('<', "").replace('>', ""));
+            link = link.replace('<', "").replace('>', "");
+            originalLink = link;
+            link = url.parse(link);
 
             if (link.hostname != "youtu.be" && (link.hostname != "www.youtube.com" || link.pathname != "/watch" || link.search.substring(0, 3) != "?v=")) {
                 channel.send(message.author.username + ", that is not a YouTube video!").catch(console.error);
@@ -683,7 +685,7 @@
                 return;
             }
 
-            playYouTube(server, command[1]);
+            playYouTube(server, originalLink);
         }
     }
 };
