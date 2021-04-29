@@ -19,6 +19,7 @@ module.exports = {
 
                 // Alias Check
                 if (aliasToOriginal(commandName)) {
+                    content.replace(commandName, aliasToOriginal(commandName));
                     commandName = aliasToOriginal(commandName);
                 }
 
@@ -58,7 +59,7 @@ module.exports = {
                     }
 
                     if (fs.existsSync("images/" + images[commandName].file)) {
-                        channel.send("", {"file": "images/" + images[commandName].file}).catch(console.error);
+                        channel.send("", {"files": ["images/" + images[commandName].file]}).catch(console.error);
                         cooldown = true;
 
                         if (server) {
