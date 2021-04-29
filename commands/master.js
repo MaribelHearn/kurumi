@@ -180,24 +180,26 @@
         },
 
         command: function (message, server, command, channel) {
-            var botChannel = command[1];
+            var botChannel = command[1], resolve;
 
             if (!botChannel) {
                 channel.send(message.author.username + ", please specify a channel.").catch(console.error);
                 return;
             }
 
-            if (!server.channels.find("name", botChannel) || server.channels.find("name", botChannel).type != "text") {
+            resolve = server.channels.cache.find(chan => chan.name == botChannel.toLowerCase());
+
+            if (!resolve || resolve.type != "text") {
                 channel.send(message.author.username + ", that is not a channel!").catch(console.error);
                 return;
             }
 
-            botChannel = server.channels.find("name", botChannel).id;
+            botChannel = resolve.id;
 
             if (serverData[server.id].botChannels.length === 0) {
                 channel.send("Bot commands have been restricted to " + server.channels.get(botChannel) + "!").catch(console.error);
             } else {
-                channel.send(server.channels.get(botChannel) + " is now a bot channel!").catch(console.error);
+                channel.send(server.channels.get(botChannel).name + " is now a bot channel!").catch(console.error);
             }
 
             serverData[server.id].botChannels.push(botChannel);
@@ -218,12 +220,14 @@
                 return;
             }
 
-            if (!server.channels.find("name", botChannel) || server.channels.find("name", botChannel).type != "text") {
+            resolve = server.channels.cache.find(chan => chan.name == botChannel.toLowerCase());
+
+            if (!resolve || resolve.type != "text") {
                 channel.send(message.author.username + ", that is not a channel!").catch(console.error);
                 return;
             }
 
-            botChannel = server.channels.find("name", botChannel).id;
+            botChannel = resolve.id;
 
             if (!serverData[server.id].botChannels.contains(botChannel)) {
                 channel.send(message.author.username + ", that is not a bot channel!").catch(console.error);
@@ -236,7 +240,7 @@
             if (serverData[server.id].botChannels.length === 0) {
                 channel.send("Bot commands are now allowed everywhere!").catch(console.error);
             } else {
-                channel.send(server.channels.get(botChannel) + " is no longer a bot channel!").catch(console.error);
+                channel.send(server.channels.get(botChannel).name + " is no longer a bot channel!").catch(console.error);
             }
         }
     },
@@ -247,7 +251,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var logChannel = command[1];
+            var logChannel = command[1], resolve;
 
             if (!logChannel) {
                 serverData[server.id].logChannel = undefined;
@@ -256,15 +260,17 @@
                 return;
             }
 
-            if (!server.channels.find("name", logChannel) || server.channels.find("name", logChannel).type != "text") {
+            resolve = server.channels.cache.find(chan => chan.name == botChannel.toLowerCase());
+
+            if (!resolve || resolve.type != "text") {
                 channel.send(message.author.username + ", that is not a channel!");
                 return;
             }
 
-            logChannel = server.channels.find("name", logChannel).id;
+            logChannel = resolve.id;
             serverData[server.id].logChannel = logChannel;
             save("logChannel", server);
-            channel.send(server.channels.get(logChannel) + " is now the logging channel!");
+            channel.send(server.channels.get(logChannel).name + " is now the logging channel!");
         }
     },
 
@@ -274,22 +280,24 @@
         },
 
         command: function (message, server, command, channel) {
-            var mainChannel = command[1];
+            var mainChannel = command[1], resolve;
 
             if (!mainChannel) {
                 channel.send(message.author.username + ", please specify a channel.").catch(console.error);
                 return;
             }
 
-            if (!server.channels.find("name", mainChannel) || server.channels.find("name", mainChannel).type != "text") {
+            resolve = server.channels.resolve(chan => chan.name == mainChannel);
+
+            if (!resolve || resolve.type != "text") {
                 channel.send(message.author.username + ", that is not a channel!").catch(console.error);
                 return;
             }
 
-            mainChannel = server.channels.find("name", mainChannel).id;
+            mainChannel = resolve.id;
             serverData[server.id].mainChannel = mainChannel;
             save("mainChannel", server);
-            channel.send(server.channels.get(mainChannel) + " is now my main channel!").catch(console.error);
+            channel.send(server.channels.cache.get(mainChannel).name + " is now my main channel!").catch(console.error);
         }
     },
 
@@ -299,19 +307,21 @@
         },
 
         command: function (message, server, command, channel) {
-            var lewdAccessRole = command[1];
+            var lewdAccessRole = command[1], resolve;
 
             if (!lewdAccessRole) {
                 channel.send(message.author.username + ", please specify a role.").catch(console.error);
                 return;
             }
 
-            if (!server.roles.find("name", lewdAccessRole)) {
+            resolve = server.roles.cache.find(role => role.name = lewdAccessRole);
+
+            if (!resolve) {
                 channel.send(message.author.username + ", that is not a role!").catch(console.error);
                 return;
             }
 
-            serverData[server.id].lewdAccessRole = server.roles.find("name", lewdAccessRole).id;
+            serverData[server.id].lewdAccessRole = resolve.id;
             save("lewdAccessRole", server);
             channel.send("The '" + lewdAccessRole + "' role has been set as the lewd access role.").catch(console.error);
         }
@@ -330,12 +340,14 @@
                 return;
             }
 
-            if (!server.roles.find("name", factionRole)) {
+            resolve = server.roles.cache.find(role => role.name = factionRole);
+
+            if (!resolve) {
                 channel.send(message.author.username + ", that is not a role!").catch(console.error);
                 return;
             }
 
-            serverData[server.id].factions.fire = server.roles.find("name", factionRole).id;
+            serverData[server.id].factions.fire = resolve.id;
             save("factions", server);
             channel.send("The '" + factionRole + "' role has been set as the Fire faction role.").catch(console.error);
         }
@@ -354,12 +366,14 @@
                 return;
             }
 
-            if (!server.roles.find("name", factionRole)) {
+            resolve = server.roles.cache.find(role => role.name = factionRole);
+
+            if (!resolve) {
                 channel.send(message.author.username + ", that is not a role!").catch(console.error);
                 return;
             }
 
-            serverData[server.id].factions.water = server.roles.find("name", factionRole).id;
+            serverData[server.id].factions.water = resolve.id;
             save("factions", server);
             channel.send("The '" + factionRole + "' role has been set as the Water faction role.").catch(console.error);
         }
@@ -378,12 +392,14 @@
                 return;
             }
 
-            if (!server.roles.find("name", factionRole)) {
+            resolve = server.roles.cache.find(role => role.name = factionRole);
+
+            if (!resolve) {
                 channel.send(message.author.username + ", that is not a role!").catch(console.error);
                 return;
             }
 
-            serverData[server.id].factions.earth = server.roles.find("name", factionRole).id;
+            serverData[server.id].factions.earth = resolve.id;
             save("factions", server);
             channel.send("The '" + factionRole + "' role has been set as the Earth faction role.").catch(console.error);
         }
@@ -402,12 +418,14 @@
                 return;
             }
 
-            if (!server.roles.find("name", factionRole)) {
+            resolve = server.roles.cache.find(role => role.name = factionRole);
+
+            if (!resolve) {
                 channel.send(message.author.username + ", that is not a role!").catch(console.error);
                 return;
             }
 
-            serverData[server.id].factions.wind = server.roles.find("name", factionRole).id;
+            serverData[server.id].factions.wind = resolve.id;
             save("factions", server);
             channel.send("The '" + factionRole + "' role has been set as the Wind faction role.").catch(console.error);
         }
