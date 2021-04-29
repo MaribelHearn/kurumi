@@ -125,6 +125,8 @@ module.exports = {
 
         global.DEFAULT_COOLDOWN = 15;
 
+        global.MESSAGE_CAP = 2000;
+
         global.MAX_SCORE = 9999999990;
 
         global.CATEGORIES = ["Easy", "Normal", "Hard", "Lunatic", "Extra"];

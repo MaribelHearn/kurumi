@@ -135,6 +135,21 @@
         }
     },
 
+    botchannels: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + "`: shows the channels I am allowed to be used in.";
+        },
+
+        command: function (message, server, command, channel) {
+            if (!serverData[server.id].botChannels) {
+                channel.send("There are no bot channels; I am allowed to be used everywhere in the server.");
+                return;
+            }
+
+            channel.send("Current bot channels: `" + serverData[server.id].botChannels.join("`, `") + "`.");
+        }
+    },
+
     lewd: {
         help: function (command, symbol) {
             return "`" + symbol + command + "`: to grant yourself access to the lewd channel.";

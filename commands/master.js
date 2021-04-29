@@ -142,8 +142,8 @@
                 }
             }
 
-            if (dataMessage.length > 2000) {
-                dataMessage = dataMessage.substr(0, 1996) + "...";
+            if (dataMessage.length > MESSAGE_CAP) {
+                dataMessage = dataMessage.substr(0, MESSAGE_CAP - 4) + "...";
             }
 
             channel.send(dataMessage).catch(console.error);
@@ -197,9 +197,9 @@
             botChannel = resolve.id;
 
             if (serverData[server.id].botChannels.length === 0) {
-                channel.send("Bot commands have been restricted to " + resolve.name + "!").catch(console.error);
+                channel.send("Bot commands have been restricted to <#" + resolve.id + ">!").catch(console.error);
             } else {
-                channel.send(resolve.name + " is now a bot channel!").catch(console.error);
+                channel.send("<#" + resolve.id + "> is now a bot channel!").catch(console.error);
             }
 
             serverData[server.id].botChannels.push(botChannel);
@@ -240,7 +240,7 @@
             if (serverData[server.id].botChannels.length === 0) {
                 channel.send("Bot commands are now allowed everywhere!").catch(console.error);
             } else {
-                channel.send(resolve.name + " is no longer a bot channel!").catch(console.error);
+                channel.send("<#" + resolve.id + "> is no longer a bot channel!").catch(console.error);
             }
         }
     },
@@ -270,20 +270,20 @@
             logChannel = resolve.id;
             serverData[server.id].logChannel = logChannel;
             save("logChannel", server);
-            channel.send(resolve.name + " is now the logging channel!");
+            channel.send("<#" + resolve.id + "> is now my logging channel!");
         }
     },
 
     mainchannel: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <channel>`: makes `channel` my main channel.";
+            return "`" + symbol + command + " [channel]`: makes `channel` my main channel. If `channel` is not specified, shows the current main channel.";
         },
 
         command: function (message, server, command, channel) {
             var mainChannel = command[1], resolve;
 
             if (!mainChannel) {
-                channel.send(message.author.username + ", please specify a channel.").catch(console.error);
+                channel.send("My main channel is currently <#" + serverData[server.id].mainChannel + ">.").catch(console.error);
                 return;
             }
 
@@ -297,7 +297,7 @@
             mainChannel = resolve.id;
             serverData[server.id].mainChannel = mainChannel;
             save("mainChannel", server);
-            channel.send(resolve.name + " is now my main channel!").catch(console.error);
+            channel.send("<#" + resolve.id + "> is now my main channel!").catch(console.error);
         }
     },
 
@@ -433,7 +433,7 @@
 
     entrymessage: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <message>`: changes the entry message to `message`. Write '%u' where the username should be.";
+            return "`" + symbol + command + " [message]`: changes the entry message to `message`. Write '%u' where the username should be. If `message` is not specified, shows the current leave message.";
         },
 
         command: function (message, server, command, channel) {
@@ -457,7 +457,7 @@
 
     leavemessage: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <message>`: changes the leave message to `message`. Write '%u' where the username should be.";
+            return "`" + symbol + command + " [message]`: changes the leave message to `message`. Write '%u' where the username should be. If `message` is not specified, shows the current leave message.";
         },
 
         command: function (message, server, command, channel) {
@@ -481,7 +481,7 @@
 
     logoutmessage: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <message>`: changes the logout message to `message`.";
+            return "`" + symbol + command + " [message]`: changes the logout message to `message`. If `message` is not specified, shows the current logout message.";
         },
 
         command: function (message, server, command, channel) {
@@ -500,14 +500,14 @@
 
     defaultreason: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <reason>`: changes the default reason for kicks and bans to `reason`.";
+            return "`" + symbol + command + " [reason]`: changes the default reason for kicks and bans to `reason`. If `reason` is not specified, shows the current default reason.";
         },
 
         command: function (message, server, command, channel) {
             var defaultReason = command[1];
 
             if (!defaultReason) {
-                channel.send("The current default reason for kicks and bans on this server is `" + serverDatas[server.id].defaultReason + "`.").catch(console.error);
+                channel.send("The current default reason for kicks and bans on this server is `" + serverData[server.id].defaultReason + "`.").catch(console.error);
                 return;
             }
 
