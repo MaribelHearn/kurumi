@@ -1,5 +1,5 @@
 /* Play function */
-async function play(connection, url) {
+async function play(server, connection, url) {
     const dispatcher = connection.play(await ytdl(url), {type: "opus", quality: "highestaudio", volume: 1});
 
     dispatcher.on("finish", () => {
@@ -1191,6 +1191,8 @@ module.exports = {
             var item;
 
             if (!serverData[server.id].interruptionMode) {
+                serverData[server.id].queue.splice(0, 1);
+
                 if (serverData[server.id].queue.length > 0) {
                     item = serverData[server.id].queue[0];
 
@@ -1199,8 +1201,6 @@ module.exports = {
                     } else {
                         playLocal(server, item, permData.musicLocal[item].volume);
                     }
-
-                    serverData[server.id].queue.splice(0, 1);
                 }
             } else {
                 console.log(timeStamp() + "Interruption mode is enabled, cannot use the music queue.");
@@ -1254,7 +1254,7 @@ module.exports = {
 
             try {
                 voiceChannel.join().then(connection => {
-                    play(connection, url);
+                    play(server, connection, url);
                 }).catch(console.error);
             } catch (err) {
                 channel.send(err).catch(console.error);

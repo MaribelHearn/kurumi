@@ -47,7 +47,17 @@ module.exports = {
                         return;
                     }
 
-                    playLocal(server, musicCommand.file, musicCommand.volume);
+                    if (!serverData[server.id].interruptionMode) {
+                        if (!serverData[server.id].queue || serverData[server.id].queue.length === 0) {
+                            serverData[server.id].queue = [musicCommand.file];
+                            playLocal(server, musicCommand.file, musicCommand.volume);
+                        } else {
+                            serverData[server.id].queue.push(musicCommand.file);
+                        }
+                    } else {
+                        playLocal(server, musicCommand.file, musicCommand.volume);
+                    }
+
                     return;
                 }
 
