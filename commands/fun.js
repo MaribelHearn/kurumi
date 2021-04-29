@@ -317,7 +317,7 @@
                 return;
             }
 
-            if (waifu.toLowerCase() == ":hahaa:") {
+            if (waifu.toLowerCase().contains("hahaa")) {
                 emoji = server.emojis.cache.find(emoji => emoji.name == "hahaa");
                 channel.send(":ok_hand: I rate that waifu **<:" + emoji.name + ":" + emoji.id + ">/10**.").catch(console.error);
                 return;
