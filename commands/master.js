@@ -287,7 +287,7 @@
                 return;
             }
 
-            resolve = server.channels.resolve(chan => chan.name == mainChannel);
+            resolve = server.channels.cache.find(chan => chan.name == mainChannel);
 
             if (!resolve || resolve.type != "text") {
                 channel.send(message.author.username + ", that is not a channel!").catch(console.error);
