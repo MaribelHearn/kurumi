@@ -1,16 +1,15 @@
 ﻿/* Setup */
 const MODULE_DIR = "./modules/";
 const COMMAND_DIR = "./commands/";
+const timeStamp = function () {
+    return "[" + new Date().toISOString().split('T')[0] + " " + new Date().toTimeString().split(' ')[0] + "] ";
+};
 
 try {
     Discord = require("discord.js");
     global.fs = require("fs");
     bot = new Discord.Client();
     allCommands = {};
-
-    timeStamp = function () {
-        return "[" + new Date().toISOString().split('T')[0] + " " + new Date().toTimeString().split(' ')[0] + "] ";
-    };
 } catch (err) {
 	console.log(timeStamp() + err.stack + "\n" + timeStamp() + process.versions.node + "\n" + timeStamp() + "Run npm install without any having any errors occur!");
 	process.exit();
