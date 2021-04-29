@@ -317,6 +317,12 @@
                 return;
             }
 
+            if (waifu.toLowerCase() == ":hahaa:") {
+                emoji = server.emojis.cache.find(emoji => emoji.name == "hahaa");
+                channel.send(":ok_hand: I rate that waifu **<:" + emoji.name + ":" + emoji.id + ">/10**.").catch(console.error);
+                return;
+            }
+
             if (waifu.toLowerCase() == "the challenge") {
                 emoji = server.emojis.cache.find(emoji => emoji.name == "playedit");
                 channel.send("<:" + emoji.name + ":" + emoji.id + "> I rate that waifu **Infinity/10**.").catch(console.error);
