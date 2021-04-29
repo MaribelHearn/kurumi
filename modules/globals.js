@@ -1203,17 +1203,17 @@ module.exports = {
         };
 
         global.playYouTube = function (server, link) {
-            if (!music) {
+            if (!link) {
                 return;
             }
 
-            const streamOptions = {quality: "highestaudio", volume: 0.5};
+            const streamOptions = {type: "opus", quality: "highestaudio", volume: 0.5};
 
             var voiceChannel = server.channels.cache.get(serverData[server.id].voiceChannel);
 
             try {
                 voiceChannel.join().then(connection => {
-                    const dispatcher = connection.play(ytdl(link), streamOptions);
+                    const dispatcher = connection.play(await ytdl(link), streamOptions);
 
                     dispatcher.on("end", reason => {
                         console.log(timeStamp() + "Dispatcher ended. Reason: " + reason);
