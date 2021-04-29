@@ -1039,12 +1039,12 @@
             var queue = serverData[server.id].queue, message = "Current queue:\n```Markdown", i;
 
             if (!queue || queue.length === 0) {
-                channel.send(message.author.username + ", the queue is currently empty.");
+                channel.send(message.author.username + ", the queue is currently empty.").catch(console.error);
                 return;
             }
 
             if (serverData[server.id].interruptionMode) {
-                channel.send(message.author.username + ", the server is currently on interruption mode, so the queue is not being used.");
+                channel.send(message.author.username + ", the server is currently on interruption mode, so the queue is not being used.").catch(console.error);
                 return;
             }
 
