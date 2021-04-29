@@ -1213,7 +1213,7 @@ module.exports = {
 
             try {
                 voiceChannel.join().then(connection => {
-                    const dispatcher = connection.play(await ytdl(link), streamOptions);
+                    const dispatcher = connection.play(ytdl(link), streamOptions);
 
                     dispatcher.on("end", reason => {
                         console.log(timeStamp() + "Dispatcher ended. Reason: " + reason);
