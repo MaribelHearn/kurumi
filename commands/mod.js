@@ -235,12 +235,12 @@
             var game = command[1];
 
             if (!game) {
-                bot.user.setGame(null);
+                bot.user.setActivity(null);
                 channel.send("Game removed.").catch(console.error);
                 return;
             }
 
-            bot.user.setGame(game);
+            bot.user.setActivity(game);
             channel.send("Game changed.").catch(console.error);
         }
     },
@@ -261,6 +261,25 @@
 
             bot.user.setAvatar(avatar);
             channel.send("Avatar changed.").catch(console.error);
+        }
+    },
+
+    status: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " [status]`: will set my status to `status`. If `status` is not specified, removes my status.";
+        },
+
+        command: function (message, server, command, channel) {
+            var status = command[1];
+
+            if (!status) {
+                bot.user.setStatus(null);
+                channel.send("Status removed.").catch(console.error);
+                return;
+            }
+
+            bot.user.setStatus(status);
+            channel.send("Status changed.").catch(console.error);
         }
     },
 
@@ -1067,24 +1086,6 @@
             serverData[server.id].kekDetection = !serverData[server.id].kekDetection;
             save("kekDetection", server);
             channel.send("Kek detection has been turned **" + (serverData[server.id].kekDetection ? "on" : "off") + "**.").catch(console.error);
-        }
-    },
-
-    unusedroles: {
-        help: function (command, symbol) {
-            return "`" + symbol + command + "`: lists all unused roles.";
-        },
-
-        command: function (message, server, command, channel) {
-            var roles = server.roles.array(), unusedRoles = [], role;
-
-            for (role in roles) {
-                if (roles[role].members.size === 0) {
-                    unusedRoles.push(roles[role].name);
-                }
-            }
-
-            channel.send(unusedRoles.length === 0 ? "There are no unused roles." : "Unused roles: " + unusedRoles).catch(console.error);
         }
     },
 
