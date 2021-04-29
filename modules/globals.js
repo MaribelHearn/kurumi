@@ -1202,7 +1202,7 @@ module.exports = {
             }
         };
 
-        global.playYouTube = function (server, link) {
+        global.playYouTube = async function (server, link) {
             if (!link) {
                 return;
             }
@@ -1213,7 +1213,7 @@ module.exports = {
 
             try {
                 voiceChannel.join().then(connection => {
-                    const dispatcher = connection.play(ytdl(link), streamOptions);
+                    const dispatcher = connection.play(await ytdl(link), streamOptions);
 
                     dispatcher.on("end", reason => {
                         console.log(timeStamp() + "Dispatcher ended. Reason: " + reason);
