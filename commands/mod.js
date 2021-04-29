@@ -906,7 +906,7 @@
             serverData[server.id].queue.splice(0, 1);
             channel.send("Skipping the current music.");
 
-            if (serverData[server.id].queue.length > 0) {
+            if (queue.length > 0) {
                 item = serverData[server.id].queue[0];
 
                 if (item.contains("http")) {
