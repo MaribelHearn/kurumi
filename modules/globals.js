@@ -1175,7 +1175,7 @@ module.exports = {
 
             const streamOptions = {seek: 0, volume: (volume ? volume : 1)};
 
-            var voiceChannel = server.channels.get(serverData[server.id].voiceChannel);
+            var voiceChannel = server.channels.cache.get(serverData[server.id].voiceChannel);
 
             try {
                 voiceChannel.join().then(connection => {
