@@ -19,7 +19,7 @@ module.exports = {
 
                 // Alias Check
                 if (aliasToOriginal(commandName)) {
-                    content.replace(commandName, aliasToOriginal(commandName));
+                    content = content.replace(commandName, aliasToOriginal(commandName));
                     commandName = aliasToOriginal(commandName);
                 }
 
