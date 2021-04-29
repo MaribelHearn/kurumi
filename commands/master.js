@@ -197,9 +197,9 @@
             botChannel = resolve.id;
 
             if (serverData[server.id].botChannels.length === 0) {
-                channel.send("Bot commands have been restricted to " + server.channels.get(botChannel) + "!").catch(console.error);
+                channel.send("Bot commands have been restricted to " + server.channels.cache.get(botChannel) + "!").catch(console.error);
             } else {
-                channel.send(server.channels.get(botChannel).name + " is now a bot channel!").catch(console.error);
+                channel.send(server.channels.cache.get(botChannel).name + " is now a bot channel!").catch(console.error);
             }
 
             serverData[server.id].botChannels.push(botChannel);
@@ -240,7 +240,7 @@
             if (serverData[server.id].botChannels.length === 0) {
                 channel.send("Bot commands are now allowed everywhere!").catch(console.error);
             } else {
-                channel.send(server.channels.get(botChannel).name + " is no longer a bot channel!").catch(console.error);
+                channel.send(server.channels.cache.get(botChannel).name + " is no longer a bot channel!").catch(console.error);
             }
         }
     },
@@ -270,7 +270,7 @@
             logChannel = resolve.id;
             serverData[server.id].logChannel = logChannel;
             save("logChannel", server);
-            channel.send(server.channels.get(logChannel).name + " is now the logging channel!");
+            channel.send(server.channels.cache.get(logChannel).name + " is now the logging channel!");
         }
     },
 
@@ -528,13 +528,13 @@
             var botChannels = [];
 
             for (var i in settings.botChannels) {
-                botChannels.push(server.channels.get(settings.botChannels[i]));
+                botChannels.push(server.channels.cache.get(settings.botChannels[i]));
             }
 
             var settingsMessage = "Channels: " + botChannels.join(", ") +
-            "\nMain channel: " + server.channels.get(settings.mainChannel) +
-            "\nLogging channel: " + server.channels.get(settings.logChannel) +
-            "\nVoice channel: " + server.channels.get(settings.voiceChannel) +
+            "\nMain channel: " + server.channels.cache.get(settings.mainChannel) +
+            "\nLogging channel: " + server.channels.cache.get(settings.logChannel) +
+            "\nVoice channel: " + server.channels.cache.get(settings.voiceChannel) +
             "\nEntry message: '" + settings.entryMessage + "'" +
             "\nLeave message: '" + settings.leaveMessage + "'" +
             "\nLogout message: '" + settings.logoutMessage + "'" +
