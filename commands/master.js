@@ -170,7 +170,19 @@
         command: function (message, server, command, channel) {
             permData.maintenanceMode = !permData.maintenanceMode;
             save("maintenanceMode");
-            channel.send("Maintenance mode has been " + (permData.maintenanceMode ? "en" : "dis") + "abled.").catch(console.error);
+            channel.send("Maintenance mode has been **" + (permData.maintenanceMode ? "en" : "dis") + "abled**.").catch(console.error);
+        }
+    },
+
+    toggleinterrupt: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + "`: toggles interruption mode. This will make voice channel commands interrupt anything ongoing by starting immediately.";
+        },
+
+        command: function (message, server, command, channel) {
+            serverData[server.id].interruptionMode = !serverData[server.id].interruptionMode;
+            save("interruptionMode", server);
+            channel.send("Interruption mode mode has been **" + (serverData[server.id].interruptionMode ? "en" : "dis") + "abled** on this server.").catch(console.error);
         }
     },
 

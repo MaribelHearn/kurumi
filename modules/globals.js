@@ -1,6 +1,18 @@
 /* Play function */
 async function play(connection, url) {
-    connection.play(await ytdl(url), {type: "opus", quality: "highestaudio", volume: 0.5});
+    const dispatcher = connection.play(await ytdl(url), {type: "opus", quality: "highestaudio", volume: 1});
+
+    dispatcher.on("finish", () => {
+        nextMusicQueueItem(server);
+    });
+
+    dispatcher.on("end", reason => {
+        console.log(timeStamp() + "Dispatcher ended. Reason: " + reason);
+    });
+
+    dispatcher.on("error", err => {
+        console.log(timeStamp() + err).catch(console.error);
+    });
 }
 
 /* JavaScript Native Object Additions */
@@ -1175,6 +1187,26 @@ module.exports = {
             return spaces;
         };
 
+        global.nextMusicQueueItem = function (server) {
+            var item;
+
+            if (!serverData[server.id].interruptionMode) {
+                if (serverData[server.id].queue.length > 0) {
+                    item = serverData[server.id].queue[0];
+
+                    if (item.contains("http")) {
+                        playYouTube(server, item);
+                    } else {
+                        playLocal(server, item, permData.musicLocal[item].volume);
+                    }
+
+                    serverData[server.id].queue.splice(0, 1);
+                }
+            } else {
+                console.log(timeStamp() + "Interruption mode is enabled, cannot use the music queue.");
+            }
+        };
+
         global.playLocal = function (server, music, volume) {
             if (!music) {
                 return;
@@ -1191,19 +1223,23 @@ module.exports = {
                     if (fs.existsSync(music)) {
                         const dispatcher = connection.play(music, streamOptions);
 
+                        dispatcher.on("finish", () => {
+                            nextMusicQueueItem(server);
+                        });
+
                         dispatcher.on("end", reason => {
                             console.log(timeStamp() + "Dispatcher ended. Reason: " + reason);
                         });
 
                         dispatcher.on("error", err => {
-                            channel.send(err).catch(console.error);
+                            console.log(timeStamp() + err).catch(console.error);
                         });
                     } else {
                         console.log(timeStamp() + "Music file '" + music + "' not found.");
                     }
                 }).catch(console.error);
             } catch (err) {
-                channel.send(err).catch(console.error);
+                console.log(timeStamp() + err).catch(console.error);
             }
         };
 

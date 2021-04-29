@@ -685,7 +685,16 @@
                 return;
             }
 
-            playYouTube(server, originalLink);
+            if (serverData[server.id].interruptionMode) {
+                playYouTube(server, originalLink);
+            } else {
+                if (!serverData[server.id].queue || serverData[server.id].queue.length === 0) {
+                    serverData[server.id].queue = [];
+                    playYouTube(server, originalLink);
+                } else {
+                    serverData[server.id].queue.push(originalLink);
+                }
+            }
         }
     }
 };
