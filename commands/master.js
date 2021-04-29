@@ -197,7 +197,7 @@
             botChannel = resolve.id;
 
             if (serverData[server.id].botChannels.length === 0) {
-                channel.send("Bot commands have been restricted to " + server.channels.cache.get(botChannel) + "!").catch(console.error);
+                channel.send("Bot commands have been restricted to " + server.channels.cache.get(botChannel).name + "!").catch(console.error);
             } else {
                 channel.send(server.channels.cache.get(botChannel).name + " is now a bot channel!").catch(console.error);
             }
