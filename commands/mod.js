@@ -894,12 +894,12 @@
             var queue = serverData[server.id].queue, message = "Current queue:\n```Markdown", voiceChannel, i;
 
             if (!queue || queue.length === 0) {
-                channel.send(message.author.username + ", the queue is currently empty.");
+                channel.send("The queue is currently empty.");
                 return;
             }
 
             if (serverData[server.id].interruptionMode) {
-                channel.send(message.author.username + ", the server is currently on interruption mode, so the queue is not being used.");
+                channel.send("The server is currently on interruption mode, so the queue is not being used.");
                 return;
             }
 
@@ -913,6 +913,12 @@
                     playYouTube(server, item);
                 } else {
                     playLocal(server, permData.musicLocal[item].file, permData.musicLocal[item].volume);
+                }
+            } else {
+                voiceChannel = server.channels.cache.get(serverData[server.id].voiceChannel);
+
+                if (!voiceChannel.connection === null) {
+                    voiceChannel.connection.disconnect();
                 }
             }
         }
