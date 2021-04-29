@@ -1079,9 +1079,9 @@
             }
 
             if (!aliases[commandName]) {
-                channel.send("There are no aliases for `" + message.charAt(0) + commandName + "`.");
+                channel.send("There are no aliases for `" + message.content.charAt(0) + commandName + "`.");
             } else {
-                channel.send("Aliases for `" + message.charAt(0) + commandName + "`: `" + aliases[commandName].join("`, `") + "`.");
+                channel.send("Aliases for `" + message.content.charAt(0) + commandName + "`: `" + aliases[commandName].join("`, `") + "`.");
             }
         }
     },
