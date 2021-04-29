@@ -1,6 +1,6 @@
 /* Play function */
 async function play(connection, url) {
-    connection.play(await ytdl(url), {type: "opus"});
+    connection.play(await ytdl(url), {type: "opus", quality: "highestaudio", volume: 0.5});
 }
 
 /* JavaScript Native Object Additions */
