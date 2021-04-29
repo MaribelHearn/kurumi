@@ -17,6 +17,11 @@ module.exports = {
                 // Get command name
                 var commandName = content.slice(1).split(' ')[0];
 
+                // Alias Check
+                if (aliasToOriginal(commandName)) {
+                    commandName = aliasToOriginal(commandName);
+                }
+
                 // Music Command Check
                 if (musicLocal.hasOwnProperty(commandName)) {
                     var musicCommand = musicLocal[commandName];
@@ -26,7 +31,7 @@ module.exports = {
                         return;
                     }
 
-                    if (!serverData[server.id].botChannels.contains(channel.id) || serverData[server.id].botChannels.length === 0) {
+                    if (serverData[server.id].botChannels.length === 0 || !serverData[server.id].botChannels.contains(channel.id)) {
                         channel.send(message.author.username + ", you do not have sufficient permission to run music commands outside bot channels.").catch(console.error);
                         return;
                     }
@@ -148,7 +153,7 @@ module.exports = {
                 }
 
                 // No non-authority commands outside bot channels
-                if (commandType != "master" && commandType != "mod" && !serverData[server.id].botChannels.contains(channel.id) && serverData[server.id].botChannels.length !== 0) {
+                if (commandType != "master" && commandType != "mod" && (serverData[server.id].botChannels.length > 0 && !serverData[server.id].botChannels.contains(channel.id)) && serverData[server.id].botChannels.length !== 0) {
                     return;
                 }
 

@@ -1215,5 +1215,15 @@ module.exports = {
 
             return players.length;
         };
+
+        global.aliasToOriginal = function (alias) {
+            for (var i in aliases) {
+                if (aliases[i].contains(alias)) {
+                    return i;
+                }
+            }
+
+            return false;
+        }
     }
 };
