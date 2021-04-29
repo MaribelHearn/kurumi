@@ -980,7 +980,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var commandName = command[1], alias;
+            var aliases = permData.aliases, commandName = command[1], alias;
 
             if (!commandName) {
                 channel.send(message.author.username + ", please specify a command to make an alias for.").catch(console.error);
@@ -1004,10 +1004,10 @@
             alias = alias.toLowerCase();
 
             if (!aliases[commandName]) {
-                aliases[commandName] = [];
+                permData.aliases[commandName] = [];
             }
 
-            aliases[commandName].push(alias);
+            permData.aliases[commandName].push(alias);
             save("aliases");
             channel.send("Alias added.").catch(console.error);
         }
@@ -1019,7 +1019,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var commandName = command[1], alias;
+            var aliases = permData.aliases, commandName = command[1], alias;
 
             if (!commandName) {
                 channel.send(message.author.username + ", please specify a command to remove an alias from.").catch(console.error);
@@ -1047,10 +1047,10 @@
                 return;
             }
 
-            aliases[commandName].remove(alias);
+            permData.aliases[commandName].remove(alias);
 
             if (aliases[commandName].length === 0) {
-                delete aliases[commandName];
+                delete permData.aliases[commandName];
             }
 
             save("aliases");
@@ -1064,7 +1064,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var commandName = command[1], alias;
+            var aliases = permData.aliases, commandName = command[1], alias;
 
             if (!commandName) {
                 channel.send(message.author.username + ", please specify a command to show the aliases for.").catch(console.error);
