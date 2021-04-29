@@ -1055,7 +1055,7 @@
             message += "\n```";
             channel.send(message);
         }
-    },
+    }
 
     /*convert: {
         help: function (command, symbol) {
