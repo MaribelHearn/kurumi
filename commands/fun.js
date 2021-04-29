@@ -317,7 +317,7 @@
                 return;
             }
 
-            if (waifu.toLowerCase() == "The Challenge") {
+            if (waifu.toLowerCase() == "the challenge") {
                 emoji = server.emojis.cache.find(emoji => emoji.name == "playedit");
                 channel.send("<:" + emoji.name + ":" + emoji.id + "> I rate that waifu **Infinity/10**.").catch(console.error);
                 return;
