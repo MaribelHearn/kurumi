@@ -1203,7 +1203,7 @@ module.exports = {
         };
 
         global.playYouTube = function (server, link) {
-            if (!music) {
+            if (!link) {
                 return;
             }
 

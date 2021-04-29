@@ -678,6 +678,11 @@
                 return;
             }
 
+            if (!serverData[server.id].voiceChannel) {
+                channel.send(message.author.username + ", I don't currently have a voice channel!").catch(console.error);
+                return;
+            }
+
             playYouTube(server, command[1]);
         }
     }
