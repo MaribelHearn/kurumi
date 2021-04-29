@@ -491,7 +491,7 @@ module.exports = {
 
         /* Variables */
         global.permData = {
-            "WRs": {}, "bestInTheWest": {}, "LNNs": {}, "currencies": {}, "images": {}, "musicLocal": {}, "notifyQueue": [],
+            "WRs": {}, "bestInTheWest": {}, "LNNs": {}, "currencies": {}, "images": {}, "aliases": {}, "musicLocal": {}, "notifyQueue": [],
             "commandSymbols": ["!"], "token": "", "botMaster": "", "WRsLastUpdated": "", "weatherKey": "", "googleKey": "", "maxLength": 200, "maintenanceMode": false
         };
 

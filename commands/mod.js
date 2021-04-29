@@ -974,6 +974,118 @@
         }
     },
 
+    addalias: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <command> <alias>`: adds `alias` as an alias for `command`.";
+        },
+
+        command: function (message, server, command, channel) {
+            var commandName = command[1], alias;
+
+            if (!commandName) {
+                channel.send(message.author.username + ", please specify a command to make an alias for.").catch(console.error);
+                return;
+            }
+
+            commandName = commandName.toLowerCase();
+
+            if (!Object.keys(allCommands).contains(commandName)) {
+                channel.send(message.author.username + ", please specify a valid command to make an alias for.").catch(console.error);
+                return;
+            }
+
+            alias = command[2];
+
+            if (!alias) {
+                channel.send(message.author.username + ", please specify an alias for that command.").catch(console.error);
+                return;
+            }
+
+            alias = alias.toLowerCase();
+
+            if (!aliases[commandName]) {
+                aliases[commandName] = [];
+            }
+
+            aliases[commandName].push(alias);
+            save("aliases");
+            channel.send("Alias added.").catch(console.error);
+        }
+    },
+
+    removealias: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <command> <alias>`: removes `alias` from the list of aliases for `command`.";
+        },
+
+        command: function (message, server, command, channel) {
+            var commandName = command[1], alias;
+
+            if (!commandName) {
+                channel.send(message.author.username + ", please specify a command to remove an alias from.").catch(console.error);
+                return;
+            }
+
+            commandName = commandName.toLowerCase();
+
+            if (!Object.keys(allCommands).contains(commandName)) {
+                channel.send(message.author.username + ", please specify a valid command to remove an alias from.").catch(console.error);
+                return;
+            }
+
+            alias = command[2];
+
+            if (!alias) {
+                channel.send(message.author.username + ", please specify the alias to be removed from that command.").catch(console.error);
+                return;
+            }
+
+            alias = alias.toLowerCase();
+
+            if (!aliases[commandName] || !aliases[commandName].contains(alias)) {
+                channel.send(message.author.username + ", that is not an alias for that command.").catch(console.error);
+                return;
+            }
+
+            aliases[commandName].remove(alias);
+
+            if (aliases[commandName].length === 0) {
+                delete aliases[commandName];
+            }
+
+            save("aliases");
+            channel.send("Alias removed.").catch(console.error);
+        }
+    },
+
+    aliases: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <command>`: shows currently active aliases for `command`.";
+        },
+
+        command: function (message, server, command, channel) {
+            var commandName = command[1], alias;
+
+            if (!commandName) {
+                channel.send(message.author.username + ", please specify a command to show the aliases for.").catch(console.error);
+                return;
+            }
+
+            commandName = commandName.toLowerCase();
+
+            if (!Object.keys(allCommands).contains(commandName)) {
+                channel.send(message.author.username + ", please specify a valid command to show the aliases for.").catch(console.error);
+                return;
+            }
+
+            if (!aliases[commandName]) {
+                channel.send("There are no aliases for `" + message.charAt(0) + commandName + "`.");
+            } else {
+                channel.send("Aliases for `" + message.charAt(0) + commandName + "`: `" + aliases[commandName].join("`, `") + "`.");
+            }
+        }
+    },
+
     togglekek: {
         help: function (command, symbol) {
             return "`" + symbol + command + "`: turns kek detection on or off.";
