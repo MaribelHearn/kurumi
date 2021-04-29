@@ -989,7 +989,7 @@
 
             commandName = commandName.toLowerCase();
 
-            if (!Object.keys(allCommands).contains(commandName)) {
+            if (!isCommand(commandName)) {
                 channel.send(message.author.username + ", please specify a valid command to make an alias for.").catch(console.error);
                 return;
             }
@@ -1028,7 +1028,7 @@
 
             commandName = commandName.toLowerCase();
 
-            if (!Object.keys(allCommands).contains(commandName)) {
+            if (!isCommand(commandName)) {
                 channel.send(message.author.username + ", please specify a valid command to remove an alias from.").catch(console.error);
                 return;
             }
@@ -1073,7 +1073,7 @@
 
             commandName = commandName.toLowerCase();
 
-            if (!Object.keys(allCommands).contains(commandName)) {
+            if (!isCommand(commandName)) {
                 channel.send(message.author.username + ", please specify a valid command to show the aliases for.").catch(console.error);
                 return;
             }
