@@ -791,14 +791,27 @@
                 return;
             }
 
-            var voiceChannel = server.channels.cache.get(serverData[server.id].voiceChannel);
+            var voiceChannel = server.channels.cache.get(serverData[server.id].voiceChannel), item;
 
             if (!voiceChannel.connection === null) {
                 channel.send(message.author.username + ", I am already in the voice channel!").catch(console.error);
                 return;
             }
 
-            voiceChannel.join().then(connection => channel.send(message.author.username + ", I have connected to the voice channel.")).catch(console.error);
+            voiceChannel.join().then(connection => {
+                channel.send(message.author.username + ", I have connected to the voice channel.");
+
+                if (serverData[server.id].queue && serverData[server.id].queue.length > 0) {
+                    channel.send("I will automatically resume the music queue.");
+                    item = serverData[server.id].queue[0];
+
+                    if (item.contains("http")) {
+                        playYouTube(server, item);
+                    } else {
+                        playLocal(server, item, permData.musicLocal[item].volume);
+                    }
+                }
+            }).catch(console.error);
         }
     },
 
@@ -869,6 +882,39 @@
             serverData[server.id].voiceChannel = resolve.id;
             save("voiceChannel", server);
             channel.send(message.author.username + ", I will now use " + resolve.name + "!").catch(console.error);
+        }
+    },
+
+    skip: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + "`: skip the music from the queue that is currently being streamed to the voice channel.";
+        },
+
+        command: function (message, server, command, channel) {
+            var queue = serverData[server.id].queue, message = "Current queue:\n```Markdown", voiceChannel, i;
+
+            if (!queue || queue.length === 0) {
+                channel.send(message.author.username + ", the queue is currently empty.");
+                return;
+            }
+
+            if (serverData[server.id].interruptionMode) {
+                channel.send(message.author.username + ", the server is currently on interruption mode, so the queue is not being used.");
+                return;
+            }
+
+            serverData[server.id].queue.splice(0, 1);
+            channel.send("Skipping the current music.");
+
+            if (serverData[server.id].queue.length > 0) {
+                item = serverData[server.id].queue[0];
+
+                if (item.contains("http")) {
+                    playYouTube(server, item);
+                } else {
+                    playLocal(server, item, permData.musicLocal[item].volume);
+                }
+            }
         }
     },
 

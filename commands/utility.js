@@ -1030,6 +1030,33 @@
         }
     },
 
+    queue: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + "`: show the current voice channel music queue.";
+        },
+
+        command: function (message, server, command, channel) {
+            var queue = serverData[server.id].queue, message = "Current queue:\n```Markdown", i;
+
+            if (!queue || queue.length === 0) {
+                channel.send(message.author.username + ", the queue is currently empty.");
+                return;
+            }
+
+            if (serverData[server.id].interruptionMode) {
+                channel.send(message.author.username + ", the server is currently on interruption mode, so the queue is not being used.");
+                return;
+            }
+
+            for (i = 0; i < queue.length; i++) {
+                message += "\n" + (i + 1) + ". " + queue[i];
+            }
+
+            message += "\n```";
+            channel.send(message);
+        }
+    },
+
     /*convert: {
         help: function (command, symbol) {
             return "`" + symbol + command + " <amount> <currency 1> <currency 2>`: converts `amount` `currency 1` into `currency 2`.";
