@@ -146,7 +146,7 @@
                 return;
             }
 
-            channel.send("Current bot channels: `" + serverData[server.id].botChannels.join("`, `") + "`.");
+            channel.send("Current bot channels: <#" + serverData[server.id].botChannels.join(">, <#") + ">.");
         }
     },
 
