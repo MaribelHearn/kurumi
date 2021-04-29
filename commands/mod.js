@@ -912,7 +912,7 @@
                 if (item.contains("http")) {
                     playYouTube(server, item);
                 } else {
-                    playLocal(server, item, permData.musicLocal[item].volume);
+                    playLocal(server, permData.musicLocal[item].file, permData.musicLocal[item].volume);
                 }
             }
         }
