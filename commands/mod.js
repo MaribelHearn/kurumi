@@ -833,21 +833,23 @@
         },
 
         command: function (message, server, command, channel) {
-            var voiceChannel = command[1];
+            var voiceChannel = command[1], resolve;
 
             if (!voiceChannel) {
                 channel.send(message.author.username + ", please specify a voice channel.").catch(console.error);
                 return;
             }
 
-            if (!server.channels.find("name", voiceChannel) || server.channels.find("name", voiceChannel).type != "voice") {
+            resolve = server.channels.cache.find(chan => chan.name == voiceChannel);
+
+            if (!resolve || resolve.type != "voice") {
                 channel.send(message.author.username + ", that is not a voice channel!").catch(console.error);
                 return;
             }
 
-            serverData[server.id].voiceChannel = server.channels.find("name", voiceChannel).id;
+            serverData[server.id].voiceChannel = resolve.id;
             save("voiceChannel", server);
-            channel.send(message.author.username + ", I will now use " + voiceChannel + "!").catch(console.error);
+            channel.send(message.author.username + ", I will now use " + resolve.name + "!").catch(console.error);
         }
     },
 

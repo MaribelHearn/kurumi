@@ -197,9 +197,9 @@
             botChannel = resolve.id;
 
             if (serverData[server.id].botChannels.length === 0) {
-                channel.send("Bot commands have been restricted to " + server.channels.cache.get(botChannel).name + "!").catch(console.error);
+                channel.send("Bot commands have been restricted to " + resolve.name + "!").catch(console.error);
             } else {
-                channel.send(server.channels.cache.get(botChannel).name + " is now a bot channel!").catch(console.error);
+                channel.send(resolve.name + " is now a bot channel!").catch(console.error);
             }
 
             serverData[server.id].botChannels.push(botChannel);
@@ -240,7 +240,7 @@
             if (serverData[server.id].botChannels.length === 0) {
                 channel.send("Bot commands are now allowed everywhere!").catch(console.error);
             } else {
-                channel.send(server.channels.cache.get(botChannel).name + " is no longer a bot channel!").catch(console.error);
+                channel.send(resolve.name + " is no longer a bot channel!").catch(console.error);
             }
         }
     },
@@ -270,7 +270,7 @@
             logChannel = resolve.id;
             serverData[server.id].logChannel = logChannel;
             save("logChannel", server);
-            channel.send(server.channels.cache.get(logChannel).name + " is now the logging channel!");
+            channel.send(resolve.name + " is now the logging channel!");
         }
     },
 
@@ -297,7 +297,7 @@
             mainChannel = resolve.id;
             serverData[server.id].mainChannel = mainChannel;
             save("mainChannel", server);
-            channel.send(server.channels.cache.get(mainChannel).name + " is now my main channel!").catch(console.error);
+            channel.send(resolve.name + " is now my main channel!").catch(console.error);
         }
     },
 
