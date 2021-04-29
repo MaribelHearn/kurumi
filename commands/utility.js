@@ -107,6 +107,34 @@
         }
     },
 
+    aliases: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <command>`: shows currently active aliases for `command`.";
+        },
+
+        command: function (message, server, command, channel) {
+            var aliases = permData.aliases, commandName = command[1], alias;
+
+            if (!commandName) {
+                channel.send(message.author.username + ", please specify a command to show the aliases for.").catch(console.error);
+                return;
+            }
+
+            commandName = commandName.toLowerCase();
+
+            if (!isCommand(commandName)) {
+                channel.send(message.author.username + ", please specify a valid command to show the aliases for.").catch(console.error);
+                return;
+            }
+
+            if (!aliases[commandName]) {
+                channel.send("There are no aliases for `" + message.content.charAt(0) + commandName + "`.");
+            } else {
+                channel.send("Aliases for `" + message.content.charAt(0) + commandName + "`: `" + aliases[commandName].join("`, `") + "`.");
+            }
+        }
+    },
+
     lewd: {
         help: function (command, symbol) {
             return "`" + symbol + command + "`: to grant yourself access to the lewd channel.";

@@ -1217,8 +1217,8 @@ module.exports = {
         };
 
         global.aliasToOriginal = function (alias) {
-            for (var i in aliases) {
-                if (aliases[i].contains(alias)) {
+            for (var i in permData.aliases) {
+                if (permData.aliases[i].contains(alias)) {
                     return i;
                 }
             }
