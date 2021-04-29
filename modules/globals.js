@@ -1,4 +1,9 @@
-﻿/* JavaScript Native Object Additions */
+/* Play function */
+async function play(connection, url) {
+    connection.play(await ytdl(url), {type: "opus"});
+}
+
+/* JavaScript Native Object Additions */
 String.prototype.contains = function (string) {
     return this.indexOf(string) > -1;
 };
@@ -1202,8 +1207,8 @@ module.exports = {
             }
         };
 
-        global.playYouTube = async function (server, link) {
-            if (!link) {
+        global.playYouTube = async function (server, url) {
+            if (!url) {
                 return;
             }
 
@@ -1213,7 +1218,7 @@ module.exports = {
 
             try {
                 voiceChannel.join().then(connection => {
-                    connection.play(await ytdl(link), streamOptions);
+                    play(connection, url);
                 }).catch(console.error);
             } catch (err) {
                 channel.send(err).catch(console.error);
