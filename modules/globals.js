@@ -1180,7 +1180,7 @@ module.exports = {
             try {
                 voiceChannel.join().then(connection => {
                     if (fs.existsSync(music)) {
-                        const dispatcher = connection.playFile(music, streamOptions);
+                        const dispatcher = connection.play(music, streamOptions);
 
                         dispatcher.on("end", reason => {
                             console.log(timeStamp() + "Dispatcher ended. Reason: " + reason);
