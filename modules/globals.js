@@ -1191,6 +1191,8 @@ module.exports = {
             var item;
 
             if (!serverData[server.id].interruptionMode) {
+                serverData[server.id].queue.splice(0, 1);
+
                 if (serverData[server.id].queue.length > 0) {
                     item = serverData[server.id].queue[0];
 
@@ -1199,8 +1201,6 @@ module.exports = {
                     } else {
                         playLocal(server, item, permData.musicLocal[item].volume);
                     }
-
-                    serverData[server.id].queue.splice(0, 1);
                 }
             } else {
                 console.log(timeStamp() + "Interruption mode is enabled, cannot use the music queue.");
