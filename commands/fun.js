@@ -692,6 +692,8 @@
                 } else {
                     serverData[server.id].queue.push(originalLink);
                 }
+
+                save("queue", server);
             } else {
                 playYouTube(server, originalLink);
             }

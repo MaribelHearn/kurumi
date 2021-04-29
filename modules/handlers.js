@@ -54,6 +54,8 @@ module.exports = {
                         } else {
                             serverData[server.id].queue.push(musicCommand.file);
                         }
+
+                        save("queue", server);
                     } else {
                         playLocal(server, musicCommand.file, musicCommand.volume);
                     }
