@@ -678,7 +678,7 @@
                 return;
             }
 
-            playYouTube(server, command[1], 0.5);
+            playYouTube(server, command[1]);
         }
     }
 };

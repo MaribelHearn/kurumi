@@ -105,6 +105,8 @@ module.exports = {
 
         global.url = require("url");
 
+        global.ytdl = require("ytdl-core-discord");
+
         global.exec = require("child_process").exec;
 
         /* Constants */
@@ -1194,6 +1196,32 @@ module.exports = {
                     } else {
                         console.log(timeStamp() + "Music file '" + music + "' not found.");
                     }
+                }).catch(console.error);
+            } catch (err) {
+                channel.send(err).catch(console.error);
+            }
+        };
+
+        global.playYouTube = function (server, link) {
+            if (!music) {
+                return;
+            }
+
+            const streamOptions = {quality: "highestaudio", volume: 0.5};
+
+            var voiceChannel = server.channels.cache.get(serverData[server.id].voiceChannel);
+
+            try {
+                voiceChannel.join().then(connection => {
+                    const dispatcher = connection.play(ytdl(link), streamOptions);
+
+                    dispatcher.on("end", reason => {
+                        console.log(timeStamp() + "Dispatcher ended. Reason: " + reason);
+                    });
+
+                    dispatcher.on("error", err => {
+                        channel.send(err).catch(console.error);
+                    });
                 }).catch(console.error);
             } catch (err) {
                 channel.send(err).catch(console.error);
