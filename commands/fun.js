@@ -671,7 +671,7 @@
                 return;
             }
 
-            link = url.parse(link);
+            link = url.parse(link.replace('<', "").replace('>', ""));
 
             if (link.hostname != "youtu.be" && (link.hostname != "www.youtube.com" || link.pathname != "/watch" || link.search.substring(0, 3) != "?v=")) {
                 channel.send(message.author.username + ", that is not a YouTube video!").catch(console.error);
