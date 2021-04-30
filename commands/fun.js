@@ -164,26 +164,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var date = serverData[server.id].date, id = message.author.id, touhouWaifu;
-
-            dateCheck(server);
-
-            if (date != serverData[server.id].date) {
-                allCommands.mod.reset.command(message, server, command, channel);
-            }
-
-            var touhouWaifus = serverData[server.id].touhouWaifus;
-
-            if (!touhouWaifus[id]) {
-                touhouWaifu = (exceptions[id] ? exceptions[id] : TOUHOU_CHARS.rand());
-
-                touhouWaifus[id] = touhouWaifu;
-                save("touhouWaifus", server);
-            } else {
-                touhouWaifu = touhouWaifus[id];
-            }
-
-            channel.send(message.author.username + ", your Touhou waifu today is **" + touhouWaifu + "**!").catch(console.error);
+            updateWaifu(message, server, channel, id, "Touhou");
         }
     },
 
@@ -193,26 +174,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var date = serverData[server.id].date, exceptions = serverData[server.id].touhouWaifusExceptions, id = message.author.id, touhouWaifu;
-
-            dateCheck(server);
-
-            if (date != serverData[server.id].date) {
-                allCommands.mod.reset.command(message, server, command, channel);
-            }
-
-            var spellWaifus = serverData[server.id].spellWaifus;
-
-            if (!spellWaifus[id]) {
-                spellWaifu = (exceptions[id] ? exceptions[id] : TOUHOU_SPELLS.rand());
-
-                spellWaifus[id] = spellWaifu;
-                save("spellWaifus", server);
-            } else {
-                spellWaifu = spellWaifus[id];
-            }
-
-            channel.send(message.author.username + ", your Touhou Spell Card waifu today is **" + spellWaifu + "**!").catch(console.error);
+            updateWaifu(message, server, channel, id, "Spell Card");
         }
     },
 
@@ -222,26 +184,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var date = serverData[server.id].date, id = message.author.id, fanmemeWaifu;
-
-            dateCheck(server);
-
-            if (date != serverData[server.id].date) {
-                allCommands.mod.reset.command(message, server, command, channel);
-            }
-
-            var fanmemeWaifus = serverData[server.id].fanmemeWaifus;
-
-            if (!fanmemeWaifus[id]) {
-                fanmemeWaifu = FANMEME_CHARS.rand();
-
-                fanmemeWaifus[id] = fanmemeWaifu;
-                save("fanmemeWaifus", server);
-            } else {
-                fanmemeWaifu = fanmemeWaifus[id];
-            }
-
-            channel.send(message.author.username + ", your fanmeme waifu today is **" + fanmemeWaifu + "**!").catch(console.error);
+            updateWaifu(message, server, channel, id, "fanmeme");
         }
     },
 
@@ -251,30 +194,11 @@
         },
 
         command: function (message, server, command, channel) {
-            var date = serverData[server.id].date, id = message.author.id, lenenwaifu;
-
-            dateCheck(server);
-
-            if (date != serverData[server.id].date) {
-                allCommands.mod.reset.command(message, server, command, channel);
-            }
-
-            var lenenWaifus = serverData[server.id].lenenWaifus;
-
-            if (!lenenWaifus[id]) {
-                lenenwaifu = LENEN_CHARS.rand();
-
-                lenenWaifus[id] = lenenwaifu;
-                save("lenenWaifus", server);
-            } else {
-                lenenwaifu = lenenWaifus[id];
-            }
-
-            channel.send(message.author.username + ", your Len'en waifu today is **" + lenenwaifu + "**!").catch(console.error);
+            updateWaifu(message, server, channel, id, "Len'en");
         }
     },
 
-    allwaifu: {
+    /*allwaifu: {
         help: function (command, symbol) {
             return "`" + symbol + command + "`: tells you who are your waifus today.";
         },
@@ -290,7 +214,7 @@
 
 
         }
-    },
+    },*/
 
     ratewaifu: {
         help: function (command, symbol) {
