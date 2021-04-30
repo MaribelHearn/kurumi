@@ -987,7 +987,7 @@
 
     addmusic: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <music> <description> [volume]`: adds a command that plays `music` on a voice channel and has `description` when `" + symbol + "help` is used on it.\nThe music must either be a file in the `music` folder.\nIf `volume` is not specified, it will be set to 0.5.";
+            return "`" + symbol + command + " <music> <description> [volume]`: adds a command that plays `music` on a voice channel and has `description` when `" + symbol + "help` is used on it.\nThe music must be a file in the `music` folder.\nIf `volume` is not specified, it will be set to 0.5.";
         },
 
         command: function (message, server, command, channel) {
