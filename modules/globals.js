@@ -1327,7 +1327,7 @@ module.exports = {
             dateCheck(server);
 
             if (date != serverData[server.id].date) {
-                allCommands.mod.reset.command(message, server, command, channel);
+                allCommands.mod.reset.command(message, server, ["reset"], channel);
             }
 
             if (!waifus[type][id]) {
