@@ -162,11 +162,12 @@
                 result += "\n## " + cap(commandType) + " Commands\n";
 
                 for (commandName in allCommands[commandType]) {
-                    result += "* " + allCommands[commandType][commandName].help(commandName, symbol);
+                    result += "* " + allCommands[commandType][commandName].help(commandName, symbol) + "\n";
                 }
             }
 
             fs.writeFileSync("data/wiki.txt", result);
+            channel.send("The full list of commands has been generated and written to wiki.txt.");
         }
     },
 
