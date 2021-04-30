@@ -550,7 +550,7 @@ module.exports = {
             }
 
             for (var commandName in all) {
-                if (server || all[commandName].command && !isServerOnly(all[commandName].command)) {
+                if (server || commandType == "image" || !isServerOnly(all[commandName].command)) {
                     info += "`" + symbol + commandName + "` ";
                     numberOfCommands += 1;
                 }
