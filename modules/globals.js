@@ -537,6 +537,11 @@ module.exports = {
             var symbol = message.content.charAt(0), commandType = command[0], info = "", numberOfCommands = 0, all;
 
             if (commandType == "music") {
+                if (!server) {
+                    channel.send("Those commands can only be used on servers.").catch(console.error);
+                    return;
+                }
+
                 all = permData.musicLocal;
             } else if (commandType == "image") {
                 all = permData.images;
@@ -545,7 +550,7 @@ module.exports = {
             }
 
             for (var commandName in all) {
-                if (server || !isServerOnly(all[commandName].command)) {
+                if (server || all[commandName].command && !isServerOnly(all[commandName].command)) {
                     info += "`" + symbol + commandName + "` ";
                     numberOfCommands += 1;
                 }
