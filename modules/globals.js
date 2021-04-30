@@ -545,7 +545,7 @@ module.exports = {
             }
 
             for (var commandName in all) {
-                if (server || !isServerOnly(allCommands[commandType][commandName].command)) {
+                if (server || !isServerOnly(all[commandName].command)) {
                     info += "`" + symbol + commandName + "` ";
                     numberOfCommands += 1;
                 }
