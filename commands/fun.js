@@ -154,25 +154,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var date = serverData[server.id].date, exceptions = serverData[server.id].waifusExceptions, id = message.author.id, waifu;
-
-            dateCheck(server);
-
-            if (date != serverData[server.id].date) {
-                allCommands.mod.reset.command(message, server, command, channel);
-            }
-
-            var waifus = serverData[server.id].waifus;
-
-            if (!waifus[id]) {
-                waifu = (exceptions[id] ? exceptions[id] : server.members.cache.random().user.username);
-                waifus[id] = waifu;
-                save("waifus", server);
-            } else {
-                waifu = waifus[id];
-            }
-
-            channel.send(message.author.username + " Your waifu today is **" + waifu + "**!").catch(console.error);
+            updateWaifu(message, server, channel, id, "user");
         }
     },
 
@@ -182,7 +164,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var date = serverData[server.id].date, exceptions = serverData[server.id].touhouWaifusExceptions, id = message.author.id, touhouWaifu;
+            var date = serverData[server.id].date, id = message.author.id, touhouWaifu;
 
             dateCheck(server);
 
@@ -201,7 +183,7 @@
                 touhouWaifu = touhouWaifus[id];
             }
 
-            channel.send(message.author.username + " Your Touhou waifu today is **" + touhouWaifu + "**!").catch(console.error);
+            channel.send(message.author.username + ", your Touhou waifu today is **" + touhouWaifu + "**!").catch(console.error);
         }
     },
 
@@ -230,7 +212,7 @@
                 spellWaifu = spellWaifus[id];
             }
 
-            channel.send(message.author.username + " Your Touhou Spell Card waifu today is **" + spellWaifu + "**!").catch(console.error);
+            channel.send(message.author.username + ", your Touhou Spell Card waifu today is **" + spellWaifu + "**!").catch(console.error);
         }
     },
 
@@ -259,7 +241,7 @@
                 fanmemeWaifu = fanmemeWaifus[id];
             }
 
-            channel.send(message.author.username + " Your fanmeme waifu today is **" + fanmemeWaifu + "**!").catch(console.error);
+            channel.send(message.author.username + ", your fanmeme waifu today is **" + fanmemeWaifu + "**!").catch(console.error);
         }
     },
 
@@ -288,7 +270,25 @@
                 lenenwaifu = lenenWaifus[id];
             }
 
-            channel.send(message.author.username + " Your Len'en waifu today is **" + lenenwaifu + "**!").catch(console.error);
+            channel.send(message.author.username + ", your Len'en waifu today is **" + lenenwaifu + "**!").catch(console.error);
+        }
+    },
+
+    allwaifu: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + "`: tells you who are your waifus today.";
+        },
+
+        command: function (message, server, command, channel) {
+            var date = serverData[server.id].date, id = message.author.id, message = "";
+
+            dateCheck(server);
+
+            if (date != serverData[server.id].date) {
+                allCommands.mod.reset.command(message, server, command, channel);
+            }
+
+
         }
     },
 

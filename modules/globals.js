@@ -503,12 +503,13 @@ module.exports = {
         global.CHOICE = ["%o imo.", "%o tbh.", "I choose %o.", "%o!", "I say %o.", "I'd pick %o if I were you.", "%o is the best option.", "Why not %o?"];
 
         global.SERVER_DATA_DEFAULTS = {
-            "quotes": {}, "waifus": {}, "touhouWaifus": {}, "spellWaifus": {}, "fanmemeWaifus": {}, "lenenWaifus": {},
-            "waifusExceptions": {}, "touhouWaifusExceptions": {}, "ratings": {}, "factions": {}, "badOpinions": [],
-            "goodOpinions": [], "opinionExceptions": [], "botChannels": [], "queue": [], "lewdAccessRole": "",
-            "hsifsAccessRole": "", "logChannel": "", "mainChannel": "", "voiceChannel": "", "date": "",
-            "entryMessage": "Greetings, %u!", "leaveMessage": "Bye, %u!", "logoutMessage": "Logging out.", "defaultReason": "Unknown.",
-            "isTestingServer": false, "kekDetection": false, "cooldownSecs": DEFAULT_COOLDOWN
+            "quotes": {}, "waifus": {"user":{},"touhou":{},"spell":{},"fan":{},"lenen":{}},
+            "waifusExceptions": {}, "touhouWaifusExceptions": {}, "ratings": {}, "factions": {},
+            "badOpinions": [], "goodOpinions": [], "opinionExceptions": [], "botChannels": [],
+            "queue": [], "lewdAccessRole": "", "hsifsAccessRole": "", "logChannel": "", "mainChannel": "",
+            "voiceChannel": "", "date": "", "entryMessage": "Greetings, %u!", "leaveMessage": "Bye, %u!",
+            "logoutMessage": "Logging out.", "defaultReason": "Unknown.", "isTestingServer": false,
+            "kekDetection": false, "cooldownSecs": DEFAULT_COOLDOWN
         };
 
         /* Variables */
@@ -1316,6 +1317,36 @@ module.exports = {
             }
 
             return false;
-        }
+        };
+
+        global.updateWaifu = function (message, server, channel, id, type) {
+            var waifus = serverData[server.id].waifus, exceptions = serverData[server.id].waifusExceptions,
+                touhouExceptions = serverData[server.id].touhouWaifusExceptions,
+                date = serverData[server.id].date, id = message.author.id, waifu, typeLower;
+
+            typeLower = type.toLowerCase().replace("meme", "").replace("'", "");
+            dateCheck(server);
+
+            if (date != serverData[server.id].date) {
+                allCommands.mod.reset.command(message, server, command, channel);
+            }
+
+            if (!waifus[type][id]) {
+                if (type == "user" && exceptions[id]) {
+                    waifu = exceptions[id];
+                } else if (type == "Touhou" && touhouExceptions[id]) {
+                    waifu = touhouExceptions[id];
+                } else {
+                    waifu = (type == "user" ? server.members.cache.random() : WAIFUS[type].rand());
+                    waifus[type][id] = waifu;
+                    save("waifus", server);
+                }
+            } else {
+                waifu = waifus[type][id];
+            }
+
+            channel.send(message.author.username + ", your " + (type != "user" ? type + " " : "") +
+            "waifu today is **" + waifu + "**!").catch(console.error);
+        };
     }
 };
