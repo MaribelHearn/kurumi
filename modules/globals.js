@@ -1321,31 +1321,29 @@ module.exports = {
         global.updateWaifu = function (message, server, type, channel) {
             var waifus = serverData[server.id].waifus, exceptions = serverData[server.id].waifusExceptions,
                 touhouExceptions = serverData[server.id].touhouWaifusExceptions,
-                date = serverData[server.id].date, id = message.author.id, waifu, typeLower;
+                date = serverData[server.id].date, id = message.author.id, waifu;
 
-            typeLower = type.replace(" Card", "").replace("meme", "").replace("'", "").toLowerCase();
             dateCheck(server);
 
             if (date != serverData[server.id].date) {
                 allCommands.mod.reset.command(message, server, ["reset"], channel);
             }
 
-            if (!waifus[typeLower][id]) {
+            if (!waifus[type][id]) {
                 if (type == "user" && exceptions[id]) {
                     waifu = exceptions[id];
-                } else if (type == "Touhou" && touhouExceptions[id]) {
+                } else if (type == "touhou" && touhouExceptions[id]) {
                     waifu = touhouExceptions[id];
                 } else {
-                    waifu = (type == "user" ? server.members.cache.random().user.username : WAIFUS[typeLower].rand());
-                    waifus[typeLower][id] = waifu;
+                    waifu = (type == "user" ? server.members.cache.random().user.username : WAIFUS[type].rand());
+                    waifus[type][id] = waifu;
                     save("waifus", server);
                 }
             } else {
-                waifu = waifus[typeLower][id];
+                waifu = waifus[type][id];
             }
 
-            channel.send(message.author.username + ", your " + (type != "user" ? type + " " : "") +
-            "waifu today is **" + waifu + "**!").catch(console.error);
+            return waifu;
         };
     }
 };

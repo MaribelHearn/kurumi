@@ -154,7 +154,9 @@
         },
 
         command: function (message, server, command, channel) {
-            updateWaifu(message, server, "user", channel);
+            var waifu = updateWaifu(message, server, "user", channel);
+
+            channel.send(message.author.username + ", your waifu today is **" + waifu + "**!").catch(console.error);
         }
     },
 
@@ -164,7 +166,9 @@
         },
 
         command: function (message, server, command, channel) {
-            updateWaifu(message, server, "Touhou", channel);
+            var waifu = updateWaifu(message, server, "touhou", channel);
+
+            channel.send(message.author.username + ", your Touhou waifu today is **" + waifu + "**!").catch(console.error);
         }
     },
 
@@ -174,7 +178,9 @@
         },
 
         command: function (message, server, command, channel) {
-            updateWaifu(message, server, "Spell Card", channel);
+            var waifu = updateWaifu(message, server, "spell", channel);
+
+            channel.send(message.author.username + ", your Spell Card waifu today is **" + waifu + "**!").catch(console.error);
         }
     },
 
@@ -184,7 +190,9 @@
         },
 
         command: function (message, server, command, channel) {
-            updateWaifu(message, server, "fanmeme", channel);
+            var waifu = updateWaifu(message, server, "fan", channel);
+
+            channel.send(message.author.username + ", your fanmeme waifu today is **" + waifu + "**!").catch(console.error);
         }
     },
 
@@ -194,27 +202,29 @@
         },
 
         command: function (message, server, command, channel) {
-            updateWaifu(message, server, "Len'en", channel);
+            var waifu = updateWaifu(message, server, "lenen", channel);
+
+            channel.send(message.author.username + ", your Len'en waifu today is **" + waifu + "**!").catch(console.error);
         }
     },
 
-    /*allwaifu: {
+    allwaifu: {
         help: function (command, symbol) {
             return "`" + symbol + command + "`: tells you who are your waifus today.";
         },
 
         command: function (message, server, command, channel) {
-            var date = serverData[server.id].date, id = message.author.id, message = "";
+            var waifu = updateWaifu(message, server, "user", channel),
+                touhouWaifu = updateWaifu(message, server, "touhou", channel),
+                spellWaifu = updateWaifu(message, server, "spell", channel),
+                fanWaifu = updateWaifu(message, server, "fan", channel),
+                lenenWaifu = updateWaifu(message, server, "lenen", channel);
 
-            dateCheck(server);
-
-            if (date != serverData[server.id].date) {
-                allCommands.mod.reset.command(message, server, command, channel);
-            }
-
-
+            channel.send(message.author.username + ", your waifus today are:\n" +
+            "User: **" + waifu + "**\nTouhou: **" + touhouWaifu + "**\nSpell: **" + spellWaifu +
+            "**\nFanmeme: **" + fanWaifu + "**\nLen'en: **" + lenenWaifu + "**").catch(console.error);
         }
-    },*/
+    },
 
     ratewaifu: {
         help: function (command, symbol) {
