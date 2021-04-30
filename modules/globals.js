@@ -1330,18 +1330,18 @@ module.exports = {
                 allCommands.mod.reset.command(message, server, ["reset"], channel);
             }
 
-            if (!waifus[type][id]) {
+            if (!waifus[typeLower][id]) {
                 if (type == "user" && exceptions[id]) {
                     waifu = exceptions[id];
                 } else if (type == "Touhou" && touhouExceptions[id]) {
                     waifu = touhouExceptions[id];
                 } else {
                     waifu = (type == "user" ? server.members.cache.random().user.username : WAIFUS[type].rand());
-                    waifus[type][id] = waifu;
+                    waifus[typeLower][id] = waifu;
                     save("waifus", server);
                 }
             } else {
-                waifu = waifus[type][id];
+                waifu = waifus[typeLower][id];
             }
 
             channel.send(message.author.username + ", your " + (type != "user" ? type + " " : "") +
