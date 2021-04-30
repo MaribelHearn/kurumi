@@ -150,6 +150,26 @@
         }
     },
 
+    genwiki: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + "`: generates the full list of commands for the GitHub Wiki.";
+        },
+
+        command: function (message, server, command, channel) {
+            var symbol = '!', result = "", commandType, commandName;
+
+            for (commandType in allCommands) {
+                result += "\n## " + cap(commandType) + " Commands\n";
+
+                for (commandName in allCommands[commandType]) {
+                    result += "* " + allCommands[commandType][commandName].help(commandName, symbol);
+                }
+            }
+
+            fs.writeFileSync("data/wiki.txt", result);
+        }
+    },
+
     toggletesting: {
         help: function (command, symbol) {
             return "`" + symbol + command + "`: toggles whether this server is a testing server or not.";
