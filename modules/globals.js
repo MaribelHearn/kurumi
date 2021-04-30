@@ -1318,12 +1318,12 @@ module.exports = {
             return false;
         };
 
-        global.updateWaifu = function (message, server, channel, id, type) {
+        global.updateWaifu = function (message, server, type, channel) {
             var waifus = serverData[server.id].waifus, exceptions = serverData[server.id].waifusExceptions,
                 touhouExceptions = serverData[server.id].touhouWaifusExceptions,
                 date = serverData[server.id].date, id = message.author.id, waifu, typeLower;
 
-            typeLower = type.toLowerCase().replace(" Card", "").replace("meme", "").replace("'", "");
+            typeLower = type.replace(" Card", "").replace("meme", "").replace("'", "").toLowerCase();
             dateCheck(server);
 
             if (date != serverData[server.id].date) {

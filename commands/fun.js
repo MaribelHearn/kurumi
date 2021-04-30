@@ -154,7 +154,7 @@
         },
 
         command: function (message, server, command, channel) {
-            updateWaifu(message, server, channel, id, "user");
+            updateWaifu(message, server, "user", channel);
         }
     },
 
@@ -164,7 +164,7 @@
         },
 
         command: function (message, server, command, channel) {
-            updateWaifu(message, server, channel, id, "Touhou");
+            updateWaifu(message, server, "Touhou", channel);
         }
     },
 
@@ -174,7 +174,7 @@
         },
 
         command: function (message, server, command, channel) {
-            updateWaifu(message, server, channel, id, "Spell Card");
+            updateWaifu(message, server, "Spell Card", channel);
         }
     },
 
@@ -184,7 +184,7 @@
         },
 
         command: function (message, server, command, channel) {
-            updateWaifu(message, server, channel, id, "fanmeme");
+            updateWaifu(message, server, "fanmeme", channel);
         }
     },
 
@@ -194,7 +194,7 @@
         },
 
         command: function (message, server, command, channel) {
-            updateWaifu(message, server, channel, id, "Len'en");
+            updateWaifu(message, server, "Len'en", channel);
         }
     },
 
