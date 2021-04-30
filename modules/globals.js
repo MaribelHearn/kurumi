@@ -533,6 +533,29 @@ module.exports = {
             console.log(timeStamp() + variable + ": '" + value + "'");
         };
 
+        global.commandList = function (message, server, command, channel) {
+            var symbol = message.content.charAt(0), commandType = command[0], info = "", numberOfCommands = 0, all;
+
+            if (commandType == "music") {
+                all = permData.musicLocal;
+            } else if (commandType == "image") {
+                all = permData.images;
+            } else {
+                all = allCommands[commandType];
+            }
+
+            for (var commandName in all) {
+                if (server || !isServerOnly(allCommands[commandType][commandName].command)) {
+                    info += "`" + symbol + commandName + "` ";
+                    numberOfCommands += 1;
+                }
+            }
+
+            info = info.slice(0, -1);
+            info += "\nThere are currently **" + numberOfCommands + "** " + commandType + " commands total.";
+            channel.send(info).catch(console.error);
+        };
+
         global.getArgc = function (commandFunction) {
             var string = commandFunction.toString(), result = 0;
 

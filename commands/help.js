@@ -82,16 +82,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var numberOfCommands = 0, symbol = message.content.charAt(0), info = "";
-
-            for (var commandName in allCommands.fun) {
-                info += "`" + symbol + commandName + "` ";
-                numberOfCommands += 1;
-            }
-
-            info = info.slice(0, -1);
-            info += "\nThere are currently **" + numberOfCommands + "** fun commands total.";
-            channel.send(info).catch(console.error);
+            commandList(message, server, command, channel);
         }
     },
 
@@ -102,16 +93,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var numberOfCommands = 0, symbol = message.content.charAt(0), info = "";
-
-            for (var commandName in allCommands.utility) {
-                info += "`" + symbol + commandName + "` ";
-                numberOfCommands += 1;
-            }
-
-            info = info.slice(0, -1);
-            info += "\nThere are currently **" + numberOfCommands + "** utility commands total.";
-            channel.send(info).catch(console.error);
+            commandList(message, server, command, channel);
         }
     },
 
@@ -122,16 +104,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var numberOfCommands = 0, symbol = message.content.charAt(0), info = "";
-
-            for (var commandName in allCommands.mod) {
-                info += "`" + symbol + commandName + "` ";
-                numberOfCommands += 1;
-            }
-
-            info = info.slice(0, -1);
-            info += "\nThere are currently **" + numberOfCommands + "** mod commands total.";
-            channel.send(info).catch(console.error);
+            commandList(message, server, command, channel);
         }
     },
 
@@ -142,16 +115,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var numberOfCommands = 0, symbol = message.content.charAt(0), info = "";
-
-            for (var commandName in allCommands.master) {
-                info += "`" + symbol + commandName + "` ";
-                numberOfCommands += 1;
-            }
-
-            info = info.slice(0, -1);
-            info += "\nThere are currently **" + numberOfCommands + "** master commands total.";
-            channel.send(info).catch(console.error);
+            commandList(message, server, command, channel);
         }
     },
 
@@ -161,16 +125,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var musicLocal = permData.musicLocal, numberOfCommands = 0, symbol = message.content.charAt(0), info = "";
-
-            for (var commandName in musicLocal) {
-                info += "`" + symbol + commandName + "` ";
-                numberOfCommands += 1;
-            }
-
-            info = info.slice(0, -1);
-            info += "\nThere are currently **" + numberOfCommands + "** music commands total.";
-            channel.send(info).catch(console.error);
+            commandList(message, server, command, channel);
         }
     },
 
@@ -180,16 +135,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var images = permData.images, numberOfCommands = 0, symbol = message.content.charAt(0), info = "";
-
-            for (var commandName in images) {
-                info += "`" + symbol + commandName + "` ";
-                numberOfCommands += 1;
-            }
-
-            info = info.slice(0, -1);
-            info += "\nThere are currently **" + numberOfCommands + "** image commands total.";
-            channel.send(info).catch(console.error);
+            commandList(message, server, command, channel);
         }
     }
 };
