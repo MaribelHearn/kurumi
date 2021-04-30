@@ -1336,7 +1336,7 @@ module.exports = {
                 } else if (type == "Touhou" && touhouExceptions[id]) {
                     waifu = touhouExceptions[id];
                 } else {
-                    waifu = (type == "user" ? server.members.cache.random().user.username : WAIFUS[type].rand());
+                    waifu = (type == "user" ? server.members.cache.random().user.username : WAIFUS[typeLower].rand());
                     waifus[typeLower][id] = waifu;
                     save("waifus", server);
                 }
