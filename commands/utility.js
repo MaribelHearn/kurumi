@@ -5,11 +5,16 @@
         },
 
         command: function (message, server, command, channel) {
-            var embed = new Discord.MessageEmbed();
+            var embed = new Discord.MessageEmbed(), botMasterTag = '-', botMaster;
+
+            if (permData.botMaster !== "") {
+                botMaster = bot.users.cache.get(permData.botMaster);
+                botMasterTag = botMaster.username + "#" + botMaster.discriminator;
+            }
 
             embed.setThumbnail(bot.user.avatarURL());
             embed.addField("Name", bot.user.username, true);
-            embed.addField("Master", (permData.botMaster !== "" ? bot.users.cache.get(permData.botMaster).username : '-'), true);
+            embed.addField("Master", botMasterTag, true);
             embed.addField("Host OS", formatType(os.type()));
             embed.addField("Uptime", time(bot.uptime));
             channel.send({embed}).catch(console.error);
