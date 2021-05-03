@@ -9,7 +9,7 @@
 
             embed.setThumbnail(bot.user.avatarURL());
             embed.addField("Name", bot.user.username, true);
-            embed.addField("Master", (permData.botMaster !== "" ? server.members.resolve(permData.botMaster).user.username : '-'), true);
+            embed.addField("Master", (permData.botMaster !== "" ? bot.users.cache.get(permData.botMaster).username : '-'), true);
             embed.addField("Host OS", formatType(os.type()));
             embed.addField("Uptime", time(bot.uptime));
             channel.send({embed}).catch(console.error);

@@ -191,7 +191,7 @@ module.exports = {
         }
 
         /* Kek Detection */
-        if (id != bot.user.id && serverData[server.id].kekDetection && serverData[server.id].botChannels.contains(channel.id) && (lower.detect("kek") || lower.detect("topkek") || lower.detect("topfuckingkek"))) {
+        if (id != bot.user.id && server && serverData[server.id].kekDetection && serverData[server.id].botChannels.contains(channel.id) && (lower.detect("kek") || lower.detect("topkek") || lower.detect("topfuckingkek"))) {
             channel.send("Please don't kek in here.").catch(console.error);
         }
 
