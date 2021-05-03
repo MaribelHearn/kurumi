@@ -150,7 +150,7 @@ module.exports = {
 
         global.CATEGORIES = ["Easy", "Normal", "Hard", "Lunatic", "Extra"];
 
-        global.TOUHOU_SHMUPS = ["SoEW", "PoDD", "LLS", "MS", "EoSD", "PCB", "IN", "MoF", "SA", "UFO", "GFW", "TD", "DDC", "LoLK", "HSiFS", "WBaWC"];
+        global.TOUHOU_SHMUPS = ["SoEW", "PoDD", "LLS", "MS", "EoSD", "PCB", "IN", "MoF", "SA", "UFO", "GFW", "TD", "DDC", "LoLK", "HSiFS", "WBaWC", "UM"];
 
         global.WAIFUS = {
             "touhou": ["Reimu Hakurei", "Marisa Kirisame", "ShinGyoku", "YuugenMagan", "Elis", "Sariel", "Mima", "Kikuri", "Konngara",
@@ -177,7 +177,8 @@ module.exports = {
                 "Unshou", "Kosuzu Motoori", "Kosuzu's Grampa", "Tupai", "Evil Dragon", "Giant Toad", "Daitengu", "Dragon", "Maribel Hearn",
                 "Renko Usami", "Hieda no Akyuu", "Etarnity Larva", "Nemuno Sakata", "Aunn Komano", "Narumi Yatadera", "Satono Nishida",
                 "Mai Teireida", "Okina Matara", "the unnamed girl on the Dolls in Pseudo Paradise jacket", "Joon Yorigami", "Shion Yorigami",
-                "Eika Ebisu", "Urumi Ushizaki", "Kutaka Niwatari", "Yachi Kitcho", "Mayumi Joutougu", "Keiki Haniyasushin", "Saki Kurokoma"],
+                "Eika Ebisu", "Urumi Ushizaki", "Kutaka Niwatari", "Yachi Kitcho", "Mayumi Joutougu", "Keiki Haniyasushin", "Saki Kurokoma",
+                "Mike Goutokuji", "Takane Yamashiro", "Sannyo Komakusa"],
             "spell": ["Moon Sign \"Moonlight Ray\"", "Night Sign \"Night Bird\"", "Darkness Sign \"Demarcation\"", "Ice Sign \"Icicle Fall\"",
                 "Hail Sign \"Hailstorm\"", "Freeze Sign \"Perfect Freeze\"", "Snow Sign \"Diamond Blizzard\"", "Flower Sign \"Gorgeous Sweet Flower\"",
                 "Flower Sign \"Selaginella 9\"", "Rainbow Sign \"Wind Chime of Colorful Rainbow\"", "Illusion Sign \"Flower Imaginary Dream Vine\"",
@@ -974,7 +975,8 @@ module.exports = {
                 "ddc": "DDC",
                 "lolk": "LoLK",
                 "hsifs": "HSiFS",
-                "wbawc": "WBaWC"
+                "wbawc": "WBaWC",
+                "um": "UM"
             })[game];
         };
 
@@ -1041,6 +1043,7 @@ module.exports = {
                     "LoLK": "th15_ud",
                     "HSiFS": "th16_ud",
                     "WBaWC": "th17_ud",
+                    "UM": "th18_ud"
                 },
                 difficulties = {
                     "Easy": "Ea",
