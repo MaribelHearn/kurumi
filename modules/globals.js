@@ -1062,7 +1062,7 @@ module.exports = {
                     "Yukari": "Yu",
                     "Marisa": "Ma",
                     "Alice": "Al",
-                    "Sakuya": "Sa",
+                    "Sakuya": "Sk",
                     "Remilia": "Rr",
                     "Youmu": "Yo",
                     "Yuyuko": "Yy",
