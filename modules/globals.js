@@ -178,7 +178,8 @@ module.exports = {
                 "Renko Usami", "Hieda no Akyuu", "Etarnity Larva", "Nemuno Sakata", "Aunn Komano", "Narumi Yatadera", "Satono Nishida",
                 "Mai Teireida", "Okina Matara", "the unnamed girl on the Dolls in Pseudo Paradise jacket", "Joon Yorigami", "Shion Yorigami",
                 "Eika Ebisu", "Urumi Ushizaki", "Kutaka Niwatari", "Yachi Kitcho", "Mayumi Joutougu", "Keiki Haniyasushin", "Saki Kurokoma",
-                "Mike Goutokuji", "Takane Yamashiro", "Sannyo Komakusa"],
+                "Mike Goutokuji", "Takane Yamashiro", "Sannyo Komakusa", "Misumaru Tamatsukuri", "Tsukasa Kudamaki", "Megumu Iizunamaru",
+                "Chimata Tenkyuu", "Momoyo Himemushi"],
             "spell": ["Moon Sign \"Moonlight Ray\"", "Night Sign \"Night Bird\"", "Darkness Sign \"Demarcation\"", "Ice Sign \"Icicle Fall\"",
                 "Hail Sign \"Hailstorm\"", "Freeze Sign \"Perfect Freeze\"", "Snow Sign \"Diamond Blizzard\"", "Flower Sign \"Gorgeous Sweet Flower\"",
                 "Flower Sign \"Selaginella 9\"", "Rainbow Sign \"Wind Chime of Colorful Rainbow\"", "Illusion Sign \"Flower Imaginary Dream Vine\"",
@@ -509,7 +510,7 @@ module.exports = {
             "queue": [], "lewdAccessRole": "", "hsifsAccessRole": "", "logChannel": "", "mainChannel": "",
             "voiceChannel": "", "date": "", "entryMessage": "Greetings, %u!", "leaveMessage": "Bye, %u!",
             "logoutMessage": "Logging out.", "defaultReason": "Unknown.", "isTestingServer": false,
-            "kekDetection": false, "cooldownSecs": DEFAULT_COOLDOWN
+            "kekDetection": false, "interruptionMode": false, "cooldownSecs": DEFAULT_COOLDOWN
         };
 
         /* Variables */
@@ -1234,8 +1235,6 @@ module.exports = {
                         playLocal(server, permData.musicLocal[item].file, permData.musicLocal[item].volume);
                     }
                 }
-            } else {
-                console.log(timeStamp() + "Interruption mode is enabled, cannot use the music queue.");
             }
         };
 
