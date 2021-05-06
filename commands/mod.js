@@ -1027,7 +1027,7 @@
                 return;
             }
 
-            if (musicLocal.hasOwnProperty(image)) {
+            if (musicLocal.hasOwnProperty(music)) {
                 delete permData.musicLocal[music];
                 channel.send("The music command " + name + " has been removed.").catch(console.error);
                 save("musicLocal");

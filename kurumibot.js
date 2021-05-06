@@ -1,6 +1,6 @@
 ﻿/* Setup */
-const MODULE_DIR = "./modules/";
-const COMMAND_DIR = "./commands/";
+MODULE_DIR = "./modules/";
+COMMAND_DIR = "./commands/";
 timeStamp = function () {
     return "[" + new Date().toISOString().split('T')[0] + " " + new Date().toTimeString().split(' ')[0] + "] ";
 };
@@ -20,7 +20,7 @@ console.log(timeStamp() + "Node version: " + process.versions.node + "\n" + time
 var file, fileName, command, i;
 
 /* Load Modules */
-const MODULES = fs.readdirSync(MODULE_DIR).filter(file => file.endsWith(".js"));
+MODULES = fs.readdirSync(MODULE_DIR).filter(file => file.endsWith(".js"));
 
 for (file of MODULES) {
     fileName = file.replace(".js", "");
