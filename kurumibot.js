@@ -1,7 +1,7 @@
 ﻿/* Setup */
 const MODULE_DIR = "./modules/";
 const COMMAND_DIR = "./commands/";
-const timeStamp = function () {
+timeStamp = function () {
     return "[" + new Date().toISOString().split('T')[0] + " " + new Date().toTimeString().split(' ')[0] + "] ";
 };
 
