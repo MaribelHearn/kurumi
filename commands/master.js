@@ -63,7 +63,7 @@
                 try {
                     console.log(timeStamp() + "Downloading module " + scriptModule + ".js...");
 
-                    request(SCRIPT_BASE_URL + scriptModule + ".js", loadModule);
+                    request(SCRIPT_BASE_URL + scriptModule + ".js", this.loadModule);
                 } catch (err) {
                     channel.send("An error occurred while loading the `" + scriptModule + "` module: " + err).catch(console.error);
                     return;
