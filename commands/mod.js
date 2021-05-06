@@ -949,7 +949,7 @@
 
             permData.images[name] = {"help": description, "file": image};
             save("images");
-            channel.send("The image command " + name + " has been added.").catch(console.error);
+            channel.send("The image command `" + name + "` has been added.").catch(console.error);
         }
     },
 
@@ -966,6 +966,8 @@
                 return;
             }
 
+            image = image.toLowerCase();
+
             if (!images.hasOwnProperty(image)) {
                 channel.send(message.author.username + ", that is not an image command.").catch(console.error);
                 return;
@@ -973,7 +975,7 @@
 
             delete permData.images[image];
             save("images");
-            channel.send("The image command " + image + " has been removed.").catch(console.error);
+            channel.send("The image command `" + image + "` has been removed.").catch(console.error);
         }
     },
 
@@ -1010,7 +1012,7 @@
 
             permData.musicLocal[name] = {"help": description, "file": music, "volume": (volume ? volume : 0.5)};
             save("musicLocal");
-            channel.send("The music command " + name + " has been added.").catch(console.error);
+            channel.send("The music command `" + name + "` has been added.").catch(console.error);
         }
     },
 
@@ -1027,9 +1029,11 @@
                 return;
             }
 
+            music = music.toLowerCase();
+
             if (musicLocal.hasOwnProperty(music)) {
                 delete permData.musicLocal[music];
-                channel.send("The music command " + name + " has been removed.").catch(console.error);
+                channel.send("The music command `" + music + "` has been removed.").catch(console.error);
                 save("musicLocal");
             } else {
                 channel.send(message.author.username + ", that is not a music command.").catch(console.error);
