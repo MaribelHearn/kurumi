@@ -79,11 +79,6 @@
         },
 
         command: function (message, server, command, channel) {
-            if (cooldown) {
-                channel.send("Please do not flood the channel!").catch(console.error);
-                return;
-            }
-
             var WRs = permData.WRs;
 
             var argument = (command[1] ? command[1] : ""), lower = argument.toLowerCase(), min = 0, max = Object.keys(WRs).length, capped, game, category, shot, message;
@@ -107,11 +102,6 @@
             " " + category + "**" + (shot.length <= 2 || shot == "Makai" || shot == "Jigoku" ? " " : " with ");
             message += (shot == '-' ? "" : "**" + shot + "**") + "!";
             channel.send(message, {"files": ["games/" + game + ".jpg"]}).catch(console.error);
-
-            if (channel.type != "dm") {
-                cooldown = true;
-                timers.setInterval(function () { cooldown = false; }, serverData[server.id].cooldownSecs * 1000);
-            }
         }
     },
 

@@ -61,7 +61,7 @@
                 scriptModule = MODULES[i];
 
                 try {
-                    console.log(timeStamp() + "Downloading module " + scriptModule + ".js...");
+                    console.log(timeStamp() + "Downloading module " + scriptModule + "...");
 
                     request(SCRIPT_BASE_URL + scriptModule + ".js", this.loadModule);
                 } catch (err) {
