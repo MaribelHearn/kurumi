@@ -144,7 +144,7 @@ module.exports = {
 
         global.DEFAULT_COOLDOWN = 15;
 
-        global.MESSAGE_CAP = 2000;
+        global.MESSAGE_CAP = 4000;
 
         global.MAX_SCORE = 9999999990;
 
@@ -192,7 +192,7 @@ module.exports = {
                 "Strange Art \"Misdirection\"", "Strange Art \"Illusional Misdirection\"", "Illusion Existence \"Clock Corpse\"",
                 "Illusion Image \"Lunar Clock\"", "Maid Secret Skill \"Marionette\"", "Illusion Ghost \"Jack the Ludo Bile\"", "Illusion World \"The World\"",
                 "Maid Secret Skill \"Killing Doll\"", "Conjuring \"Eternal Meek\"", "Heaven's Punishment \"Star of David\"",
-                "Nether Sign \"Scarlet Netherworld\"", "Curse \"Curse of Vlad ?epe?\"", "Scarlet Sign \"Scarlet Shoot\"", "\"Red Magic\"",
+                "Nether Sign \"Scarlet Netherworld\"", "Curse \"Curse of Vlad Ţepeş\"", "Scarlet Sign \"Scarlet Shoot\"", "\"Red Magic\"",
                 "Divine Punishment \"Young Demon Lord\"", "Hell Sign \"Mountain of a Thousand Needles\"", "God Art \"Vampire Illusion\"",
                 "Scarlet Sign \"Scarlet Meister\"", "\"Scarlet Gensokyo\"", "Moon Sign \"Silent Selene\"", "Sun Sign \"Royal Flare\"",
                 "Fire Water Wood Metal Earth Sign \"Philosopher's Stone\"", "Taboo \"Cranberry Trap\"", "Taboo \"Lavateinn\"", "Taboo \"Four of a Kind\"",

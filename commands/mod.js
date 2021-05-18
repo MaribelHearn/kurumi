@@ -212,6 +212,11 @@
 
             var post = command[1], mainChannel = serverData[server.id].mainChannel;
 
+            if (post.length > MESSAGE_CAP) {
+                channel.send("Sorry, I cannot send anything longer than " + MESSAGE_CAP + " characters.");
+                return;
+            }
+
             if (mainChannel) {
                 server.channels.cache.get(mainChannel).send(post).catch(console.error);
             }

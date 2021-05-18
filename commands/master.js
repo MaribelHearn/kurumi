@@ -23,6 +23,10 @@
                 } else {
                     var result = eval(code);
 
+                    if (result.toString().length > MESSAGE_CAP) {
+                        result = result.toString().substr(0, MESSAGE_CAP - 4) + "...";
+                    }
+
                     channel.send("Evaluation result: " + result).catch(console.error);
                 }
             } catch (err) {
