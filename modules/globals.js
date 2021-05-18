@@ -144,7 +144,7 @@ module.exports = {
 
         global.DEFAULT_COOLDOWN = 15;
 
-        global.MESSAGE_CAP = 4000;
+        global.MESSAGE_CAP = 2000;
 
         global.MAX_SCORE = 9999999990;
 
