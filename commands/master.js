@@ -24,7 +24,7 @@
                     var result = eval(code);
 
                     if (result.toString().length > MESSAGE_CAP) {
-                        result = result.toString().substr(0, MESSAGE_CAP - 4) + "...";
+                        result = result.toString().substr(0, MESSAGE_CAP - 23) + "...";
                     }
 
                     channel.send("Evaluation result: " + result).catch(console.error);
@@ -728,7 +728,7 @@
         command: function (message, server, command, channel) {
             for (var id in serverData) {
                 if (serverData[id].mainChannel) {
-                    bot.guilds.get(id).channels.get(serverData[id].mainChannel).send(serverData[id].logoutMessage).catch(console.error);
+                    bot.guilds.cache.get(id).channels.cache.get(serverData[id].mainChannel).send(serverData[id].logoutMessage).catch(console.error);
                 }
             }
 
