@@ -1029,7 +1029,7 @@ module.exports = {
             return (shotNames.hasOwnProperty(shot) ? shotNames[shot] : shot);
         };
 
-        global.replayName = function (game, difficulty, shottype) {
+        global.replayName = function (game, difficulty, shottype, char) {
             var games = {
                     "EoSD": "th6_ud",
                     "PCB": "th7_ud",
@@ -1116,11 +1116,28 @@ module.exports = {
                     "YoumuWolf": "YW",
                     "YoumuOtter": "YO",
                     "YoumuEagle": "YE"
+                },
+                dsAcronyms = {
+                    "10": "A",
+                    "11": "B",
+                    "12": "C",
+                    "EX": "X",
+                    "SP": "S"
                 };
 
             game = (games.hasOwnProperty(game) ? games[game] : game);
             difficulty = (difficulties.hasOwnProperty(difficulty) ? difficulties[difficulty] : difficulty);
             shottype = (shotNames.hasOwnProperty(shottype) ? shotNames[shottype] : shottype);
+
+            if (game == "StB") {
+                difficulty = difficulty.padStart(2, 0);
+                shottype = shottype.padStart(2, 0);
+            }
+
+            if (game == "DS" && char) {
+                difficulty = (dsAcronyms.hasOwnProperty(difficulty) ? dsAcronyms[difficulty] : difficulty);
+                return game + difficulty + shottype + shotNames[char] + ".rpy";
+            }
 
             return game + difficulty + shottype + ".rpy";
         };
