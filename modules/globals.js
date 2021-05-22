@@ -1129,12 +1129,12 @@ module.exports = {
             difficulty = (difficulties.hasOwnProperty(difficulty) ? difficulties[difficulty] : difficulty);
             shottype = (shotNames.hasOwnProperty(shottype) ? shotNames[shottype] : shottype);
 
-            if (game == "StB") {
+            if (game == "th95_ud") {
                 difficulty = difficulty.padStart(2, 0);
                 shottype = shottype.padStart(2, 0);
             }
 
-            if (game == "DS" && char) {
+            if (game == "th125_ud" && char) {
                 difficulty = (dsAcronyms.hasOwnProperty(difficulty) ? dsAcronyms[difficulty] : difficulty);
                 return game + difficulty + shottype + shotNames[char] + ".rpy";
             }
