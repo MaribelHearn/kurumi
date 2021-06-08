@@ -285,21 +285,37 @@
         },
 
         command: function (message, server, command, channel) {
-            var author = command[1], quotes = serverData[server.id].quotes;
+            var author = command[1], list = [], quotes = serverData[server.id].quotes, i;
 
             if (quotes.isEmpty()) {
                 channel.send(message.author.username + ", there are no saved quotes.").catch(console.error);
                 return;
             }
 
-            author = (author ? author.toLowerCase() : Object.keys(quotes).rand());
+            if (!author) {
+                for (author in quotes) {
+                    for (i = 0; i < quotes[author].list.length; i++) {
+                        list.push(quotes[author].name + ":" + quotes[author].list[i]);
+                    }
+                }
+
+                quote = list.rand().split(':');
+                name = quote[0];
+                quote.splice(0, 1);
+                quote = quote.join(':');
+            } else {
+                author = author.toLowerCase();
+                list = quotes[author].list;
+                name = quotes[author].name;
+                quote = list.rand();
+            }
 
             if (!quotes.hasOwnProperty(author)) {
                 channel.send(message.author.username + ", that author does not have any saved quotes.").catch(console.error);
                 return;
             }
 
-            channel.send("```" + quotes[author].list.rand() + "```\n- " + quotes[author].name).catch(console.error);
+            channel.send("```" + quote + "```\n- " + name).catch(console.error);
         }
     },
 
