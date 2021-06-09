@@ -91,7 +91,8 @@
         },
 
         command: function (message, server, command, channel) {
-            var user1 = command[1], members = toUsers(server.members), lower1, message, emoji;
+            var user1 = command[1], date = serverData[server.id].date,
+                members = toUsers(server.members), lower1, message, emoji;
 
             if (!user1) {
                 channel.send(message.author.username + ", please specify a user.").catch(console.error);
