@@ -56,6 +56,9 @@ Object.defineProperty(Array.prototype, "remove", {
     configurable: true,
     enumerable: false,
     value: function (value) {
+        if (this.indexOf(value) == -1) {
+            return null;
+        }
         return this.splice(this.indexOf(value), 1);
     }
 });
