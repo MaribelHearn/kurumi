@@ -1,37 +1,86 @@
 ﻿module.exports = {
     opinion: {
         help: function (command, symbol) {
-            return "`" + symbol + command + "`: makes me give my honest opinion about you.";
+            return "`" + symbol + command + " [argument]`: makes me give my honest opinion about you. " +
+            "If an argument is specified, makes me give my honest opinion about that instead.";
         },
 
         command: function (message, server, command, channel) {
-            var id = message.author.id, username = message.author.username, badOpinions = serverData[server.id].badOpinions, goodOpinions = serverData[server.id].goodOpinions, opinion, opinionCount, rng;
+            var arg = command[1], id = message.author.id, username = message.author.username,
+                badOpinions = serverData[server.id].badOpinions, goodOpinions = serverData[server.id].goodOpinions,
+                opinion, opinionCount, rng;
 
             if (badOpinions.length === 0 && goodOpinions.length === 0) {
                 channel.send("There are no opinions I can choose from! How disappointing.").catch(console.error);
                 return;
             }
 
+            if (arg) {
+                username = arg;
+            }
+
             if (badOpinions.length === 0) {
-                opinion = message.author.username + " " + goodOpinions.rand().replace(/%u/gi, username);
+                opinion = username + " " + goodOpinions.rand().replace(/%u/gi, username);
             } else if (goodOpinions.length === 0) {
-                opinion = message.author.username + " " + badOpinions.rand().replace(/%u/gi, username);
+                opinion = username + " " + badOpinions.rand().replace(/%u/gi, username);
             } else {
                 opinionCount = badOpinions.length + goodOpinions.length;
                 rng = RNG(opinionCount);
 
                 if (rng >= badOpinions.length || id == bot.user.id) {
-                    opinion = message.author.username + " " + goodOpinions.rand().replace(/%u/gi, username);
+                    opinion = username + " " + goodOpinions.rand().replace(/%u/gi, username);
                 } else {
-                    opinion = message.author.username + " " + badOpinions.rand().replace(/%u/gi, username);
+                    opinion = username + " " + badOpinions.rand().replace(/%u/gi, username);
                 }
 
                 if (opinion.contains("but still cool!") && serverData[server.id].opinionExceptions.contains(id)) {
-                    opinion = message.author.username + " " + "I love you and only you!";
+                    opinion = username + " " + "I love you and only you!";
                 }
             }
 
             channel.send(opinion.replace(/%t/gi, TOUHOU_SHMUPS.rand())).catch(console.error);
+        }
+    },
+
+    addopinion: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <opinion> <good/bad>`: adds `opinion` (either `good` or `bad`) to the possible results of the opinion command.\nWriting '%t' in the opinion means it will be replaced by a random Touhou shmup.";
+        },
+
+        command: function (message, server, command, channel) {
+            var opinion = command[1], type = command[2], badOpinions = serverData[server.id].badOpinions, goodOpinions = serverData[server.id].goodOpinions;
+
+            if (!opinion) {
+                channel.send(message.author.username + ", please specify an opinion to add.").catch(console.error);
+                return;
+            }
+
+            if (badOpinions.contains(opinion) || goodOpinions.contains(opinion)) {
+                channel.send(message.author.username + ", that opinion already exists.").catch(console.error);
+                return;
+            }
+
+            if (!type) {
+                channel.send(message.author.username + ", please specify whether the opinion is good or bad.").catch(console.error);
+                return;
+            }
+
+            type = type.toLowerCase();
+
+            if (!["bad", "good"].contains(type)) {
+                channel.send(message.author.username + ", please specify whether the opinion is good or bad.").catch(console.error);
+                return;
+            }
+
+            if (type == "bad") {
+                badOpinions.push(opinion);
+                save("badOpinions", server);
+            } else {
+                goodOpinions.push(opinion);
+                save("goodOpinions", server);
+            }
+
+            channel.send("Opinion added.").catch(console.error);
         }
     },
 

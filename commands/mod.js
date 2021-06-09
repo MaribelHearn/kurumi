@@ -141,48 +141,6 @@
         }
     },
 
-    addopinion: {
-        help: function (command, symbol) {
-            return "`" + symbol + command + " <opinion> <good/bad>`: adds `opinion` (either `good` or `bad`) to the possible results of the opinion command.\nWriting '%t' in the opinion means it will be replaced by a random Touhou shmup.";
-        },
-
-        command: function (message, server, command, channel) {
-            var opinion = command[1], type = command[2], badOpinions = serverData[server.id].badOpinions, goodOpinions = serverData[server.id].goodOpinions;
-
-            if (!opinion) {
-                channel.send(message.author.username + ", please specify an opinion to add.").catch(console.error);
-                return;
-            }
-
-            if (badOpinions.contains(opinion) || goodOpinions.contains(opinion)) {
-                channel.send(message.author.username + ", that opinion already exists.").catch(console.error);
-                return;
-            }
-
-            if (!type) {
-                channel.send(message.author.username + ", please specify whether the opinion is good or bad.").catch(console.error);
-                return;
-            }
-
-            type = type.toLowerCase();
-
-            if (!["bad", "good"].contains(type)) {
-                channel.send(message.author.username + ", please specify whether the opinion is good or bad.").catch(console.error);
-                return;
-            }
-
-            if (type == "bad") {
-                badOpinions.push(opinion);
-                save("badOpinions", server);
-            } else {
-                goodOpinions.push(opinion);
-                save("goodOpinions", server);
-            }
-
-            channel.send("Opinion added.").catch(console.error);
-        }
-    },
-
     removeopinion: {
         help: function (command, symbol) {
             return "`" + symbol + command + " <opinion> <good/bad>`: removes `opinion` (either `good` or `bad`) from the possible results of the opinion command.";
