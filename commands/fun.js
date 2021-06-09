@@ -292,7 +292,7 @@
                 return;
             }
 
-            channel.send("```" + scrubquotes.rand() + "```\n- " + name).catch(console.error);
+            channel.send("```" + scrubquotes.rand() + "```").catch(console.error);
         }
     },
 
