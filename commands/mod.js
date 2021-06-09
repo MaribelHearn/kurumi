@@ -122,7 +122,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var scrubquote = command[1], scrubquotes = serverData[server.id].scrubquotes;
+            var scrubquote = command[1], scrubquotes = permData.scrubquotes;
 
             if (!scrubquote) {
                 channel.send(message.author.username + ", please specify a scrubquote to remove.").catch(console.error);

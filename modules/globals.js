@@ -509,7 +509,7 @@ module.exports = {
         global.SERVER_DATA_DEFAULTS = {
             "quotes": {}, "waifus": {"user":{},"touhou":{},"spell":{},"fan":{},"lenen":{}},
             "waifusExceptions": {}, "touhouWaifusExceptions": {}, "ratings": {}, "factions": {},
-            "badOpinions": [], "goodOpinions": [], "opinionExceptions": [], "botChannels": [], "scrubquotes": [],
+            "badOpinions": [], "goodOpinions": [], "opinionExceptions": [], "botChannels": [],
             "queue": [], "lewdAccessRole": "", "hsifsAccessRole": "", "logChannel": "", "mainChannel": "",
             "voiceChannel": "", "date": "", "entryMessage": "Greetings, %u!", "leaveMessage": "Bye, %u!",
             "logoutMessage": "Logging out.", "defaultReason": "Unknown.", "isTestingServer": false,
@@ -518,8 +518,9 @@ module.exports = {
 
         /* Variables */
         global.permData = {
-            "WRs": {}, "bestInTheWest": {}, "LNNs": {}, "currencies": {}, "images": {}, "aliases": {}, "musicLocal": {}, "notifyQueue": [],
-            "commandSymbols": ["!"], "token": "", "botMaster": "", "WRsLastUpdated": "", "weatherKey": "", "googleKey": "", "maxLength": 200, "maintenanceMode": false
+            "WRs": {}, "bestInTheWest": {}, "LNNs": {}, "currencies": {}, "images": {}, "aliases": {}, "musicLocal": {},
+            "notifyQueue": [], "scrubquotes": [], "commandSymbols": ["!"], "token": "", "botMaster": "", "WRsLastUpdated": "",
+            "weatherKey": "", "googleKey": "", "maxLength": 200, "maintenanceMode": false
         };
 
         global.serverData = {};

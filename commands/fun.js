@@ -285,7 +285,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var scrubquotes = serverData[server.id].scrubquotes, i;
+            var scrubquotes = permData.scrubquotes, i;
 
             if (scrubquotes.length === 0) {
                 channel.send(message.author.username + ", there are no saved quotes.").catch(console.error);
@@ -302,7 +302,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var scrubquote = command[1], scrubquotes = serverData[server.id].scrubquotes;
+            var scrubquote = command[1], scrubquotes = permData.scrubquotes;
 
             if (!scrubquote) {
                 channel.send(message.author.username + ", please specify a scrubquote to add.").catch(console.error);
@@ -326,7 +326,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var scrubquotes = serverData[server.id].scrubquotes;
+            var scrubquotes = permData.scrubquotes;
 
             if (scrubquotes.length === 0) {
                 channel.send(message.author.username + ", there are no saved scrubquotes.").catch(console.error);
