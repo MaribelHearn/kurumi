@@ -143,42 +143,28 @@
 
     removeopinion: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <opinion> <good/bad>`: removes `opinion` (either `good` or `bad`) from the possible results of the opinion command.";
+            return "`" + symbol + command + " <opinion>`: removes `opinion` " +
+            "from the possible results of the opinion command.";
         },
 
         command: function (message, server, command, channel) {
-            var opinion = command[1], type = command[2], badOpinions = serverData[server.id].badOpinions, goodOpinions = serverData[server.id].goodOpinions;
+            var opinion = command[1], badOpinions = serverData[server.id].badOpinions,
+                goodOpinions = serverData[server.id].goodOpinions;
 
             if (!opinion) {
                 channel.send(message.author.username + ", please specify an opinion to remove.").catch(console.error);
                 return;
             }
 
-            if (!badOpinions.contains(opinion) || !goodOpinions.contains(opinion)) {
+            if (!badOpinions.contains(opinion) && !goodOpinions.contains(opinion)) {
                 channel.send(message.author.username + ", that opinion does not exist.").catch(console.error);
                 return;
             }
 
-            if (!type) {
-                channel.send(message.author.username + ", please specify whether the opinion is good or bad.").catch(console.error);
-                return;
-            }
-
-            type = type.toLowerCase();
-
-            if (!["bad", "good"].contains(type)) {
-                channel.send(message.author.username + ", please specify whether the opinion is good or bad.").catch(console.error);
-                return;
-            }
-
-            if (type == "bad") {
-                badOpinions.remove(opinion);
-                save("badOpinions", server);
-            } else {
-                goodOpinions.remove(opinion);
-                save("goodOpinions", server);
-            }
-
+            badOpinions.remove(opinion);
+            goodOpinions.remove(opinion);
+            save("badOpinions", server);
+            save("goodOpinions", server);
             channel.send("Opinion removed.").catch(console.error);
         }
     },
