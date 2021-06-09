@@ -130,7 +130,7 @@
                 user2 = members[lower2].username;
             }
 
-            message = user1 + " x " + user2 + " is a **" + ship + "** match";
+            message = user1 + " x " + user2 + " is a **" + ship + "%** match";
 
             if (ship == 100) {
                 emoji = " :heartpulse: ";
@@ -142,7 +142,7 @@
                 emoji = " :hearts: ";
                 message += ".";
             } else {
-                emoji = " :brokenheart: ";
+                emoji = " :broken_heart: ";
                 message += "... :(";
             }
 
