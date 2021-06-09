@@ -309,12 +309,12 @@
                 return;
             }
 
-            if (scrubquotes.contains(quote)) {
+            if (scrubquotes.contains(scrubquote)) {
                 channel.send(message.author.username + ", that line has already been quoted.").catch(console.error);
                 return;
             }
 
-            scrubquotes.push(quote);
+            scrubquotes.push(scrubquote);
             save("scrubquotes", server);
             channel.send("Scrubquote added.").catch(console.error);
         }
