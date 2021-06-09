@@ -315,7 +315,7 @@
             }
 
             scrubquotes.push(scrubquote);
-            save("scrubquotes", server);
+            save("scrubquotes");
             channel.send("Scrubquote added.").catch(console.error);
         }
     },

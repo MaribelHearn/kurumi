@@ -136,7 +136,7 @@
 
             scrubquotes.remove(scrubquote);
 
-            save("scrubquotes", server);
+            save("scrubquotes");
             channel.send("Scrubquote removed.").catch(console.error);
         }
     },
