@@ -767,7 +767,7 @@
             voiceChannel.join().then(connection => {
                 channel.send(message.author.username + ", I have connected to the voice channel.");
 
-                if (serverData[server.id].queue && serverData[server.id].queue.length > 0) {
+                if (serverData[server.id].queue && serverData[server.id].queue.length > 0 && !serverData[server.id].interruptionMode) {
                     channel.send("I will automatically resume the music queue.");
                     item = serverData[server.id].queue[0];
 
