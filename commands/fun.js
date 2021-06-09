@@ -117,9 +117,16 @@
                 ships[lower1] = {};
             }
 
+            if (!ships.hasOwnProperty(lower2)) {
+                ships[lower2] = {};
+            }
+
             if (!ships[lower1].hasOwnProperty(lower2)) {
                 ships[lower1][lower2] = RNG(101);
                 ship = ships[lower1][lower2];
+            }
+
+            if (!ships[lower2].hasOwnProperty(lower1)) {
                 ships[lower2][lower1] = ship;
             }
 
