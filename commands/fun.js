@@ -84,6 +84,84 @@
         }
     },
 
+    ship: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <user1> [user2]`: will tell you how well `user1` and `user2` match. " +
+            "If `user2` is not specified, selects a random member of this server instead.";
+        },
+
+        command: function (message, server, command, channel) {
+            var user1 = command[1], members = toUsers(server.members), lower1, message, emoji;
+
+            if (!user1) {
+                channel.send(message.author.username + ", please specify a user.").catch(console.error);
+                return;
+            }
+
+            dateCheck(server);
+
+            if (date != serverData[server.id].date) {
+                allCommands.mod.reset.command(message, server, ["reset"], channel);
+            }
+
+            var user2 = command[2], lower1 = user1.toLowerCase(), lower2;
+
+            if (!user2) {
+                user2 = server.members.cache.random().user.username;
+            }
+
+            lower2 = user2.toLowerCase();
+
+            if (!ships.hasOwnProperty(lower1)) {
+                ships[lower1] = {};
+            }
+
+            if (!ships[lower1].hasOwnProperty(lower2)) {
+                ships[lower1][lower2] = RNG(101);
+                ship = ships[lower1][lower2];
+            }
+
+            if (members.hasOwnProperty(lower1)) {
+                user1 = members[lower1].username;
+            }
+
+            if (members.hasOwnProperty(lower2)) {
+                user2 = members[lower2].username;
+            }
+
+            message = user1 + " x " + user2 + " is a **" + ship + "** match";
+
+            if (ship == 100) {
+                emoji = " :heartpulse: ";
+                message += "!! OTP!!";
+            } else if (ship >= 67) {
+                emoji = " :heart: ";
+                message += "!";
+            } else if (ship >= 33) {
+                emoji = " :hearts: ";
+                message += ".";
+            } else {
+                emoji = " :brokenheart: ";
+                message += "... :(";
+            }
+
+            save("ships", server);
+            channel.send(emoji + message + emoji).catch(console.error);
+        }
+    },
+
+    /*randomship: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + "`: makes me ship two randomly selected members of this server.";
+        },
+
+        command: function (message, server, command, channel) {
+            var user1 = server.members.cache.random().user.username, user2 = server.members.cache.random().user.username;
+
+            channel.send().catch(console.error);
+        }
+    },*/
+
     "8ball": {
         help: function (command, symbol) {
             return "`" + symbol + command + " <question>`: the wise 8ball will give an answer to `question`.";

@@ -72,8 +72,10 @@
         command: function (message, server, command, channel) {
             serverData[server.id].waifus = {"user":{},"touhou":{},"spell":{},"fan":{},"lenen":{}};
             serverData[server.id].ratings = {};
+            serverData[server.id].ships = {};
             save("waifus", server);
             save("ratings", server);
+            save("ships", server);
             channel.send("RNG-generated values have been reset.").catch(console.error);
         }
     },
