@@ -129,7 +129,7 @@
                 return;
             }
 
-            scrubquote.remove(scrubquote);
+            scrubquotes.remove(scrubquote);
 
             save("scrubquote", server);
             channel.send("Scrubquote removed.").catch(console.error);
