@@ -1040,7 +1040,7 @@
                 return;
             }
 
-            permData.musicLocal[name] = {"help": description, "file": music, "volume": (volume ? volume : 0.5)};
+            permData.musicLocal[name.toLowerCase()] = {"help": description, "file": music, "volume": (volume ? volume : 0.5)};
             save("musicLocal");
             channel.send("The music command `" + name + "` has been added.").catch(console.error);
         }
