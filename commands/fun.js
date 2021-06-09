@@ -120,6 +120,7 @@
             if (!ships[lower1].hasOwnProperty(lower2)) {
                 ships[lower1][lower2] = RNG(101);
                 ship = ships[lower1][lower2];
+                ships[lower2][lower1] = ship;
             }
 
             if (members.hasOwnProperty(lower1)) {
@@ -141,6 +142,9 @@
             } else if (ship >= 33) {
                 emoji = " :hearts: ";
                 message += ".";
+            } else if (ship === 0) {
+                emoji = " :poop: ";
+                message + "... absolutely hopeless.";
             } else {
                 emoji = " :broken_heart: ";
                 message += "... :(";
@@ -494,11 +498,11 @@
                 list = quotes[author].list;
                 name = quotes[author].name;
                 quote = list.rand();
-            }
 
-            if (!quotes.hasOwnProperty(author)) {
-                channel.send(message.author.username + ", that author does not have any saved quotes.").catch(console.error);
-                return;
+                if (!quotes.hasOwnProperty(author)) {
+                    channel.send(message.author.username + ", that author does not have any saved quotes.").catch(console.error);
+                    return;
+                }
             }
 
             channel.send("```" + quote + "```\n- " + name).catch(console.error);
