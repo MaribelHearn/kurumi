@@ -116,6 +116,26 @@
         }
     },
 
+    removescrubquote: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <quote>`: removes `scrubquote` from the list of scrubquotes.";
+        },
+
+        command: function (message, server, command, channel) {
+            var scrubquote = command[1], scrubquotes = serverData[server.id].quotes;
+
+            if (!scrubquote) {
+                channel.send(message.author.username + ", please specify a scrubquote to remove.").catch(console.error);
+                return;
+            }
+
+            scrubquote.remove(scrubquote);
+
+            save("scrubquote", server);
+            channel.send("Scrubquote removed.").catch(console.error);
+        }
+    },
+
     addopinion: {
         help: function (command, symbol) {
             return "`" + symbol + command + " <opinion> <good/bad>`: adds `opinion` (either `good` or `bad`) to the possible results of the opinion command.\nWriting '%t' in the opinion means it will be replaced by a random Touhou shmup.";

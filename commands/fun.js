@@ -279,6 +279,64 @@
         }
     },
 
+    scrubquote: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + "`: selects a random scrubquote out of the saved scrubquotes.";
+        },
+
+        command: function (message, server, command, channel) {
+            var scrubquotes = serverData[server.id].scrubquotes, i;
+
+            if (scrubquotes.isEmpty()) {
+                channel.send(message.author.username + ", there are no saved quotes.").catch(console.error);
+                return;
+            }
+
+            channel.send("```" + scrubquotes.rand() + "```\n- " + name).catch(console.error);
+        }
+    },
+
+    addscrubquote: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <quote>`: adds `scrubquote` to the list of scrubquotes.";
+        },
+
+        command: function (message, server, command, channel) {
+            var scrubquote = command[1], scrubquotes = serverData[server.id].scrubquotes;
+
+            if (!scrubquote) {
+                channel.send(message.author.username + ", please specify a scrubquote to add.").catch(console.error);
+                return;
+            }
+
+            if (scrubquotes.contains(quote)) {
+                channel.send(message.author.username + ", that line has already been quoted.").catch(console.error);
+                return;
+            }
+
+            scrubquotes.push(quote);
+            save("scrubquotes", server);
+            channel.send("Scrubquote added.").catch(console.error);
+        }
+    },
+
+    scrubquotecount: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " `: tells you how many scrubquotes are in the list.";
+        },
+
+        command: function (message, server, command, channel) {
+            var scrubquotes = serverData[server.id].scrubquotes;
+
+            if (scrubquotes.isEmpty()) {
+                channel.send(message.author.username + ", there are no saved scrubquotes.").catch(console.error);
+                return;
+            }
+
+            channel.send("There are currently **" + scrubquotes.length + "** scrubquotes in the list.").catch(console.error);
+        }
+    },
+
     quote: {
         help: function (command, symbol) {
             return "`" + symbol + command + " <author>`: selects a random quote out of the saved quotes from `author`. If `author` is not specified, selects a random one.";

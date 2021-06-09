@@ -506,7 +506,7 @@ module.exports = {
         global.SERVER_DATA_DEFAULTS = {
             "quotes": {}, "waifus": {"user":{},"touhou":{},"spell":{},"fan":{},"lenen":{}},
             "waifusExceptions": {}, "touhouWaifusExceptions": {}, "ratings": {}, "factions": {},
-            "badOpinions": [], "goodOpinions": [], "opinionExceptions": [], "botChannels": [],
+            "badOpinions": [], "goodOpinions": [], "opinionExceptions": [], "botChannels": [], "scrubquotes": [],
             "queue": [], "lewdAccessRole": "", "hsifsAccessRole": "", "logChannel": "", "mainChannel": "",
             "voiceChannel": "", "date": "", "entryMessage": "Greetings, %u!", "leaveMessage": "Bye, %u!",
             "logoutMessage": "Logging out.", "defaultReason": "Unknown.", "isTestingServer": false,
