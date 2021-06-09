@@ -91,7 +91,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var user1 = command[1], date = serverData[server.id].date,
+            var user1 = command[1], date = serverData[server.id].date, ships = serverData[server.id].ships,
                 members = toUsers(server.members), lower1, message, emoji;
 
             if (!user1) {
