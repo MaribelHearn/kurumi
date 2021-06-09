@@ -936,7 +936,7 @@
 
             var kelvin = Math.round(Number(celsius) + 273.15);
 
-            channel.send(message.author.username + ", " + celsius + " °C is equal to " + kelvin + " °K.").catch(console.error);
+            channel.send(message.author.username + ", " + celsius + " °C is equal to " + kelvin + " K.").catch(console.error);
         }
     },
 
@@ -984,7 +984,7 @@
 
             var kelvin = Math.round((Number(fahrenheit) + 459.67) / 1.8);
 
-            channel.send(message.author.username + ", " + fahrenheit + " °F is equal to " + kelvin + " °K.").catch(console.error);
+            channel.send(message.author.username + ", " + fahrenheit + " °F is equal to " + kelvin + " K.").catch(console.error);
         }
     },
 
@@ -1008,7 +1008,7 @@
 
             var celsius = Math.round(kelvin - 273.15);
 
-            channel.send(message.author.username + ", " + kelvin + " °K is equal to " + celsius + " °C.").catch(console.error);
+            channel.send(message.author.username + ", " + kelvin + " K is equal to " + celsius + " °C.").catch(console.error);
         }
     },
 
@@ -1032,7 +1032,7 @@
 
             var fahrenheit = Math.round(kelvin * 1.8 - 459.67);
 
-            channel.send(message.author.username + ", " + kelvin + " °K is equal to " + fahrenheit + " °F.").catch(console.error);
+            channel.send(message.author.username + ", " + kelvin + " K is equal to " + fahrenheit + " °F.").catch(console.error);
         }
     },
 

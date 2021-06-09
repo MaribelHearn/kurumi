@@ -6,7 +6,7 @@ module.exports = {
 
         content = content.replace(/\n/g, ' ');
         /* Command Handler */
-        if (permData.commandSymbols.contains(firstChar) && content.length > 1) {
+        if (permData.commandSymbols.contains(firstChar) && content.length > 1 && id != bot.user.id) {
             try {
                 // Maintenance Mode
                 if (permData.maintenanceMode && (!server || !serverData[server.id].isTestingServer)) {
