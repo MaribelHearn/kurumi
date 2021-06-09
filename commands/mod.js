@@ -129,6 +129,11 @@
                 return;
             }
 
+            if (!scrubquotes.contains(scrubquote)) {
+                channel.send(message.author.username + ", that scrubquote is not in the list.").catch(console.error);
+                return;
+            }
+
             scrubquotes.remove(scrubquote);
 
             save("scrubquotes", server);
