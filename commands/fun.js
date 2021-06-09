@@ -287,7 +287,7 @@
         command: function (message, server, command, channel) {
             var scrubquotes = serverData[server.id].scrubquotes, i;
 
-            if (scrubquotes.isEmpty()) {
+            if (scrubquotes.length === 0) {
                 channel.send(message.author.username + ", there are no saved quotes.").catch(console.error);
                 return;
             }
