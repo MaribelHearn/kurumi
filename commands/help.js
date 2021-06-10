@@ -23,7 +23,7 @@
                     var help = allCommands[commandType][commandName].help(commandName, symbol);
 
                     if (alias) {
-                        help = "`" + alias + "` => " + help;
+                        help = "`" + symbol + alias + "` => " + help;
                     }
 
                     if (commandType == "mod") {
