@@ -130,8 +130,6 @@ module.exports = {
         global.exec = require("child_process").exec;
 
         /* Constants */
-        global.SCRIPT_BASE_URL = "https://raw.githubusercontent.com/MaribelHearn/kurumi/master/";
-
         global.WEATHER_BASE_URL = "http://api.openweathermap.org/data/2.5/weather?q=";
 
         global.CURRENCY_BASE_URL = "http://free.currencyconverterapi.com/api/v3/convert?q=";
@@ -519,7 +517,7 @@ module.exports = {
         global.SERVER_DATA_DEFAULTS = {
             "quotes": {}, "waifus": {"user":{},"touhou":{},"spell":{},"fan":{},"lenen":{}},
             "waifusExceptions": {}, "touhouWaifusExceptions": {}, "ratings": {}, "ships": {}, "factions": {},
-            "badOpinions": [], "goodOpinions": [], "opinionExceptions": [], "botChannels": [],
+            "badOpinions": [], "goodOpinions": [], "opinionExceptions": [], "botChannels": [], "shipMessages": [],
             "queue": [], "lewdAccessRole": "", "hsifsAccessRole": "", "logChannel": "", "mainChannel": "",
             "voiceChannel": "", "date": "", "entryMessage": "Greetings, %u!", "leaveMessage": "Bye, %u!",
             "logoutMessage": "Logging out.", "defaultReason": "Unknown.", "isTestingServer": false,

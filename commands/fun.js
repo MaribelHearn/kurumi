@@ -151,7 +151,7 @@
                 message += ".";
             } else if (ship === 0) {
                 emoji = " :poop: ";
-                message + "... absolutely hopeless.";
+                message += "... absolutely hopeless.";
             } else {
                 emoji = " :broken_heart: ";
                 message += "... :(";
@@ -162,17 +162,45 @@
         }
     },
 
-    /*randomship: {
+    randomship: {
         help: function (command, symbol) {
             return "`" + symbol + command + "`: makes me ship two randomly selected members of this server.";
         },
 
         command: function (message, server, command, channel) {
-            var user1 = server.members.cache.random().user.username, user2 = server.members.cache.random().user.username;
+            var user1 = server.members.cache.random().user.username, user2 = server.members.cache.random().user.username,
+                shipMessages = serverData[server.id].shipMessages;
 
-            channel.send().catch(console.error);
+            message = shipMessages.rand().replace("%1", "**" + user1 + "**").replace("%2", "**" + user2 + "**");
+
+            channel.send(message).catch(console.error);
         }
-    },*/
+    },
+
+    addshipmessage: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <message>`: adds a message for the `" + symbol + "randomship` command. " +
+            "Must include `%1` as a placeholder for the first member and `%2` for the second member.";
+        },
+
+        command: function (message, server, command, channel) {
+            var message = command[1], shipMessages = serverData[server.id].shipMessages;
+
+            if (!message) {
+                channel.send(message.author.username + ", please specify a message.").catch(console.error);
+                return;
+            }
+
+            if (!message.contains("%1") || !message.contains("%2")) {
+                channel.send(message.author.username + ", please include the member name placeholders `%1` and `%2`.").catch(console.error);
+                return;
+            }
+
+            shipMessages.push(message);
+            save("shipMessages", server);
+            channel.send("Ship message added.").catch(console.error);
+        }
+    },
 
     "8ball": {
         help: function (command, symbol) {

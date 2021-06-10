@@ -37,95 +37,27 @@
 
     update: {
         help: function (command, symbol) {
-            return "`" + symbol + command + "`: updates the script modules and reloads the data files.";
+            return "`" + symbol + command + "`: updates the script modules and reloads the data files. " +
+            "requires `git` to be installed and requires the bot to be running from its git repository.";
         },
 
-        loadModule: function (error, response, body) {
-            if (!error && response.statusCode == 200) {
-                fs.writeFileSync(scriptModule + ".js", body);
-                console.log(timeStamp() + "Evaluating module " + scriptModule + ".js...");
+        command: function (message, server, command, channel) {
+            var child = exec("git pull", function (error, stdout, stderr) {
+                if (error !== null) {
+                    channel.send("Error while updating the scripts: " + error).catch(console.error);
+                    return;
+                }
 
-                delete require.cache[process.cwd() + (os.type() == "Windows_NT" ? "\\" : '/') + scriptModule + ".js"];
+                channel.send(stdout).catch(console.error);
+
+                /*delete require.cache[process.cwd() + (os.type() == "Windows_NT" ? "\\" : '/') + scriptModule + ".js"];
 
                 module.contains("cmds") ? allCommands[module.replace("cmds", "")] = require("./" + scriptModule + ".js") : global[scriptModule] = require("./" + scriptModule + ".js");
 
                 if (scriptModule == "globals") {
                     globals.define();
-                }
-            } else {
-                channel.send("An error occurred while downloading the `" + scriptModule +
-                "` module: " + error + ", status code " + response.statusCode).catch(console.error);
-            }
-        },
-
-        command: function (message, server, command, channel) {
-            var scriptModule, i, j, k;
-
-            for (i in MODULES) {
-                scriptModule = MODULES[i];
-
-                try {
-                    console.log(timeStamp() + "Downloading module " + scriptModule + "...");
-
-                    request(SCRIPT_BASE_URL + scriptModule + ".js", this.loadModule);
-                } catch (err) {
-                    channel.send("An error occurred while loading the `" + scriptModule + "` module: " + err).catch(console.error);
-                    return;
-                }
-            }
-
-            console.log(timeStamp() + "Modules loaded.");
-
-            for (j in permData) {
-                try {
-                    if (fs.existsSync("data/" + j + ".txt")) {
-                        permData[j] = fs.readFileSync("data/" + j + ".txt");
-                        permData[j] = String(permData[j]).replace(/^\uFEFF/, "");
-                        permData[j] = JSON.parse(permData[j]);
-                    } else {
-                        fs.writeFileSync("data/" + j + ".txt", JSON.stringify(permData[j]));
-                        console.log(timeStamp() + "Data file " + j + ".txt created.");
-                    }
-                } catch (err) {
-                    channel.send("An error occurred with the `" + j + "` data file: " + err).catch(console.error);
-                    return;
-                }
-            }
-
-            console.log(timeStamp() + "Permanent data loaded.");
-
-            var serversArray = bot.guilds.cache.array(), id, filename;
-
-            for (k in serversArray) {
-                id = serversArray[k].id;
-
-                if (!serverData[id]) {
-                    serverData[id] = {};
-                }
-
-                for (var l in SERVER_DATA_DEFAULTS) {
-                    filename = "data/" + id;
-
-                    if (!fs.existsSync(filename)) {
-                        fs.mkdirSync(filename);
-                    }
-
-                    filename += "/" + l + ".txt";
-
-                    if (!fs.existsSync(filename)) {
-                        fs.writeFileSync(filename, SERVER_DATA_DEFAULTS[l]);
-                        console.log(timeStamp() + serversArray[k].name + " specific data file " + l + ".txt created.");
-                    } else {
-                        serverData[id][l] = fs.readFileSync(filename);
-                        serverData[id][l] = String(serverData[id][l]).replace(/^\uFEFF/, "");
-                        serverData[id][l] = JSON.parse(serverData[id][l]);
-                    }
-                }
-            }
-
-            console.log(timeStamp() + "Server specific data loaded.");
-            channel.send("The script modules have been updated!").catch(console.error);
-        }
+                }*/
+            });
     },
 
     data: {
