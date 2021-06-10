@@ -69,7 +69,7 @@
                     }
                 }
 
-                channel.send(message.substr(0, -2) + ".").catch(console.error);
+                channel.send(message.slice(0, -2) + ".").catch(console.error);
             });
         }
     },
