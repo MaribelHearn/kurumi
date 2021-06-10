@@ -171,6 +171,31 @@
         }
     },
 
+    removeshipmessage: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <message>`: removes `message` " +
+            "from the list of messages for the `" + symbol + "randomship` command.";
+        },
+
+        command: function (message, server, command, channel) {
+            var message = command[1], shipMessages = serverData[server.id].shipMessages;
+
+            if (!message) {
+                channel.send(message.author.username + ", please specify a message to remove.").catch(console.error);
+                return;
+            }
+
+            if (!shipMessages.contains(message)) {
+                channel.send(message.author.username + ", that message does not exist.").catch(console.error);
+                return;
+            }
+
+            shipMessages.remove(message);
+            save("shipMessages", server);
+            channel.send("Ship message removed.").catch(console.error);
+        }
+    },
+
     say: {
         help: function (command, symbol) {
             return "`" + symbol + command + " <message>`: will make me post `message` in the bot spam channel. Requires the main channel to be set.";

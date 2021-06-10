@@ -5,16 +5,26 @@
         },
 
         command: function (message, server, command, channel) {
-            var commandName = command[1], symbol = message.content.charAt(0), images = permData.images, musicLocal = permData.musicLocal;
+            var commandName = command[1], symbol = message.content.charAt(0), images = permData.images,
+                musicLocal = permData.musicLocal, alias = false;
 
             if (!commandName) {
                 allCommands.help.commands.command(message, server, command, channel);
                 return;
             }
 
+            if (aliasToOriginal(commandName)) {
+                alias = commandName;
+                commandName = aliasToOriginal(commandName);
+            }
+
             for (var commandType in allCommands) {
                 if (allCommands[commandType][commandName]) {
                     var help = allCommands[commandType][commandName].help(commandName, symbol);
+
+                    if (alias) {
+                        help = "`" + alias + "` => " + help;
+                    }
 
                     if (commandType == "mod") {
                         help += " Mod-only.";
