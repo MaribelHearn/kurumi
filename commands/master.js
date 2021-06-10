@@ -45,18 +45,31 @@
             var child = exec("git pull", function (error, stdout, stderr) {
                 if (error !== null) {
                     channel.send("Error while updating the scripts: " + error).catch(console.error);
+
+                    if (stderr !== "") {
+                        channel.send("Console output: " + stderr).catch(console.error);
+                    }
+
                     return;
                 }
 
-                channel.send(stdout).catch(console.error);
+                if (stdout.contains("Already up to date.")) {
+                    channel.send("Already up to date.").catch(console.error);
+                    return;
+                }
 
-                /*delete require.cache[process.cwd() + (os.type() == "Windows_NT" ? "\\" : '/') + scriptModule + ".js"];
+                var changed = stdout.split("Fast-forward")[1].trim().split(/\d+\ files? changed/)[0].trim().split(/(\+|-)+|\|/),
+                    message = "Updated modules: ", scriptModule, i;
 
-                module.contains("cmds") ? allCommands[module.replace("cmds", "")] = require("./" + scriptModule + ".js") : global[scriptModule] = require("./" + scriptModule + ".js");
+                for (i = 0; i < changed.length; i++) {
+                    if (changed[i].contains("js")) {
+                        scriptModule = changed[i].trim().split('/');
 
-                if (scriptModule == "globals") {
-                    globals.define();
-                }*/
+                        message += (scriptModule[1] ? scriptModule[1].trim() : scriptModule[0].trim()) + ", ";
+                    }
+                }
+
+                channel.send(message.substr(0, -2) + ".").catch(console.error);
             });
         }
     },

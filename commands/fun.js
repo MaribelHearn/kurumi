@@ -171,6 +171,11 @@
             var user1 = server.members.cache.random().user.username, user2 = server.members.cache.random().user.username,
                 shipMessages = serverData[server.id].shipMessages;
 
+            if (shipMessages.length === 0) {
+                channel.send(message.author.username + ", there are currently no ship messages to use!").catch(console.error);
+                return;
+            }
+
             message = shipMessages.rand().replace("%1", "**" + user1 + "**").replace("%2", "**" + user2 + "**");
 
             channel.send(message).catch(console.error);
