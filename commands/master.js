@@ -58,6 +58,7 @@
                     globals.define();
                 }*/
             });
+        }
     },
 
     data: {
