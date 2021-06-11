@@ -1,7 +1,8 @@
 ﻿/* Setup */
-JSON_DIR = "./json/";
-MODULE_DIR = "./modules/";
-COMMAND_DIR = "./commands/";
+JSON_DIR = process.cwd() + "./json/";
+MODULE_DIR = process.cwd() + "./modules/";
+COMMAND_DIR = process.cwd() + "/commands/";
+
 timeStamp = function () {
     return "[" + new Date().toISOString().split('T')[0] + " " + new Date().toTimeString().split(' ')[0] + "] ";
 };
@@ -29,12 +30,15 @@ for (file of MODULES) {
     try {
         console.log(timeStamp() + "Loading module " + file + "...");
         global[fileName] = require(MODULE_DIR + file);
+
+        if (fileName == "globals") {
+            globals.define();
+        }
     } catch (err) {
         console.log(timeStamp() + "An error occurred while loading " + file + ": " + err);
     }
 }
 
-globals.define();
 console.log(timeStamp() + "Modules loaded.");
 
 /* Load Commands */
@@ -42,6 +46,7 @@ COMMAND_FILES = fs.readdirSync(COMMAND_DIR).filter(file => file.endsWith(".js"))
 
 for (file of COMMAND_FILES) {
     fileName = file.replace(".js", "");
+
     try {
         console.log(timeStamp() + "Loading command file " + file + "...");
         commands = require(COMMAND_DIR + file);

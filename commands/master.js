@@ -76,23 +76,23 @@
                             delete require.cache[process.cwd() + (os.type() == "Windows_NT" ? "\\" : '/') + scriptModule];
 
                             if (isCommands) {
-                                allCommands[fileName.replace("cmds", "")] = require(COMMAND_DIR + scriptModule);
+                                allCommands[fileName] = require(COMMAND_DIR + scriptModule);
                             } else if (isMainScript) {
                                 channel.send("The main script has been updated; this only takes effect after a restart.");
                             } else if (isJSON) {
-                                JSON.parse(fs.readFileSync("json/" + scriptModule));
+                                JSON.parse(fs.readFileSync(JSON_DIR + scriptModule));
                             } else {
                                 global[fileName] = require(MODULE_DIR + scriptModule);
+
+                                if (scriptModule == "globals.js") {
+                                    globals.define();
+                                }
                             }
 
 
                             message += scriptModule + ", ";
                         } catch (err) {
                             channel.send("An error occurred while updating " + scriptModule + ": " + err);
-                        }
-
-                        if (scriptModule == "globals.js") {
-                            globals.define();
                         }
                     }
                 }
