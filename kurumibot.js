@@ -93,6 +93,45 @@ loadPermData();
 console.log(timeStamp() + "Data loaded.");
 enabled = true;
 
+loadServerData = function () {
+    var serversArray = bot.guilds.cache.array(), id, dir, fileName, k, l;
+
+    for (k in serversArray) {
+        serversArray[k].members.fetch();
+        id = serversArray[k].id;
+
+        if (!serverData[id]) {
+            serverData[id] = {};
+        }
+
+        for (l in SERVER_DATA_DEFAULTS) {
+            dir = "data/" + id;
+
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir);
+            }
+
+            fileName = dir + "/" + l + ".txt";
+
+            if (!fs.existsSync(fileName)) {
+                fs.writeFileSync(fileName, JSON.stringify(SERVER_DATA_DEFAULTS[l]));
+                console.log(timeStamp() + serversArray[k].name + " specific data file " + l + ".txt created.");
+            } else {
+                serverData[id][l] = fs.readFileSync(fileName);
+                serverData[id][l] = String(serverData[id][l]).replace(/^\uFEFF/, "");
+                try {
+                    serverData[id][l] = JSON.parse(serverData[id][l]);
+                } catch (err) {
+                    console.log(timeStamp() + serversArray[k].name + " specific data file " + l + ".txt failed to parse; using default.");
+                    serverData[id][l] = SERVER_DATA_DEFAULTS[l];
+                }
+            }
+        }
+    }
+
+    console.log(timeStamp() + "Server specific data loaded.");
+};
+
 /* Login */
 if (permData.token === "") {
     console.log(timeStamp() + "Please put your token into the token.txt data file, and make sure it is in quotes!");
@@ -108,42 +147,7 @@ bot.on("ready", function () {
         bot.destroy();
     }
 
-    var serversArray = bot.guilds.cache.array(), id, filename;
-
-    for (var k in serversArray) {
-        serversArray[k].members.fetch();
-        id = serversArray[k].id;
-
-        if (!serverData[id]) {
-            serverData[id] = {};
-        }
-
-        for (var l in SERVER_DATA_DEFAULTS) {
-            filename = "data/" + id;
-
-            if (!fs.existsSync(filename)) {
-                fs.mkdirSync(filename);
-            }
-
-            filename += "/" + l + ".txt";
-
-            if (!fs.existsSync(filename)) {
-                fs.writeFileSync(filename, JSON.stringify(SERVER_DATA_DEFAULTS[l]));
-                console.log(timeStamp() + serversArray[k].name + " specific data file " + l + ".txt created.");
-            } else {
-                serverData[id][l] = fs.readFileSync(filename);
-                serverData[id][l] = String(serverData[id][l]).replace(/^\uFEFF/, "");
-                try {
-                    serverData[id][l] = JSON.parse(serverData[id][l]);
-                } catch (err) {
-                    console.log(timeStamp() + serversArray[k].name + " specific data file " + l + ".txt failed to parse; using default.");
-                    serverData[id][l] = SERVER_DATA_DEFAULTS[l];
-                }
-            }
-        }
-    }
-
-    console.log(timeStamp() + "Server specific data loaded.");
+    loadServerData();
 });
 
 bot.on("disconnect", function () {

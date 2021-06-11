@@ -87,6 +87,7 @@
                                 if (scriptModule == "globals.js") {
                                     globals.define();
                                     loadPermData();
+                                    loadServerData();
                                 }
                             }
 
@@ -127,6 +128,11 @@
 
             if (dataMessage.length > MESSAGE_CAP) {
                 dataMessage = dataMessage.substr(0, MESSAGE_CAP - 4) + "...";
+            }
+
+            if (dataMessage === "") {
+                channel.send("The server data is currently empty.").catch(console.error);
+                return;
             }
 
             channel.send(dataMessage).catch(console.error);
