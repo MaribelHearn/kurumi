@@ -834,17 +834,21 @@
         },
 
         command: function (message, server, command, channel) {
-            var country = command[1];
+            var country = command[1], alt;
 
-            if (!country || !isCountry(country)) {
-                channel.send(message.author.username + ", please specify a valid country.").catch(console.error);
+            if (!country) {
+                channel.send(message.author.username + ", please specify a country.").catch(console.error);
                 return;
             }
 
-            if (isFlagCode(country)) {
-                channel.send("The flag of " + countryName(country) + " is :flag_" + country + ":.").catch(console.error);
+            country = countryAlt(country);
+
+            if (COUNTRIES.hasOwnProperty(country.toLowerCase())) {
+                channel.send("The flag of " + camel(country) + " is " + flag(country)).catch(console.error);
+            } else if (isFlagCode(country)) {
+                channel.send("The flag of " + countryName(country) + " is :flag_" + country + ":").catch(console.error);
             } else {
-                channel.send("The flag of " + camel(country) + " is " + flag(country) + ".").catch(console.error);
+                channel.send(message.author.username + ", please specify a valid country.").catch(console.error);
             }
         }
     },

@@ -1249,22 +1249,6 @@ module.exports = {
             }
         };
 
-        global.isCountry = function (country) {
-            country = country.toLowerCase();
-
-            if (COUNTRIES.hasOwnProperty(country) || countryAlt(country) != country) {
-                return true;
-            }
-
-            for (var i in COUNTRIES) {
-                if (COUNTRIES[i].code == country) {
-                    return true;
-                }
-            }
-
-            return false;
-        };
-
         global.countryName = function (code) {
             code = code.toLowerCase();
 
@@ -1292,8 +1276,14 @@ module.exports = {
             return ":flag_" + country + ":";
         };
 
-        global.isFlagCode = function (string) {
-            return string.length == 2;
+        global.isFlagCode = function (code) {
+            for (var i in COUNTRIES) {
+                if (COUNTRIES[i].code == code) {
+                    return true;
+                }
+            }
+
+            return false;
         };
 
         /*global.generateCurrencies = function () {
