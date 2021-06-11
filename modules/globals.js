@@ -145,7 +145,7 @@ module.exports = {
 
         global.GOOGLE_SUGGESTS_BASE_URL = "https://suggestqueries.google.com/complete/search?json&client=firefox&hl=en&q=";
 
-        global.IP_TRACING_URL = "http://api.ipinfodb.com/v3/ip-city/?key=";
+        global.IP_TRACING_BASE_URL = "http://api.ipinfodb.com/v3/ip-city/?key=";
 
         global.DEFAULT_COOLDOWN = 15;
 
