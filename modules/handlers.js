@@ -1,139 +1,168 @@
 module.exports = {
+    imageCommand: function (message, server, channel, commandName) {
+        var imageCommand = images[commandName];
+
+        if (server && (!serverData[server.id].botChannels.contains(channel.id) || serverData[server.id].botChannels.length === 0)) {
+            channel.send(message.author.username + ", you do not have sufficient permission to run image commands outside bot channels.").catch(console.error);
+            return;
+        }
+
+        if (fs.existsSync("images/" + images[commandName].file)) {
+            channel.send("", {"files": ["images/" + images[commandName].file]}).catch(console.error);
+            cooldown = true;
+
+            if (server) {
+                timers.setInterval(function () { cooldown = false; }, serverData[server.id].cooldownSecs * 1000);
+            }
+        } else {
+            console.log(timeStamp() + "Image file 'images/" + images[commandName].file + "' not found.");
+        }
+    },
+
+    musicCommand: function (message, server, channel, commandName) {
+        var musicCommand = musicLocal[commandName];
+
+        if (!server) {
+            channel.send("Music commands can only be used on servers.").catch(console.error);
+            return;
+        }
+
+        if (serverData[server.id].botChannels.length === 0 || !serverData[server.id].botChannels.contains(channel.id)) {
+            channel.send(message.author.username + ", you do not have sufficient permission to run music commands outside bot channels.").catch(console.error);
+            return;
+        }
+
+        if (!serverData[server.id].voiceChannel) {
+            channel.send(message.author.username + ", music commands are currently unusable, since I have not been assigned a voice channel.").catch(console.error);
+            return;
+        }
+
+        if (musicBlocked) {
+            channel.send(message.author.username + ", music commands are currently blocked.").catch(console.error);
+            return;
+        }
+
+        if (!serverData[server.id].interruptionMode) {
+            if (!serverData[server.id].queue || serverData[server.id].queue.length === 0) {
+                serverData[server.id].queue = [commandName];
+                playLocal(server, musicCommand.file, musicCommand.volume);
+            } else {
+                serverData[server.id].queue.push(commandName);
+            }
+
+            save("queue", server);
+        } else {
+            playLocal(server, musicCommand.file, musicCommand.volume);
+        }
+    },
+
+    typeOf: function (commandName) {
+        var type = false, commandType;
+
+        for (commandType in allCommands) {
+            if (allCommands[commandType][commandName]) {
+                type = commandType;
+                break;
+            }
+        }
+
+        return type;
+    },
+
+    parse: function (content, commandName, argc) {
+        var quote = false, escape = false, current = "", command = [commandName], character, i, j;
+
+        if (argc >= 1) {
+            content = content.slice(1).replace(commandName, "").trim();
+
+            if (argc === 1 && content !== "") {
+                command.push(content);
+            } else {
+                for (j = 0; j < content.length; j++) {
+                    character = content.charAt(j);
+
+                    if (character == '\\') {
+                        escape = true;
+                        continue;
+                    }
+
+                    if (character == '"' && !escape) {
+                        quote = !quote;
+                        continue;
+                    }
+
+                    escape = false;
+
+                    if (character == ' ' && !quote) {
+                        command.push(current);
+                        current = "";
+                        continue;
+                    }
+
+                    current += character;
+                }
+
+                command.push(current);
+            }
+        }
+
+        return command;
+    },
+
+    runInDM: function (message, server, command, channel, commandType, commandFunction, id, botMaster) {
+        if ((commandType == "mod" || commandType == "master") && id != botMaster) {
+            channel.send("You do not have sufficient permission to run this command.").catch(console.error);
+            return;
+        }
+
+        if (isServerOnly(commandFunction)) {
+            channel.send("That command can only be used on servers.").catch(console.error);
+            return;
+        }
+
+        commandFunction(message, server, command, channel);
+    },
+
     messageHandler: function (message) {
-        var id = message.author.id, channel = message.channel, server = message.guild, content = message.content, lower = content.toLowerCase(), images = permData.images;
+        var id = message.author.id, channel = message.channel, server = message.guild, content = message.content,
+            lower = content.toLowerCase(), firstChar = content.charAt(0), images = permData.images, commandType,
+            musicLocal = permData.musicLocal, botMaster = permData.botMaster, commandFunction, argc, command;
 
-        var firstChar = content.charAt(0), botMaster = permData.botMaster, musicLocal = permData.musicLocal, musicYouTube = permData.musicYouTube;
+        content = content.replace(/\n|\r/g, ' ');
 
-        content = content.replace(/\n/g, ' ');
-        /* Command Handler */
         if (permData.commandSymbols.contains(firstChar) && content.length > 1 && id != bot.user.id) {
             try {
-                // Maintenance Mode
                 if (permData.maintenanceMode && (!server || !serverData[server.id].isTestingServer)) {
                     channel.send(message.author.username + ", commands are currently disabled due to maintenance. They will return soon!").catch(console.error);
                     return;
                 }
 
-                // Get command name
                 var commandName = content.slice(1).split(' ')[0];
 
-                // Alias Check
                 if (aliasToOriginal(commandName)) {
                     content = content.replace(commandName, aliasToOriginal(commandName));
                     commandName = aliasToOriginal(commandName);
                 }
 
-                // Music Command Check
                 if (musicLocal.hasOwnProperty(commandName)) {
-                    var musicCommand = musicLocal[commandName];
-
-                    if (!server) {
-                        channel.send("Music commands can only be used on servers.").catch(console.error);
-                        return;
-                    }
-
-                    if (serverData[server.id].botChannels.length === 0 || !serverData[server.id].botChannels.contains(channel.id)) {
-                        channel.send(message.author.username + ", you do not have sufficient permission to run music commands outside bot channels.").catch(console.error);
-                        return;
-                    }
-
-                    if (!serverData[server.id].voiceChannel) {
-                        channel.send(message.author.username + ", music commands are currently unusable, since I have not been assigned a voice channel.").catch(console.error);
-                        return;
-                    }
-
-                    if (musicBlocked) {
-                        channel.send(message.author.username + ", music commands are currently blocked.").catch(console.error);
-                        return;
-                    }
-
-                    if (!serverData[server.id].interruptionMode) {
-                        if (!serverData[server.id].queue || serverData[server.id].queue.length === 0) {
-                            serverData[server.id].queue = [commandName];
-                            playLocal(server, musicCommand.file, musicCommand.volume);
-                        } else {
-                            serverData[server.id].queue.push(commandName);
-                        }
-
-                        save("queue", server);
-                    } else {
-                        playLocal(server, musicCommand.file, musicCommand.volume);
-                    }
-
+                    this.musicCommand(message, server, channel, commandName);
                     return;
                 }
 
-                // Image Command Check
                 if (images.hasOwnProperty(commandName)) {
-                    if (server && (!serverData[server.id].botChannels.contains(channel.id) || serverData[server.id].botChannels.length === 0)) {
-                        channel.send(message.author.username + ", you do not have sufficient permission to run image commands outside bot channels.").catch(console.error);
-                        return;
-                    }
-
-                    if (fs.existsSync("images/" + images[commandName].file)) {
-                        channel.send("", {"files": ["images/" + images[commandName].file]}).catch(console.error);
-                        cooldown = true;
-
-                        if (server) {
-                            timers.setInterval(function () { cooldown = false; }, serverData[server.id].cooldownSecs * 1000);
-                        }
-                    } else {
-                        console.log(timeStamp() + "Image file 'images/" + images[commandName].file + "' not found.");
-                    }
-
+                    this.imageCommand(message, server, channel, commandName);
                     return;
                 }
 
-                // Existence Check
-                var found = false, commandType;
+                commandType = this.typeOf(commandName);
 
-                for (commandType in allCommands) {
-                    if (allCommands[commandType][commandName]) {
-                        found = true;
-                        break;
-                    }
+                if (!commandType) {
+                    return; // command does not exist
                 }
 
-                if (!found) {
-                    return;
-                }
-
-                // Command Parser
-                var commandFunction = allCommands[commandType][commandName].command, argc = getArgc(commandFunction), quote = false, escape = false, current = "", command = [commandName], character, i, j;
-
-                if (argc >= 1) {
-                    content = content.slice(1).replace(commandName, "").trim();
-
-                    if (argc === 1 && content !== "") {
-                        command.push(content);
-                    } else {
-                        for (j = 0; j < content.length; j++) {
-                            character = content.charAt(j);
-
-                            if (character == '\\') {
-                                escape = true;
-                                continue;
-                            }
-
-                            if (character == '"' && !escape) {
-                                quote = !quote;
-                                continue;
-                            }
-
-                            escape = false;
-
-                            if (character == ' ' && !quote) {
-                                command.push(current);
-                                current = "";
-                                continue;
-                            }
-
-                            current += character;
-                        }
-
-                        command.push(current);
-                    }
-                }
+                commandFunction = allCommands[commandType][commandName].command;
+                argc = getArgc(commandFunction);
+                command = this.parse(content, commandName, argc);
 
                 // Strip Markdown and Argument Length Limit
                 for (i in command) {
@@ -141,6 +170,7 @@ module.exports = {
 
                     if (command[i] === "") {
                         command.splice(i, 1);
+                        i -= 1;
                     }
 
                     if (command[i].length > permData.maxLength && id != botMaster && (!server || serverData[server.id].botChannels.contains(channel.id))) {
@@ -149,34 +179,20 @@ module.exports = {
                     }
                 }
 
-                // DM Handler
                 if (!server) {
-                    if ((commandType == "mod" || commandType == "master") && id != botMaster) {
-                        channel.send("You do not have sufficient permission to run this command.").catch(console.error);
-                        return;
-                    }
+                    runInDM(message, server, command, channel, commandType, commandFunction, id, botMaster);
+                    return;
+                }
 
-                    if (isServerOnly(commandFunction)) {
-                        channel.send("That command can only be used on servers.").catch(console.error);
-                        return;
-                    }
-
+                if (id == botMaster) { // always allow commands run by the master
                     commandFunction(message, server, command, channel);
                     return;
                 }
 
-                // Always allow commands run by the master
-                if (id == botMaster) {
-                    commandFunction(message, server, command, channel);
-                    return;
+                if (commandType != "master" && commandType != "mod" && !serverData[server.id].botChannels.contains(channel.id)) {
+                    return; // no non-authority commands outside bot channels
                 }
 
-                // No non-authority commands outside bot channels
-                if (commandType != "master" && commandType != "mod" && (serverData[server.id].botChannels.length > 0 && !serverData[server.id].botChannels.contains(channel.id)) && serverData[server.id].botChannels.length !== 0) {
-                    return;
-                }
-
-                // Permissions
                 if (commandType == "master" && id != botMaster) {
                     channel.send(message.author.username + ", you do not have sufficient permission to run this command.").catch(console.error);
                     return;
@@ -186,11 +202,15 @@ module.exports = {
                     channel.send(message.author.username + ", you do not have sufficient permission to run this command.").catch(console.error);
                     return;
                 }
+            } catch (err) {
+                channel.send("An error occurred while trying to handle the `" + firstChar + commandName + "` command: " + err).catch(console.error);
+            }
 
-                // Run the command
+            try {
                 commandFunction(message, server, command, channel);
             } catch (err) {
-                channel.send("An error occurred while trying to run the `" + firstChar + commandName + "` command: " + err).catch(console.error);
+                channel.send("An error occurred while trying to run the `" + firstChar + commandName +
+                "` command: " + err).catch(console.error);
             }
 
             return;
