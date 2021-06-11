@@ -873,7 +873,7 @@
                 return;
             }
 
-            if (ip == "127.0.0.1" || range(ip) == "192.168") {
+            if (ip.substr(0, 2) == "0." || ip == "127.0.0.1" || range(ip) == "192.168") {
                 channel.send("Cannot trace local network addresses").catch(console.error);
                 return;
             }

@@ -843,14 +843,16 @@ module.exports = {
             var noCap = ["and", "in", "of", "the"], strings = string.split(/ |-/), temp, i;
 
             for (i in strings) {
+                strings[i] = strings[i].trim();
+
                 if (country) {
-                    strings[i] = (noCap.contains(strings[i]) ? strings[i].toLowerCase() : cap(strings[i]));
+                    strings[i] = (noCap.contains(strings[i].toLowerCase()) ? strings[i].toLowerCase() : cap(strings[i]));
                 } else {
                     strings[i] = cap(strings[i]);
                 }
             }
 
-            return (country && strings.contains('-') ? strings.join('-') : strings.join(' '));
+            return (country && string.contains('-') ? strings.join('-') : strings.join(' '));
         };
 
         global.removeSpaces = function (string) {
@@ -1240,6 +1242,8 @@ module.exports = {
                 return "united kingdom";
             } else if (country == "united states of america" || country == "america" || country == "usa" || country == "us") {
                 return "united states";
+            } else if (country == "korea (republic of)" || country == "republic of korea") {
+                return "south korea";
             } else {
                 return country;
             }
