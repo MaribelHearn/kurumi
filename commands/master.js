@@ -85,7 +85,7 @@
 
                             message += scriptModule + ", ";
                         } catch (err) {
-                            channel.send("An error occurred while updating " + file + ": " + err);
+                            channel.send("An error occurred while updating " + scriptModule + ": " + err);
                         }
 
                         if (scriptModule == "globals.js") {
