@@ -60,7 +60,7 @@
                 }
 
                 var changed = stdout.split("Fast-forward")[1].trim().split(/\d+\ files? changed/)[0].trim().split(/(\+|-)+|\|/),
-                    message = "Updated modules: ", scriptModule, i;
+                    message = "Updated modules: ", scriptModule, fileName, isCommands, i;
 
                 for (i = 0; i < changed.length; i++) {
                     if (changed[i] && changed[i].contains("js")) {
@@ -68,8 +68,21 @@
                         scriptModule = (scriptModule[1] ? scriptModule[1].trim() : scriptModule[0].trim());
 
                         try {
-                            delete require.cache[MODULE_DIR + scriptModule];
-                            global[scriptModule.replace(".js", "")] = require(MODULE_DIR + scriptModule);
+                            fileName = scriptModule.replace(".js", "");
+                            isCommands = scriptModule.contains("cmds");
+                            isMainScript = fileName == "kurumibot";
+
+                            delete require.cache[process.cwd() + (os.type() == "Windows_NT" ? "\\" : '/') + scriptModule];
+
+                            if (isCommands) {
+                                allCommands[fileName.replace("cmds", "")] = require(COMMAND_DIR + scriptModule);
+                            } else if (isMainScript) {
+                                channel.send("The main script has been updated; this only takes effect after a restart.");
+                            } else {
+                                global[fileName] = require(MODULE_DIR + scriptModule);
+                            }
+
+
                             message += scriptModule + ", ";
                         } catch (err) {
                             channel.send("An error occurred while updating " + file + ": " + err);

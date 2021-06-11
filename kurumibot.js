@@ -40,11 +40,10 @@ console.log(timeStamp() + "Modules loaded.");
 const COMMAND_FILES = fs.readdirSync(COMMAND_DIR).filter(file => file.endsWith(".js"));
 
 for (file of COMMAND_FILES) {
-    commands = require(COMMAND_DIR + file);
     fileName = file.replace(".js", "");
-
     try {
         console.log(timeStamp() + "Loading command file " + file + "...");
+        commands = require(COMMAND_DIR + file);
         allCommands[fileName] = commands;
     } catch (err) {
         console.log(timeStamp() + "An error occurred while loading " + file + ": " + err);
