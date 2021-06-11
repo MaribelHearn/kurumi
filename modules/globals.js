@@ -132,7 +132,12 @@ module.exports = {
         global.exec = require("child_process").exec;
 
         /* JSON Files */
-        global.COUNTRIES = JSON.parse(fs.readFileSync("json/countries.json"));
+        try {
+            global.COUNTRIES = JSON.parse(fs.readFileSync("json/countries.json"));
+        } catch (err) {
+            console.log(timeStamp() + "Data file countries.json failed to parse; using empty object.");
+            global.COUNTRIES = {};
+        }
 
         /* Constants */
         global.WEATHER_BASE_URL = "http://api.openweathermap.org/data/2.5/weather?q=";
