@@ -841,7 +841,11 @@
                 return;
             }
 
-            channel.send("The flag of " + camel(country) + " is " + flag(country)).catch(console.error);
+            if (isFlagCode(country)) {
+                channel.send("The flag of " + countryName(country) + " is :flag_" + country + ":.").catch(console.error);
+            } else {
+                channel.send("The flag of " + camel(country) + " is " + flag(country) + ".").catch(console.error);
+            }
         }
     },
 

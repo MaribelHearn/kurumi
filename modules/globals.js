@@ -1248,7 +1248,29 @@ module.exports = {
         global.isCountry = function (country) {
             country = country.toLowerCase();
 
-            return COUNTRIES.hasOwnProperty(country) || countryAlt(country) != country;
+            if (COUNTRIES.hasOwnProperty(country) || countryAlt(country) != country) {
+                return true;
+            }
+
+            for (var i in COUNTRIES) {
+                if (COUNTRIES[i].code == country) {
+                    return true;
+                }
+            }
+
+            return false;
+        };
+
+        global.countryName = function (code) {
+            code = code.toLowerCase();
+
+            for (var i in COUNTRIES) {
+                if (COUNTRIES[i].code == code) {
+                    return camel(i);
+                }
+            }
+
+            return null;
         };
 
         global.flag = function (country) {
@@ -1260,10 +1282,14 @@ module.exports = {
                 country = COUNTRIES[country].code;
             } else {
                 alt = countryAlt(country);
-                country = (COUNTRIES.hasOwnProperty(alt) ? COUNTRIES[alt] : country);
+                country = (COUNTRIES.hasOwnProperty(alt) ? COUNTRIES[alt].code : country);
             }
 
             return ":flag_" + country + ":";
+        };
+
+        global.isFlagCode = function (string) {
+            return string.length == 2;
         };
 
         /*global.generateCurrencies = function () {
