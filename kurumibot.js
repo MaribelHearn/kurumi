@@ -200,13 +200,13 @@ bot.on("guildMemberRemove", function (user) {
 });
 
 bot.on("message", function (message) {
-    if (message.author.id != bot.user.id) {
+    if (message && message.author.id != bot.user.id) {
         handlers.messageHandler(message);
     }
 });
 
 bot.on("messageUpdate", function (oldMessage, newMessage) {
-    if (message.author.id != bot.user.id) {
+    if (message && message.author.id != bot.user.id) {
         handlers.messageHandler(newMessage);
     }
 });
