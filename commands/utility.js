@@ -112,57 +112,6 @@
         }
     },
 
-    trace: {
-        help: function (command, symbol) {
-            return "`" + symbol + command + " <IPv4 address>`: traces the location of `IPv4 address`. " +
-            "Local network addresses will not work.";
-        },
-
-        command: function (message, server, command, channel) {
-            if (permData.ipKey === "") {
-                channel.send("This command is currently disabled. Use `!setipapi <API key>` to enable it.").catch(console.error);
-                return;
-            }
-
-            if (cooldown) {
-                channel.send("Please do not overuse this command!").catch(console.error);
-                return;
-            }
-
-            var ip = command[1], startTime = new Date();
-
-            if (!ip || !net.isIPv4(ip)) {
-                channel.send(message.author.username + ", please specify a valid IPv4 address.").catch(console.error);
-                return;
-            }
-
-            if (ip == "127.0.0.1" || range(ip) == "192.168") {
-                channel.send("Cannot trace local network addresses").catch(console.error);
-                return;
-            }
-
-            request(ipTracingUrl(ip), function (error, response, body) {
-                if (error) {
-                    channel.send("An error occurred while trying to trace the IP address.").catch(console.error);
-                    return;
-                }
-
-                var statusCode = response.statusCode;
-
-                if (statusCode == 200) {
-                    var json = JSON.parse(body);
-
-                    channel.send("Location of " + ip + ": " + flag(json.countryName) +
-                    " " + json.cityName + " (time zone: UTC" + json.timeZone + ")");
-                } else {
-                    channel.send("Error " + statusCode + " " + cap(response.statusMessage));
-                }
-
-                channel.send("Time elapsed: " + (new Date() - startTime) + " ms");
-            });
-        }
-    },
-
     aliases: {
         help: function (command, symbol) {
             return "`" + symbol + command + " <command>`: shows currently active aliases for `command`.";
@@ -876,6 +825,74 @@
             msTimezone = msUTC + (3600000 * offset);
             localTime = new Date(msTimezone - (date.getTimezoneOffset() * 60000)).local();
             channel.send("The local time in " + timezoneText + " is " + localTime + ".").catch(console.error);
+        }
+    },
+
+    country: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <country>`: tells you the flag of `country`. ";
+        },
+
+        command: function (message, server, command, channel) {
+            var country = command[1];
+
+            if (!country || !isCountry(country)) {
+                channel.send(message.author.username + ", please specify a valid country.").catch(console.error);
+                return;
+            }
+
+            channel.send("The flag of " + camel(country) + " is " + flag(country)).catch(console.error);
+        }
+    },
+
+    trace: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <IPv4 address>`: traces the location of `IPv4 address`. " +
+            "Local network addresses will not work.";
+        },
+
+        command: function (message, server, command, channel) {
+            if (permData.ipKey === "") {
+                channel.send("This command is currently disabled. Use `!setipapi <API key>` to enable it.").catch(console.error);
+                return;
+            }
+
+            if (cooldown) {
+                channel.send("Please do not overuse this command!").catch(console.error);
+                return;
+            }
+
+            var ip = command[1], startTime = new Date();
+
+            if (!ip || !net.isIPv4(ip)) {
+                channel.send(message.author.username + ", please specify a valid IPv4 address.").catch(console.error);
+                return;
+            }
+
+            if (ip == "127.0.0.1" || range(ip) == "192.168") {
+                channel.send("Cannot trace local network addresses").catch(console.error);
+                return;
+            }
+
+            request(ipTracingUrl(ip), function (error, response, body) {
+                if (error) {
+                    channel.send("An error occurred while trying to trace the IP address.").catch(console.error);
+                    return;
+                }
+
+                var statusCode = response.statusCode;
+
+                if (statusCode == 200) {
+                    var json = JSON.parse(body);
+
+                    channel.send("Location of " + ip + ": " + flag(json.countryName) +
+                    " " + json.cityName + " (time zone: UTC" + json.timeZone + ")");
+                } else {
+                    channel.send("Error " + statusCode + " " + cap(response.statusMessage));
+                }
+
+                channel.send("Time elapsed: " + (new Date() - startTime) + " ms");
+            });
         }
     },
 
