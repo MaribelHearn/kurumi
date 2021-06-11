@@ -70,7 +70,7 @@
                     }
                 }
 
-                message.slice(0, -2);
+                message.trim().slice(0, -2);
                 channel.send(message + ".").catch(console.error);
             });
         }
