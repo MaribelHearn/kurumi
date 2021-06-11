@@ -520,8 +520,8 @@ module.exports = {
             "badOpinions": [], "goodOpinions": [], "opinionExceptions": [], "botChannels": [], "shipMessages": [],
             "queue": [], "lewdAccessRole": "", "hsifsAccessRole": "", "logChannel": "", "mainChannel": "",
             "voiceChannel": "", "date": "", "entryMessage": "Greetings, %u!", "leaveMessage": "Bye, %u!",
-            "logoutMessage": "Logging out.", "defaultReason": "Unknown.", "isTestingServer": false,
-            "kekDetection": false, "interruptionMode": false, "cooldownSecs": DEFAULT_COOLDOWN
+            "defaultReason": "Unknown.", "isTestingServer": false, "kekDetection": false, "interruptionMode": false,
+            "cooldownSecs": DEFAULT_COOLDOWN
         };
 
         /* Variables */

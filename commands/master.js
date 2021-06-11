@@ -462,25 +462,6 @@
         }
     },
 
-    logoutmessage: {
-        help: function (command, symbol) {
-            return "`" + symbol + command + " [message]`: changes the logout message to `message`. If `message` is not specified, shows the current logout message.";
-        },
-
-        command: function (message, server, command, channel) {
-            var logoutMessage = command[1];
-
-            if (!logoutMessage) {
-                channel.send("The current message when I log out on this server is `" + serverData[server.id].logoutMessage + "`.").catch(console.error);
-                return;
-            }
-
-            serverData[server.id].logoutMessage = logoutMessage;
-            save("logoutMessage", server);
-            channel.send("The logout message has been changed.").catch(console.error);
-        }
-    },
-
     defaultreason: {
         help: function (command, symbol) {
             return "`" + symbol + command + " [reason]`: changes the default reason for kicks and bans to `reason`. If `reason` is not specified, shows the current default reason.";
@@ -515,17 +496,16 @@
             }
 
             var settingsMessage = "Channels: " + botChannels.join(", ") +
-            "\nMain channel: " + server.channels.cache.get(settings.mainChannel) +
-            "\nLogging channel: " + server.channels.cache.get(settings.logChannel) +
-            "\nVoice channel: " + server.channels.cache.get(settings.voiceChannel) +
+            "\nMain channel: <#" + server.channels.cache.get(settings.mainChannel) + ">" +
+            "\nLogging channel: <#" + server.channels.cache.get(settings.logChannel) + ">" +
+            "\nVoice channel: <#" + server.channels.cache.get(settings.voiceChannel) + ">" +
             "\nEntry message: '" + settings.entryMessage + "'" +
             "\nLeave message: '" + settings.leaveMessage + "'" +
-            "\nLogout message: '" + settings.logoutMessage + "'" +
             "\nDefault reason: '" + settings.defaultReason + "'" +
-            "\nLewd access role: " + (settings.lewdAccessRole ? "Yes" : "No") +
-            "\nFactions active: " + (Object.keys(settings.factions).length == 4 ? "Yes" : "No") +
-            "\nTesting server: " + (settings.isTestingServer ? "Yes" : "No") +
-            "\n'Kek' detection: " + (settings.kekDetection ? "Yes" : "No") +
+            "\nLewd access role: " + (settings.lewdAccessRole ? "**Yes**" : "No") +
+            "\nFactions active: " + (Object.keys(settings.factions).length == 4 ? "**Yes**" : "No") +
+            "\nTesting server: " + (settings.isTestingServer ? "**Yes**" : "No") +
+            "\n'Kek' detection: " + (settings.kekDetection ? "**Yes**" : "No") +
             "\nCooldown seconds: " + settings.cooldownSecs;
 
             channel.send(settingsMessage).catch(console.error);
@@ -672,12 +652,6 @@
         },
 
         command: function (message, server, command, channel) {
-            for (var id in serverData) {
-                if (serverData[id].mainChannel) {
-                    bot.guilds.cache.get(id).channels.cache.get(serverData[id].mainChannel).send(serverData[id].logoutMessage).catch(console.error);
-                }
-            }
-
             bot.destroy();
         }
     }
