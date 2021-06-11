@@ -598,7 +598,15 @@ module.exports = {
             var string = commandFunction.toString();
 
             return (string.contains("server.") || string.contains("updateWaifu")) && (string.indexOf("server.") == -1 || string.indexOf("server.") != string.indexOf("server.id].cooldownSecs"));
-        }
+        };
+
+        global.stripMarkdown = function (string) {
+            if (!string) {
+                return "";
+            }
+
+            return string.replace(/`(.*?)`|\*(.*?)\*|_(.*?)_|~~(.*?)~~/, "");
+        };
 
         global.strip = function (string) {
             return string.replace(/<\/?[^>]*>/g, "");

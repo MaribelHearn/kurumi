@@ -135,8 +135,14 @@ module.exports = {
                     }
                 }
 
-                // Argument Length Limit
+                // Strip Markdown and Argument Length Limit
                 for (i in command) {
+                    command[i] = stripMarkdown(command[i]);
+
+                    if (command[i] === "") {
+                        command.splice(i, 1);
+                    }
+
                     if (command[i].length > permData.maxLength && id != botMaster && (!server || serverData[server.id].botChannels.contains(channel.id))) {
                         channel.send(message.author.username + ", please give me shorter command arguments.").catch(console.error);
                         return;
