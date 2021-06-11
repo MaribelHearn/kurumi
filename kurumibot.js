@@ -87,6 +87,8 @@ loadPermData = function () {
             console.log(timeStamp() + "Data file " + i + ".txt created.");
         }
     }
+
+    console.log(timeStamp() + "Permanent data loaded.");
 };
 
 loadPermData();
