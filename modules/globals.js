@@ -519,7 +519,7 @@ module.exports = {
             "waifusExceptions": {}, "touhouWaifusExceptions": {}, "ratings": {}, "ships": {}, "factions": {},
             "badOpinions": [], "goodOpinions": [], "opinionExceptions": [], "botChannels": [], "shipMessages": [],
             "queue": [], "lewdAccessRole": "", "hsifsAccessRole": "", "mainChannel": "",
-            "voiceChannel": "", "date": "", defaultReason": "Unknown.", "isTestingServer": false, "kekDetection": false,
+            "voiceChannel": "", "date": "", defaultReason: "Unknown.", "isTestingServer": false, "kekDetection": false,
             "interruptionMode": false, "cooldownSecs": DEFAULT_COOLDOWN
         };
 
