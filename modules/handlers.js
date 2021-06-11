@@ -109,6 +109,23 @@ module.exports = {
         return command;
     },
 
+    validate: function (command, id, botMaster) {
+        for (var i in command) {
+            command[i] = stripMarkdown(command[i]);
+
+            if (command[i] === "") {
+                command.splice(i, 1);
+                i -= 1;
+            }
+
+            if (command[i].length > permData.maxLength && id != botMaster && (!server || serverData[server.id].botChannels.contains(channel.id))) {
+                return false;
+            }
+
+            return true;
+        }
+    },
+
     runInDM: function (message, server, command, channel, commandType, commandFunction, id, botMaster) {
         if ((commandType == "mod" || commandType == "master") && id != botMaster) {
             channel.send("You do not have sufficient permission to run this command.").catch(console.error);
@@ -124,11 +141,9 @@ module.exports = {
     },
 
     messageHandler: function (message) {
-        var id = message.author.id, channel = message.channel, server = message.guild, content = message.content,
-            lower = content.toLowerCase(), firstChar = content.charAt(0), botMaster = permData.botMaster,
-            commandType, commandFunction, argc, command;
-
-        content = content.replace(/\n|\r/g, ' ');
+        var id = message.author.id, channel = message.channel, server = message.guild, botMaster = permData.botMaster,
+            content = message.content.replace(/\n|\r/g, ' '), lower = content.toLowerCase(), firstChar = content.charAt(0),
+            userIsMod = server.members.resolve(id).hasPermission("BAN_MEMBERS"), commandType, commandFunction, argc, command;
 
         if (permData.commandSymbols.contains(firstChar) && content.length > 1 && id != bot.user.id) {
             try {
@@ -156,31 +171,22 @@ module.exports = {
 
                 commandType = this.typeOf(commandName);
 
-                if (!commandType) {
-                    return; // command does not exist
+                if (!commandType) { // command does not exist
+                    return;
                 }
 
                 commandFunction = allCommands[commandType][commandName].command;
                 argc = getArgc(commandFunction);
                 command = this.parse(content, commandName, argc);
+                valid = this.validate(command, id, botMaster);
 
-                // Strip Markdown and Argument Length Limit
-                for (i in command) {
-                    command[i] = stripMarkdown(command[i]);
-
-                    if (command[i] === "") {
-                        command.splice(i, 1);
-                        i -= 1;
-                    }
-
-                    if (command[i].length > permData.maxLength && id != botMaster && (!server || serverData[server.id].botChannels.contains(channel.id))) {
-                        channel.send(message.author.username + ", please give me shorter command arguments.").catch(console.error);
-                        return;
-                    }
+                if (!valid) {
+                    channel.send(message.author.username + ", please give me shorter command arguments.").catch(console.error);
+                    return;
                 }
 
                 if (!server) {
-                    runInDM(message, server, command, channel, commandType, commandFunction, id, botMaster);
+                    this.runInDM(message, server, command, channel, commandType, commandFunction, id, botMaster);
                     return;
                 }
 
@@ -189,8 +195,8 @@ module.exports = {
                     return;
                 }
 
-                if (commandType != "master" && commandType != "mod" && !serverData[server.id].botChannels.contains(channel.id)) {
-                    return; // no non-authority commands outside bot channels
+                if (!userIsMod && !serverData[server.id].botChannels.contains(channel.id)) {
+                    return; // no commands outside bot channels for unauthorised users
                 }
 
                 if (commandType == "master" && id != botMaster) {
@@ -198,7 +204,7 @@ module.exports = {
                     return;
                 }
 
-                if (commandType == "mod" && !server.members.resolve(message.author.id).hasPermission("BAN_MEMBERS")) {
+                if (commandType == "mod" && !userIsMod) {
                     channel.send(message.author.username + ", you do not have sufficient permission to run this command.").catch(console.error);
                     return;
                 }

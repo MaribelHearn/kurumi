@@ -20,17 +20,17 @@
             }
 
             if (badOpinions.length === 0) {
-                opinion = username + " " + goodOpinions.rand().replace(/%u/gi, username);
+                opinion = username + " " + goodOpinions.rand().replace(/%u/gi, username).replace(/%t/gi, TOUHOU_SHMUPS.rand());
             } else if (goodOpinions.length === 0) {
-                opinion = username + " " + badOpinions.rand().replace(/%u/gi, username);
+                opinion = username + " " + badOpinions.rand().replace(/%u/gi, username).replace(/%t/gi, TOUHOU_SHMUPS.rand());
             } else {
                 opinionCount = badOpinions.length + goodOpinions.length;
                 rng = RNG(opinionCount);
 
                 if (rng >= badOpinions.length || id == bot.user.id) {
-                    opinion = username + " " + goodOpinions.rand().replace(/%u/gi, username);
+                    opinion = username + " " + goodOpinions.rand().replace(/%u/gi, username).replace(/%t/gi, TOUHOU_SHMUPS.rand());
                 } else {
-                    opinion = username + " " + badOpinions.rand().replace(/%u/gi, username);
+                    opinion = username + " " + badOpinions.rand().replace(/%u/gi, username).replace(/%t/gi, TOUHOU_SHMUPS.rand());
                 }
 
                 if (opinion.contains("but still cool!") && serverData[server.id].opinionExceptions.contains(id)) {
@@ -38,7 +38,7 @@
                 }
             }
 
-            channel.send(opinion.replace(/%t/gi, TOUHOU_SHMUPS.rand())).catch(console.error);
+            channel.send(opinion).catch(console.error);
         }
     },
 
