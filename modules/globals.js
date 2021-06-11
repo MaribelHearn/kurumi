@@ -142,11 +142,6 @@ module.exports = {
         /* Constants */
         global.WEATHER_BASE_URL = "http://api.openweathermap.org/data/2.5/weather?q=";
 
-        global.CURRENCY_BASE_URL = "http://free.currencyconverterapi.com/api/v3/convert?q=";
-
-        //global.CURRENCIES_BASE_URL = "http://free.currencyconverterapi.com/api/v3/currencies";
-        // now requires a free API key
-
         global.GOOGLE_BASE_URL = "https://www.googleapis.com/youtube/v3/videos?id=";
 
         global.MAPS_BASE_URL = "https://www.google.com/maps?q=";
@@ -537,7 +532,7 @@ module.exports = {
 
         /* Variables */
         global.permData = {
-            "WRs": {}, "bestInTheWest": {}, "LNNs": {}, "currencies": {}, "images": {}, "aliases": {}, "musicLocal": {},
+            "WRs": {}, "bestInTheWest": {}, "LNNs": {}, "images": {}, "aliases": {}, "musicLocal": {},
             "notifyQueue": [], "scrubquotes": [], "commandSymbols": ["!"], "token": "", "botMaster": "", "WRsLastUpdated": "",
             "weatherKey": "", "googleKey": "", "ipKey": "", "maxLength": 200, "maintenanceMode": false
         };
@@ -549,8 +544,6 @@ module.exports = {
         global.cooldown = false;
 
         global.musicBlocked = false;
-
-        global.currencyUpdate = true;
 
         global.maxArgc = 7;
 
@@ -1216,10 +1209,6 @@ module.exports = {
             return WEATHER_BASE_URL + place + "&APPID=" + permData.weatherKey;
         };
 
-        global.currencyUrl = function (currency1, currency2) {
-            return CURRENCY_BASE_URL + currency1 + "_" + currency2 + "&compact=ultra";
-        };
-
         global.googleUrl = function (vid) {
             return GOOGLE_BASE_URL + vid + "&key=" + permData.googleKey + "&part=snippet,statistics";
         };
@@ -1292,18 +1281,6 @@ module.exports = {
 
             return false;
         };
-
-        /*global.generateCurrencies = function () {
-            request(CURRENCIES_BASE_URL, function (error, response, body) {
-                if (!error && response.statusCode == 200) {
-                    var result = JSON.parse(body);
-
-                    permData.currencies = result.results;
-                    save("currencies");
-                    console.log(timeStamp() + "Updated exchange rates.");
-                }
-            });
-        };*/
 
         global.findQueueItem = function (game, category, shot) {
             var queue = permData.notifyQueue;
