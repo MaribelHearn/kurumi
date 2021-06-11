@@ -397,6 +397,34 @@
             return "`" + symbol + command + " <waifu>`: gives `waifu` a randomly generated rating.";
         },
 
+        isException: function (waifu) {
+            if (!waifu) {
+                channel.send(">not having a waifu").catch(console.error);
+                channel.send("0/10").catch(console.error);
+                return true;
+            }
+
+            var lower = waifu.toLowerCase();
+
+            if (lower == "kurumi") {
+                channel.send(":100: I rate that waifu **10/10**, of course!").catch(console.error);
+                return true;
+            } else if (lower.contains("hahaa")) {
+                emoji = server.emojis.cache.find(emoji => emoji.name == "hahaa");
+                channel.send(":ok_hand: I rate that waifu **<:" + emoji.name + ":" + emoji.id + ">/10**.").catch(console.error);
+                return true;
+            } else if (lower == "the challenge") {
+                emoji = server.emojis.cache.find(emoji => emoji.name == "playedit");
+                channel.send("<:" + emoji.name + ":" + emoji.id + "> I rate that waifu **Infinity/10**.").catch(console.error);
+                return true;
+            } else if (lower == "ur waifu") {
+                channel.send("ur waifu a shit").catch(console.error);
+                return true;
+            }
+
+            return false;
+        },
+
         command: function (message, server, command, channel) {
             var waifu = command[1], date = serverData[server.id].date, ratings = serverData[server.id].ratings, emoji;
 
@@ -406,31 +434,7 @@
                 allCommands.mod.reset.command(message, server, command, channel);
             }
 
-            if (!waifu) {
-                channel.send(">not having a waifu").catch(console.error);
-                channel.send("0/10").catch(console.error);
-                return;
-            }
-
-            if (waifu.toLowerCase() == "kurumi") {
-                channel.send(":100: I rate that waifu **10/10**, of course!").catch(console.error);
-                return;
-            }
-
-            if (waifu.toLowerCase().contains("hahaa")) {
-                emoji = server.emojis.cache.find(emoji => emoji.name == "hahaa");
-                channel.send(":ok_hand: I rate that waifu **<:" + emoji.name + ":" + emoji.id + ">/10**.").catch(console.error);
-                return;
-            }
-
-            if (waifu.toLowerCase() == "the challenge") {
-                emoji = server.emojis.cache.find(emoji => emoji.name == "playedit");
-                channel.send("<:" + emoji.name + ":" + emoji.id + "> I rate that waifu **Infinity/10**.").catch(console.error);
-                return;
-            }
-
-            if (waifu.toLowerCase() == "ur waifu") {
-                channel.send("ur waifu a shit").catch(console.error);
+            if (this.isException(waifu)) {
                 return;
             }
 
