@@ -71,7 +71,7 @@ if (!fs.existsSync("music")) {
     fs.mkdirSync("music");
 }
 
-function loadPermData() {
+loadPermData = function () {
     for (var i in permData) {
         if (fs.existsSync("data/" + i + ".txt")) {
             permData[i] = fs.readFileSync("data/" + i + ".txt");
@@ -87,7 +87,7 @@ function loadPermData() {
             console.log(timeStamp() + "Data file " + i + ".txt created.");
         }
     }
-}
+};
 
 loadPermData();
 console.log(timeStamp() + "Data loaded.");
