@@ -547,6 +547,8 @@ module.exports = {
 
         global.maxArgc = 7;
 
+        global.testVar = "test";
+
         /* Functions */
         global.debugPrint = function (variable, value) {
             console.log(timeStamp() + variable + ": '" + value + "'");

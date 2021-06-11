@@ -188,10 +188,6 @@ bot.on("guildDelete", function (server) {
     console.log(timeStamp() + "Left " + server.name + " and deleted its data folder.");
 });
 
-bot.on("guildMemberAdd", function (user) {
-    // placeholder
-});
-
 bot.on("guildMemberRemove", function (user) {
     var server = user.guild;
 
