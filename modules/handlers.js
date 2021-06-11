@@ -155,7 +155,7 @@ module.exports = {
     messageHandler: function (message) {
         var id = message.author.id, channel = message.channel, server = message.guild, botMaster = permData.botMaster,
             content = message.content, lower = content.toLowerCase(), firstChar = content.charAt(0), commandType,
-            userIsMod = server.members.resolve(id).hasPermission("BAN_MEMBERS"), commandFunction, argc, command;
+            commandFunction, userIsMod, argc, command;
 
         content = content.replace(/\n|\r/g, ' ');
 
@@ -208,6 +208,8 @@ module.exports = {
                     commandFunction(message, server, command, channel);
                     return;
                 }
+
+                userIsMod = server.members.cache.get(id).hasPermission("BAN_MEMBERS");
 
                 if (!userIsMod && !serverData[server.id].botChannels.contains(channel.id)) {
                     return; // no commands outside bot channels for unauthorised users
