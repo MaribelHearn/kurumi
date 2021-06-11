@@ -129,7 +129,7 @@
                 return;
             }
 
-            var ip = command[1], startTime = newDate();
+            var ip = command[1], startTime = new Date();
 
             if (!ip || !net.isIPv4(ip)) {
                 channel.send(message.author.username + ", please specify a valid IPv4 address.").catch(console.error);
