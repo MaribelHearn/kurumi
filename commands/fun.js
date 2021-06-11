@@ -86,8 +86,9 @@
 
     ship: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <user1> [user2]`: will tell you how well `user1` and `user2` match. " +
-            "If `user2` is not specified, selects a random member of this server instead.";
+            return "`" + symbol + command + " [user1] [user2]`: will tell you how well `user1` and `user2` match. " +
+            "If `user2` is not specified, selects a random member of this server instead. " +
+            "If `user1` is also not specified, matches yourself with a random member instead.";
         },
 
         command: function (message, server, command, channel) {
@@ -95,8 +96,7 @@
                 members = toUsers(server.members), lower1, message, emoji;
 
             if (!user1) {
-                channel.send(message.author.username + ", please specify a user.").catch(console.error);
-                return;
+                user1 = message.author.username;
             }
 
             dateCheck(server);
