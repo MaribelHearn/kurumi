@@ -1224,6 +1224,59 @@ module.exports = {
             return IP_TRACING_BASE_URL + permData.ipKey + "&ip=" + ip + "&format=json";
         };
 
+        global.flag = function (country) {
+            country = country.toLowerCase();
+            return ":flag_" + ({
+                "andorra": "ad",
+                "united arab emirates": "ae",
+                "afghanistan": "af",
+                "antigua and barbuda": "ag",
+                "albania": "al",
+                "armenia": "am",
+                "angola": "ao",
+                "argentina": "ar",
+                "austria": "at",
+                "australia": "au",
+                "azerbaijan": "az",
+                "bosnia and herzegovina": "ba",
+                "barbados": "bb",
+                "bangladesh": "bd",
+                "belgium": "be",
+                "burkina faso": "bf",
+                "bulgaria": "bg",
+                "bahrain": "bh",
+                "burundi": "bi",
+                "benin": "bj",
+                "brunei": "bn",
+                "bolivia": "bo",
+                "brazil": "br",
+                "bahamas": "bs",
+                "bhutan": "bt",
+                "botswana": "bw",
+                "belarus": "by",
+                "belize": "bz",
+                "canada": "ca",
+                "democratic republic of the congo": "cd",
+                "central african republic": "cf",
+                "republic of the congo": "cg",
+                "switzerland": "ch",
+                "chile": "cl",
+                "cameroon": "cm",
+                "china": "cn",
+                "colombia": "co",
+                "costa rica": "cr",
+                "cuba": "cu",
+                "dominican republic": "do",
+                "france": "fr",
+                "united kingdom": "gb",
+                "croatia": "hr",
+                "netherlands": "nl",
+                "comoros": "km",
+                "luxembourg": "lu",
+                "united states", "us"
+            }[country]) + ":";
+        };
+
         /*global.generateCurrencies = function () {
             request(CURRENCIES_BASE_URL, function (error, response, body) {
                 if (!error && response.statusCode == 200) {

@@ -141,7 +141,7 @@
                 return;
             }
 
-            request(utils.ipTracingUrl(ip), function (error, response, body) {
+            request(ipTracingUrl(ip), function (error, response, body) {
                 if (error) {
                     channel.send("An error occurred while trying to trace the IP address.").catch(console.error);
                     return;
@@ -152,8 +152,8 @@
                 if (statusCode == 200) {
                     var json = JSON.parse(body);
 
-                    channel.send("Location of " + ip + ": " + json.cityName +
-                    ", " + json.countryName + " (time zone: UTC" + json.timeZone + ")");
+                    channel.send("Location of " + ip + ": " + flag(json.countryName) +
+                    " " + json.cityName + " (time zone: UTC" + json.timeZone + ")");
                 } else {
                     channel.send("Error " + statusCode + " " + cap(response.statusMessage));
                 }
