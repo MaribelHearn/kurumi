@@ -159,6 +159,18 @@
         "code": "cu",
         "name": ""
     },
+    "cape verde": {
+        "code": "cv",
+        "name": ""
+    },
+    "cyprus": {
+        "code": "cy",
+        "name": ""
+    },
+    "czechia": {
+        "code": "cz",
+        "name": ""
+    },
     "germany": {
         "code": "de",
         "name": ""
@@ -237,6 +249,14 @@
     },
     "georgia": {
         "code": "ge",
+        "name": ""
+    },
+    "ghana": {
+        "code": "gh",
+        "name": ""
+    },
+    "the gambia": {
+        "code": "gm",
         "name": ""
     },
     "guinea": {
@@ -437,6 +457,10 @@
     },
     "mali": {
         "code": "ml",
+        "name": ""
+    },
+    "myanmar": {
+        "flag": "mm",
         "name": ""
     },
     "mongolia": {
@@ -741,6 +765,10 @@
     },
     "vanuatu": {
         "code": "vu",
+        "name": ""
+    },
+    "samoa": {
+        "flag": "ws",
         "name": ""
     },
     "kosovo": {

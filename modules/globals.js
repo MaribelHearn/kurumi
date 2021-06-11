@@ -1244,6 +1244,12 @@ module.exports = {
                 return "united states";
             } else if (country == "korea (republic of)" || country == "republic of korea") {
                 return "south korea";
+            } else if (country == "czech republic") {
+                return "czechia";
+            } else if (country == "gambia") {
+                return "the gambia";
+            } else if (country == "people's republic of china") {
+                return "china";
             } else {
                 return country;
             }

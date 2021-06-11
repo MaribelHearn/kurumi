@@ -290,9 +290,13 @@
                 return;
             }
 
-            query = originalQuery.replace(/ /g, '+');
+            query = encodeURI(originalQuery.replace(/ /g, '+'));
 
             request(GOOGLE_SUGGESTS_BASE_URL + query, function (error, response, body) {
+                if (!response) {
+                    channel.send("Failed to search Google for '" + originalQuery + "'.").catch(console.error);
+                }
+
                 var statusCode = response.statusCode;
 
                 if (!error && statusCode == 200) {
