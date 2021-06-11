@@ -198,24 +198,23 @@
 
     say: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <message>`: will make me post `message` in the bot spam channel. Requires the main channel to be set.";
+            return "`" + symbol + command + " <message>`: will make me send `message` to the current channel.";
         },
 
         command: function (message, server, command, channel) {
-            if (message.author.id == bot.user.id) {
+            var message = command[1];
+
+            if (!message) {
+                channel.send(message.author.username + ", please specify something for me to say.").catch(console.error);
                 return;
             }
 
-            var post = command[1], mainChannel = serverData[server.id].mainChannel;
-
-            if (post.length > MESSAGE_CAP) {
-                channel.send("Sorry, I cannot send anything longer than " + MESSAGE_CAP + " characters.");
+            if (message.length > MESSAGE_CAP) {
+                channel.send(message.author.username + ", sorry, I cannot send anything longer than " + MESSAGE_CAP + " characters.");
                 return;
             }
 
-            if (mainChannel) {
-                server.channels.cache.get(mainChannel).send(post).catch(console.error);
-            }
+            channel.send(message).catch(console.error);
         }
     },
 
@@ -854,14 +853,15 @@
 
     voicechannel: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <voice channel>`: makes `voice channel` my voice channel.";
+            return "`" + symbol + command + " [voice channel]`: makes `voice channel` my voice channel. " +
+            "If `voice channel` is not specified, shows the current voice channel.";
         },
 
         command: function (message, server, command, channel) {
             var voiceChannel = command[1], resolve;
 
             if (!voiceChannel) {
-                channel.send(message.author.username + ", please specify a voice channel.").catch(console.error);
+                channel.send("My voice channel is currently <#" + serverData[server.id].mainChannel + ">.").catch(console.error);
                 return;
             }
 

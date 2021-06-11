@@ -123,7 +123,6 @@ bot.on("ready", function () {
                 fs.writeFileSync(filename, JSON.stringify(SERVER_DATA_DEFAULTS[l]));
                 console.log(timeStamp() + serversArray[k].name + " specific data file " + l + ".txt created.");
             } else {
-                // console.log(timeStamp() + "Reading the " + serversArray[k].name + " " + l + ".txt...");
                 serverData[id][l] = fs.readFileSync(filename);
                 serverData[id][l] = String(serverData[id][l]).replace(/^\uFEFF/, "");
                 serverData[id][l] = JSON.parse(serverData[id][l]);
@@ -180,38 +179,18 @@ bot.on("guildDelete", function (server) {
 });
 
 bot.on("guildMemberAdd", function (user) {
-    var server = user.guild;
-
-    var logChannel = serverData[server.id].logChannel;
-
-    if (logChannel) {
-        server.channels.get(logChannel).send(serverData[server.id].entryMessage.replace("%u", "**" + user.user.username + "**")).catch(console.error);
-    }
+    // placeholder
 });
 
 bot.on("guildMemberRemove", function (user) {
     var server = user.guild;
 
-    var logChannel = serverData[server.id].logChannel;
-
-    if (logChannel) {
-        server.channels.get(logChannel).send(serverData[server.id].leaveMessage.replace("%u", "**" + user.user.username + "**")).catch(console.error);
-    }
-
     if (serverData[server.id].waifus[user.id]) {
         delete serverData[server.id].waifus[user.id];
     }
 
-    if (serverData[server.id].touhouWaifus[user.id]) {
-        delete serverData[server.id].touhouWaifus[user.id];
-    }
-
-    if (serverData[server.id].fanmemeWaifus[user.id]) {
-        delete serverData[server.id].fanmemeWaifus[user.id];
-    }
-
-    if (serverData[server.id].lenenWaifus[user.id]) {
-        delete serverData[server.id].lenenWaifus[user.id];
+    if (serverData[server.id].ships[user.id]) {
+        delete serverData[server.id].ships[user.id];
     }
 });
 

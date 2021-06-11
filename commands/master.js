@@ -1,7 +1,8 @@
 ﻿module.exports = {
     eval: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <code>`: evaluates `code` and posts the result, unless the code already sends a bot message.";
+            return "`" + symbol + command + " <code>`: evaluates `code` and posts the result, " +
+            "unless the code already sends a bot message.";
         },
 
         command: function (message, server, command, channel) {
@@ -18,7 +19,7 @@
             }
 
             try {
-                if (code.contains("channel.")) {
+                if (code.contains("channel.send")) {
                     eval(code);
                 } else {
                     var result = eval(code);
@@ -69,7 +70,8 @@
                     }
                 }
 
-                channel.send(message.slice(0, -2) + ".").catch(console.error);
+                message.slice(0, -2)
+                channel.send(message + ".").catch(console.error);
             });
         }
     },
@@ -121,6 +123,49 @@
         }
     },
 
+    secretsay: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <server> <message>`: will make me send `message` to the main channel of `server`. " +
+            "If the server does not have a main channel, uses the first channel in the list of bot channels.";
+        },
+
+        command: function (message, server, command, channel) {
+            var server = command[1], message;
+
+            if (!server) {
+                channel.send(message.author.username + ", please specify a server.").catch(console.error);
+                return;
+            }
+
+            server = bot.guilds.cache.find(guild => guild.name.toLowerCase() == server.toLowerCase());
+
+            if (!server) {
+                channel.send(message.author.username + ", that server either does not exist or I am not in it.").catch(console.error);
+                return;
+            }
+
+            message = command[2];
+
+            if (!message) {
+                channel.send(message.author.username + ", please specify something for me to say.").catch(console.error);
+                return;
+            }
+
+            if (message.length > MESSAGE_CAP) {
+                channel.send(message.author.username + ", sorry, I cannot send anything longer than " + MESSAGE_CAP + " characters.");
+                return;
+            }
+
+            if (serverData[server.id].mainChannel) {
+                server.channels.cache.get(serverData[server.id].mainChannel).send(message).catch(console.error);
+            } else if (serverData[server.id].botChannels.length > 0) {
+                server.channels.cache.get(serverData[server.id].botChannels[0]).send(message).catch(console.error);
+            } else {
+                channel.send(message.author.username + ", that server does not have a main channel or bot channel set.").catch(console.error);
+            }
+        }
+    },
+
     toggletesting: {
         help: function (command, symbol) {
             return "`" + symbol + command + "`: toggles whether this server is a testing server or not.";
@@ -159,21 +204,21 @@
 
     addbotchannel: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <channel>`: makes `channel` a bot channel.";
+            return "`" + symbol + command + " <text channel>`: makes `text channel` a bot channel.";
         },
 
         command: function (message, server, command, channel) {
             var botChannel = command[1], resolve;
 
             if (!botChannel) {
-                channel.send(message.author.username + ", please specify a channel.").catch(console.error);
+                channel.send(message.author.username + ", please specify a text channel.").catch(console.error);
                 return;
             }
 
             resolve = server.channels.cache.find(chan => chan.name == botChannel.toLowerCase());
 
             if (!resolve || resolve.type != "text") {
-                channel.send(message.author.username + ", that is not a channel!").catch(console.error);
+                channel.send(message.author.username + ", that is not a text channel!").catch(console.error);
                 return;
             }
 
@@ -192,21 +237,21 @@
 
     removebotchannel: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <channel>`: removes `channel` from the bot channels.";
+            return "`" + symbol + command + " <text channel>`: removes `text channel` from the bot channels.";
         },
 
         command: function (message, server, command, channel) {
             var botChannel = command[1];
 
             if (!botChannel) {
-                channel.send(message.author.username + ", please specify a channel.").catch(console.error);
+                channel.send(message.author.username + ", please specify a text channel.").catch(console.error);
                 return;
             }
 
             resolve = server.channels.cache.find(chan => chan.name == botChannel.toLowerCase());
 
             if (!resolve || resolve.type != "text") {
-                channel.send(message.author.username + ", that is not a channel!").catch(console.error);
+                channel.send(message.author.username + ", that is not a text channel!").catch(console.error);
                 return;
             }
 
@@ -228,38 +273,10 @@
         }
     },
 
-    logchannel: {
-        help: function (command, symbol) {
-            return "`" + symbol + command + " [channel]`: makes `channel` the logging channel. If `channel` is not specified, removes the log channel.\nAdding a log channel means users entering or leaving will be posted for.";
-        },
-
-        command: function (message, server, command, channel) {
-            var logChannel = command[1], resolve;
-
-            if (!logChannel) {
-                serverData[server.id].logChannel = undefined;
-                save("logChannel", server);
-                channel.send("The logging channel has been disabled.");
-                return;
-            }
-
-            resolve = server.channels.cache.find(chan => chan.name == botChannel.toLowerCase());
-
-            if (!resolve || resolve.type != "text") {
-                channel.send(message.author.username + ", that is not a channel!");
-                return;
-            }
-
-            logChannel = resolve.id;
-            serverData[server.id].logChannel = logChannel;
-            save("logChannel", server);
-            channel.send("<#" + resolve.id + "> is now my logging channel!");
-        }
-    },
-
     mainchannel: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " [channel]`: makes `channel` my main channel. If `channel` is not specified, shows the current main channel.";
+            return "`" + symbol + command + " [text channel]`: makes `text channel` my main channel. " +
+            "If `text channel` is not specified, shows the current main channel.";
         },
 
         command: function (message, server, command, channel) {
@@ -273,7 +290,7 @@
             resolve = server.channels.cache.find(chan => chan.name == mainChannel);
 
             if (!resolve || resolve.type != "text") {
-                channel.send(message.author.username + ", that is not a channel!").catch(console.error);
+                channel.send(message.author.username + ", that is not a text channel!").catch(console.error);
                 return;
             }
 
@@ -497,7 +514,6 @@
 
             var settingsMessage = "Channels: " + botChannels.join(", ") +
             "\nMain channel: <#" + server.channels.cache.get(settings.mainChannel) + ">" +
-            "\nLogging channel: <#" + server.channels.cache.get(settings.logChannel) + ">" +
             "\nVoice channel: <#" + server.channels.cache.get(settings.voiceChannel) + ">" +
             "\nEntry message: '" + settings.entryMessage + "'" +
             "\nLeave message: '" + settings.leaveMessage + "'" +
