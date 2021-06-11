@@ -60,7 +60,7 @@
                 }
 
                 var changed = stdout.split("Fast-forward")[1].trim().split(/\d+\ files? changed/)[0].trim().split(/(\+|-)+|\|/),
-                    message = "Updated modules: ", scriptModule, fileName, isCommands, isMainScript, i;
+                    message = "Updated modules: ", scriptModule, isCommands, fileName, isJSON, isMainScript, i;
 
                 for (i = 0; i < changed.length; i++) {
                     if (changed[i] && changed[i].contains("js")) {
@@ -68,8 +68,9 @@
                         scriptModule = (scriptModule[1] ? scriptModule[1].trim() : scriptModule[0].trim());
 
                         try {
+                            isCommands = COMMAND_FILES.contains(scriptModule);
                             fileName = scriptModule.replace(".js", "");
-                            isCommands = scriptModule.contains("cmds");
+                            isJSON = scriptModule.contains(".json");
                             isMainScript = fileName == "kurumibot";
 
                             delete require.cache[process.cwd() + (os.type() == "Windows_NT" ? "\\" : '/') + scriptModule];
@@ -78,6 +79,8 @@
                                 allCommands[fileName.replace("cmds", "")] = require(COMMAND_DIR + scriptModule);
                             } else if (isMainScript) {
                                 channel.send("The main script has been updated; this only takes effect after a restart.");
+                            } else if (isJSON) {
+                                JSON.parse(fs.readFileSync("json/" + scriptModule));
                             } else {
                                 global[fileName] = require(MODULE_DIR + scriptModule);
                             }

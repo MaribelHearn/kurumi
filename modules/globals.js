@@ -133,7 +133,7 @@ module.exports = {
 
         /* JSON Files */
         try {
-            global.COUNTRIES = JSON.parse(fs.readFileSync("json/countries.json"));
+            global.COUNTRIES = JSON.parse(fs.readFileSync(JSON_DIR + "countries.json"));
         } catch (err) {
             console.log(timeStamp() + "Data file countries.json failed to parse; using empty object.");
             global.COUNTRIES = {};

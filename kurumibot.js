@@ -1,4 +1,5 @@
 ﻿/* Setup */
+JSON_DIR = "./json/";
 MODULE_DIR = "./modules/";
 COMMAND_DIR = "./commands/";
 timeStamp = function () {
@@ -37,7 +38,7 @@ globals.define();
 console.log(timeStamp() + "Modules loaded.");
 
 /* Load Commands */
-const COMMAND_FILES = fs.readdirSync(COMMAND_DIR).filter(file => file.endsWith(".js"));
+COMMAND_FILES = fs.readdirSync(COMMAND_DIR).filter(file => file.endsWith(".js"));
 
 for (file of COMMAND_FILES) {
     fileName = file.replace(".js", "");
