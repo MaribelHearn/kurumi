@@ -1252,12 +1252,15 @@ module.exports = {
         };
 
         global.flag = function (country) {
+            var alt;
+
             country = country.toLowerCase();
 
             if (COUNTRIES.hasOwnProperty(country)) {
                 country = COUNTRIES[country].code;
             } else {
-                country = countryAlt(country);
+                alt = countryAlt(country);
+                country = (COUNTRIES.hasOwnProperty(alt) ? COUNTRIES[alt] : country);
             }
 
             return ":flag_" + country + ":";
