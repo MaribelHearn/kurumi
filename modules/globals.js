@@ -1273,7 +1273,7 @@ module.exports = {
                 "netherlands": "nl",
                 "comoros": "km",
                 "luxembourg": "lu",
-                "united states", "us"
+                "united states": "us"
             }[country]) + ":";
         };
 
