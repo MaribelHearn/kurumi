@@ -94,7 +94,11 @@
                     }
                 }
 
-                channel.send(message.slice(0, -2) + ".").catch(console.error);
+                if (message == "Updated modules: ") {
+                    channel.send("Could not update any modules.").catch(console.error);
+                } else {
+                    channel.send(message.slice(0, -2) + ".").catch(console.error);
+                }
             });
         }
     },
