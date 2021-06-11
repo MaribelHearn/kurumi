@@ -86,6 +86,7 @@
 
                                 if (scriptModule == "globals.js") {
                                     globals.define();
+                                    loadPermData();
                                 }
                             }
 
@@ -100,6 +101,7 @@
                     channel.send("Could not update any modules.").catch(console.error);
                 } else {
                     channel.send(message.slice(0, -2) + ".").catch(console.error);
+                    console.log(timeStamp() + "The scripts have been updated.");
                 }
             });
         }

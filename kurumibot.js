@@ -19,7 +19,7 @@ try {
 
 console.log(timeStamp() + "Node version: " + process.versions.node + "\n" + timeStamp() + "Discord.js version: " + Discord.version);
 
-var file, fileName, command, i;
+var file, fileName, command;
 
 /* Load Modules */
 MODULES = fs.readdirSync(MODULE_DIR).filter(file => file.endsWith(".js"));
@@ -71,22 +71,25 @@ if (!fs.existsSync("music")) {
     fs.mkdirSync("music");
 }
 
-for (i in permData) {
-    if (fs.existsSync("data/" + i + ".txt")) {
-        permData[i] = fs.readFileSync("data/" + i + ".txt");
-        permData[i] = String(permData[i]).replace(/^\uFEFF/, "");
+function loadPermData() {
+    for (var i in permData) {
+        if (fs.existsSync("data/" + i + ".txt")) {
+            permData[i] = fs.readFileSync("data/" + i + ".txt");
+            permData[i] = String(permData[i]).replace(/^\uFEFF/, "");
 
-        try {
-            permData[i] = JSON.parse(permData[i]);
-        } catch (err) {
-            console.log(timeStamp() + "Data file " + i + ".txt failed to parse; using default.");
+            try {
+                permData[i] = JSON.parse(permData[i]);
+            } catch (err) {
+                console.log(timeStamp() + "Data file " + i + ".txt failed to parse; using default.");
+            }
+        } else if (i != "serverData") {
+            fs.writeFileSync("data/" + i + ".txt", JSON.stringify(permData[i]));
+            console.log(timeStamp() + "Data file " + i + ".txt created.");
         }
-    } else if (i != "serverData") {
-        fs.writeFileSync("data/" + i + ".txt", JSON.stringify(permData[i]));
-        console.log(timeStamp() + "Data file " + i + ".txt created.");
     }
 }
 
+loadPermData();
 console.log(timeStamp() + "Data loaded.");
 enabled = true;
 
