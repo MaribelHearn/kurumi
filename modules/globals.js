@@ -582,18 +582,6 @@ module.exports = {
             channel.send(info).catch(console.error);
         };
 
-        global.getArgc = function (commandFunction) {
-            var string = commandFunction.toString(), result = 0;
-
-            for (i = 1; i < maxArgc; i++) {
-                if (string.contains("command[" + i + "]")) {
-                    result += 1;
-                }
-            }
-
-            return result;
-        };
-
         global.isServerOnly = function (commandFunction) {
             var string = commandFunction.toString();
 

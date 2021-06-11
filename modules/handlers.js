@@ -69,6 +69,18 @@ module.exports = {
         return type;
     },
 
+    getArgc: function (commandFunction) {
+        var string = commandFunction.toString(), result = 0, i;
+
+        for (i = 1; i < maxArgc; i++) {
+            if (string.contains("command[" + i + "]")) {
+                result += 1;
+            }
+        }
+
+        return result;
+    },
+
     parse: function (content, commandName, argc) {
         var quote = false, escape = false, current = "", command = [commandName], character, i, j;
 
@@ -142,10 +154,12 @@ module.exports = {
 
     messageHandler: function (message) {
         var id = message.author.id, channel = message.channel, server = message.guild, botMaster = permData.botMaster,
-            content = message.content.replace(/\n|\r/g, ' '), lower = content.toLowerCase(), firstChar = content.charAt(0),
-            userIsMod = server.members.resolve(id).hasPermission("BAN_MEMBERS"), commandType, commandFunction, argc, command;
+            content = message.content, lower = content.toLowerCase(), firstChar = content.charAt(0), commandType,
+            userIsMod = server.members.resolve(id).hasPermission("BAN_MEMBERS"), commandFunction, argc, command;
 
-        if (permData.commandSymbols.contains(firstChar) && content.length > 1 && id != bot.user.id) {
+        content = content.replace(/\n|\r/g, ' ');
+
+        if (permData.commandSymbols.contains(firstChar) && content.length > 1) {
             try {
                 if (permData.maintenanceMode && (!server || !serverData[server.id].isTestingServer)) {
                     channel.send(message.author.username + ", commands are currently disabled due to maintenance. They will return soon!").catch(console.error);
@@ -176,7 +190,7 @@ module.exports = {
                 }
 
                 commandFunction = allCommands[commandType][commandName].command;
-                argc = getArgc(commandFunction);
+                argc = this.getArgc(commandFunction);
                 command = this.parse(content, commandName, argc);
                 valid = this.validate(command, id, botMaster);
 

@@ -195,9 +195,13 @@ bot.on("guildMemberRemove", function (user) {
 });
 
 bot.on("message", function (message) {
-    handlers.messageHandler(message);
+    if (message.author.id != bot.user.id) {
+        handlers.messageHandler(message);
+    }
 });
 
 bot.on("messageUpdate", function (oldMessage, newMessage) {
-    handlers.messageHandler(newMessage);
+    if (message.author.id != bot.user.id) {
+        handlers.messageHandler(newMessage);
+    }
 });

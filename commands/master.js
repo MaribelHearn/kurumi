@@ -63,14 +63,14 @@
                     message = "Updated modules: ", scriptModule, i;
 
                 for (i = 0; i < changed.length; i++) {
-                    if (changed[i].contains("js")) {
+                    if (changed[i] && changed[i].contains("js")) {
                         scriptModule = changed[i].trim().split('/');
 
                         message += (scriptModule[1] ? scriptModule[1].trim() : scriptModule[0].trim()) + ", ";
                     }
                 }
 
-                message.slice(0, -2)
+                message.slice(0, -2);
                 channel.send(message + ".").catch(console.error);
             });
         }
