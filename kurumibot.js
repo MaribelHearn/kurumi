@@ -1,6 +1,6 @@
 ﻿/* Setup */
-JSON_DIR = process.cwd() + "./json/";
-MODULE_DIR = process.cwd() + "./modules/";
+JSON_DIR = process.cwd() + "/json/";
+MODULE_DIR = process.cwd() + "/modules/";
 COMMAND_DIR = process.cwd() + "/commands/";
 
 timeStamp = function () {
