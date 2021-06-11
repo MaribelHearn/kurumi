@@ -125,7 +125,12 @@ bot.on("ready", function () {
             } else {
                 serverData[id][l] = fs.readFileSync(filename);
                 serverData[id][l] = String(serverData[id][l]).replace(/^\uFEFF/, "");
-                serverData[id][l] = JSON.parse(serverData[id][l]);
+                try {
+                    serverData[id][l] = JSON.parse(serverData[id][l]);
+                } catch (err) {
+                    console.log(timeStamp() + serversArray[k].name + " specific data file " + l + ".txt failed to parse; using default.");
+                    serverData[id][l] = SERVER_DATA_DEFAULTS[l];
+                }
             }
         }
     }
