@@ -431,54 +431,6 @@
         }
     },
 
-    entrymessage: {
-        help: function (command, symbol) {
-            return "`" + symbol + command + " [message]`: changes the entry message to `message`. Write '%u' where the username should be. If `message` is not specified, shows the current leave message.";
-        },
-
-        command: function (message, server, command, channel) {
-            var entryMessage = command[1];
-
-            if (!entryMessage) {
-                channel.send("The current message when a user joins this server is `" + serverData[server.id].entryMessage + "`.").catch(console.error);
-                return;
-            }
-
-            if (!entryMessage.contains("%u")) {
-                channel.send(message.author.username + ", the entry message should contain '%u' for the username.").catch(console.error);
-                return;
-            }
-
-            serverData[server.id].entryMessage = entryMessage;
-            save("entryMessage", server);
-            channel.send("The entry message has been changed.").catch(console.error);
-        }
-    },
-
-    leavemessage: {
-        help: function (command, symbol) {
-            return "`" + symbol + command + " [message]`: changes the leave message to `message`. Write '%u' where the username should be. If `message` is not specified, shows the current leave message.";
-        },
-
-        command: function (message, server, command, channel) {
-            var leaveMessage = command[1];
-
-            if (!leaveMessage) {
-                channel.send("The current message when a user leaves this server is `" + serverData[server.id].leaveMessage + "`.").catch(console.error);
-                return;
-            }
-
-            if (!leaveMessage.contains("%u")) {
-                channel.send(message.author.username + ", the leave message should contain '%u' for the username.").catch(console.error);
-                return;
-            }
-
-            serverData[server.id].leaveMessage = leaveMessage;
-            save("leaveMessage", server);
-            channel.send("The leave message has been changed.").catch(console.error);
-        }
-    },
-
     defaultreason: {
         help: function (command, symbol) {
             return "`" + symbol + command + " [reason]`: changes the default reason for kicks and bans to `reason`. If `reason` is not specified, shows the current default reason.";
@@ -515,8 +467,6 @@
             var settingsMessage = "Channels: " + botChannels.join(", ") +
             "\nMain channel: <#" + server.channels.cache.get(settings.mainChannel) + ">" +
             "\nVoice channel: <#" + server.channels.cache.get(settings.voiceChannel) + ">" +
-            "\nEntry message: '" + settings.entryMessage + "'" +
-            "\nLeave message: '" + settings.leaveMessage + "'" +
             "\nDefault reason: '" + settings.defaultReason + "'" +
             "\nLewd access role: " + (settings.lewdAccessRole ? "**Yes**" : "No") +
             "\nFactions active: " + (Object.keys(settings.factions).length == 4 ? "**Yes**" : "No") +
