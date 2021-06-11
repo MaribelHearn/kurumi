@@ -130,7 +130,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var server = command[1], message;
+            var server = command[1], text;
 
             if (!server) {
                 channel.send(message.author.username + ", please specify a server.").catch(console.error);
@@ -144,22 +144,22 @@
                 return;
             }
 
-            message = command[2];
+            text = command[2];
 
-            if (!message) {
+            if (!text) {
                 channel.send(message.author.username + ", please specify something for me to say.").catch(console.error);
                 return;
             }
 
-            if (message.length > MESSAGE_CAP) {
+            if (text.length > MESSAGE_CAP) {
                 channel.send(message.author.username + ", sorry, I cannot send anything longer than " + MESSAGE_CAP + " characters.");
                 return;
             }
 
             if (serverData[server.id].mainChannel) {
-                server.channels.cache.get(serverData[server.id].mainChannel).send(message).catch(console.error);
+                server.channels.cache.get(serverData[server.id].mainChannel).send(text).catch(console.error);
             } else if (serverData[server.id].botChannels.length > 0) {
-                server.channels.cache.get(serverData[server.id].botChannels[0]).send(message).catch(console.error);
+                server.channels.cache.get(serverData[server.id].botChannels[0]).send(text).catch(console.error);
             } else {
                 channel.send(message.author.username + ", that server does not have a main channel or bot channel set.").catch(console.error);
             }
