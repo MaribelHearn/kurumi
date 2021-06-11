@@ -844,13 +844,13 @@ module.exports = {
 
             for (i in strings) {
                 if (country) {
-                    strings[i] = (noCap.contains(strings[i]) ? strings[i] : cap(strings[i]));
+                    strings[i] = (noCap.contains(strings[i]) ? strings[i].toLowerCase() : cap(strings[i]));
                 } else {
                     strings[i] = cap(strings[i]);
                 }
             }
 
-            return strings.join(' ');
+            return (country && strings.contains('-') ? strings.join('-') : strings.join(' '));
         };
 
         global.removeSpaces = function (string) {
