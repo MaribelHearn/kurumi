@@ -65,8 +65,19 @@
                 for (i = 0; i < changed.length; i++) {
                     if (changed[i] && changed[i].contains("js")) {
                         scriptModule = changed[i].trim().split('/');
+                        scriptModule = (scriptModule[1] ? scriptModule[1].trim() : scriptModule[0].trim());
 
-                        message += (scriptModule[1] ? scriptModule[1].trim() : scriptModule[0].trim()) + ", ";
+                        try {
+                            delete require.cache[MODULE_DIR + scriptModule];
+                            global[scriptModule.replace(".js", "")] = require(MODULE_DIR + scriptModule);
+                            message += scriptModule + ", ";
+                        } catch (err) {
+                            channel.send("An error occurred while updating " + file + ": " + err);
+                        }
+
+                        if (scriptModule == "globals.js") {
+                            globals.define();
+                        }
                     }
                 }
 
