@@ -119,6 +119,16 @@
         },
 
         command: function (message, server, command, channel) {
+            if (permData.ipKey === "") {
+                channel.send("This command is currently disabled. Use `!setipapi <API key>` to enable it.").catch(console.error);
+                return;
+            }
+
+            if (cooldown) {
+                channel.send("Please do not overuse this command!").catch(console.error);
+                return;
+            }
+
             var ip = command[1], startTime = newDate();
 
             if (!ip || !net.isIPv4(ip)) {
