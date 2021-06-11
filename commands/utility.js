@@ -112,6 +112,47 @@
         }
     },
 
+    trace: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <IPv4 address>`: traces the location of `IPv4 address`. " +
+            "Local network addresses will not work.";
+        },
+
+        command: function (message, server, command, channel) {
+            var ip = command[1], startTime = newDate();
+
+            if (!ip || !net.isIPv4(ip)) {
+                channel.send(message.author.username + ", please specify a valid IPv4 address.").catch(console.error);
+                return;
+            }
+
+            if (ip == "127.0.0.1" || range(ip) == "192.168") {
+                channel.send("Cannot trace local network addresses").catch(console.error);
+                return;
+            }
+
+            request(utils.ipTracingUrl(ip), function (error, response, body) {
+                if (error) {
+                    channel.send("An error occurred while trying to trace the IP address.").catch(console.error);
+                    return;
+                }
+
+                var statusCode = response.statusCode;
+
+                if (statusCode == 200) {
+                    var json = JSON.parse(body);
+
+                    channel.send("Location of " + ip + ": " + json.cityName +
+                    ", " + json.countryName + " (time zone: UTC" + json.timeZone + ")");
+                } else {
+                    channel.send("Error " + statusCode + " " + cap(response.statusMessage));
+                }
+
+                channel.send("Time elapsed: " + (new Date() - startTime) + " ms");
+            });
+        }
+    },
+
     aliases: {
         help: function (command, symbol) {
             return "`" + symbol + command + " <command>`: shows currently active aliases for `command`.";

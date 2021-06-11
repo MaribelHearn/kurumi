@@ -588,6 +588,37 @@
         }
     },
 
+    setipapi: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <API key>`: saves the key `API key` to enable IP tracing.";
+        },
+
+        command: function (message, server, command, channel) {
+            var key = command[1];
+
+            if (!key) {
+                channel.send(message.author.username + ", please specify an API key.").catch(console.error);
+                return;
+            }
+
+            permData.ipKey = key;
+            save("ipKey");
+            channel.send("API key set successfully. IP tracing is now enabled.").catch(console.error);
+        }
+    },
+
+    removeipapi: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + "`: removes the API key that was saved for IP tracing.";
+        },
+
+        command: function (message, server, command, channel) {
+            permData.ipKey = "";
+            save("ipKey");
+            channel.send("API key removed successfully. IP tracing is now disabled.").catch(console.error);
+        }
+    },
+
     maxlength: {
         help: function (command, symbol) {
             return "`" + symbol + command + " <number>`: changes the maximum allowed command argument length to `number`.";

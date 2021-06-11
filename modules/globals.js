@@ -117,6 +117,8 @@ module.exports = {
 
         global.request = require("request");
 
+        global.net = require("net");
+
         global.dns = require("dns");
 
         global.path = require("path");
@@ -142,6 +144,8 @@ module.exports = {
         global.MAPS_BASE_URL = "https://www.google.com/maps?q=";
 
         global.GOOGLE_SUGGESTS_BASE_URL = "https://suggestqueries.google.com/complete/search?json&client=firefox&hl=en&q=";
+
+        global.IP_TRACING_URL = "http://api.ipinfodb.com/v3/ip-city/?key=";
 
         global.DEFAULT_COOLDOWN = 15;
 
@@ -527,7 +531,7 @@ module.exports = {
         global.permData = {
             "WRs": {}, "bestInTheWest": {}, "LNNs": {}, "currencies": {}, "images": {}, "aliases": {}, "musicLocal": {},
             "notifyQueue": [], "scrubquotes": [], "commandSymbols": ["!"], "token": "", "botMaster": "", "WRsLastUpdated": "",
-            "weatherKey": "", "googleKey": "", "maxLength": 200, "maintenanceMode": false
+            "weatherKey": "", "googleKey": "", "ipKey": "", "maxLength": 200, "maintenanceMode": false
         };
 
         global.serverData = {};
@@ -1214,7 +1218,11 @@ module.exports = {
 
         global.mapsUrl = function (city, countryCode) {
             return MAPS_BASE_URL + city.replace(/ /g, '+') + ",+" + countryCode;
-        }
+        };
+
+        global.ipTracingUrl = function (ip) {
+            return IP_TRACING_BASE_URL + permData.ipKey + "&ip=" + ip + "&format=json";
+        };
 
         /*global.generateCurrencies = function () {
             request(CURRENCIES_BASE_URL, function (error, response, body) {
@@ -1378,5 +1386,15 @@ module.exports = {
 
             return waifu;
         };
+
+        global.range = function (ip) {
+            if (!net.isIPv4(ip)) {
+                return '';
+            }
+
+            var digits = ip.split('.');
+
+            return digits[0] + '.' + digits[1];
+        }
     }
 };
