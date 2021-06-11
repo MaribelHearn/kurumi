@@ -1,26 +1,26 @@
 module.exports = {
     imageCommand: function (message, server, channel, commandName) {
-        var imageCommand = images[commandName];
+        var imageCommand = permData.images[commandName];
 
         if (server && (!serverData[server.id].botChannels.contains(channel.id) || serverData[server.id].botChannels.length === 0)) {
             channel.send(message.author.username + ", you do not have sufficient permission to run image commands outside bot channels.").catch(console.error);
             return;
         }
 
-        if (fs.existsSync("images/" + images[commandName].file)) {
-            channel.send("", {"files": ["images/" + images[commandName].file]}).catch(console.error);
+        if (fs.existsSync("images/" + imageCommand.file)) {
+            channel.send("", {"files": ["images/" + imageCommand.file]}).catch(console.error);
             cooldown = true;
 
             if (server) {
                 timers.setInterval(function () { cooldown = false; }, serverData[server.id].cooldownSecs * 1000);
             }
         } else {
-            console.log(timeStamp() + "Image file 'images/" + images[commandName].file + "' not found.");
+            console.log(timeStamp() + "Image file 'images/" + imageCommand.file + "' not found.");
         }
     },
 
     musicCommand: function (message, server, channel, commandName) {
-        var musicCommand = musicLocal[commandName];
+        var musicCommand = permData.musicLocal[commandName];
 
         if (!server) {
             channel.send("Music commands can only be used on servers.").catch(console.error);
@@ -125,8 +125,8 @@ module.exports = {
 
     messageHandler: function (message) {
         var id = message.author.id, channel = message.channel, server = message.guild, content = message.content,
-            lower = content.toLowerCase(), firstChar = content.charAt(0), images = permData.images, commandType,
-            musicLocal = permData.musicLocal, botMaster = permData.botMaster, commandFunction, argc, command;
+            lower = content.toLowerCase(), firstChar = content.charAt(0), botMaster = permData.botMaster,
+            commandType, commandFunction, argc, command;
 
         content = content.replace(/\n|\r/g, ' ');
 
@@ -144,12 +144,12 @@ module.exports = {
                     commandName = aliasToOriginal(commandName);
                 }
 
-                if (musicLocal.hasOwnProperty(commandName)) {
+                if (permData.musicLocal.hasOwnProperty(commandName)) {
                     this.musicCommand(message, server, channel, commandName);
                     return;
                 }
 
-                if (images.hasOwnProperty(commandName)) {
+                if (permData.images.hasOwnProperty(commandName)) {
                     this.imageCommand(message, server, channel, commandName);
                     return;
                 }
@@ -204,6 +204,7 @@ module.exports = {
                 }
             } catch (err) {
                 channel.send("An error occurred while trying to handle the `" + firstChar + commandName + "` command: " + err).catch(console.error);
+                return;
             }
 
             try {
