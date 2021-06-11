@@ -89,7 +89,6 @@
                                 }
                             }
 
-
                             message += scriptModule + ", ";
                         } catch (err) {
                             channel.send("An error occurred while updating " + scriptModule + ": " + err);
