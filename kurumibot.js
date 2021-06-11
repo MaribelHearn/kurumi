@@ -67,18 +67,18 @@ if (!fs.existsSync("music")) {
 }
 
 for (i in permData) {
-    try {
-        if (fs.existsSync("data/" + i + ".txt")) {
-            // console.log(timeStamp() + "Reading " + i + ".txt...");
-            permData[i] = fs.readFileSync("data/" + i + ".txt");
-            permData[i] = String(permData[i]).replace(/^\uFEFF/, "");
+    if (fs.existsSync("data/" + i + ".txt")) {
+        permData[i] = fs.readFileSync("data/" + i + ".txt");
+        permData[i] = String(permData[i]).replace(/^\uFEFF/, "");
+
+        try {
             permData[i] = JSON.parse(permData[i]);
-        } else if (i != "serverData") {
-            fs.writeFileSync("data/" + i + ".txt", JSON.stringify(permData[i]));
-            console.log(timeStamp() + "Data file " + i + ".txt created.");
+        } catch (err) {
+            console.log(timeStamp() + "Data file " + i + ".txt failed to parse; using default.");
         }
-    } catch (err) {
-        console.log(timeStamp() + "An error occurred while loading the " + i + " data file: " + err);
+    } else if (i != "serverData") {
+        fs.writeFileSync("data/" + i + ".txt", JSON.stringify(permData[i]));
+        console.log(timeStamp() + "Data file " + i + ".txt created.");
     }
 }
 
