@@ -60,7 +60,7 @@
                 }
 
                 var changed = stdout.split("Fast-forward")[1].trim().split(/\d+\ files? changed/)[0].trim().split(/(\+|-)+|\|/),
-                    message = "Updated modules: ", scriptModule, fileName, isCommands, i;
+                    message = "Updated modules: ", scriptModule, fileName, isCommands, isMainScript, i;
 
                 for (i = 0; i < changed.length; i++) {
                     if (changed[i] && changed[i].contains("js")) {
