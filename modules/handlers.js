@@ -239,10 +239,16 @@ module.exports = {
     },
 
     youtubeHandler: function (channel, content) {
-        var linkPattern = /http(s?):\/\/www.youtube.com\/watch\?v\=[a-zA-Z0-9_-]+/, vid, date;
+        var linkPattern = /http(s?):\/\/www.youtube.com\/watch\?v\=[a-zA-Z0-9_-]+|http(s?):\/\/youtu.be\/[a-zA-Z0-9_-]+/, vid, date;
 
         if (linkPattern.test(content)) {
-            vid = linkPattern.exec(content).toString().split('=')[1].slice(0, -2);
+            if (content.contains('=')) {
+                vid = linkPattern.exec(content).toString().split('=')[1].slice(0, -2);
+            } else {
+                vid = linkPattern.exec(content).toString().split('/');
+                vid = vid[vid.length - 1];
+            }
+
             request(googleUrl(vid), function (error, response, body) {
                 if (!response) {
                     channel.send("Failed to fetch YouTube video data.").catch(console.error);
