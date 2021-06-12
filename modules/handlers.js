@@ -221,9 +221,11 @@ module.exports = {
             } catch (err) {
                 channel.send("An error occurred while trying to run the `" + symbol + commandName +
                 "` command: " + err).catch(console.error);
+                console.log(timeStamp() + err.stack);
             }
         } catch (err) {
             channel.send("An error occurred while trying to handle the `" + symbol + commandName + "` command: " + err).catch(console.error);
+            console.log(timeStamp() + err.stack);
             return;
         }
     },
