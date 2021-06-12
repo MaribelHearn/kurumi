@@ -43,25 +43,18 @@
     },
 
     addopinion: {
+        args: [0, "an opinion to add", "whether the opinion is good or bad"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <opinion> <good/bad>`: adds `opinion` (either `good` or `bad`) to the possible results of the opinion command.\nWriting '%t' in the opinion means it will be replaced by a random Touhou shmup.";
         },
 
         command: function (message, server, command, channel) {
-            var opinion = command[1], type = command[2], badOpinions = serverData[server.id].badOpinions, goodOpinions = serverData[server.id].goodOpinions;
-
-            if (!opinion) {
-                channel.send(message.author.username + ", please specify an opinion to add.").catch(console.error);
-                return;
-            }
+            var opinion = command[1], type = command[2], badOpinions = serverData[server.id].badOpinions,
+                goodOpinions = serverData[server.id].goodOpinions;
 
             if (badOpinions.contains(opinion) || goodOpinions.contains(opinion)) {
                 channel.send(message.author.username + ", that opinion already exists.").catch(console.error);
-                return;
-            }
-
-            if (!type) {
-                channel.send(message.author.username + ", please specify whether the opinion is good or bad.").catch(console.error);
                 return;
             }
 
@@ -183,6 +176,8 @@
     },
 
     addshipmessage: {
+        args: [0, "a message"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <message>`: adds a message for the `" + symbol + "randomship` command. " +
             "Must include `%1` as a placeholder for the first member and `%2` for the second member.";
@@ -190,11 +185,6 @@
 
         command: function (message, server, command, channel) {
             var message = command[1], shipMessages = serverData[server.id].shipMessages;
-
-            if (!message) {
-                channel.send(message.author.username + ", please specify a message.").catch(console.error);
-                return;
-            }
 
             if (!message.contains("%1") || !message.contains("%2")) {
                 channel.send(message.author.username + ", please include the member name placeholders `%1` and `%2`.").catch(console.error);
@@ -208,38 +198,26 @@
     },
 
     "8ball": {
+        args: [0, "a question"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <question>`: the wise 8ball will give an answer to `question`.";
         },
 
         command: function (message, server, command, channel) {
-            var question = command[1];
-
-            if (!question) {
-                channel.send(message.author.username + ", please specify a question.").catch(console.error);
-                return;
-            }
-
             channel.send(ANSWERS.rand()).catch(console.error);
         }
     },
 
     choice: {
+        args: [0, "options", "at least a second option"],
+
         help: function (command, symbol) {
-            return "`" + symbol + command + " <option 1> <option 2> [option 3] ...`: makes me choose out of the specified options for you. At least two options must be specified.";
+            return "`" + symbol + command + " <option 1> <option 2> [option 3] ...`: makes me choose out of " +
+            "the specified options for you. At least two options must be specified.";
         },
 
         command: function (message, server, command, channel) {
-            if (!command[1]) {
-                channel.send(message.author.username + ", please specify options.").catch(console.error);
-                return;
-            }
-
-            if (!command[2]) {
-                channel.send(message.author.username + ", please specify at least a second option.").catch(console.error);
-                return;
-            }
-
             command.splice(0, 1);
             channel.send(CHOICE.rand().replace("%o", command.rand())).catch(console.error);
         }
@@ -278,17 +256,14 @@
     },
 
     google: {
+        args: [0, "a search query"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <query>`: posts the Google suggestions for `query`.";
         },
 
         command: function (message, server, command, channel) {
             var originalQuery = command[1], query, suggestions;
-
-            if (!originalQuery) {
-                channel.send(message.author.username + ", please specify a search query.").catch(console.error);
-                return;
-            }
 
             query = encodeURI(originalQuery.replace(/ /g, '+'));
             request(GOOGLE_SUGGESTS_BASE_URL + query, function (error, response, body) {
@@ -392,7 +367,7 @@
 
     ratewaifu: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <waifu>`: gives `waifu` a randomly generated rating.";
+            return "`" + symbol + command + " [waifu]`: gives `waifu` a randomly generated rating.";
         },
 
         isException: function (waifu) {
@@ -475,17 +450,14 @@
     },
 
     addscrubquote: {
+        args: [0, "a scrubquote to add"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <quote>`: adds `scrubquote` to the list of scrubquotes.";
         },
 
         command: function (message, server, command, channel) {
             var scrubquote = command[1], scrubquotes = permData.scrubquotes;
-
-            if (!scrubquote) {
-                channel.send(message.author.username + ", please specify a scrubquote to add.").catch(console.error);
-                return;
-            }
 
             if (scrubquotes.contains(scrubquote)) {
                 channel.send(message.author.username + ", that line has already been quoted.").catch(console.error);
@@ -517,7 +489,8 @@
 
     quote: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <author>`: selects a random quote out of the saved quotes from `author`. If `author` is not specified, selects a random one.";
+            return "`" + symbol + command + " [author]`: selects a random quote out of the saved quotes from `author`. " +
+            "If `author` is not specified, selects a random one.";
         },
 
         command: function (message, server, command, channel) {
@@ -556,17 +529,14 @@
     },
 
     quotecount: {
+        args: [0, "an author"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <author>`: tells you how many times `author` has been quoted.";
         },
 
         command: function (message, server, command, channel) {
             var author = command[1], quotes = serverData[server.id].quotes;
-
-            if (!author) {
-                channel.send(message.author.username + ", please specify an author.").catch(console.error);
-                return;
-            }
 
             if (quotes.isEmpty()) {
                 channel.send(message.author.username + ", there are no saved quotes.").catch(console.error);
@@ -608,25 +578,15 @@
     },
 
     addquote: {
+        args: [0, "an author to add a quote to", "a quote to add"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <author> <quote>`: adds `quote` to `author`'s saved quotes. If `author` is a user, " +
             "your spelling will be automatically corrected if it is wrong.\nAuthor names are case-insensitive; different cases will count as the same names.";
         },
 
         command: function (message, server, command, channel) {
-            var name = command[1], quotes = serverData[server.id].quotes, members, author;
-
-            if (!name) {
-                channel.send(message.author.username + ", please specify an author to add a quote to.").catch(console.error);
-                return;
-            }
-
-            var quote = command[2];
-
-            if (!quote) {
-                channel.send(message.author.username + ", please specify a quote to add.").catch(console.error);
-                return;
-            }
+            var name = command[1], quote = command[2], quotes = serverData[server.id].quotes, members, author;
 
             members = toUsers(server.members);
             author = name.toLowerCase();
@@ -652,7 +612,8 @@
 
     attract: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " [user]`: attracts a random user on the server. If `user` is specified, attracts them instead.";
+            return "`" + symbol + command + " [user]`: attracts `user`. " +
+            "If `user` is not specified, attracts a random member of the server instead.";
         },
 
         command: function (message, server, command, channel) {
@@ -675,7 +636,8 @@
 
     burn: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " [user]`: burns a random user on the server. If `user` is specified, burns them instead.";
+            return "`" + symbol + command + " [user]`: burns `user`. " +
+            "If `user` is not specified, burns a random member of the server instead.";
         },
 
         command: function (message, server, command, channel) {
@@ -698,7 +660,8 @@
 
     confuse: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " [user]`: confuses a random user on the server. If `user` is specified, confuses them instead.";
+            return "`" + symbol + command + " [user]`: confuses `user`. " +
+            "If `user` is not specified, confuses a random member of the server instead.";
         },
 
         command: function (message, server, command, channel) {
@@ -721,7 +684,8 @@
 
     freeze: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " [user]`: freezes a random user on the server. If `user` is specified, freezes them instead.";
+            return "`" + symbol + command + " [user]`: freezes `user`. " +
+            "If `user` is not specified, freezes a random member of the server instead.";
         },
 
         command: function (message, server, command, channel) {
@@ -744,7 +708,8 @@
 
     nuke: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " [user]`: nukes a random user on the server. If `user` is specified, nukes them instead.";
+            return "`" + symbol + command + " [user]`: nukes `user`. " +
+            "If `user` is not specified, nukes a random member of the server instead.";
         },
 
         command: function (message, server, command, channel) {
@@ -767,7 +732,8 @@
 
     poison: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " [user]`: poisons a random user on the server. If `user` is specified, poisons them instead.";
+            return "`" + symbol + command + " [user]`: poisons `user`. " +
+            "If `user` is not specified, poisons a random member of the server instead.";
         },
 
         command: function (message, server, command, channel) {
@@ -790,7 +756,8 @@
 
     paralyze: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " [user]`: paralyzes a random user on the server. If `user` is specified, paralyzes them instead.";
+            return "`" + symbol + command + " [user]`: paralyzes `user`. " +
+            "If `user` is not specified, paralyzes a random member of the server instead.";
         },
 
         command: function (message, server, command, channel) {
@@ -813,7 +780,8 @@
 
     sleep: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " [user]`: puts to sleep a random user on the server. If `user` is specified, puts them to sleep instead.";
+            return "`" + symbol + command + " [user]`: puts `user` to sleep. " +
+            "If `user` is specified, puts a random member of the server to sleep instead.";
         },
 
         command: function (message, server, command, channel) {
@@ -835,17 +803,14 @@
     },
 
     play: {
+        args: [0, "a YouTube video to be streamed"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <YouTube link>`: makes me stream the audio from the video `YouTube link` to the voice channel.";
         },
 
         command: function (message, server, command, channel) {
             var link = command[1], originalLink;
-
-            if (!link) {
-                channel.send(message.author.username + ", please specify the YouTube video to be streamed.").catch(console.error);
-                return;
-            }
 
             link = link.replace('<', "").replace('>', "");
             originalLink = link;

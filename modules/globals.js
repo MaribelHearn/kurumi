@@ -150,6 +150,8 @@ module.exports = {
 
         global.IP_TRACING_BASE_URL = "http://api.ipinfodb.com/v3/ip-city/?key=";
 
+        global.GLOBAL_MAX_ARGC = 7;
+
         global.DEFAULT_COOLDOWN = 15;
 
         global.MESSAGE_CAP = 2000;
@@ -544,8 +546,6 @@ module.exports = {
         global.cooldown = false;
 
         global.musicBlocked = false;
-
-        global.maxArgc = 7;
 
         /* Functions */
         global.debugPrint = function (variable, value) {

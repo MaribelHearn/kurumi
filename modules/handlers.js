@@ -74,10 +74,10 @@ module.exports = {
         return type;
     },
 
-    getArgc: function (commandFunction) {
+    maxArgc: function (commandFunction) {
         var string = commandFunction.toString(), result = 0, i;
 
-        for (i = 1; i < maxArgc; i++) {
+        for (i = 1; i < GLOBAL_MAX_ARGC; i++) {
             if (string.contains("command[" + i + "]")) {
                 result += 1;
             }
@@ -86,13 +86,13 @@ module.exports = {
         return result;
     },
 
-    parse: function (content, commandName, argc) {
+    parse: function (content, commandName, maxArgc) {
         var quote = false, escape = false, current = "", command = [commandName], character, i, j;
 
-        if (argc >= 1) {
+        if (maxArgc >= 1) {
             content = content.slice(1).replace(commandName, "").trim();
 
-            if (argc === 1 && content !== "") {
+            if (maxArgc === 1 && content !== "") {
                 command.push(content);
             } else {
                 for (j = 0; j < content.length; j++) {
@@ -126,8 +126,13 @@ module.exports = {
         return command;
     },
 
-    validate: function (server, channel, command) {
-        for (var i in command) {
+    validate: function (server, channel, command, commandObject) {
+        if (command.length < commandObject.args.length) {
+            channel.send((server ? message.author.username + ", p" : "P") + "lease specify " + commandObject.args[command.length]);
+            return false;
+        }
+
+        for (var i = 1; i < command.length; i++) {
             command[i] = stripMarkdown(command[i]);
 
             if (command[i] === "") {
@@ -136,11 +141,17 @@ module.exports = {
             }
 
             if (command[i].length > permData.maxLength && (!server || serverData[server.id].botChannels.contains(channel.id))) {
+                channel.send((server ? message.author.username + ", p" : "P") + "lease specify shorter command arguments.").catch(console.error);
                 return false;
             }
 
-            return true;
+            if (commandObject.args && commandObject.args[i] && commandObject.args[i].startsWith("a number") && isNaN(command[i])) {
+                channel.send((server ? message.author.username + ", p" : "P") + "lease specify " + commandObject.args[command.length]);
+                return false;
+            }
         }
+
+        return true;
     },
 
     permitted: function (message, server, channel, commandType, commandFunction, id, botMaster) {
@@ -172,8 +183,8 @@ module.exports = {
         return true;
     },
 
-    commandHandler: function (message, server, command, channel, id) {
-        var botMaster = permData.botMaster, commandName, commandType, commandFunction, userIsMod, argc, command;
+    commandHandler: function (message, server, command, channel, content, id) {
+        var botMaster = permData.botMaster, commandName, commandType, commandObject, userIsMod, argc, command, valid, permitted;
 
         try {
             if (permData.maintenanceMode && (!server || !serverData[server.id].isTestingServer)) {
@@ -204,20 +215,15 @@ module.exports = {
                 return;
             }
 
-            commandFunction = allCommands[commandType][commandName].command;
-            argc = this.getArgc(commandFunction);
-            command = this.parse(content, commandName, argc);
-            valid = this.validate(server, channel, command);
-            hasPermission = this.permitted(message, server, channel, commandType, commandFunction, id, botMaster);
-
-            if (!valid) {
-                channel.send(message.author.username + ", please give me shorter command arguments.").catch(console.error);
-                return;
-            }
+            commandObject = allCommands[commandType][commandName];
+            maxArgc = this.maxArgc(commandFunction);
+            command = this.parse(content, commandName, maxArgc);
+            valid = this.validate(server, channel, command, commandObject);
+            permitted = (valid ? this.permitted(message, server, channel, commandType, commandObject.command, id, botMaster) : false);
 
             try {
-                if (hasPermission) {
-                    commandFunction(message, server, command, channel);
+                if (valid && permitted) {
+                    commandObject.command(message, server, command, channel);
                 }
             } catch (err) {
                 channel.send("An error occurred while trying to run the `" + symbol + commandName +

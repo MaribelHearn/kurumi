@@ -22,19 +22,16 @@
     },
 
     whois: {
+        args: [0, "a member of this server"],
+
         help: function (command, symbol) {
-            return "`" + symbol + command + " <user>`: posts information about `user`.";
+            return "`" + symbol + command + " <member>`: posts information about `member`. " +
+            "`member` must be a member of this server.";
         },
 
         command: function (message, server, command, channel) {
-            var user = command[1];
-
-            if (!user) {
-                channel.send(message.author.username + ", please specify a user.");
-                return;
-            }
-
-            var members = server.members.cache, roleArray = [], maxPosition = -1, i, j, userObject, roles, color, embed;
+            var user = command[1], members = server.members.cache, roleArray = [],
+                maxPosition = -1, userObject, roles, color, embed, i, j;
 
             for (i = 0; i < members.size; i++) {
                 if (members.array()[i].user.username.toLowerCase() == user.toLowerCase()) {
@@ -113,17 +110,14 @@
     },
 
     aliases: {
+        args: [0, "a command to show the aliases for"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <command>`: shows currently active aliases for `command`.";
         },
 
         command: function (message, server, command, channel) {
-            var aliases = permData.aliases, commandName = command[1], alias;
-
-            if (!commandName) {
-                channel.send(message.author.username + ", please specify a command to show the aliases for.").catch(console.error);
-                return;
-            }
+            var commandName = command[1], aliases = permData.aliases, alias;
 
             commandName = commandName.toLowerCase();
 
@@ -386,6 +380,8 @@
     },
 
     lnn: {
+        args: [0, "a game to check LNNs of"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <game> [shottype/route]`: shows the list of LNN players for `game` with `shottype/route`. " +
             "If `shottype/route` is not specified, shows the list of all LNN players for `game`.";
@@ -393,11 +389,6 @@
 
         command: function (message, server, command, channel) {
             var game = command[1], acronym = "LNN", LNNs = permData.LNNs;
-
-            if (!game) {
-                channel.send(message.author.username + ", please specify a game to check LNNs of.").catch(console.error);
-                return;
-            }
 
             game = gameName(game.toLowerCase());
 
@@ -460,6 +451,8 @@
     },
 
     wr: {
+        args: [0, "a game to check a world record of"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <game> [difficulty] [shottype/route]`: shows the world record in `game` `difficulty` `shottype/route`.\n" +
             "If `difficulty` or `shottype/route` are not specified, selects the overall world record of the game or difficulty.";
@@ -467,11 +460,6 @@
 
         command: function (message, server, command, channel) {
             var game = command[1];
-
-            if (!game) {
-                channel.send(message.author.username + ", please specify a game to check a world record of.").catch(console.error);
-                return;
-            }
 
             game = gameName(game.toLowerCase());
 
@@ -534,18 +522,15 @@
     },
 
     wrlist: {
-         help: function (command, symbol) {
+        args: [0, "a game to check the world records of"],
+
+        help: function (command, symbol) {
             return "`" + symbol + command + " <game> <difficulty> [order]`: shows the list of world records in `game` `difficulty`, sorted by `order`, which is 'shot(type)' or 'score'.\n" +
             "If `order` is not specified, orders the world records by shottype.";
         },
 
         command: function (message, server, command, channel) {
             var game = command[1];
-
-            if (!game) {
-                channel.send(message.author.username + ", please specify a game to check the world records of.").catch(console.error);
-                return;
-            }
 
             game = gameName(game.toLowerCase());
 
@@ -647,6 +632,8 @@
     },
 
     meters: {
+        args: [0, "use `%shelp meters` to learn how to use this command"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <feet>' <inches>''`: converts `feet` and `inches` to meters.";
         },
@@ -655,11 +642,6 @@
             var feetAndInches = command[1];
 
             var symbol = message.content.charAt(0);
-
-            if (!feetAndInches) {
-                channel.send(message.author.username + ", use `" + symbol + "help meters` to learn how to use this command.").catch(console.error);
-                return;
-            }
 
             var notation = /(\d+)'\s*(\d+)''/; // e.g. 6' 4'' or 6'4''
 
@@ -686,64 +668,48 @@
     },
 
     feet: {
+        args: [0, "a number of meters to convert"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <meters>`: converts `meters` to feet and inches.";
         },
 
+        metersToFeetAndInches: function (meters) {
+            var feet = meters * 3.2808399;
+
+            var inches = Math.round((feet - Math.floor(feet)) * 12);
+
+            var feetAndInches = Math.floor(feet) + "' " + inches + "''";
+
+            return feetAndInches;
+        },
+
         command: function (message, server, command, channel) {
-            var meters = command[1];
+            var meters = command[1], feetAndInches;
 
-            if (!meters) {
-                channel.send(message.author.username + ", please specify a number of meters to convert.").catch(console.error);
-                return;
-            }
-
-            if (isNaN(meters)) {
-                channel.send(message.author.username + ", please specify a number of meters to convert.").catch(console.error);
-                return;
-            }
-
-            metersToFeetAndInches = function (meters) {
-                var feet = meters * 3.2808399;
-
-                var inches = Math.round((feet - Math.floor(feet)) * 12);
-
-                var feetAndInches = Math.floor(feet) + "' " + inches + "''";
-
-                return feetAndInches;
-            };
-
-            var feetAndInches = metersToFeetAndInches(meters);
-
+            feetAndInches = metersToFeetAndInches(meters);
             channel.send(message.author.username + ", " + meters + " meters is equal to " + feetAndInches + " in the imperial system.").catch(console.error);
         }
     },
 
     km: {
+        args: [0, "a number of miles to convert"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <miles>: converts `miles` to kilometers.";
         },
 
         command: function (message, server, command, channel) {
-            var miles = command[1];
+            var miles = command[1], km;
 
-            if (!miles) {
-                channel.send(message.author.username + ", please specify a number of miles to convert.").catch(console.error);
-                return;
-            }
-
-            if (isNaN(miles)) {
-                channel.send(message.author.username + ", please specify a number of miles to convert.").catch(console.error);
-                return;
-            }
-
-            var km = Math.round(miles * 1.609344);
-
+            km = Math.round(miles * 1.609344);
             channel.send(message.author.username + ", " + miles + " miles are equal to " + km + " kilometers.").catch(console.error);
         }
     },
 
     miles: {
+        args: [0, "a number of kilometers to convert"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <kilometers>: converts `kilometers` to miles.";
         },
@@ -751,18 +717,7 @@
         command: function (message, server, command, channel) {
             var km = command[1];
 
-            if (!km) {
-                channel.send(message.author.username + ", please specify a number of kilometers to convert.").catch(console.error);
-                return;
-            }
-
-            if (isNaN(km)) {
-                channel.send(message.author.username + ", please specify a number of kilometers to convert.").catch(console.error);
-                return;
-            }
-
-            var miles = Math.round(km / 1.609344);
-
+            miles = Math.round(km / 1.609344);
             channel.send(message.author.username + ", " + km + " kilometers are equal to " + miles + " miles.").catch(console.error);
         }
     },
@@ -780,17 +735,14 @@
     },
 
     time: {
+        args: [0, "a UTC offset"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <UTC offset>`: gives the local time at `UTC offset`.";
         },
 
         command: function (message, server, command, channel) {
             var timezone = command[1], date = new Date(), offset, msUTC, msTimezone, localTime, timezoneText = timezone;
-
-            if (!timezone) {
-                channel.send(message.author.username + ", please specify a UTC offset.").catch(console.error);
-                return;
-            }
 
             if (timezone.contains(':')) {
                 timezone = timezone.split(':')[0] + '.';
@@ -829,17 +781,14 @@
     },
 
     country: {
+        args: [0, "a country"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <country>`: tells you the flag of `country`. ";
         },
 
         command: function (message, server, command, channel) {
             var country = command[1], alt;
-
-            if (!country) {
-                channel.send(message.author.username + ", please specify a country.").catch(console.error);
-                return;
-            }
 
             country = countryAlt(country);
 
@@ -854,12 +803,16 @@
     },
 
     trace: {
+        args: [0, "an IPv4 address"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <IPv4 address>`: traces the location of `IPv4 address`. " +
             "Local network addresses will not work.";
         },
 
         command: function (message, server, command, channel) {
+            var ip = command[1], startTime = new Date();
+
             if (permData.ipKey === "") {
                 channel.send("This command is currently disabled. Use `!setipapi <API key>` to enable it.").catch(console.error);
                 return;
@@ -870,9 +823,7 @@
                 return;
             }
 
-            var ip = command[1], startTime = new Date();
-
-            if (!ip || !net.isIPv4(ip)) {
+            if (!net.isIPv4(ip)) {
                 channel.send(message.author.username + ", please specify a valid IPv4 address.").catch(console.error);
                 return;
             }
@@ -898,18 +849,20 @@
                 } else {
                     channel.send("Error " + statusCode + " " + cap(response.statusMessage));
                 }
-
-                channel.send("Time elapsed: " + (new Date() - startTime) + " ms");
             });
         }
     },
 
     weather: {
+        args: [0, "a place to look up"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <place>`: looks up current weather in `place`. Undefined behaviour can occur if the place does not exist.";
         },
 
         command: function (message, server, command, channel) {
+            var place = command[1];
+
             if (permData.weatherKey === "") {
                 channel.send("This command is currently disabled. Use `!setweatherapi <API key>` to enable it.").catch(console.error);
                 return;
@@ -917,13 +870,6 @@
 
             if (cooldown) {
                 channel.send("Please do not flood the channel!").catch(console.error);
-                return;
-            }
-
-            var place = command[1];
-
-            if (!place) {
-                channel.send(message.author.username + ", please specify a place to look up.").catch(console.error);
                 return;
             }
 
@@ -969,6 +915,8 @@
     },
 
     c2f: {
+        args: [0, "a number of degrees Celsius to convert"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <degrees Celsius>`: converts `degrees Celsius` to Fahrenheit.";
         },
@@ -976,23 +924,14 @@
         command: function (message, server, command, channel) {
             var celsius = command[1];
 
-            if (!celsius) {
-                channel.send(message.author.username + ", please specify a number of degrees Celsius to convert.").catch(console.error);
-                return;
-            }
-
-            if (isNaN(celsius)) {
-                channel.send(message.author.username + ", please specify a valid number of degrees Celsius to convert.").catch(console.error);
-                return;
-            }
-
-            var fahrenheit = Math.round(celsius * 1.8 + 32);
-
+            fahrenheit = Math.round(celsius * 1.8 + 32);
             channel.send(message.author.username + ", " + celsius + " °C is equal to " + fahrenheit + " °F.").catch(console.error);
         }
     },
 
     c2k: {
+        args: [0, "a number of degrees Celsius to convert"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <degrees Celsius>`: converts `degrees Celsius` to Kelvin.";
         },
@@ -1000,23 +939,14 @@
         command: function (message, server, command, channel) {
             var celsius = command[1];
 
-            if (!celsius) {
-                channel.send(message.author.username + ", please specify a number of degrees Celsius to convert.").catch(console.error);
-                return;
-            }
-
-            if (isNaN(celsius)) {
-                channel.send(message.author.username + ", please specify a valid number of degrees Celsius to convert.").catch(console.error);
-                return;
-            }
-
-            var kelvin = Math.round(Number(celsius) + 273.15);
-
+            kelvin = Math.round(Number(celsius) + 273.15);
             channel.send(message.author.username + ", " + celsius + " °C is equal to " + kelvin + " K.").catch(console.error);
         }
     },
 
     f2c: {
+        args: [0, "a number of degrees Fahrenheit to convert"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <degrees Fahrenheit>`: converts `degrees Fahrenheit` to Celsius.";
         },
@@ -1024,23 +954,14 @@
         command: function (message, server, command, channel) {
             var fahrenheit = command[1];
 
-            if (!fahrenheit) {
-                channel.send(message.author.username + ", please specify a number of degrees Fahrenheit to convert.").catch(console.error);
-                return;
-            }
-
-            if (isNaN(fahrenheit)) {
-                channel.send(message.author.username + ", please specify a valid number of degrees Fahrenheit to convert.").catch(console.error);
-                return;
-            }
-
-            var celsius = Math.round((fahrenheit - 32) / 1.8);
-
+            celsius = Math.round((fahrenheit - 32) / 1.8);
             channel.send(message.author.username + ", " + fahrenheit + " °F is equal to " + celsius + " °C.").catch(console.error);
         }
     },
 
     f2k: {
+        args: [0, "a number of degrees Fahrenheit to convert"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <degrees Fahrenheit>`: converts `degrees Fahrenheit` to Kelvin.";
         },
@@ -1048,23 +969,14 @@
         command: function (message, server, command, channel) {
             var fahrenheit = command[1];
 
-            if (!fahrenheit) {
-                channel.send(message.author.username + ", please specify a number of degrees Fahrenheit to convert.").catch(console.error);
-                return;
-            }
-
-            if (isNaN(fahrenheit)) {
-                channel.send(message.author.username + ", please specify a valid number of degrees Fahrenheit to convert.").catch(console.error);
-                return;
-            }
-
-            var kelvin = Math.round((Number(fahrenheit) + 459.67) / 1.8);
-
+            kelvin = Math.round((Number(fahrenheit) + 459.67) / 1.8);
             channel.send(message.author.username + ", " + fahrenheit + " °F is equal to " + kelvin + " K.").catch(console.error);
         }
     },
 
     k2c: {
+        args: [0, "a number of degrees Kelvin to convert"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <degrees Kelvin>`: converts `degrees Kelvin` to Celsius.";
         },
@@ -1072,23 +984,14 @@
         command: function (message, server, command, channel) {
             var kelvin = command[1];
 
-            if (!kelvin) {
-                channel.send(message.author.username + ", please specify a number of degrees Kelvin to convert.").catch(console.error);
-                return;
-            }
-
-            if (isNaN(kelvin)) {
-                channel.send(message.author.username + ", please specify a valid number of degrees Kelvin to convert.").catch(console.error);
-                return;
-            }
-
-            var celsius = Math.round(kelvin - 273.15);
-
+            celsius = Math.round(kelvin - 273.15);
             channel.send(message.author.username + ", " + kelvin + " K is equal to " + celsius + " °C.").catch(console.error);
         }
     },
 
     k2f: {
+        args: [0, "a number of degrees Kelvin to convert"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <degrees Kelvin>`: converts `degrees Kelvin` to Fahrenheit.";
         },
@@ -1096,18 +999,7 @@
         command: function (message, server, command, channel) {
             var kelvin = command[1];
 
-            if (!kelvin) {
-                channel.send(message.author.username + ", please specify a number of degrees Kelvin to convert.").catch(console.error);
-                return;
-            }
-
-            if (isNaN(kelvin)) {
-                channel.send(message.author.username + ", please specify a valid number of degrees Kelvin to convert.").catch(console.error);
-                return;
-            }
-
-            var fahrenheit = Math.round(kelvin * 1.8 - 459.67);
-
+            fahrenheit = Math.round(kelvin * 1.8 - 459.67);
             channel.send(message.author.username + ", " + kelvin + " K is equal to " + fahrenheit + " °F.").catch(console.error);
         }
     },

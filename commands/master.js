@@ -1,5 +1,7 @@
 ﻿module.exports = {
     eval: {
+        args: [0, "code to evaluate"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <code>`: evaluates `code` and posts the result, " +
             "unless the code already sends a bot message.";
@@ -7,11 +9,6 @@
 
         command: function (message, server, command, channel) {
             var code = command[1];
-
-            if (!code) {
-                channel.send(message.author.username + ", please specify code to evaluate.");
-                return;
-            }
 
             if (removeSpaces(code) != code) {
                 channel.send("Evaluating the following code:").catch(console.error);
@@ -43,7 +40,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var child = exec("git pull", function (error, stdout, stderr) {
+            var startTime = new Date(), child = exec("git pull", function (error, stdout, stderr) {
                 if (error !== null) {
                     channel.send("Error while updating the scripts: " + error).catch(console.error);
 
@@ -105,6 +102,7 @@
                 } else {
                     channel.send(message.slice(0, -2) + ".").catch(console.error);
                     console.log(timeStamp() + "The scripts have been updated.");
+                    console.log(timeStamp() + "Time elapsed: " + (new Date() - startTime) + " ms.");
                 }
             });
         }
@@ -163,30 +161,20 @@
     },
 
     secretsay: {
+        args: [0, "a server", "something for me to say"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <server> <message>`: will make me send `message` to the main channel of `server`. " +
             "If the server does not have a main channel, uses the first channel in the list of bot channels.";
         },
 
         command: function (message, server, command, channel) {
-            var server = command[1], text;
-
-            if (!server) {
-                channel.send(message.author.username + ", please specify a server.").catch(console.error);
-                return;
-            }
+            var server = command[1], text = command[2];
 
             server = bot.guilds.cache.find(guild => guild.name.toLowerCase() == server.toLowerCase());
 
             if (!server) {
                 channel.send(message.author.username + ", that server either does not exist or I am not in it.").catch(console.error);
-                return;
-            }
-
-            text = command[2];
-
-            if (!text) {
-                channel.send(message.author.username + ", please specify something for me to say.").catch(console.error);
                 return;
             }
 
@@ -242,17 +230,14 @@
     },
 
     addbotchannel: {
+        args: [0, "a text channel"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <text channel>`: makes `text channel` a bot channel.";
         },
 
         command: function (message, server, command, channel) {
             var botChannel = command[1], resolve;
-
-            if (!botChannel) {
-                channel.send(message.author.username + ", please specify a text channel.").catch(console.error);
-                return;
-            }
 
             resolve = server.channels.cache.find(chan => chan.name == botChannel.toLowerCase());
 
@@ -275,17 +260,14 @@
     },
 
     removebotchannel: {
+        args: [0, "a text channel"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <text channel>`: removes `text channel` from the bot channels.";
         },
 
         command: function (message, server, command, channel) {
             var botChannel = command[1];
-
-            if (!botChannel) {
-                channel.send(message.author.username + ", please specify a text channel.").catch(console.error);
-                return;
-            }
 
             resolve = server.channels.cache.find(chan => chan.name == botChannel.toLowerCase());
 
@@ -341,17 +323,14 @@
     },
 
     lewdaccessrole: {
+        args: [0, "a role"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <role>`: defines `role` as the lewd access role.";
         },
 
         command: function (message, server, command, channel) {
             var lewdAccessRole = command[1], resolve;
-
-            if (!lewdAccessRole) {
-                channel.send(message.author.username + ", please specify a role.").catch(console.error);
-                return;
-            }
 
             resolve = server.roles.cache.find(role => role.name = lewdAccessRole);
 
@@ -367,17 +346,14 @@
     },
 
     firerole: {
+        args: [0, "a role"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <role>`: defines `role` as the Fire faction role.";
         },
 
         command: function (message, server, command, channel) {
             var factionRole = command[1];
-
-            if (!factionRole) {
-                channel.send(message.author.username + ", please specify a role.").catch(console.error);
-                return;
-            }
 
             resolve = server.roles.cache.find(role => role.name = factionRole);
 
@@ -393,17 +369,14 @@
     },
 
     waterrole: {
+        args: [0, "a role"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <role>`: defines `role` as the Water faction role.";
         },
 
         command: function (message, server, command, channel) {
             var factionRole = command[1];
-
-            if (!factionRole) {
-                channel.send(message.author.username + ", please specify a role.").catch(console.error);
-                return;
-            }
 
             resolve = server.roles.cache.find(role => role.name = factionRole);
 
@@ -419,17 +392,14 @@
     },
 
     earthrole: {
+        args: [0, "a role"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <role>`: defines `role` as the Earth faction role.";
         },
 
         command: function (message, server, command, channel) {
             var factionRole = command[1];
-
-            if (!factionRole) {
-                channel.send(message.author.username + ", please specify a role.").catch(console.error);
-                return;
-            }
 
             resolve = server.roles.cache.find(role => role.name = factionRole);
 
@@ -445,17 +415,14 @@
     },
 
     windrole: {
+        args: [0, "a role"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <role>`: defines `role` as the Wind faction role.";
         },
 
         command: function (message, server, command, channel) {
             var factionRole = command[1];
-
-            if (!factionRole) {
-                channel.send(message.author.username + ", please specify a role.").catch(console.error);
-                return;
-            }
 
             resolve = server.roles.cache.find(role => role.name = factionRole);
 
@@ -478,11 +445,6 @@
         command: function (message, server, command, channel) {
             var defaultReason = command[1];
 
-            if (!defaultReason) {
-                channel.send("The current default reason for kicks and bans on this server is `" + serverData[server.id].defaultReason + "`.").catch(console.error);
-                return;
-            }
-
             serverData[server.id].defaultReason = defaultReason;
             save("defaultReason", server);
             channel.send("The default reason has been changed.").catch(console.error);
@@ -490,17 +452,14 @@
     },
 
     addcommandsymbol: {
+        args: [0, "a symbol"],
+
         help: function (command, symbol) {
-            return "`" + symbol + command + " <character>`: allows `character` to be used as a command symbol.";
+            return "`" + symbol + command + " <symbol>`: allows `symbol` to be used as a command symbol.";
         },
 
         command: function (message, server, command, channel) {
             var symbol = command[1];
-
-            if (!symbol) {
-                channel.send(message.author.username + ", please specify a symbol.").catch(console.error);
-                return;
-            }
 
             if (symbol.length !== 1) {
                 channel.send(message.author.username + ", the symbol must be a single character.").catch(console.error);
@@ -514,17 +473,14 @@
     },
 
     removecommandsymbol: {
+        args: [0, "a symbol"],
+
         help: function (command, symbol) {
-            return "`" + symbol + command + " <character>`: removes `character` from the usable command symbols.";
+            return "`" + symbol + command + " <symbol>`: removes `symbol` from the usable command symbols.";
         },
 
         command: function (message, server, command, channel) {
             var symbol = command[1], commandSymbols = permData.commandSymbols;
-
-            if (!symbol) {
-                channel.send(message.author.username + ", please specify a symbol.").catch(console.error);
-                return;
-            }
 
             if (commandSymbols.length === 1) {
                 channel.send(message.author.username + ", there must be at least one command symbol.").catch(console.error);
@@ -538,17 +494,14 @@
     },
 
     setweatherapi: {
+        args: [0, "an API key"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <API key>`: saves the key `API key` for use of the `" + symbol + "weather` command.";
         },
 
         command: function (message, server, command, channel) {
             var key = command[1];
-
-            if (!key) {
-                channel.send(message.author.username + ", please specify an API key.").catch(console.error);
-                return;
-            }
 
             permData.weatherKey = key;
             save("weatherKey");
@@ -569,17 +522,14 @@
     },
 
     setgoogleapi: {
+        args: [0, "an API key"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <API key>`: saves the key `API key` to enable the automatic replies to YouTube links.";
         },
 
         command: function (message, server, command, channel) {
             var key = command[1];
-
-            if (!key) {
-                channel.send(message.author.username + ", please specify an API key.").catch(console.error);
-                return;
-            }
 
             permData.googleKey = key;
             save("googleKey");
@@ -600,17 +550,14 @@
     },
 
     setipapi: {
+        args: [0, "an API key"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <API key>`: saves the key `API key` to enable IP tracing.";
         },
 
         command: function (message, server, command, channel) {
             var key = command[1];
-
-            if (!key) {
-                channel.send(message.author.username + ", please specify an API key.").catch(console.error);
-                return;
-            }
 
             permData.ipKey = key;
             save("ipKey");
@@ -632,7 +579,8 @@
 
     maxlength: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " <number>`: changes the maximum allowed command argument length to `number`.";
+            return "`" + symbol + command + " [number]`: changes the maximum allowed command argument length to `number`. " +
+            "If `number` is not specified, shows the current maximum allowed command argument length.";
         },
 
         command: function (message, server, command, channel) {

@@ -1,20 +1,14 @@
 ﻿module.exports = {
     kick: {
+        args: [0, "a member to kick"],
+
         help: function (command, symbol) {
-            return "`" + symbol + command + " <user> [reason]`: kicks `user` for `reason`.";
+            return "`" + symbol + command + " <member> [reason]`: kicks `member` from this server for `reason`. " +
+            "If `reason` is not specified, uses the default reason.";
         },
 
         command: function (message, server, command, channel) {
-            var toBeKicked = command[1];
-
-            if (!toBeKicked) {
-                channel.send(message.author.username + ", please specify the user to be kicked.").catch(console.error);
-                return;
-            }
-
-            var members = toUsers(server.members);
-
-            toBeKicked = toBeKicked.toLowerCase();
+            var toBeKicked = command[1].toLowerCase(), members = toUsers(server.members);
 
             if (members.hasOwnProperty(toBeKicked)) {
                 var reason = (command[2] ? command[2] : serverData[server.id].defaultReason);
@@ -29,21 +23,14 @@
     },
 
     ban: {
+        args: [0, "a member to ban"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <user> [reason] [deletedays]`: bans `user` for `reason` and deletes their messages from the last `deletedays` days (default 0).";
         },
 
         command: function (message, server, command, channel) {
-            var toBeBanned = command[1];
-
-            if (!toBeBanned) {
-                channel.send(message.author.username + ", please specify the user to be banned.").catch(console.error);
-                return;
-            }
-
-            var members = toUsers(server.members);
-
-            toBeBanned = toBeBanned.toLowerCase();
+            var toBeBanned = command[1].toLowerCase(), members = toUsers(server.members);
 
             if (members.hasOwnProperty(toBeBanned)) {
                 var reason = (command[2] ? command[2] : serverData[server.id].defaultReason);
@@ -109,26 +96,14 @@
     },
 
     removequote: {
+        args: [0, "an author to remove a quote from", "a quote to remove"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <author> <quote>`: removes `quote` from `author`'s quotes.";
         },
 
         command: function (message, server, command, channel) {
-            var author = command[1], quotes = serverData[server.id].quotes;
-
-            if (!author) {
-                channel.send(message.author.username + ", please specify an author to remove a quote from.").catch(console.error);
-                return;
-            }
-
-            var quote = command[2];
-
-            if (!quote) {
-                channel.send(message.author.username + ", please specify a quote to remove.").catch(console.error);
-                return;
-            }
-
-            author = author.toLowerCase();
+            var author = command[1].toLowerCase(), quote = command[2], quotes = serverData[server.id].quotes;
 
             if (!quotes[author]) {
                 channel.send(message.author.username + ", that author does not have any saved quotes.").catch(console.error);
@@ -147,17 +122,14 @@
     },
 
     removescrubquote: {
+        args: [0, "a scrubquote to remove"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <quote>`: removes `scrubquote` from the list of scrubquotes.";
         },
 
         command: function (message, server, command, channel) {
             var scrubquote = command[1], scrubquotes = permData.scrubquotes;
-
-            if (!scrubquote) {
-                channel.send(message.author.username + ", please specify a scrubquote to remove.").catch(console.error);
-                return;
-            }
 
             if (!scrubquotes.contains(scrubquote)) {
                 channel.send(message.author.username + ", that scrubquote is not in the list.").catch(console.error);
@@ -172,6 +144,8 @@
     },
 
     removeopinion: {
+        args: [0, "an opinion to remove"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <opinion>`: removes `opinion` " +
             "from the possible results of the opinion command.";
@@ -180,11 +154,6 @@
         command: function (message, server, command, channel) {
             var opinion = command[1], badOpinions = serverData[server.id].badOpinions,
                 goodOpinions = serverData[server.id].goodOpinions;
-
-            if (!opinion) {
-                channel.send(message.author.username + ", please specify an opinion to remove.").catch(console.error);
-                return;
-            }
 
             if (!badOpinions.contains(opinion) && !goodOpinions.contains(opinion)) {
                 channel.send(message.author.username + ", that opinion does not exist.").catch(console.error);
@@ -200,6 +169,8 @@
     },
 
     removeshipmessage: {
+        args: [0, "a message to remove"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <message>`: removes `message` " +
             "from the list of messages for the `" + symbol + "randomship` command.";
@@ -207,11 +178,6 @@
 
         command: function (message, server, command, channel) {
             var message = command[1], shipMessages = serverData[server.id].shipMessages;
-
-            if (!message) {
-                channel.send(message.author.username + ", please specify a message to remove.").catch(console.error);
-                return;
-            }
 
             if (!shipMessages.contains(message)) {
                 channel.send(message.author.username + ", that message does not exist.").catch(console.error);
@@ -225,17 +191,14 @@
     },
 
     say: {
+        args: [0, "a message for me to send"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <message>`: will make me send `message` to the current channel.";
         },
 
         command: function (message, server, command, channel) {
             var message = command[1];
-
-            if (!message) {
-                channel.send(message.author.username + ", please specify something for me to say.").catch(console.error);
-                return;
-            }
 
             if (message.length > MESSAGE_CAP) {
                 channel.send(message.author.username + ", sorry, I cannot send anything longer than " + MESSAGE_CAP + " characters.");
@@ -267,7 +230,8 @@
 
     avatar: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " [URL]`: will give me the avatar linked to by `URL`. If `URL` is not specified, resets my avatar to the default one.";
+            return "`" + symbol + command + " [URL]`: will give me the avatar linked to by `URL`. " +
+            "If `URL` is not specified, resets my avatar to the default one.";
         },
 
         command: function (message, server, command, channel) {
@@ -286,7 +250,8 @@
 
     status: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " [status]`: will set my status to `status`. If `status` is not specified, removes my status.";
+            return "`" + symbol + command + " [status]`: will set my status to `status`. " +
+            "If `status` is not specified, removes my status.";
         },
 
         command: function (message, server, command, channel) {
@@ -318,45 +283,29 @@
     },
 
     updatewr: {
+        args: [0, "a game", "a difficulty", "a shottype or route", "a score", "a player", "a date"],
+
         help: function (command, symbol) {
-            return "`" + symbol + command + " <game> <difficulty> <shottype/route> <new WR> <player> <date> <replay>`: updates the world record in `game` `difficulty` `shottype/route` to `new WR` by `player`.";
+            return "`" + symbol + command + " <game> <difficulty> <shottype/route> <new WR> <player> <date> [replay]`: " +
+            "updates the world record in `game` `difficulty` `shottype/route` to `new WR` by `player`.";
         },
 
         command: function (message, server, command, channel) {
-            var game = command[1], WRs = permData.WRs;
-
-            if (!game) {
-                channel.send(message.author.username + ", please specify a game to update a world record of.").catch(console.error);
-                return;
-            }
-
-            game = gameName(game.toLowerCase());
+            var game = gameName(command[1].toLowerCase()), difficulty = cap(command[2].toLowerCase()), shot = command[3],
+                newWR = command[4], newPlayer = command[5], date = command[6], replay = command[7], WRs = permData.WRs,
+                difficultyWRs, oldWR, oldPlayer, extension, fileName, child;
 
             if (!WRs[game]) {
                 channel.send(message.author.username + ", please specify a valid game to update a world record of.").catch(console.error);
                 return;
             }
 
-            var difficulty = command[2];
-
-            if (!difficulty) {
-                channel.send(message.author.username + ", please specify a difficulty to update a world record of.").catch(console.error);
-                return;
-            }
-
-            difficulty = cap(difficulty.toLowerCase());
-
             if (!WRs[game][difficulty]) {
                 channel.send(message.author.username + ", please specify a valid difficulty to update a world record of.").catch(console.error);
                 return;
             }
 
-            var shot = command[3], difficultyWRs = WRs[game][difficulty];
-
-            if (!shot) {
-                channel.send(message.author.username + ", please specify a shottype or route to update the world record of.").catch(console.error);
-                return;
-            }
+            difficultyWRs = WRs[game][difficulty];
 
             if (shot) {
                 shot = (shotName(cap(shot)) ? shotName(cap(shot)) : cap(shot));
@@ -371,9 +320,7 @@
                 }
             }
 
-            var newWR = command[4];
-
-            if (!newWR || isNaN(newWR.replace(/\./g, "").replace(/\,/g, ""))) {
+            if (isNaN(newWR.replace(/\./g, "").replace(/\,/g, ""))) {
                 channel.send(message.author.username + ", please specify the new world record.").catch(console.error);
                 return;
             }
@@ -384,23 +331,6 @@
             }
 
             newWR = Number(newWR.replace(/\./g, "").replace(/\,/g, ""));
-
-            var newPlayer = command[5];
-
-            if (!newPlayer) {
-                channel.send(message.author.username + ", please specify the player that got the new world record.").catch(console.error);
-                return;
-            }
-
-            var date = command[6];
-
-            if (!date) {
-                channel.send(message.author.username + ", please specify the date of the new world record.").catch(console.error);
-                return;
-            }
-
-            var replay = command[7], oldWR, oldPlayer, extension, fileName, child;
-
             oldWR = WRs[game][difficulty][shot][0];
             oldPlayer = WRs[game][difficulty][shot][1];
 
@@ -435,74 +365,42 @@
     },
 
     updatewest: {
+        args: [0, "a game", "a difficulty", "a score", "a player", "a shottype or route"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <game> <difficulty> <new WestR> <player> <shottype>`: updates the Western record in `game` `difficulty` `shottype/route` to `new WestR` by `player`.";
         },
 
         command: function (message, server, command, channel) {
-            var game = command[1], WestRs = permData.bestInTheWest;
-
-            if (!game) {
-                channel.send(message.author.username + ", please specify a game to update a Western record of.").catch(console.error);
-                return;
-            }
-
-            game = gameName(game.toLowerCase());
+            var game = gameName(command[1].toLowerCase()), difficulty = cap(command[2].toLowerCase()), newWestR = command[3],
+                newPlayer = command[4], shottype = command[5], WestRs = permData.bestInTheWest, oldWestR, oldPlayer, oldShot;
 
             if (!WestRs[game]) {
                 channel.send(message.author.username + ", please specify a valid game to update a Western record of.").catch(console.error);
                 return;
             }
 
-            var difficulty = command[2];
-
-            if (!difficulty) {
-                channel.send(message.author.username + ", please specify a difficulty to update a Western record of.").catch(console.error);
-                return;
-            }
-
-            difficulty = cap(difficulty.toLowerCase());
-
             if (!WestRs[game][difficulty]) {
                 channel.send(message.author.username + ", please specify a valid difficulty to update a Western record of.").catch(console.error);
                 return;
             }
 
-            var newWR = command[3];
-
-            if (!newWR || isNaN(newWR.replace(/\./g, "").replace(/\,/g, ""))) {
+            if (isNaN(newWestR.replace(/\./g, "").replace(/\,/g, ""))) {
                 channel.send(message.author.username + ", please specify the new Western record.").catch(console.error);
                 return;
             }
 
-            if (Number(newWR) > MAX_SCORE || Number(newWR) <= 0) {
+            if (Number(newWestR) > MAX_SCORE || Number(newWestR) <= 0) {
                 channel.send(message.author.username + ", please specify a valid new Western record.").catch(console.error);
                 return;
             }
 
-            newWR = Number(newWR.replace(/\./g, "").replace(/\,/g, ""));
-
-            var newPlayer = command[4];
-
-            if (!newPlayer) {
-                channel.send(message.author.username + ", please specify the player that got the new Western record.").catch(console.error);
-                return;
-            }
-
-            var shottype = command[5];
-
-            if (!shottype) {
-                channel.send(message.author.username + ", please specify a shottype or route.").catch(console.error);
-                return;
-            }
-
-            var oldWR, oldPlayer;
-
+            newWestR = Number(newWestR.replace(/\./g, "").replace(/\,/g, ""));
             oldWestR = WestRs[game][difficulty][0];
             oldPlayer = WestRs[game][difficulty][1];
             oldShot = WestRs[game][difficulty][2];
-            WestRs[game][difficulty] = [newWR, newPlayer, shottype];
-            permData.bestInTheWest[game][difficulty] = [newWR, newPlayer, shottype];
+            WestRs[game][difficulty] = [newWestR, newPlayer, shottype];
+            permData.bestInTheWest[game][difficulty] = [newWestR, newPlayer, shottype];
             save("bestInTheWest");
 
             if (fs.existsSync("/var/www/maribelhearn.com/assets/json/bestinthewest.json")) {
@@ -510,32 +408,28 @@
             }
 
             channel.send("`Score Update` New Western record in " + game + " " + difficulty +
-            ": " + sep(oldWestR) + " by " + oldPlayer + " with " + oldShot.replace("Team", " Team") + " -> " + sep(newWR) +
+            ": " + sep(oldWestR) + " by " + oldPlayer + " with " + oldShot.replace("Team", " Team") + " -> " + sep(newWestR) +
             " by " + newPlayer + " with " + shottype.replace("Team", " Team") + "!").catch(console.error);
         }
     },
 
     addlnn: {
+        args: [0, "a game", "a shottype or route", "a player"],
+
         help: function (command, symbol) {
-            return "`" + symbol + command + " <game> <shottype/route> <player> [replay]`: adds `player` to the list of `game` LNNs with `shottype/route`. Windows games (excl. PoFV) only.";
+            return "`" + symbol + command + " <game> <shottype/route> <player> [replay]`: " +
+            "adds `player` to the list of `game` LNNs with `shottype/route`. Windows games (excl. PoFV) only.";
         },
 
         command: function (message, server, command, channel) {
-            var game = command[1], LNNs = permData.LNNs, date = new Date(), dateString;
-
-            if (!game) {
-                channel.send(message.author.username + ", please specify a game to add an LNN player to.").catch(console.error);
-                return;
-            }
-
-            game = gameName(game.toLowerCase());
+            var game = gameName(command[1].toLowerCase()), shot = command[2], player = command[3], replay = command[4],
+                date = new Date(), LNNs = permData.LNNs, acronym = "LNN", grammar = (game.charAt(0).match(/[E|I|H]/) ? "n " : " "),
+                dateString, type, extension, folder, fileName, child;
 
             if (!LNNs.hasOwnProperty(game)) {
                 channel.send(message.author.username + ", please specify a valid game to add an LNN player to.").catch(console.error);
                 return;
             }
-
-            var shot = command[2], acronym = "LNN", grammar = (game.charAt(0).match(/[E|I|H]/) ? "n " : " "), type;
 
             if (game == "UFO") {
                 acronym = "LNN";
@@ -545,11 +439,6 @@
                 acronym = "LNNN";
             } else if (game == "WBaWC") {
                 acronym = "LNNNN";
-            }
-
-            if (!shot) {
-                channel.send(message.author.username + ", please specify the shottype that was used or the route that was followed.").catch(console.error);
-                return;
             }
 
             shot = (shotName(cap(shot)) ? shotName(cap(shot)) : cap(shot));
@@ -572,19 +461,10 @@
                 return;
             }
 
-            var player = command[3];
-
-            if (!player) {
-                channel.send(message.author.username + ", please specify the player that got the new LNN.").catch(console.error);
-                return;
-            }
-
             if (LNNs[game][shot].contains(player)) {
                 channel.send(message.author.username + ", that player already has that LNN!").catch(console.error);
                 return;
             }
-
-            var replay = command[4], extension, folder, fileName, child;
 
             if (replay) {
                 extension = replay.substr(-4);
@@ -624,26 +504,22 @@
     },
 
     lnnreplay: {
+        args: [0, "a game", "a shottype or route", "a player", "a replay or video"],
+
         help: function (command, symbol) {
-            return "`" + symbol + command + " <game> <shottype/route> <player> <replay>`: sets that LNN's replay or video to <replay>.";
+            return "`" + symbol + command + " <game> <shottype/route> <player> <replay>`: " +
+            "sets that LNN's replay or video to <replay>.";
         },
 
         command: function (message, server, command, channel) {
-            var game = command[1], LNNs = permData.LNNs, date = new Date(), dateString;
-
-            if (!game) {
-                channel.send(message.author.username + ", please specify a game.").catch(console.error);
-                return;
-            }
-
-            game = gameName(game.toLowerCase());
+            var game = gameName(command[1].toLowerCase()), shot = command[2], player = command[3], replay = command[4],
+                date = new Date(), LNNs = permData.LNNs, acronym = "LNN", grammar = (game.charAt(0).match(/[E|I|H]/) ? "n " : " "),
+                dateString, type, extension, folder, fileName, child;
 
             if (!LNNs.hasOwnProperty(game)) {
                 channel.send(message.author.username + ", please specify a valid game.").catch(console.error);
                 return;
             }
-
-            var shot = command[2], acronym = "LNN", grammar = (game.charAt(0).match(/[E|I|H]/) ? "n " : " "), type;
 
             if (game == "UFO") {
                 acronym = "LNN";
@@ -653,11 +529,6 @@
                 acronym = "LNNN";
             } else if (game == "WBaWC") {
                 acronym = "LNNNN";
-            }
-
-            if (!shot) {
-                channel.send(message.author.username + ", please specify the shottype that was used or the route that was followed.").catch(console.error);
-                return;
             }
 
             shot = (shotName(cap(shot)) ? shotName(cap(shot)) : cap(shot));
@@ -681,22 +552,8 @@
                 return;
             }
 
-            var player = command[3];
-
-            if (!player) {
-                channel.send(message.author.username + ", please specify the player that got the LNN.").catch(console.error);
-                return;
-            }
-
             if (!LNNs[game][shot].contains(player)) {
                 channel.send(message.author.username + ", that player does not have that LNN!").catch(console.error);
-                return;
-            }
-
-            var replay = command[4], extension, folder, fileName, child;
-
-            if (!replay) {
-                channel.send(message.author.username + ", please specify the new replay or video.").catch(console.error);
                 return;
             }
 
@@ -709,6 +566,7 @@
 
             folder = removeSpaces(player);
             fileName = replayNameLNN(player, game, shot, type);
+
             if (!fs.existsSync("/var/www/maribelhearn.com/replays/lnn/" + folder)) {
                 fs.mkdirSync("/var/www/maribelhearn.com/replays/lnn/" + folder);
             }
@@ -723,26 +581,20 @@
     },
 
     removelnn: {
+        args: [0, "a game", "a shottype or route", "a player"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <game> <shottype/route> <player>`: removes `player` from the list of `game` LNNs with `shottype/route`.";
         },
 
         command: function (message, server, command, channel) {
-            var game = command[1], LNNs = permData.LNNs, date = new Date(), dateString;
-
-            if (!game) {
-                channel.send(message.author.username + ", please specify a game to remove an LNN player from.").catch(console.error);
-                return;
-            }
-
-            game = gameName(game.toLowerCase());
+            var game = gameName(command[1].toLowerCase()), shot = command[2], player = command[3], LNNs = permData.LNNs,
+                date = new Date(),acronym = "LNN", grammar = (game.charAt(0).match(/[E|I|H]/) ? "n " : " "), dateString;
 
             if (!LNNs.hasOwnProperty(game)) {
                 channel.send(message.author.username + ", please specify a valid game to remove an LNN player from.").catch(console.error);
                 return;
             }
-
-            var shot = command[2], acronym = "LNN", grammar = (game.charAt(0).match(/[E|I|H]/) ? "n " : " ");
 
             if (game == "UFO") {
                 acronym = "LNN";
@@ -752,11 +604,6 @@
                 acronym = "LNNN";
             } else if (game == "WBaWC") {
                 acronym = "LNNNN";
-            }
-
-            if (!shot) {
-                channel.send(message.author.username + ", please specify the shottype that was used or the route that was followed.").catch(console.error);
-                return;
             }
 
             shot = (shotName(cap(shot)) ? shotName(cap(shot)) : cap(shot));
@@ -775,13 +622,6 @@
 
             if (!LNNs[game].hasOwnProperty(shot)) {
                 channel.send(message.author.username + ", please specify a valid shottype or route to remove an LNN player from.").catch(console.error);
-                return;
-            }
-
-            var player = command[3];
-
-            if (!player) {
-                channel.send(message.author.username + ", please specify the player to remove.").catch(console.error);
                 return;
             }
 
@@ -946,20 +786,14 @@
     },
 
     addimage: {
+        args: [0, "an image file", "a description for the help command"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <image file> <description>`: adds a command that posts `image file` and has `description` when `" + symbol + "help` is used on it.\nThe file must be in the `images` folder.";
         },
 
         command: function (message, server, command, channel) {
-            var image = command[1], name, ext, description = command[2];
-
-            if (!image) {
-                channel.send(message.author.username + ", please specify an image file.").catch(console.error);
-                return;
-            }
-
-            name = path.parse(image).name;
-            ext = path.parse(image).ext;
+            var image = command[1], description = command[2], name = path.parse(image).name, ext = path.parse(image).ext;
 
             if (![".gif", ".jpg", ".png"].contains(ext)) {
                 channel.send(message.author.username + ", that file extension is not supported.").catch(console.error);
@@ -971,11 +805,6 @@
                 return;
             }
 
-            if (!description) {
-                channel.send(message.author.username + ", please specify a description for the help command.").catch(console.error);
-                return;
-            }
-
             permData.images[name] = {"help": description, "file": image};
             save("images");
             channel.send("The image command `" + name + "` has been added.").catch(console.error);
@@ -983,19 +812,15 @@
     },
 
     removeimage: {
+        args: [0, "an image command"],
+
         help: function (command, symbol) {
-            return "`" + symbol + command + " <image command>`: removes `image command`. Note that this does not delete the actual image file.";
+            return "`" + symbol + command + " <image command>`: removes `image command`. " +
+            "Note that this does not delete the actual image file.";
         },
 
         command: function (message, server, command, channel) {
-            var image = command[1], images = permData.images;
-
-            if (!image) {
-                channel.send(message.author.username + ", please specify an image command.").catch(console.error);
-                return;
-            }
-
-            image = image.toLowerCase();
+            var image = command[1].toLowerCase(), images = permData.images;
 
             if (!images.hasOwnProperty(image)) {
                 channel.send(message.author.username + ", that is not an image command.").catch(console.error);
@@ -1009,20 +834,15 @@
     },
 
     addmusic: {
+        args: [0, "music", "a description for the help command"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <music> <description> [volume]`: adds a command that plays `music` on a voice channel and has `description` when `" + symbol + "help` is used on it.\nThe music must be a file in the `music` folder.\nIf `volume` is not specified, it will be set to 0.5.";
         },
 
         command: function (message, server, command, channel) {
-            var music = command[1], url, name, ext, description = command[2], volume = command[3];
-
-            if (!music) {
-                channel.send(message.author.username + ", please specify music.").catch(console.error);
-                return;
-            }
-
-            name = path.parse(music).name;
-            ext = path.parse(music).ext;
+            var music = command[1], description = command[2], volume = command[3], name = path.parse(music).name,
+                ext = path.parse(music).ext;
 
             if (![".wav", ".mp3"].contains(ext)) {
                 channel.send(message.author.username + ", that file extension is not supported.").catch(console.error);
@@ -1034,11 +854,6 @@
                 return;
             }
 
-            if (!description) {
-                channel.send(message.author.username + ", please specify a description for the help command.").catch(console.error);
-                return;
-            }
-
             permData.musicLocal[name.toLowerCase()] = {"help": description, "file": music, "volume": (volume ? volume : 0.5)};
             save("musicLocal");
             channel.send("The music command `" + name + "` has been added.").catch(console.error);
@@ -1046,19 +861,15 @@
     },
 
     removemusic: {
+        args: [0, "a music command"],
+
         help: function (command, symbol) {
-            return "`" + symbol + command + " <music command>`: removes `music command`. Note that this does not delete the actual music file, if there is one.";
+            return "`" + symbol + command + " <music command>`: removes `music command`. " +
+            "Note that this does not delete the actual music file, if there is one.";
         },
 
         command: function (message, server, command, channel) {
-            var music = command[1], musicLocal = permData.musicLocal;
-
-            if (!music) {
-                channel.send(message.author.username + ", please specify a music command.").catch(console.error);
-                return;
-            }
-
-            music = music.toLowerCase();
+            var music = command[1].toLowerCase(), musicLocal = permData.musicLocal;
 
             if (musicLocal.hasOwnProperty(music)) {
                 delete permData.musicLocal[music];
@@ -1071,29 +882,19 @@
     },
 
     addalias: {
+        args: [0, "a command to make an alias for", "an alias for that command"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <command> <alias>`: adds `alias` as an alias for `command`.";
         },
 
         command: function (message, server, command, channel) {
-            var aliases = permData.aliases, commandName = command[1], alias;
-
-            if (!commandName) {
-                channel.send(message.author.username + ", please specify a command to make an alias for.").catch(console.error);
-                return;
-            }
+            var commandName = command[1], alias = command[2], aliases = permData.aliases, alias;
 
             commandName = commandName.toLowerCase();
 
             if (!isCommand(commandName)) {
                 channel.send(message.author.username + ", please specify a valid command to make an alias for.").catch(console.error);
-                return;
-            }
-
-            alias = command[2];
-
-            if (!alias) {
-                channel.send(message.author.username + ", please specify an alias for that command.").catch(console.error);
                 return;
             }
 
@@ -1110,17 +911,14 @@
     },
 
     removealias: {
+        args: [0, "a command to remove an alias from", "an alias to be removed from that command"],
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <command> <alias>`: removes `alias` from the list of aliases for `command`.";
         },
 
         command: function (message, server, command, channel) {
-            var aliases = permData.aliases, commandName = command[1], alias;
-
-            if (!commandName) {
-                channel.send(message.author.username + ", please specify a command to remove an alias from.").catch(console.error);
-                return;
-            }
+            var commandName = command[1], alias = command[2], aliases = permData.aliases, alias;
 
             commandName = commandName.toLowerCase();
 
@@ -1129,12 +927,6 @@
                 return;
             }
 
-            alias = command[2];
-
-            if (!alias) {
-                channel.send(message.author.username + ", please specify the alias to be removed from that command.").catch(console.error);
-                return;
-            }
 
             alias = alias.toLowerCase();
 

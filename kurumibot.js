@@ -92,7 +92,6 @@ loadPermData = function () {
 };
 
 loadPermData();
-console.log(timeStamp() + "Data loaded.");
 enabled = true;
 
 loadServerData = function () {
