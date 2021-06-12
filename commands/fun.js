@@ -86,7 +86,7 @@
 
         command: function (message, server, command, channel) {
             var user1 = command[1], user2 = command[2], date = serverData[server.id].date, ships = serverData[server.id].ships,
-                members = toUsers(server.members), lower1, lower2, message, emoji;
+                members = toUsers(server.members), lower1, lower2, ship, message, emoji;
 
             if (!user1) {
                 user1 = message.author.username;
@@ -118,7 +118,7 @@
                 ships[lower1][lower2] = RNG(101);
 
                 if (!ships[lower2].hasOwnProperty(lower1)) {
-                    ships[lower2][lower1] = ship;
+                    ships[lower2][lower1] = ships[lower1][lower2];
                 }
             }
 
