@@ -112,7 +112,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var serverName = command[1], fileName = command[2]; dataMessage = "", data, file;
+            var serverName = command[1], fileName = command[2], dataMessage = "", data, file;
 
             if (serverName && serverName != "current") {
                 server = bot.guilds.cache.find(guild => guild.name.toLowerCase() == serverName.toLowerCase());
