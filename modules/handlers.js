@@ -147,7 +147,7 @@ module.exports = {
     },
 
     permitted: function (message, server, channel, commandType, commandFunction, id, botMaster) {
-        var userIsMod = server.members.cache.get(id).hasPermission("BAN_MEMBERS");
+        var userIsMod = (server && server.members.cache.get(id).hasPermission("BAN_MEMBERS"));
 
         if (!server && isServerOnly(commandFunction)) {
             channel.send("That command can only be used on servers.").catch(console.error);
