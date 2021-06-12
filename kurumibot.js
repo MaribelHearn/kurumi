@@ -209,13 +209,13 @@ bot.on("guildMemberRemove", function (user) {
 });
 
 bot.on("message", function (message) {
-    if (message && message.author.id != bot.user.id) {
+    if (message && message.author.id != bot.user.id && message.embeds.length === 0) {
         handlers.messageHandler(message);
     }
 });
 
 bot.on("messageUpdate", function (oldMessage, newMessage) {
-    if (newMessage && newMessage.author.id != bot.user.id) {
+    if (newMessage && newMessage.author.id != bot.user.id && message.embeds.length === 0) {
         handlers.messageHandler(newMessage);
     }
 });

@@ -224,8 +224,10 @@ module.exports = {
         }
     },
 
-    detectKek: function (server, channel, lower) {
-        var kekDetected = lower.detect("kek") || lower.detect("topkek") || lower.detect("topfuckingkek");
+    detectKek: function (server, channel, content) {
+        var stripped = stripMarkdown(content);
+
+        var kekDetected = stripped.detect("kek") || stripped.detect("topkek") || stripped.detect("topfuckingkek");
 
         if (server && serverData[server.id].kekDetection && serverData[server.id].botChannels.contains(channel.id) && kekDetected) {
             channel.send("Please don't kek in here.").catch(console.error);
