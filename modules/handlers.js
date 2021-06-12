@@ -183,8 +183,8 @@ module.exports = {
         return true;
     },
 
-    commandHandler: function (message, server, command, channel, content, id) {
-        var botMaster = permData.botMaster, commandName, commandType, commandObject, userIsMod, argc, command, valid, permitted;
+    commandHandler: function (message, server, channel, content, id) {
+        var botMaster = permData.botMaster, commandName, commandType, commandObject, userIsMod, maxArgc, command, valid, permitted;
 
         try {
             if (permData.maintenanceMode && (!server || !serverData[server.id].isTestingServer)) {
@@ -275,7 +275,7 @@ module.exports = {
             content = message.content.replace(/\n|\r/g, ' '), symbol = content.charAt(0);
 
         if (permData.commandSymbols.contains(symbol) && content.length > 1) {
-            this.commandHandler(message, server, command, channel, content, symbol);
+            this.commandHandler(message, server, channel, content, symbol);
             return;
         }
 
