@@ -217,7 +217,7 @@ module.exports = {
             }
 
             commandObject = allCommands[commandType][commandName];
-            maxArgc = this.maxArgc(commandFunction);
+            maxArgc = this.maxArgc(commandObject.command);
             command = this.parse(content, commandName, maxArgc);
             valid = this.validate(server, channel, command, commandObject);
             permitted = (valid ? this.permitted(message, server, channel, commandType, commandObject.command, id, botMaster) : false);
