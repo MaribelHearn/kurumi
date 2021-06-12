@@ -177,16 +177,11 @@
 
         help: function (command, symbol) {
             return "`" + symbol + command + " [file]`: sends the value of permanent data file `file`. " +
-            "If `file` is not specified, sends the values for all permanent data files. Testing server or DM only.";
+            "If `file` is not specified, sends the values for all permanent data files.";
         },
 
         command: function (message, server, command, channel) {
             var fileName = command[1], dataMessage = "", file;
-
-            if (server && !serverData[server.id].testingServer) {
-                channel.send(message.author.username + ", this command cannot be used on this server.").catch(console.error);
-                return;
-            }
 
             if (fileName && !permData.hasOwnProperty(fileName)) {
                 channel.send(message.author.username + ", please specify a valid permanent data file.").catch(console.error);
