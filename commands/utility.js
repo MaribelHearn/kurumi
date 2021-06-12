@@ -640,7 +640,7 @@
         },
 
         parse: function (input) {
-            var pattern1 = /\+|-|\*|\/|%/, pattern2 = /\d+/, result = "", numbers, ops, i;
+            var pattern1 = /\+|-|\*|\/|%/, pattern2 = /\d+/, result = "", original = input, numbers, ops, i;
 
             if (input.contains('^')) {
                 input = input.split(pattern1);
@@ -648,11 +648,11 @@
                 for (i = 0; i < input.length; i++) {
                     if (input[i].contains('^')) {
                         numbers = input[i].split('^');
-                        input[i] = Math.pow(numbers[0], numbers[1]);
+                        input[i] = String(Math.pow(numbers[0], numbers[1]));
                     }
                 }
 
-                ops = input.split(pattern2).splice(0, 1);
+                ops = original.split(pattern2).splice(0, 1);
                 ops.splice(ops.length - 1);
 
                 while (ops.contains('^')) {
@@ -670,7 +670,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var input = command[1].replace(/ /g, ""), pattern = /\+|-|\*|\/|%|\^/g, result;
+            var input = command[1].replace(/ /g, ""), pattern = /\+|-|\*|\/|%|\^|\(|\)/g, result;
 
             if (isNaN(input.replace(pattern, ""))) {
                 channel.send(message.author.username + ", please enter valid math.");
