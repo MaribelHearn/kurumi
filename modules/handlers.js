@@ -3,7 +3,6 @@ module.exports = {
         var imageCommand = permData.images[commandName];
 
         if (server && (!serverData[server.id].botChannels.contains(channel.id) || serverData[server.id].botChannels.length === 0)) {
-            channel.send(message.author.username + ", you do not have sufficient permission to run image commands outside bot channels.").catch(console.error);
             return;
         }
 
@@ -15,6 +14,7 @@ module.exports = {
                 timers.setInterval(function () { cooldown = false; }, serverData[server.id].cooldownSecs * 1000);
             }
         } else {
+            channel.send("Image command failed to run: file not found.").catch(console.error);
             console.log(timeStamp() + "Image file 'images/" + imageCommand.file + "' not found.");
         }
     },
@@ -28,7 +28,6 @@ module.exports = {
         }
 
         if (serverData[server.id].botChannels.length === 0 || !serverData[server.id].botChannels.contains(channel.id)) {
-            channel.send(message.author.username + ", you do not have sufficient permission to run music commands outside bot channels.").catch(console.error);
             return;
         }
 
@@ -39,6 +38,12 @@ module.exports = {
 
         if (musicBlocked) {
             channel.send(message.author.username + ", music commands are currently blocked.").catch(console.error);
+            return;
+        }
+
+        if (!fs.existsSync("music/" + musicCommand.file)) {
+            channel.send("Music command failed to run: file not found.").catch(console.error);
+            console.log(timeStamp() + "Music file 'music/" + musicCommand.file + "' not found.");
             return;
         }
 
@@ -121,7 +126,7 @@ module.exports = {
         return command;
     },
 
-    validate: function (server, command) {
+    validate: function (server, channel, command) {
         for (var i in command) {
             command[i] = stripMarkdown(command[i]);
 
@@ -202,7 +207,7 @@ module.exports = {
             commandFunction = allCommands[commandType][commandName].command;
             argc = this.getArgc(commandFunction);
             command = this.parse(content, commandName, argc);
-            valid = this.validate(server, command);
+            valid = this.validate(server, channel, command);
             hasPermission = this.permitted(message, server, channel, commandType, commandFunction, id, botMaster);
 
             if (!valid) {
