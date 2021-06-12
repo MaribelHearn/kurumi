@@ -216,7 +216,7 @@ bot.on("message", function (message) {
 });
 
 bot.on("messageUpdate", function (oldMessage, newMessage) {
-    if (message && message.author.id != bot.user.id) {
+    if (newMessage && newMessage.author.id != bot.user.id) {
         handlers.messageHandler(newMessage);
     }
 });

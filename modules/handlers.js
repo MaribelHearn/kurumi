@@ -240,12 +240,12 @@ module.exports = {
         }
 
         /* Kek Detection */
-        if (id != bot.user.id && server && serverData[server.id].kekDetection && serverData[server.id].botChannels.contains(channel.id) && (lower.detect("kek") || lower.detect("topkek") || lower.detect("topfuckingkek"))) {
+        if (server && serverData[server.id].kekDetection && serverData[server.id].botChannels.contains(channel.id) && (lower.detect("kek") || lower.detect("topkek") || lower.detect("topfuckingkek"))) {
             channel.send("Please don't kek in here.").catch(console.error);
         }
 
         /* YouTube Links */
-        if (permData.googleKey !== "" && id != bot.user.id) {
+        if (permData.googleKey !== "") {
             var linkPattern = /http(s?):\/\/www.youtube.com\/watch\?v\=[a-zA-Z0-9_]+/;
 
             if (linkPattern.test(content)) {
