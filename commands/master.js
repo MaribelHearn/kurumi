@@ -10,7 +10,6 @@
         command: function (message, server, command, channel) {
             var code = command[1];
 
-            channel.send("Evaluating the following code:").catch(console.error);
             channel.send(code, {"code": "JavaScript"}).catch(console.error);
 
             try {
@@ -23,7 +22,7 @@
                         result = result.toString().substr(0, MESSAGE_CAP - 23) + "...";
                     }
 
-                    channel.send("Evaluation result: " + result).catch(console.error);
+                    channel.send("__Result__\n" + result, {"code": "JavaScript"}).catch(console.error);
                 }
             } catch (err) {
                 channel.send("An error occurred: " + err).catch(console.error);
