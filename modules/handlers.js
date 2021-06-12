@@ -138,7 +138,7 @@ module.exports = {
             }
 
             if (commandObject.args && commandObject.args[i] && commandObject.args[i].startsWith("a number") && isNaN(command[i])) {
-                channel.send((server ? message.author.username + ", p" : "P") + "lease specify " + commandObject.args[command.length] + ".");
+                channel.send((server ? message.author.username + ", p" : "P") + "lease specify " + commandObject.args[i] + ".");
                 return false;
             }
         }
