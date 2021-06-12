@@ -487,34 +487,6 @@
         }
     },
 
-    settings: {
-        help: function (command, symbol) {
-            return "`" + symbol + command + "`: displays the current server settings.";
-        },
-
-        command: function (message, server, command, channel) {
-            var settings = serverData[server.id];
-
-            var botChannels = [];
-
-            for (var i in settings.botChannels) {
-                botChannels.push(server.channels.cache.get(settings.botChannels[i]));
-            }
-
-            var settingsMessage = "Channels: " + botChannels.join(", ") +
-            "\nMain channel: <#" + server.channels.cache.get(settings.mainChannel) + ">" +
-            "\nVoice channel: <#" + server.channels.cache.get(settings.voiceChannel) + ">" +
-            "\nDefault reason: '" + settings.defaultReason + "'" +
-            "\nLewd access role: " + (settings.lewdAccessRole ? "**Yes**" : "No") +
-            "\nFactions active: " + (Object.keys(settings.factions).length == 4 ? "**Yes**" : "No") +
-            "\nTesting server: " + (settings.isTestingServer ? "**Yes**" : "No") +
-            "\n'Kek' detection: " + (settings.kekDetection ? "**Yes**" : "No") +
-            "\nCooldown seconds: " + settings.cooldownSecs;
-
-            channel.send(settingsMessage).catch(console.error);
-        }
-    },
-
     addcommandsymbol: {
         help: function (command, symbol) {
             return "`" + symbol + command + " <character>`: allows `character` to be used as a command symbol.";

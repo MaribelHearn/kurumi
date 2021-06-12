@@ -283,7 +283,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var originalQuery = command[1];
+            var originalQuery = command[1], query, suggestions;
 
             if (!originalQuery) {
                 channel.send(message.author.username + ", please specify a search query.").catch(console.error);
@@ -291,16 +291,14 @@
             }
 
             query = encodeURI(originalQuery.replace(/ /g, '+'));
-
             request(GOOGLE_SUGGESTS_BASE_URL + query, function (error, response, body) {
                 if (!response) {
                     channel.send("Failed to search Google for '" + originalQuery + "'.").catch(console.error);
+                    return;
                 }
 
-                var statusCode = response.statusCode;
-
-                if (!error && statusCode == 200) {
-                    var suggestions = JSON.parse(body)[1].join('\n');
+                if (!error && response.statusCode == 200) {
+                    suggestions = JSON.parse(body)[1].join('\n');
 
                     if (suggestions === "") {
                         channel.send("No Google suggestions for that query.").catch(console.error);
@@ -308,7 +306,7 @@
                         channel.send(":regional_indicator_g: `Google` Suggestions for '" + originalQuery + "': ```" + suggestions + "```").catch(console.error);
                     }
                 } else {
-                    channel.send("Error " + statusCode + " " + camel(response.statusMessage) + ".").catch(console.error);
+                    channel.send("Error " + response.statusCode + " " + camel(response.statusMessage) + ".").catch(console.error);
                 }
             });
         }
