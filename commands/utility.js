@@ -678,10 +678,10 @@
             }
 
             try {
-                result = parse(input);
+                result = this.parse(input);
                 channel.send("Result: " + sep(result));
             } catch (err) {
-                channel.send(message.author.username + ", please enter valid math.");
+                channel.send("Error: " + err);
             }
         }
     },
