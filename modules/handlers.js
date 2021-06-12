@@ -255,7 +255,7 @@ module.exports = {
                         return;
                     }
 
-                    date = JSON.parse(body).items[0].snippet.publishedAt, stats = JSON.parse(body).items[0].statistics;
+                    date = new Date(JSON.parse(body).items[0].snippet.publishedAt).UTC(), stats = JSON.parse(body).items[0].statistics;
                     channel.send("Published: " + date + ", " + "Views: " + sep(stats.viewCount) + ", Likes: " + sep(stats.likeCount) +
                     ", Dislikes: " + sep(stats.dislikeCount) + ", Comments: " + sep(stats.commentCount)).catch(console.error);
                 } else {
