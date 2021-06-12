@@ -3,8 +3,7 @@
         args: [0, "code to evaluate"],
 
         help: function (command, symbol) {
-            return "`" + symbol + command + " <code>`: evaluates `code` and posts the result, " +
-            "unless the code already sends a bot message.";
+            return "`" + symbol + command + " <code>`: evaluates `code` and sends the result.";
         },
 
         command: function (message, server, command, channel) {
@@ -13,19 +12,17 @@
             channel.send(code, {"code": "JavaScript"}).catch(console.error);
 
             try {
-                if (code.contains("channel.send")) {
-                    eval(code);
-                } else {
-                    var result = eval(code);
+                var result = eval(code);
 
-                    if (result === undefined) {
-                        result = "undefined";
-                    } else if (result.toString().length > MESSAGE_CAP) {
-                        result = result.toString().substr(0, MESSAGE_CAP - 23) + "...";
-                    }
+                if (result === undefined) {
+                    result = "undefined";
+                } else if (result === "") {
 
-                    channel.send("__Result__\n" + result, {"code": "JavaScript"}).catch(console.error);
+                } else if (result.toString().length > MESSAGE_CAP) {
+                    result = result.toString().substr(0, MESSAGE_CAP - 23) + "...";
                 }
+
+                channel.send("__Result__\n" + result, {"code": "JavaScript"}).catch(console.error);
             } catch (err) {
                 channel.send("An error occurred: " + err).catch(console.error);
             }
