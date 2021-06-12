@@ -91,6 +91,8 @@
     },
 
     fun: {
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + "`: posts the list of fun commands.";
         },
@@ -102,6 +104,8 @@
 
 
     utility: {
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + "`: posts the list of utility commands.";
         },
@@ -113,6 +117,8 @@
 
 
     mod: {
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + "`: posts the list of mod commands.";
         },
@@ -124,6 +130,8 @@
 
 
     master: {
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + "`: posts the list of master commands.";
         },
@@ -134,6 +142,8 @@
     },
 
     music: {
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + "`: posts the list of music commands.";
         },
@@ -144,6 +154,8 @@
     },
 
     image: {
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + "`: posts the list of image commands.";
         },
