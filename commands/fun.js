@@ -116,12 +116,13 @@
 
             if (!ships[lower1].hasOwnProperty(lower2)) {
                 ships[lower1][lower2] = RNG(101);
-                ship = ships[lower1][lower2];
+
+                if (!ships[lower2].hasOwnProperty(lower1)) {
+                    ships[lower2][lower1] = ship;
+                }
             }
 
-            if (!ships[lower2].hasOwnProperty(lower1)) {
-                ships[lower2][lower1] = ship;
-            }
+            ship = ships[lower1][lower2];
 
             if (members.hasOwnProperty(lower1)) {
                 user1 = members[lower1].username;
