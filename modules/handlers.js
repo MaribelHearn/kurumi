@@ -74,6 +74,10 @@ module.exports = {
         return type;
     },
 
+    maxArgc: function (commandHelp, commandName, symbol) {
+        return commandHelp(commandName, symbol).split(':')[0].replace(/<(.*?)>|\[(.*?)\]/g, "<>").split("<>").length - 1;
+    },
+
     parse: function (content, commandName, maxArgc) {
         var quote = false, escape = false, current = "", command = [commandName], character, i, j;
 
@@ -205,7 +209,7 @@ module.exports = {
             }
 
             commandObject = allCommands[commandType][commandName];
-            maxArgc = commandObject.help(commandName, symbol).replace(/<(.*?)>|\[(.*?)\]/g, "<>").split("<>").length;
+            maxArgc = this.maxArgc(commandObject.help, commandName, symbol);
             command = this.parse(content, commandName, maxArgc);
             valid = this.validate(message, server, command, channel, commandObject);
             permitted = (valid ? this.permitted(message, server, channel, commandType, commandObject.command, id, botMaster) : false);
