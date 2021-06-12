@@ -126,7 +126,7 @@ module.exports = {
         return command;
     },
 
-    validate: function (server, channel, command, commandObject) {
+    validate: function (message, server, command, channel, commandObject) {
         if (commandObject.args && command.length < commandObject.args.length) {
             channel.send((server ? message.author.username + ", p" : "P") + "lease specify " + commandObject.args[command.length]);
             return false;
@@ -219,7 +219,7 @@ module.exports = {
             commandObject = allCommands[commandType][commandName];
             maxArgc = this.maxArgc(commandObject.command);
             command = this.parse(content, commandName, maxArgc);
-            valid = this.validate(server, channel, command, commandObject);
+            valid = this.validate(message, server, command, channel, commandObject);
             permitted = (valid ? this.permitted(message, server, channel, commandType, commandObject.command, id, botMaster) : false);
 
             try {
