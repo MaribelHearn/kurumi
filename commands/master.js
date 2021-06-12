@@ -10,10 +10,8 @@
         command: function (message, server, command, channel) {
             var code = command[1];
 
-            if (removeSpaces(code) != code) {
-                channel.send("Evaluating the following code:").catch(console.error);
-                channel.send(code, {"code": "JavaScript"}).catch(console.error);
-            }
+            channel.send("Evaluating the following code:").catch(console.error);
+            channel.send(code, {"code": "JavaScript"}).catch(console.error);
 
             try {
                 if (code.contains("channel.send")) {
