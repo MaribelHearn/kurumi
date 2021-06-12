@@ -172,6 +172,53 @@
         }
     },
 
+    permdata: {
+        dm: true,
+
+        help: function (command, symbol) {
+            return "`" + symbol + command + " [file]`: sends the value of permanent data file `file`. " +
+            "If `file` is not specified, sends the values for all permanent data files. Testing server or DM only.";
+        },
+
+        command: function (message, server, command, channel) {
+            var fileName = command[1], dataMessage = "", file;
+
+            if (server && !serverData[server.id].testingServer) {
+                channel.send(message.author.username + ", this command cannot be used on this server.").catch(console.error);
+                return;
+            }
+
+            if (fileName && !permData.hasOwnProperty(fileName)) {
+                channel.send(message.author.username + ", please specify a valid permanent data file.").catch(console.error);
+                return;
+            }
+
+            for (file in permData) {
+                if (fileName && file != fileName) {
+                    continue;
+                }
+
+                dataMessage += "`" + file + "`: ";
+
+                if (typeof data[file] == "object") {
+                    if (JSON.stringify(permData[file]).length > DATA_FILE_CAP) {
+                        dataMessage += JSON.stringify(permData[file]).substr(0, DATA_FILE_CAP) + "...\n";
+                    } else {
+                        dataMessage += JSON.stringify(permData[file]) + "\n";
+                    }
+                } else {
+                    dataMessage += permData[file] + "\n";
+                }
+            }
+
+            if (dataMessage.length > MESSAGE_CAP) {
+                dataMessage = dataMessage.substr(0, MESSAGE_CAP - 4) + "...";
+            }
+
+            channel.send(dataMessage).catch(console.error);
+        }
+    },
+
     genwiki: {
         dm: true,
 
