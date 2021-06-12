@@ -183,8 +183,9 @@ module.exports = {
         return true;
     },
 
-    commandHandler: function (message, server, channel, content, id) {
-        var botMaster = permData.botMaster, commandName, commandType, commandObject, userIsMod, maxArgc, command, valid, permitted;
+    commandHandler: function (message, server, channel, content, symbol) {
+        var id = message.author.id, botMaster = permData.botMaster, commandName, commandType,
+            commandObject, userIsMod, maxArgc, command, valid, permitted;
 
         try {
             if (permData.maintenanceMode && (!server || !serverData[server.id].isTestingServer)) {
@@ -271,8 +272,8 @@ module.exports = {
     },
 
     messageHandler: function (message) {
-        var id = message.author.id, channel = message.channel, server = message.guild, kekDetected,
-            content = message.content.replace(/\n|\r/g, ' '), symbol = content.charAt(0);
+        var channel = message.channel, server = message.guild, content = message.content.replace(/\n|\r/g, ' '),
+            symbol = content.charAt(0);
 
         if (permData.commandSymbols.contains(symbol) && content.length > 1) {
             this.commandHandler(message, server, channel, content, symbol);
