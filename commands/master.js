@@ -200,7 +200,7 @@
 
                 dataMessage += "`" + file + "`: ";
 
-                if (typeof data[file] == "object") {
+                if (typeof permData[file] == "object") {
                     if (JSON.stringify(permData[file]).length > DATA_FILE_CAP) {
                         dataMessage += JSON.stringify(permData[file]).substr(0, DATA_FILE_CAP) + "...\n";
                     } else {
