@@ -82,7 +82,7 @@ module.exports = {
 
             if (maxArgc === 1 && content !== "") {
                 command.push(content);
-            } else {
+            } else if (content !== "") {
                 for (j = 0; j < content.length; j++) {
                     character = content.charAt(j);
 
