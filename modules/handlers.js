@@ -275,14 +275,14 @@ module.exports = {
             content = message.content.replace(/\n|\r/g, ' '), symbol = content.charAt(0);
 
         if (permData.commandSymbols.contains(symbol) && content.length > 1) {
-            commandHandler(message, server, command, channel, content, symbol);
+            this.commandHandler(message, server, command, channel, content, symbol);
             return;
         }
 
-        detectKek(server, channel, content.toLowerCase());
+        this.detectKek(server, channel, content.toLowerCase());
 
         if (permData.googleKey !== "") {
-            youtubeHandler(channel, content);
+            this.youtubeHandler(channel, content);
         }
     }
 };
