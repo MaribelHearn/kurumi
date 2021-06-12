@@ -211,11 +211,11 @@ module.exports = {
             commandObject = allCommands[commandType][commandName];
             maxArgc = this.maxArgc(commandObject.help, commandName, symbol);
             command = this.parse(content, commandName, maxArgc);
-            valid = this.validate(message, server, command, channel, commandObject);
-            permitted = (valid ? this.permitted(message, server, channel, commandType, commandObject.command, id, botMaster) : false);
+            permitted = this.permitted(message, server, channel, commandType, commandObject.command, id, botMaster);
+            valid = (permitted ? this.validate(message, server, command, channel, commandObject) : false);
 
             try {
-                if (valid && permitted) {
+                if (permitted && valid) {
                     commandObject.command(message, server, command, channel);
                 }
             } catch (err) {

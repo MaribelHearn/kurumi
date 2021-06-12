@@ -773,10 +773,10 @@
     },
 
     litres: {
-        args: [0, "a number of litres to convert"],
+        args: [0, "a number of US gallons to convert"],
 
         help: function (command, symbol) {
-            return "`" + symbol + command + " <US gallons>: converts `US gallons` to litres.";
+            return "`" + symbol + command + " <US gallons>`: converts `US gallons` to litres.";
         },
 
         command: function (message, server, command, channel) {
@@ -791,7 +791,7 @@
         args: [0, "a number of litres to convert"],
 
         help: function (command, symbol) {
-            return "`" + symbol + command + " <litres>: converts `litres` to US gallons.";
+            return "`" + symbol + command + " <litres>`: converts `litres` to US gallons.";
         },
 
         command: function (message, server, command, channel) {

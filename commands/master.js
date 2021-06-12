@@ -109,14 +109,15 @@
 
     data: {
         help: function (command, symbol) {
-            return "`" + symbol + command + " [server]`: sends the server-specific data of `server`. " +
-            "If `server` is not specified, sends this server's data.";
+            return "`" + symbol + command + " [server] [file]`: sends the server-specific data of `server`. " +
+            "If `file` is not specified, sends the values for all data files. " +
+            "If `server` is not specified, or equal to 'current', sends this server's data.";
         },
 
         command: function (message, server, command, channel) {
-            var serverName = command[1], dataMessage = "", data, file;
+            var serverName = command[1], fileName = command[2]; dataMessage = "", data, file;
 
-            if (serverName) {
+            if (serverName && serverName != "current") {
                 server = bot.guilds.cache.find(guild => guild.name.toLowerCase() == serverName.toLowerCase());
 
                 if (!server) {
@@ -127,11 +128,24 @@
 
             data = serverData[server.id];
 
+            if (fileName && !data.hasOwnProperty(fileName)) {
+                channel.send(message.author.username + ", please specify a valid data file.").catch(console.error);
+                return;
+            }
+
             for (file in data) {
+                if (fileName && file != fileName) {
+                    continue;
+                }
+
                 dataMessage += "`" + file + "`: ";
 
                 if (typeof data[file] == "object") {
-                    dataMessage += JSON.stringify(data[file]) + "\n";
+                    if (JSON.stringify(data[file]).length > DATA_FILE_CAP) {
+                        dataMessage += JSON.stringify(data[file]).substr(0, DATA_FILE_CAP) + "...\n";
+                    } else {
+                        dataMessage += JSON.stringify(data[file]) + "\n";
+                    }
                 } else {
                     dataMessage += data[file] + "\n";
                 }
