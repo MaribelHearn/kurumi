@@ -239,7 +239,7 @@ module.exports = {
     },
 
     youtubeHandler: function (channel, content) {
-        var linkPattern = /http(s?):\/\/www.youtube.com\/watch\?v\=[a-zA-Z0-9_]+/, vid, date;
+        var linkPattern = /http(s?):\/\/www.youtube.com\/watch\?v\=[a-zA-Z0-9_-]+/, vid, date;
 
         if (linkPattern.test(content)) {
             vid = linkPattern.exec(content).toString().split('=')[1].slice(0, -2);
@@ -255,9 +255,10 @@ module.exports = {
                         return;
                     }
 
-                    date = new Date(JSON.parse(body).items[0].snippet.publishedAt).UTC(), stats = JSON.parse(body).items[0].statistics;
-                    channel.send("Published: " + date + ", " + "Views: " + sep(stats.viewCount) + ", Likes: " + sep(stats.likeCount) +
-                    ", Dislikes: " + sep(stats.dislikeCount) + ", Comments: " + sep(stats.commentCount)).catch(console.error);
+                    date = JSON.parse(body).items[0].snippet.publishedAt, stats = JSON.parse(body).items[0].statistics;
+                    channel.send("Published: " + new Date(date).UTC() + ", " + "Views: " + sep(stats.viewCount) +
+                    ", Likes: " + sep(stats.likeCount) + ", Dislikes: " + sep(stats.dislikeCount) +
+                    ", Comments: " + sep(stats.commentCount)).catch(console.error);
                 } else {
                     channel.send("Error " + response.statusCode + " " + camel(response.statusMessage) + ".").catch(console.error);
                 }
