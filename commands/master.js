@@ -18,7 +18,9 @@
                 } else {
                     var result = eval(code);
 
-                    if (result.toString().length > MESSAGE_CAP) {
+                    if (result === undefined) {
+                        result = "undefined";
+                    } else if (result.toString().length > MESSAGE_CAP) {
                         result = result.toString().substr(0, MESSAGE_CAP - 23) + "...";
                     }
 
@@ -107,13 +109,25 @@
 
     data: {
         help: function (command, symbol) {
-            return "`" + symbol + command + "`: posts the current server specific script data.";
+            return "`" + symbol + command + " [server]`: sends the server-specific data of `server`. " +
+            "If `server` is not specified, sends this server's data.";
         },
 
         command: function (message, server, command, channel) {
-            var dataMessage = "", data = serverData[server.id];
+            var serverName = command[1], dataMessage = "", data, file;
 
-            for (var file in data) {
+            if (serverName) {
+                server = bot.guilds.cache.find(guild => guild.name.toLowerCase() == serverName.toLowerCase());
+
+                if (!server) {
+                    channel.send(message.author.username + ", please specify a valid server name.").catch(console.error);
+                    return;
+                }
+            }
+
+            data = serverData[server.id];
+
+            for (file in data) {
                 dataMessage += "`" + file + "`: ";
 
                 if (typeof data[file] == "object") {

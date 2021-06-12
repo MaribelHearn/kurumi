@@ -648,7 +648,7 @@
                 for (i = 0; i < input.length; i++) {
                     if (input[i].contains('^')) {
                         numbers = input[i].split('^');
-                        input[i] = Math.pow(numbers[0], numbers[1]);
+                        input[i] = String(Math.pow(numbers[0], numbers[1]));
                     }
                 }
 
@@ -660,7 +660,7 @@
                 }
 
                 for (i = 0; i < input.length; i++) {
-                    result += input[i] + (ops[i] ? ops[i] : "");
+                    result += String(input[i] + (ops[i] ? ops[i] : ""));
                 }
             } else {
                 result = input;
@@ -693,31 +693,26 @@
             return "`" + symbol + command + " <feet>' <inches>''`: converts `feet` and `inches` to meters.";
         },
 
+        feetAndInchesToMeters: function (feetAndInches) {
+            // Feet and inches must be in the format 6' 4'' or 6'4''
+            var tmp = (feetAndInches.indexOf(' ') != -1 ? feetAndInches.split("' ") : feetAndInches.split("'"));
+
+            var feet = parseInt(tmp[0]), inches = parseInt(tmp[1].replace("''", ""));
+
+            var meters = ((feet + inches / 12) / 3.2808399).toPrecision(3);
+
+            return meters;
+        },
+
         command: function (message, server, command, channel) {
-            var feetAndInches = command[1];
-
-            var symbol = message.content.charAt(0);
-
-            var notation = /(\d+)'\s*(\d+)''/; // e.g. 6' 4'' or 6'4''
+            var feetAndInches = command[1], symbol = message.content.charAt(0), notation = /(\d+)'\s*(\d+)''/;
 
             if (!notation.test(feetAndInches)) {
                 channel.send(message.author.username + ", use `" + symbol + "help meters` to learn how to use this command.").catch(console.error);
                 return;
             }
 
-            var feetAndInchesToMeters = function (feetAndInches) {
-                // Feet and inches must be in the format 6' 4'' or 6'4''
-                var tmp = (feetAndInches.indexOf(' ') != -1 ? feetAndInches.split("' ") : feetAndInches.split("'"));
-
-                var feet = parseInt(tmp[0]), inches = parseInt(tmp[1].replace("''", ""));
-
-                var meters = ((feet + inches / 12) / 3.2808399).toPrecision(3);
-
-                return meters;
-            };
-
-            var meters = feetAndInchesToMeters(feetAndInches);
-
+            meters = this.feetAndInchesToMeters(feetAndInches);
             channel.send(message.author.username + ", " + feetAndInches + " is equal to " + meters + " meters in the metric system.").catch(console.error);
         }
     },
@@ -742,7 +737,7 @@
         command: function (message, server, command, channel) {
             var meters = command[1], feetAndInches;
 
-            feetAndInches = metersToFeetAndInches(meters);
+            feetAndInches = this.metersToFeetAndInches(meters);
             channel.send(message.author.username + ", " + meters + " meters is equal to " + feetAndInches + " in the imperial system.").catch(console.error);
         }
     },
