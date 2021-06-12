@@ -670,7 +670,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var input = command[1], pattern = /\+|-|\*|\/|%/g, result;
+            var input = command[1].replace(/ /g, ""), pattern = /\+|-|\*|\/|%|\^/g, result;
 
             if (isNaN(input.replace(pattern, ""))) {
                 channel.send(message.author.username + ", please enter valid math.");
