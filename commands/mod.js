@@ -80,11 +80,27 @@
     },
 
     reset: {
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + "`: resets the RNG-generated values.";
         },
 
         command: function (message, server, command, channel) {
+            if (!server) {
+                for (var id in serverData) {
+                    serverData[id].waifus = {"user":{},"touhou":{},"spell":{},"fan":{},"lenen":{}};
+                    serverData[id].ratings = {};
+                    serverData[id].ships = {};
+                    save("waifus", bot.guilds.cache.get(id));
+                    save("ratings", bot.guilds.cache.get(id));
+                    save("ships", bot.guilds.cache.get(id));
+                }
+
+                channel.send("RNG-generated values have been reset for all servers.").catch(console.error);
+                return;
+            }
+
             serverData[server.id].waifus = {"user":{},"touhou":{},"spell":{},"fan":{},"lenen":{}};
             serverData[server.id].ratings = {};
             serverData[server.id].ships = {};
@@ -123,6 +139,8 @@
 
     removescrubquote: {
         args: [0, "a scrubquote to remove"],
+
+        dm: true,
 
         help: function (command, symbol) {
             return "`" + symbol + command + " <quote>`: removes `scrubquote` from the list of scrubquotes.";
@@ -193,6 +211,8 @@
     say: {
         args: [0, "a message for me to send"],
 
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <message>`: will make me send `message` to the current channel.";
         },
@@ -210,6 +230,8 @@
     },
 
     game: {
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + " [game]`: will make me play `game`. If `game` is not specified, removes my game.";
         },
@@ -229,6 +251,8 @@
     },
 
     avatar: {
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + " [URL]`: will give me the avatar linked to by `URL`. " +
             "If `URL` is not specified, resets my avatar to the default one.";
@@ -249,6 +273,8 @@
     },
 
     status: {
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + " [status]`: will set my status to `status`. " +
             "If `status` is not specified, removes my status.";
@@ -284,6 +310,8 @@
 
     updatewr: {
         args: [0, "a game", "a difficulty", "a shottype or route", "a score", "a player", "a date"],
+
+        dm: true,
 
         help: function (command, symbol) {
             return "`" + symbol + command + " <game> <difficulty> <shottype/route> <new WR> <player> <date> [replay]`: " +
@@ -367,6 +395,8 @@
     updatewest: {
         args: [0, "a game", "a difficulty", "a score", "a player", "a shottype or route"],
 
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <game> <difficulty> <new WestR> <player> <shottype>`: updates the Western record in `game` `difficulty` `shottype/route` to `new WestR` by `player`.";
         },
@@ -415,6 +445,8 @@
 
     addlnn: {
         args: [0, "a game", "a shottype or route", "a player"],
+
+        dm: true,
 
         help: function (command, symbol) {
             return "`" + symbol + command + " <game> <shottype/route> <player> [replay]`: " +
@@ -506,6 +538,8 @@
     lnnreplay: {
         args: [0, "a game", "a shottype or route", "a player", "a replay or video"],
 
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <game> <shottype/route> <player> <replay>`: " +
             "sets that LNN's replay or video to <replay>.";
@@ -582,6 +616,8 @@
 
     removelnn: {
         args: [0, "a game", "a shottype or route", "a player"],
+
+        dm: true,
 
         help: function (command, symbol) {
             return "`" + symbol + command + " <game> <shottype/route> <player>`: removes `player` from the list of `game` LNNs with `shottype/route`.";
@@ -703,12 +739,12 @@
         },
 
         command: function (message, server, command, channel) {
-            if (!serverData[server.id].voiceChannel) {
-                channel.send(message.author.username + ", please tell me which voice channel to use (using the voicechannel command).").catch(console.error);
-                return;
-            }
+            var voiceChannel;
 
-            var voiceChannel = server.channels.cache.get(serverData[server.id].voiceChannel);
+            if (bot.voice.connections.array().length > 0) {
+                voiceChannel = bot.voice.connections.array()[0].channel;
+                voiceChannel = voiceChannel.guild.channels.cache.get(voiceChannel.id);
+            }
 
             if (!musicBlocked && voiceChannel.connection !== null) {
                 voiceChannel.leave();
@@ -788,6 +824,8 @@
     addimage: {
         args: [0, "an image file", "a description for the help command"],
 
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <image file> <description>`: adds a command that posts `image file` and has `description` when `" + symbol + "help` is used on it.\nThe file must be in the `images` folder.";
         },
@@ -814,6 +852,8 @@
     removeimage: {
         args: [0, "an image command"],
 
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <image command>`: removes `image command`. " +
             "Note that this does not delete the actual image file.";
@@ -835,6 +875,8 @@
 
     addmusic: {
         args: [0, "music", "a description for the help command"],
+
+        dm: true,
 
         help: function (command, symbol) {
             return "`" + symbol + command + " <music> <description> [volume]`: adds a command that plays `music` on a voice channel and has `description` when `" + symbol + "help` is used on it.\nThe music must be a file in the `music` folder.\nIf `volume` is not specified, it will be set to 0.5.";
@@ -863,6 +905,8 @@
     removemusic: {
         args: [0, "a music command"],
 
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <music command>`: removes `music command`. " +
             "Note that this does not delete the actual music file, if there is one.";
@@ -883,6 +927,8 @@
 
     addalias: {
         args: [0, "a command to make an alias for", "an alias for that command"],
+
+        dm: true,
 
         help: function (command, symbol) {
             return "`" + symbol + command + " <command> <alias>`: adds `alias` as an alias for `command`.";
@@ -912,6 +958,8 @@
 
     removealias: {
         args: [0, "a command to remove an alias from", "an alias to be removed from that command"],
+
+        dm: true,
 
         help: function (command, symbol) {
             return "`" + symbol + command + " <command> <alias>`: removes `alias` from the list of aliases for `command`.";

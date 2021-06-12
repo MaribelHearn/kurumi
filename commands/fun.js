@@ -201,6 +201,8 @@
     "8ball": {
         args: [0, "a question"],
 
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <question>`: the wise 8ball will give an answer to `question`.";
         },
@@ -212,6 +214,8 @@
 
     choice: {
         args: [0, "options", "at least a second option"],
+
+        dm: true,
 
         help: function (command, symbol) {
             return "`" + symbol + command + " <option 1> <option 2> [option 3] ...`: makes me choose out of " +
@@ -225,6 +229,8 @@
     },
 
     roll: {
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + " [filter]`: roll a random Touhou category. `filter` can be nothing, Windows, PC-98, a game or a difficulty.";
         },
@@ -258,6 +264,8 @@
 
     google: {
         args: [0, "a search query"],
+
+        dm: true,
 
         help: function (command, symbol) {
             return "`" + symbol + command + " <query>`: posts the Google suggestions for `query`.";
@@ -434,6 +442,8 @@
     },
 
     scrubquote: {
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + "`: selects a random scrubquote out of the saved scrubquotes.";
         },
@@ -452,6 +462,8 @@
 
     addscrubquote: {
         args: [0, "a scrubquote to add"],
+
+        dm: true,
 
         help: function (command, symbol) {
             return "`" + symbol + command + " <quote>`: adds `scrubquote` to the list of scrubquotes.";
@@ -472,6 +484,8 @@
     },
 
     scrubquotecount: {
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + " `: tells you how many scrubquotes are in the list.";
         },

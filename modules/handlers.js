@@ -146,10 +146,11 @@ module.exports = {
         return true;
     },
 
-    permitted: function (message, server, channel, commandType, commandFunction, id, botMaster) {
-        var userIsMod = (server && server.members.cache.get(id).hasPermission("BAN_MEMBERS"));
+    permitted: function (message, server, channel, commandType, commandObject, id, botMaster) {
+        var userIsMod = (server && server.members.cache.get(id).hasPermission("BAN_MEMBERS")),
+            commandFunction = commandObject.command;
 
-        if (!server && isServerOnly(commandFunction)) {
+        if (!server && !commandObject.dm) {
             channel.send("That command can only be used on servers.").catch(console.error);
             return false;
         }
@@ -211,7 +212,7 @@ module.exports = {
             commandObject = allCommands[commandType][commandName];
             maxArgc = this.maxArgc(commandObject.help, commandName, symbol);
             command = this.parse(content, commandName, maxArgc);
-            permitted = this.permitted(message, server, channel, commandType, commandObject.command, id, botMaster);
+            permitted = this.permitted(message, server, channel, commandType, commandObject, id, botMaster);
             valid = (permitted ? this.validate(message, server, command, channel, commandObject) : false);
 
             try {

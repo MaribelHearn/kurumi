@@ -2,6 +2,8 @@
     eval: {
         args: [0, "code to evaluate"],
 
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <code>`: evaluates `code` and sends the result.";
         },
@@ -30,6 +32,8 @@
     },
 
     update: {
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + "`: updates the script modules and reloads the data files. " +
             "requires `git` to be installed and requires the bot to be running from its git repository.";
@@ -105,6 +109,8 @@
     },
 
     data: {
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + " [server] [file]`: sends the server-specific data of `server`. " +
             "If `file` is not specified, sends the values for all data files. " +
@@ -121,6 +127,11 @@
                     channel.send(message.author.username + ", please specify a valid server name.").catch(console.error);
                     return;
                 }
+            }
+
+            if (!server) {
+                channel.send(message.author.username + ", a server name is required in a DM.").catch(console.error);
+                return;
             }
 
             data = serverData[server.id];
@@ -162,6 +173,8 @@
     },
 
     genwiki: {
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + "`: generates the full list of commands for the GitHub Wiki.";
         },
@@ -184,6 +197,8 @@
 
     secretsay: {
         args: [0, "a server", "something for me to say"],
+
+        dm: true,
 
         help: function (command, symbol) {
             return "`" + symbol + command + " <server> <message>`: will make me send `message` to the main channel of `server`. " +
@@ -228,6 +243,8 @@
     },
 
     togglemaintenance: {
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + "`: toggles maintenance mode. This will disable commands outside of testing servers.";
         },
@@ -476,6 +493,8 @@
     addcommandsymbol: {
         args: [0, "a symbol"],
 
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <symbol>`: allows `symbol` to be used as a command symbol.";
         },
@@ -496,6 +515,8 @@
 
     removecommandsymbol: {
         args: [0, "a symbol"],
+
+        dm: true,
 
         help: function (command, symbol) {
             return "`" + symbol + command + " <symbol>`: removes `symbol` from the usable command symbols.";
@@ -518,6 +539,8 @@
     setweatherapi: {
         args: [0, "an API key"],
 
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <API key>`: saves the key `API key` for use of the `" + symbol + "weather` command.";
         },
@@ -532,6 +555,8 @@
     },
 
     removeweatherapi: {
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + "`: removes the API key that was saved for use of the `" + symbol + "weather` command.";
         },
@@ -545,6 +570,8 @@
 
     setgoogleapi: {
         args: [0, "an API key"],
+
+        dm: true,
 
         help: function (command, symbol) {
             return "`" + symbol + command + " <API key>`: saves the key `API key` to enable the automatic replies to YouTube links.";
@@ -560,6 +587,8 @@
     },
 
     removegoogleapi: {
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + "`: removes the API key that was saved for automatic replies to YouTube links.";
         },
@@ -573,6 +602,8 @@
 
     setipapi: {
         args: [0, "an API key"],
+
+        dm: true,
 
         help: function (command, symbol) {
             return "`" + symbol + command + " <API key>`: saves the key `API key` to enable IP tracing.";
@@ -588,6 +619,8 @@
     },
 
     removeipapi: {
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + "`: removes the API key that was saved for IP tracing.";
         },
@@ -625,6 +658,8 @@
     },
 
     logout: {
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + "`: makes me log out.";
         },

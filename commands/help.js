@@ -1,5 +1,7 @@
 ﻿module.exports = {
     help: {
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + " [command]`: explains how to use `command` and what it does. If `command` is not specified, runs `" + symbol + "commands` instead.";
         },
@@ -54,6 +56,8 @@
     },
 
     commands: {
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + "`: posts the list of commands, the possible command symbols and the number of commands.";
         },

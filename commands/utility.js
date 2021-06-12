@@ -1,5 +1,7 @@
 ﻿module.exports = {
     botinfo: {
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + "`: posts some information about me.";
         },
@@ -111,6 +113,8 @@
 
     aliases: {
         args: [0, "a command to show the aliases for"],
+
+        dm: true,
 
         help: function (command, symbol) {
             return "`" + symbol + command + " <command>`: shows currently active aliases for `command`.";
@@ -382,6 +386,8 @@
     lnn: {
         args: [0, "a game to check LNNs of"],
 
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <game> [shottype/route]`: shows the list of LNN players for `game` with `shottype/route`. " +
             "If `shottype/route` is not specified, shows the list of all LNN players for `game`.";
@@ -453,6 +459,8 @@
     wr: {
         args: [0, "a game to check a world record of"],
 
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <game> [difficulty] [shottype/route]`: shows the world record in `game` `difficulty` `shottype/route`.\n" +
             "If `difficulty` or `shottype/route` are not specified, selects the overall world record of the game or difficulty.";
@@ -523,6 +531,8 @@
 
     wrlist: {
         args: [0, "a game to check the world records of"],
+
+        dm: true,
 
         help: function (command, symbol) {
             return "`" + symbol + command + " <game> <difficulty> [order]`: shows the list of world records in `game` `difficulty`, sorted by `order`, which is 'shot(type)' or 'score'.\n" +
@@ -622,6 +632,8 @@
     },
 
     wrupdated: {
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + "`: tells you when the world records were last updated.";
         },
@@ -633,6 +645,8 @@
 
     calc: {
         args: [0, "a calculation"],
+
+        dm: true,
 
         help: function (command, symbol) {
             return "`" + symbol + command + " <input>`: calculates the result of `input`, where `input` is a mathematical " +
@@ -689,6 +703,8 @@
     meters: {
         args: [0, "use `%shelp meters` to learn how to use this command"],
 
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <feet>' <inches>''`: converts `feet` and `inches` to meters.";
         },
@@ -720,6 +736,8 @@
     feet: {
         args: [0, "a number of meters to convert"],
 
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <meters>`: converts `meters` to feet and inches.";
         },
@@ -745,6 +763,8 @@
     km: {
         args: [0, "a number of miles to convert"],
 
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <miles>: converts `miles` to kilometers.";
         },
@@ -759,6 +779,8 @@
 
     miles: {
         args: [0, "a number of kilometers to convert"],
+
+        dm: true,
 
         help: function (command, symbol) {
             return "`" + symbol + command + " <kilometers>: converts `kilometers` to miles.";
@@ -775,6 +797,8 @@
     litres: {
         args: [0, "a number of US gallons to convert"],
 
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <US gallons>`: converts `US gallons` to litres.";
         },
@@ -789,6 +813,8 @@
 
     gallons: {
         args: [0, "a number of litres to convert"],
+
+        dm: true,
 
         help: function (command, symbol) {
             return "`" + symbol + command + " <litres>`: converts `litres` to US gallons.";
@@ -805,6 +831,8 @@
     c2f: {
         args: [0, "a number of degrees Celsius to convert"],
 
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <degrees Celsius>`: converts `degrees Celsius` to Fahrenheit.";
         },
@@ -819,6 +847,8 @@
 
     c2k: {
         args: [0, "a number of degrees Celsius to convert"],
+
+        dm: true,
 
         help: function (command, symbol) {
             return "`" + symbol + command + " <degrees Celsius>`: converts `degrees Celsius` to Kelvin.";
@@ -835,6 +865,8 @@
     f2c: {
         args: [0, "a number of degrees Fahrenheit to convert"],
 
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <degrees Fahrenheit>`: converts `degrees Fahrenheit` to Celsius.";
         },
@@ -849,6 +881,8 @@
 
     f2k: {
         args: [0, "a number of degrees Fahrenheit to convert"],
+
+        dm: true,
 
         help: function (command, symbol) {
             return "`" + symbol + command + " <degrees Fahrenheit>`: converts `degrees Fahrenheit` to Kelvin.";
@@ -865,6 +899,8 @@
     k2c: {
         args: [0, "a number of degrees Kelvin to convert"],
 
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <degrees Kelvin>`: converts `degrees Kelvin` to Celsius.";
         },
@@ -880,6 +916,8 @@
     k2f: {
         args: [0, "a number of degrees Kelvin to convert"],
 
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <degrees Kelvin>`: converts `degrees Kelvin` to Fahrenheit.";
         },
@@ -894,6 +932,8 @@
 
     weather: {
         args: [0, "a place to look up"],
+
+        dm: true,
 
         help: function (command, symbol) {
             return "`" + symbol + command + " <place>`: looks up current weather in `place`. Undefined behaviour can occur if the place does not exist.";
@@ -956,6 +996,8 @@
     time: {
         args: [0, "a UTC offset"],
 
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + " <UTC offset>`: gives the local time at `UTC offset`.";
         },
@@ -1000,6 +1042,8 @@
     },
 
     localtime: {
+        dm: true,
+
         help: function (command, symbol) {
             return "`" + symbol + command + "`: gives my local time.";
         },
@@ -1013,6 +1057,8 @@
 
     country: {
         args: [0, "a country"],
+
+        dm: true,
 
         help: function (command, symbol) {
             return "`" + symbol + command + " <country>`: tells you the flag of `country`. ";
@@ -1035,6 +1081,8 @@
 
     trace: {
         args: [0, "an IPv4 address"],
+
+        dm: true,
 
         help: function (command, symbol) {
             return "`" + symbol + command + " <IPv4 address>`: traces the location of `IPv4 address`. " +

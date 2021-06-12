@@ -579,7 +579,7 @@ module.exports = {
             }
 
             for (var commandName in all) {
-                if (server || commandType == "image" || !isServerOnly(all[commandName].command)) {
+                if (server || commandType == "image" || all[commandName].dm) {
                     info += "`" + symbol + commandName + "` ";
                     numberOfCommands += 1;
                 }
@@ -588,12 +588,6 @@ module.exports = {
             info = info.slice(0, -1);
             info += "\nThere are currently **" + numberOfCommands + "** " + commandType + " commands total.";
             channel.send(info).catch(console.error);
-        };
-
-        global.isServerOnly = function (commandFunction) {
-            var string = commandFunction.toString();
-
-            return (string.contains("server.") || string.contains("updateWaifu")) && (string.indexOf("server.") == -1 || string.indexOf("server.") != string.indexOf("server.id].cooldownSecs"));
         };
 
         global.stripMarkdown = function (string) {
