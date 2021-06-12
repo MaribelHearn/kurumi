@@ -128,7 +128,7 @@ module.exports = {
 
     validate: function (message, server, command, channel, commandObject) {
         if (commandObject.args && command.length < commandObject.args.length) {
-            channel.send((server ? message.author.username + ", p" : "P") + "lease specify " + commandObject.args[command.length]);
+            channel.send((server ? message.author.username + ", p" : "P") + "lease specify " + commandObject.args[command.length] + ".");
             return false;
         }
 
@@ -146,7 +146,7 @@ module.exports = {
             }
 
             if (commandObject.args && commandObject.args[i] && commandObject.args[i].startsWith("a number") && isNaN(command[i])) {
-                channel.send((server ? message.author.username + ", p" : "P") + "lease specify " + commandObject.args[command.length]);
+                channel.send((server ? message.author.username + ", p" : "P") + "lease specify " + commandObject.args[command.length] + ".");
                 return false;
             }
         }
