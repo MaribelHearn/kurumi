@@ -648,7 +648,7 @@
                 for (i = 0; i < input.length; i++) {
                     if (input[i].contains('^')) {
                         numbers = input[i].split('^');
-                        input[i] = String(Math.pow(numbers[0], numbers[1]));
+                        input[i] = Math.pow(numbers[0], numbers[1]);
                     }
                 }
 
