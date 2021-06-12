@@ -554,7 +554,7 @@
             }
 
             if (game == "GFW" && difficulty == "Extra") {
-                channel.send(message.author.username + " >implying GFW Extra has a list of records").catch(console.error);
+                channel.send(">implying GFW Extra has a list of records").catch(console.error);
                 return;
             }
 
@@ -628,6 +628,61 @@
 
         command: function (message, server, command, channel) {
             channel.send("The world records were last updated at " + permData.WRsLastUpdated + ".").catch(console.error);
+        }
+    },
+
+    calc: {
+        args: [0, "a calculation"],
+
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <input>`: calculates the result of `input`, where `input` is a mathematical " +
+            "calculation. Please do not divide by zero, since I don't think I can handle that!";
+        },
+
+        parse: function (input) {
+            var pattern1 = /\+|-|\*|\/|%/, pattern2 = /\d+/, result = "", numbers, ops, i;
+
+            if (input.contains('^')) {
+                input = input.split(pattern1);
+
+                for (i = 0; i < input.length; i++) {
+                    if (input[i].contains('^')) {
+                        numbers = input[i].split('^');
+                        input[i] = Math.pow(numbers[0], numbers[1]);
+                    }
+                }
+
+                ops = input.split(pattern2).splice(0, 1);
+                ops.splice(ops.length - 1);
+
+                while (ops.contains('^')) {
+                    ops.remove('^');
+                }
+
+                for (i = 0; i < input.length; i++) {
+                    result += input[i] + (ops[i] ? ops[i] : "");
+                }
+            } else {
+                result = input;
+            }
+
+            return eval(result);
+        },
+
+        command: function (message, server, command, channel) {
+            var input = command[1], pattern = /[\d+\\+-\*\/\^%]+/, result;
+
+            if (!pattern.test(input)) {
+                channel.send(message.author.username + ", please enter valid math.");
+                return;
+            }
+
+            try {
+                result = parse(input);
+                channel.send("Result: " + sep(result));
+            } catch (err) {
+                channel.send(message.author.username + ", please enter valid math.");
+            }
         }
     },
 
