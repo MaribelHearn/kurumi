@@ -74,18 +74,6 @@ module.exports = {
         return type;
     },
 
-    maxArgc: function (commandFunction) {
-        var string = commandFunction.toString(), result = 0, i;
-
-        for (i = 1; i < GLOBAL_MAX_ARGC; i++) {
-            if (string.contains("command[" + i + "]")) {
-                result += 1;
-            }
-        }
-
-        return result;
-    },
-
     parse: function (content, commandName, maxArgc) {
         var quote = false, escape = false, current = "", command = [commandName], character, i, j;
 
@@ -133,7 +121,7 @@ module.exports = {
         }
 
         for (var i = 1; i < command.length; i++) {
-            command[i] = stripMarkdown(command[i]);
+            command[i] = (command[0] != "eval" ? stripMarkdown(command[i]) : command[i]);
 
             if (command[i] === "") {
                 command.splice(i, 1);
@@ -217,7 +205,7 @@ module.exports = {
             }
 
             commandObject = allCommands[commandType][commandName];
-            maxArgc = this.maxArgc(commandObject.command);
+            maxArgc = commandObject.help(commandName, symbol).replace(/<(.*?)>|\[(.*?)\]/g, "<>").split("<>").length;
             command = this.parse(content, commandName, maxArgc);
             valid = this.validate(message, server, command, channel, commandObject);
             permitted = (valid ? this.permitted(message, server, channel, commandType, commandObject.command, id, botMaster) : false);
