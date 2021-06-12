@@ -797,7 +797,7 @@
         command: function (message, server, command, channel) {
             var litres = Number(command[1]), gallons;
 
-            gallons = litres / 0.26417205124156;
+            gallons = litres * 0.26417205124156;
             channel.send(message.author.username + ", " + litres + " litres are equal to " + gallons + " US gallons.").catch(console.error);
         }
     },
