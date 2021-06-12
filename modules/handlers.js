@@ -127,7 +127,7 @@ module.exports = {
     },
 
     validate: function (server, channel, command, commandObject) {
-        if (command.length < commandObject.args.length) {
+        if (commandObject.args && command.length < commandObject.args.length) {
             channel.send((server ? message.author.username + ", p" : "P") + "lease specify " + commandObject.args[command.length]);
             return false;
         }
