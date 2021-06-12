@@ -772,195 +772,33 @@
         }
     },
 
-    localtime: {
+    litres: {
+        args: [0, "a number of litres to convert"],
+
         help: function (command, symbol) {
-            return "`" + symbol + command + "`: gives my local time.";
+            return "`" + symbol + command + " <US gallons>: converts `US gallons` to litres.";
         },
 
         command: function (message, server, command, channel) {
-            var date = new Date();
+            var gallons = Number(command[1]), litres;
 
-            channel.send("My current local time is " + new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).local() + ".").catch(console.error);
+            litres = gallons * 3.785411784;
+            channel.send(message.author.username + ", " + gallons + " US gallons are equal to " + litres + " litres.").catch(console.error);
         }
     },
 
-    time: {
-        args: [0, "a UTC offset"],
+    gallons: {
+        args: [0, "a number of litres to convert"],
 
         help: function (command, symbol) {
-            return "`" + symbol + command + " <UTC offset>`: gives the local time at `UTC offset`.";
+            return "`" + symbol + command + " <litres>: converts `litres` to US gallons.";
         },
 
         command: function (message, server, command, channel) {
-            var timezone = command[1], date = new Date(), offset, msUTC, msTimezone, localTime, timezoneText = timezone;
+            var litres = Number(command[1]), gallons;
 
-            if (timezone.contains(':')) {
-                timezone = timezone.split(':')[0] + '.';
-
-                if (timezone.split(':')[1] == "30") {
-                    timezone += "5";
-                } else if (timezone.split(':')[1] == "45") {
-                    timezone += "75";
-                } else {
-                    channel.send(message.author.username + ", please specify a valid UTC offset.").catch(console.error);
-                    return;
-                }
-            }
-
-            offset = Number(timezone.replace("UTC", "").replace("GMT", ""));
-
-            if (isNaN(offset)) {
-                channel.send(message.author.username + ", please specify a valid UTC offset.").catch(console.error);
-                return;
-            }
-
-            if (offset < -12 || offset > 14) {
-                channel.send(message.author.username + ", that time zone does not exist.").catch(console.error);
-                return;
-            }
-
-            if (timezone == offset) {
-                timezoneText = "UTC" + (offset >= 0 ? "+" : "") + offset;
-            }
-
-            msUTC = date.getTime() + (date.getTimezoneOffset() * 60000);
-            msTimezone = msUTC + (3600000 * offset);
-            localTime = new Date(msTimezone - (date.getTimezoneOffset() * 60000)).local();
-            channel.send("The local time in " + timezoneText + " is " + localTime + ".").catch(console.error);
-        }
-    },
-
-    country: {
-        args: [0, "a country"],
-
-        help: function (command, symbol) {
-            return "`" + symbol + command + " <country>`: tells you the flag of `country`. ";
-        },
-
-        command: function (message, server, command, channel) {
-            var country = command[1], alt;
-
-            country = countryAlt(country);
-
-            if (COUNTRIES.hasOwnProperty(country.toLowerCase())) {
-                channel.send("The flag of " + camel(country) + " is " + flag(country)).catch(console.error);
-            } else if (isFlagCode(country)) {
-                channel.send("The flag of " + countryName(country) + " is :flag_" + country + ":").catch(console.error);
-            } else {
-                channel.send(message.author.username + ", please specify a valid country.").catch(console.error);
-            }
-        }
-    },
-
-    trace: {
-        args: [0, "an IPv4 address"],
-
-        help: function (command, symbol) {
-            return "`" + symbol + command + " <IPv4 address>`: traces the location of `IPv4 address`. " +
-            "Local network addresses will not work.";
-        },
-
-        command: function (message, server, command, channel) {
-            var ip = command[1], startTime = new Date();
-
-            if (permData.ipKey === "") {
-                channel.send("This command is currently disabled. Use `!setipapi <API key>` to enable it.").catch(console.error);
-                return;
-            }
-
-            if (cooldown) {
-                channel.send("Please do not overuse this command!").catch(console.error);
-                return;
-            }
-
-            if (!net.isIPv4(ip)) {
-                channel.send(message.author.username + ", please specify a valid IPv4 address.").catch(console.error);
-                return;
-            }
-
-            if (ip.substr(0, 2) == "0." || ip == "127.0.0.1" || range(ip) == "192.168") {
-                channel.send("Cannot trace local network addresses").catch(console.error);
-                return;
-            }
-
-            request(ipTracingUrl(ip), function (error, response, body) {
-                if (error) {
-                    channel.send("An error occurred while trying to trace the IP address.").catch(console.error);
-                    return;
-                }
-
-                var statusCode = response.statusCode;
-
-                if (statusCode == 200) {
-                    var json = JSON.parse(body);
-
-                    channel.send("Location of " + ip + ": " + flag(json.countryName) +
-                    " " + json.cityName + " (time zone: UTC" + json.timeZone + ")");
-                } else {
-                    channel.send("Error " + statusCode + " " + cap(response.statusMessage));
-                }
-            });
-        }
-    },
-
-    weather: {
-        args: [0, "a place to look up"],
-
-        help: function (command, symbol) {
-            return "`" + symbol + command + " <place>`: looks up current weather in `place`. Undefined behaviour can occur if the place does not exist.";
-        },
-
-        command: function (message, server, command, channel) {
-            var place = command[1];
-
-            if (permData.weatherKey === "") {
-                channel.send("This command is currently disabled. Use `!setweatherapi <API key>` to enable it.").catch(console.error);
-                return;
-            }
-
-            if (cooldown) {
-                channel.send("Please do not flood the channel!").catch(console.error);
-                return;
-            }
-
-            request(weatherUrl(place), function (error, response, body) {
-                var result = JSON.parse(body);
-
-                if (result.sys === undefined) {
-                    channel.send("An error occurred while trying to retrieve the weather data.").catch(console.error);
-                    return;
-                }
-
-                var countryCode = result.sys.country, weather = "", i;
-
-                if (!countryCode) {
-                    countryCode = "AQ";
-                }
-
-                for (i = 0; i < Object.keys(result.weather).length; i++) {
-                    weather += result.weather[i].description + (i != Object.keys(result.weather).length - 1 ? ", " : "");
-                }
-
-                var celsius = (result.main.temp - 273.15).toFixed(2), humidity = result.main.humidity, wind = result.wind.speed;
-
-                var direction = degreesToDirection(result.wind.deg), fahrenheit, embed;
-
-                direction = (direction ? " (" + direction + ")" : "");
-                weather = weatherEmoji(weather) + weather;
-                fahrenheit = (celsius * 1.8 + 32).toFixed(2);
-                embed = new Discord.MessageEmbed();
-                embed.addField("Location", ":flag_" + countryCode.toLowerCase() + ": " + "[" + result.name + "](" + mapsUrl(place, countryCode) + ")");
-                embed.addField("Weather", weather);
-                embed.addField("Temperature", celsius + " °C / " + fahrenheit + " °F", true);
-                embed.addField("Humidity", humidity + "%", true);
-                embed.addField("Wind Speed", wind + " m/s" + direction, true);
-                channel.send({embed}).catch(console.error);
-
-                if (channel.type != "dm" && serverData[server.id].cooldownSecs > 0) {
-                    cooldown = true;
-                    timers.setInterval(function () { cooldown = false; }, serverData[server.id].cooldownSecs * 1000);
-                }
-            });
+            gallons = litres / 0.26417205124156;
+            channel.send(message.author.username + ", " + litres + " litres are equal to " + gallons + " US gallons.").catch(console.error);
         }
     },
 
@@ -1051,6 +889,198 @@
 
             fahrenheit = Math.round(kelvin * 1.8 - 459.67);
             channel.send(message.author.username + ", " + kelvin + " K is equal to " + fahrenheit + " °F.").catch(console.error);
+        }
+    },
+
+    weather: {
+        args: [0, "a place to look up"],
+
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <place>`: looks up current weather in `place`. Undefined behaviour can occur if the place does not exist.";
+        },
+
+        command: function (message, server, command, channel) {
+            var place = command[1];
+
+            if (permData.weatherKey === "") {
+                channel.send("This command is currently disabled. Use `!setweatherapi <API key>` to enable it.").catch(console.error);
+                return;
+            }
+
+            if (cooldown) {
+                channel.send("Please do not flood the channel!").catch(console.error);
+                return;
+            }
+
+            request(weatherUrl(place), function (error, response, body) {
+                var result = JSON.parse(body);
+
+                if (result.sys === undefined) {
+                    channel.send("An error occurred while trying to retrieve the weather data.").catch(console.error);
+                    return;
+                }
+
+                var countryCode = result.sys.country, weather = "", i;
+
+                if (!countryCode) {
+                    countryCode = "AQ";
+                }
+
+                for (i = 0; i < Object.keys(result.weather).length; i++) {
+                    weather += result.weather[i].description + (i != Object.keys(result.weather).length - 1 ? ", " : "");
+                }
+
+                var celsius = (result.main.temp - 273.15).toFixed(2), humidity = result.main.humidity, wind = result.wind.speed;
+
+                var direction = degreesToDirection(result.wind.deg), fahrenheit, embed;
+
+                direction = (direction ? " (" + direction + ")" : "");
+                weather = weatherEmoji(weather) + weather;
+                fahrenheit = (celsius * 1.8 + 32).toFixed(2);
+                embed = new Discord.MessageEmbed();
+                embed.addField("Location", ":flag_" + countryCode.toLowerCase() + ": " + "[" + result.name + "](" + mapsUrl(place, countryCode) + ")");
+                embed.addField("Weather", weather);
+                embed.addField("Temperature", celsius + " °C / " + fahrenheit + " °F", true);
+                embed.addField("Humidity", humidity + "%", true);
+                embed.addField("Wind Speed", wind + " m/s" + direction, true);
+                channel.send({embed}).catch(console.error);
+
+                if (channel.type != "dm" && serverData[server.id].cooldownSecs > 0) {
+                    cooldown = true;
+                    timers.setInterval(function () { cooldown = false; }, serverData[server.id].cooldownSecs * 1000);
+                }
+            });
+        }
+    },
+
+    time: {
+        args: [0, "a UTC offset"],
+
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <UTC offset>`: gives the local time at `UTC offset`.";
+        },
+
+        command: function (message, server, command, channel) {
+            var timezone = command[1], date = new Date(), offset, msUTC, msTimezone, localTime, timezoneText = timezone;
+
+            if (timezone.contains(':')) {
+                timezone = timezone.split(':')[0] + '.';
+
+                if (timezone.split(':')[1] == "30") {
+                    timezone += "5";
+                } else if (timezone.split(':')[1] == "45") {
+                    timezone += "75";
+                } else {
+                    channel.send(message.author.username + ", please specify a valid UTC offset.").catch(console.error);
+                    return;
+                }
+            }
+
+            offset = Number(timezone.replace("UTC", "").replace("GMT", ""));
+
+            if (isNaN(offset)) {
+                channel.send(message.author.username + ", please specify a valid UTC offset.").catch(console.error);
+                return;
+            }
+
+            if (offset < -12 || offset > 14) {
+                channel.send(message.author.username + ", that time zone does not exist.").catch(console.error);
+                return;
+            }
+
+            if (timezone == offset) {
+                timezoneText = "UTC" + (offset >= 0 ? "+" : "") + offset;
+            }
+
+            msUTC = date.getTime() + (date.getTimezoneOffset() * 60000);
+            msTimezone = msUTC + (3600000 * offset);
+            localTime = new Date(msTimezone - (date.getTimezoneOffset() * 60000)).local();
+            channel.send("The local time in " + timezoneText + " is " + localTime + ".").catch(console.error);
+        }
+    },
+
+    localtime: {
+        help: function (command, symbol) {
+            return "`" + symbol + command + "`: gives my local time.";
+        },
+
+        command: function (message, server, command, channel) {
+            var date = new Date();
+
+            channel.send("My current local time is " + new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).local() + ".").catch(console.error);
+        }
+    },
+
+    country: {
+        args: [0, "a country"],
+
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <country>`: tells you the flag of `country`. ";
+        },
+
+        command: function (message, server, command, channel) {
+            var country = command[1], alt;
+
+            country = countryAlt(country);
+
+            if (COUNTRIES.hasOwnProperty(country.toLowerCase())) {
+                channel.send("The flag of " + camel(country) + " is " + flag(country)).catch(console.error);
+            } else if (isFlagCode(country)) {
+                channel.send("The flag of " + countryName(country) + " is :flag_" + country + ":").catch(console.error);
+            } else {
+                channel.send(message.author.username + ", please specify a valid country.").catch(console.error);
+            }
+        }
+    },
+
+    trace: {
+        args: [0, "an IPv4 address"],
+
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <IPv4 address>`: traces the location of `IPv4 address`. " +
+            "Local network addresses will not work.";
+        },
+
+        command: function (message, server, command, channel) {
+            var ip = command[1], startTime = new Date();
+
+            if (permData.ipKey === "") {
+                channel.send("This command is currently disabled. Use `!setipapi <API key>` to enable it.").catch(console.error);
+                return;
+            }
+
+            if (cooldown) {
+                channel.send("Please do not overuse this command!").catch(console.error);
+                return;
+            }
+
+            if (!net.isIPv4(ip)) {
+                channel.send(message.author.username + ", please specify a valid IPv4 address.").catch(console.error);
+                return;
+            }
+
+            if (ip.substr(0, 2) == "0." || ip == "127.0.0.1" || range(ip) == "192.168") {
+                channel.send("Cannot trace local network addresses").catch(console.error);
+                return;
+            }
+
+            request(ipTracingUrl(ip), function (error, response, body) {
+                if (error) {
+                    channel.send("An error occurred while trying to trace the IP address.").catch(console.error);
+                    return;
+                }
+
+                var statusCode = response.statusCode;
+
+                if (statusCode == 200) {
+                    var json = JSON.parse(body);
+
+                    channel.send("Location of " + ip + ": " + flag(json.countryName) +
+                    " " + json.cityName + " (time zone: UTC" + json.timeZone + ")");
+                } else {
+                    channel.send("Error " + statusCode + " " + cap(response.statusMessage));
+                }
+            });
         }
     },
 
