@@ -554,6 +554,14 @@ module.exports = {
             console.log(timeStamp() + variable + ": '" + value + "'");
         };
 
+        global.crashLog = function (err) {
+            if (permData.botMaster !== "") {
+                bot.users.cache.get(permData.botMaster).send("Crash log: \n" + err.stack);
+            } else {
+                console.log(err.stack);
+            }
+        };
+
         global.commandList = function (message, server, command, channel) {
             var symbol = message.content.charAt(0), commandType = command[0], info = "", numberOfCommands = 0, all;
 
