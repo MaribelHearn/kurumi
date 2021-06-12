@@ -85,8 +85,8 @@
         },
 
         command: function (message, server, command, channel) {
-            var user1 = command[1], date = serverData[server.id].date, ships = serverData[server.id].ships,
-                members = toUsers(server.members), lower1, message, emoji;
+            var user1 = command[1], user2 = command[2], date = serverData[server.id].date, ships = serverData[server.id].ships,
+                members = toUsers(server.members), lower1, lower2, message, emoji;
 
             if (!user1) {
                 user1 = message.author.username;
@@ -98,7 +98,7 @@
                 allCommands.mod.reset.command(message, server, ["reset"], channel);
             }
 
-            var user2 = command[2], lower1 = user1.toLowerCase(), lower2;
+            lower1 = user1.toLowerCase();
 
             if (!user2) {
                 user2 = server.members.cache.random().user.username;
