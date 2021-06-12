@@ -73,15 +73,17 @@
                             isJSON = scriptModule.contains(".json");
                             isMainScript = fileName == "kurumibot";
 
-                            delete require.cache[process.cwd() + (os.type() == "Windows_NT" ? "\\" : '/') + scriptModule];
-
                             if (isCommands) {
+                                delete require.cache[COMMAND_DIR + scriptModule];
+
                                 allCommands[fileName] = require(COMMAND_DIR + scriptModule);
                             } else if (isMainScript) {
                                 channel.send("The main script has been updated; this only takes effect after a restart.");
                             } else if (isJSON) {
                                 JSON.parse(fs.readFileSync(JSON_DIR + scriptModule));
                             } else {
+                                delete require.cache[MODULE_DIR + scriptModule];
+
                                 global[fileName] = require(MODULE_DIR + scriptModule);
 
                                 if (scriptModule == "globals.js") {

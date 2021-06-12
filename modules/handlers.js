@@ -121,7 +121,7 @@ module.exports = {
         return command;
     },
 
-    validate: function (command, id, botMaster) {
+    validate: function (server, command) {
         for (var i in command) {
             command[i] = stripMarkdown(command[i]);
 
@@ -130,7 +130,7 @@ module.exports = {
                 i -= 1;
             }
 
-            if (command[i].length > permData.maxLength && id != botMaster && (!server || serverData[server.id].botChannels.contains(channel.id))) {
+            if (command[i].length > permData.maxLength && (!server || serverData[server.id].botChannels.contains(channel.id))) {
                 return false;
             }
 
@@ -138,133 +138,140 @@ module.exports = {
         }
     },
 
-    runInDM: function (message, server, command, channel, commandType, commandFunction, id, botMaster) {
-        if ((commandType == "mod" || commandType == "master") && id != botMaster) {
-            channel.send("You do not have sufficient permission to run this command.").catch(console.error);
-            return;
-        }
+    permitted: function (message, server, channel, commandType, commandFunction, id, botMaster) {
+        var userIsMod = server.members.cache.get(id).hasPermission("BAN_MEMBERS");
 
-        if (isServerOnly(commandFunction)) {
+        if (!server && isServerOnly(commandFunction)) {
             channel.send("That command can only be used on servers.").catch(console.error);
-            return;
+            return false;
         }
 
-        commandFunction(message, server, command, channel);
+        if (id == botMaster) {
+            return true;
+        }
+
+        if (!userIsMod && !serverData[server.id].botChannels.contains(channel.id)) {
+            return false;
+        }
+
+        if (commandType == "master") {
+            channel.send(message.author.username + ", you do not have sufficient permission to run this command.").catch(console.error);
+            return false;
+        }
+
+        if (commandType == "mod" && !userIsMod) {
+            channel.send(message.author.username + ", you do not have sufficient permission to run this command.").catch(console.error);
+            return false;
+        }
+
+        return true;
     },
 
-    messageHandler: function (message) {
-        var id = message.author.id, channel = message.channel, server = message.guild, botMaster = permData.botMaster,
-            content = message.content, lower = content.toLowerCase(), firstChar = content.charAt(0), commandType,
-            commandFunction, userIsMod, argc, command;
+    commandHandler: function (message, server, command, channel, id) {
+        var botMaster = permData.botMaster, commandName, commandType, commandFunction, userIsMod, argc, command;
 
-        content = content.replace(/\n|\r/g, ' ');
+        try {
+            if (permData.maintenanceMode && (!server || !serverData[server.id].isTestingServer)) {
+                channel.send(message.author.username + ", commands are currently disabled due to maintenance. They will return soon!").catch(console.error);
+                return;
+            }
 
-        if (permData.commandSymbols.contains(firstChar) && content.length > 1) {
-            try {
-                if (permData.maintenanceMode && (!server || !serverData[server.id].isTestingServer)) {
-                    channel.send(message.author.username + ", commands are currently disabled due to maintenance. They will return soon!").catch(console.error);
-                    return;
-                }
+            commandName = content.slice(1).split(' ')[0];
 
-                var commandName = content.slice(1).split(' ')[0];
+            if (aliasToOriginal(commandName)) {
+                content = content.replace(commandName, aliasToOriginal(commandName));
+                commandName = aliasToOriginal(commandName);
+            }
 
-                if (aliasToOriginal(commandName)) {
-                    content = content.replace(commandName, aliasToOriginal(commandName));
-                    commandName = aliasToOriginal(commandName);
-                }
+            if (permData.musicLocal.hasOwnProperty(commandName)) {
+                this.musicCommand(message, server, channel, commandName);
+                return;
+            }
 
-                if (permData.musicLocal.hasOwnProperty(commandName)) {
-                    this.musicCommand(message, server, channel, commandName);
-                    return;
-                }
+            if (permData.images.hasOwnProperty(commandName)) {
+                this.imageCommand(message, server, channel, commandName);
+                return;
+            }
 
-                if (permData.images.hasOwnProperty(commandName)) {
-                    this.imageCommand(message, server, channel, commandName);
-                    return;
-                }
+            commandType = this.typeOf(commandName);
 
-                commandType = this.typeOf(commandName);
+            if (!commandType) { // command does not exist
+                return;
+            }
 
-                if (!commandType) { // command does not exist
-                    return;
-                }
+            commandFunction = allCommands[commandType][commandName].command;
+            argc = this.getArgc(commandFunction);
+            command = this.parse(content, commandName, argc);
+            valid = this.validate(server, command);
+            hasPermission = this.permitted(message, server, channel, commandType, commandFunction, id, botMaster);
 
-                commandFunction = allCommands[commandType][commandName].command;
-                argc = this.getArgc(commandFunction);
-                command = this.parse(content, commandName, argc);
-                valid = this.validate(command, id, botMaster);
-
-                if (!valid) {
-                    channel.send(message.author.username + ", please give me shorter command arguments.").catch(console.error);
-                    return;
-                }
-
-                if (!server) {
-                    this.runInDM(message, server, command, channel, commandType, commandFunction, id, botMaster);
-                    return;
-                }
-
-                if (id == botMaster) { // always allow commands run by the master
-                    commandFunction(message, server, command, channel);
-                    return;
-                }
-
-                userIsMod = server.members.cache.get(id).hasPermission("BAN_MEMBERS");
-
-                if (!userIsMod && !serverData[server.id].botChannels.contains(channel.id)) {
-                    return; // no commands outside bot channels for unauthorised users
-                }
-
-                if (commandType == "master" && id != botMaster) {
-                    channel.send(message.author.username + ", you do not have sufficient permission to run this command.").catch(console.error);
-                    return;
-                }
-
-                if (commandType == "mod" && !userIsMod) {
-                    channel.send(message.author.username + ", you do not have sufficient permission to run this command.").catch(console.error);
-                    return;
-                }
-            } catch (err) {
-                channel.send("An error occurred while trying to handle the `" + firstChar + commandName + "` command: " + err).catch(console.error);
+            if (!valid) {
+                channel.send(message.author.username + ", please give me shorter command arguments.").catch(console.error);
                 return;
             }
 
             try {
-                commandFunction(message, server, command, channel);
+                if (hasPermission) {
+                    commandFunction(message, server, command, channel);
+                }
             } catch (err) {
-                channel.send("An error occurred while trying to run the `" + firstChar + commandName +
+                channel.send("An error occurred while trying to run the `" + symbol + commandName +
                 "` command: " + err).catch(console.error);
             }
+        } catch (err) {
+            channel.send("An error occurred while trying to handle the `" + symbol + commandName + "` command: " + err).catch(console.error);
+            return;
+        }
+    },
 
+    detectKek: function (server, channel, lower) {
+        var kekDetected = lower.detect("kek") || lower.detect("topkek") || lower.detect("topfuckingkek");
+
+        if (server && serverData[server.id].kekDetection && serverData[server.id].botChannels.contains(channel.id) && kekDetected) {
+            channel.send("Please don't kek in here.").catch(console.error);
+        }
+    },
+
+    youtubeHandler: function (channel, content) {
+        var linkPattern = /http(s?):\/\/www.youtube.com\/watch\?v\=[a-zA-Z0-9_]+/, vid, date;
+
+        if (linkPattern.test(content)) {
+            vid = linkPattern.exec(content).toString().split('=')[1].slice(0, -2);
+            request(googleUrl(vid), function (error, response, body) {
+                if (!response) {
+                    channel.send("Failed to fetch YouTube video data.").catch(console.error);
+                    return;
+                }
+
+                if (!error && response.statusCode == 200) {
+                    if (!JSON.parse(body).items[0]) {
+                        channel.send("An error occurred while trying to fetch the YouTube video data.").catch(console.error);
+                        return;
+                    }
+
+                    date = JSON.parse(body).items[0].snippet.publishedAt.UTC(), stats = JSON.parse(body).items[0].statistics;
+                    channel.send("Published: " + date + ", " + "Views: " + sep(stats.viewCount) + ", Likes: " + sep(stats.likeCount) +
+                    ", Dislikes: " + sep(stats.dislikeCount) + ", Comments: " + sep(stats.commentCount)).catch(console.error);
+                } else {
+                    channel.send("Error " + response.statusCode + " " + camel(response.statusMessage) + ".").catch(console.error);
+                }
+            });
+        }
+    },
+
+    messageHandler: function (message) {
+        var id = message.author.id, channel = message.channel, server = message.guild, kekDetected,
+            content = message.content.replace(/\n|\r/g, ' '), symbol = content.charAt(0);
+
+        if (permData.commandSymbols.contains(symbol) && content.length > 1) {
+            commandHandler(message, server, command, channel, content, symbol);
             return;
         }
 
-        /* Kek Detection */
-        if (server && serverData[server.id].kekDetection && serverData[server.id].botChannels.contains(channel.id) && (lower.detect("kek") || lower.detect("topkek") || lower.detect("topfuckingkek"))) {
-            channel.send("Please don't kek in here.").catch(console.error);
-        }
+        detectKek(server, channel, content.toLowerCase());
 
-        /* YouTube Links */
         if (permData.googleKey !== "") {
-            var linkPattern = /http(s?):\/\/www.youtube.com\/watch\?v\=[a-zA-Z0-9_]+/;
-
-            if (linkPattern.test(content)) {
-                var vid = linkPattern.exec(content).toString().split('=')[1].slice(0, -2);
-
-                request(googleUrl(vid), function (error, response, body) {
-                    if (!error && response.statusCode == 200) {
-                        if (!JSON.parse(body).items[0]) {
-                            channel.send("An error occurred while trying to fetch the YouTube video data.").catch(console.error);
-                            return;
-                        }
-
-                        var date = JSON.parse(body).items[0].snippet.publishedAt.UTC(), stats = JSON.parse(body).items[0].statistics;
-
-                        channel.send("Published: " + date + ", " + "Views: " + sep(stats.viewCount) + ", Likes: " + sep(stats.likeCount) +
-                        ", Dislikes: " + sep(stats.dislikeCount) + ", Comments: " + sep(stats.commentCount)).catch(console.error);
-                    }
-                });
-            }
+            youtubeHandler(channel, content);
         }
     }
 };
