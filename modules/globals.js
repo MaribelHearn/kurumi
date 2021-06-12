@@ -537,7 +537,7 @@ module.exports = {
         /* Variables */
         global.permData = {
             "WRs": {}, "bestInTheWest": {}, "LNNs": {}, "images": {}, "aliases": {}, "musicLocal": {},
-            "notifyQueue": [], "scrubquotes": [], "commandSymbols": ["!"], "token": "", "botMaster": "", "WRsLastUpdated": "",
+            "scrubquotes": [], "commandSymbols": ["!"], "token": "", "botMaster": "", "WRsLastUpdated": "",
             "weatherKey": "", "googleKey": "", "ipKey": "", "maxLength": 200, "maintenanceMode": false
         };
 
@@ -1284,18 +1284,6 @@ module.exports = {
             }
 
             return false;
-        };
-
-        global.findQueueItem = function (game, category, shot) {
-            var queue = permData.notifyQueue;
-
-            for (var i in queue) {
-                if (queue[i][3] == game && queue[i][4] == category && queue[i][5] == shot) {
-                    return queue[i];
-                }
-            }
-
-            return null;
         };
 
         global.spaces = function (number) {

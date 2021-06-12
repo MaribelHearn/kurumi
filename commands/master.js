@@ -206,6 +206,8 @@
                     } else {
                         dataMessage += JSON.stringify(permData[file]) + "\n";
                     }
+                } else if (file == "token" || file.contains("Key")) {
+                    dataMessage += "<hidden>\n";
                 } else {
                     dataMessage += permData[file] + "\n";
                 }
