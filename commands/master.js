@@ -196,7 +196,7 @@
                 dataMessage += "`" + file + "`: ";
 
                 if (typeof permData[file] == "object") {
-                    if (JSON.stringify(permData[file]).length > DATA_FILE_CAP) {
+                    if (!fileName && JSON.stringify(permData[file]).length > DATA_FILE_CAP) {
                         dataMessage += JSON.stringify(permData[file]).substr(0, DATA_FILE_CAP) + "...\n";
                     } else {
                         dataMessage += JSON.stringify(permData[file]) + "\n";
