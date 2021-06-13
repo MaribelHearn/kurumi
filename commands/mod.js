@@ -916,7 +916,7 @@
 
                 console.log(timeStamp() + "Downloaded file " + cap(name) + "." + ext + " from " + url + ".");
                 console.log(timeStamp() + "Time elapsed: " + (new Date() - startTime) + " ms.");
-                permData.musicLocal[name] = {"help": description, "file": music, "volume": (volume ? volume : 0.5)};
+                permData.musicLocal[name] = {"help": description, "file": name, "volume": (volume ? volume : 0.5)};
                 save("musicLocal");
                 channel.send("The music command `" + symbol + name + "` has been added.").catch(console.error);
             });
