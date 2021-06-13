@@ -991,7 +991,7 @@
             }
 
             if (musicLocal.hasOwnProperty(music)) {
-                permData.musicLocal[newName].volume = volume;
+                permData.musicLocal[music].volume = volume;
                 channel.send("The volume of the music command `" + symbol + music +
                 "` has been changed to " + volume + ".").catch(console.error);
                 save("musicLocal");
