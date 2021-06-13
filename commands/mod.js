@@ -879,26 +879,46 @@
         dm: true,
 
         help: function (command, symbol) {
-            return "`" + symbol + command + " <music> <description> [volume]`: adds a command that plays `music` on a voice channel and has `description` when `" + symbol + "help` is used on it.\nThe music must be a file in the `music` folder.\nIf `volume` is not specified, it will be set to 0.5.";
+            return "`" + symbol + command + " <name> <URL> <description> [volume]`: " +
+            "adds a command called `name` that plays the music at `URL` on a voice channel and has `description` when `" + symbol +
+            "help` is used on it.\nThe music must be a file in the `music` folder.\n" +
+            "If `volume` is not specified, it will be set to 0.5.";
         },
 
         command: function (message, server, command, channel) {
-            var music = command[1], description = command[2], volume = command[3], name = path.parse(music).name,
-                ext = path.parse(music).ext, symbol = message.content.charAt(0);
+            var name = command[1].toLowerCase(), url = command[2], description = command[3], volume = command[4],
+                symbol = message.content.charAt(0), startTime = new Date(), test, ext, child;
 
-            if (![".wav", ".mp3"].contains(ext)) {
+            try {
+                test = new URL(url);
+
+                if (!url.contains('.')) {
+                    throw new Error();
+                }
+
+                ext = url.split('.')[1];
+            } catch (err) {
+                channel.send(message.author.username + ", please specify a valid URL.").catch(console.error);
+                return;
+            }
+
+            if (!["wav", "mp3"].contains(ext)) {
                 channel.send(message.author.username + ", that file extension is not supported.").catch(console.error);
                 return;
             }
 
-            if (!fs.existsSync("music/" + music)) {
-                channel.send(message.author.username + ", that file does not exist.").catch(console.error);
-                return;
-            }
+            child = exec("wget " + url + " -O music/" + fileName + "." + ext, function (error, stdout, stderr) {
+                if (error !== null) {
+                    channel.send("Error while downloading music file: " + error).catch(console.error);
+                    return;
+                }
 
-            permData.musicLocal[name.toLowerCase()] = {"help": description, "file": music, "volume": (volume ? volume : 0.5)};
-            save("musicLocal");
-            channel.send("The music command `" + symbol + name + "` has been added.").catch(console.error);
+                console.log(timeStamp() + "Downloaded file " + fileName + "." + ext + " from " + url + ".");
+                console.log(timeStamp() + "Time elapsed: " + (new Date() - startTime) + " ms.");
+                permData.musicLocal[name] = {"help": description, "file": music, "volume": (volume ? volume : 0.5)};
+                save("musicLocal");
+                channel.send("The music command `" + symbol + name + "` has been added.").catch(console.error);
+            });
         }
     },
 
@@ -913,11 +933,11 @@
         },
 
         command: function (message, server, command, channel) {
-            var music = command[1].toLowerCase(), musicLocal = permData.musicLocal, symbol = message.content.charAt(0);
+            var name = command[1].toLowerCase(), musicLocal = permData.musicLocal, symbol = message.content.charAt(0);
 
-            if (musicLocal.hasOwnProperty(music)) {
-                delete permData.musicLocal[music];
-                channel.send("The music command `" + symbol + music + "` has been removed.").catch(console.error);
+            if (musicLocal.hasOwnProperty(name)) {
+                delete permData.musicLocal[name];
+                channel.send("The music command `" + symbol + name + "` has been removed.").catch(console.error);
                 save("musicLocal");
             } else {
                 channel.send(message.author.username + ", that is not a music command.").catch(console.error);
