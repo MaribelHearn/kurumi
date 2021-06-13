@@ -891,12 +891,13 @@
 
             try {
                 test = new URL(url);
+                ext = url.substr(url.lastIndexOf('/'), url.length);
 
-                if (!url.contains('.')) {
-                    throw new Error();
+                if (!ext.contains('.')) {
+                    throw new Error;
                 }
 
-                ext = url.split('.')[1];
+                ext = ext.split('.')[1];
             } catch (err) {
                 channel.send(message.author.username + ", please specify a valid URL.").catch(console.error);
                 return;
