@@ -887,7 +887,7 @@
 
         command: function (message, server, command, channel) {
             var name = command[1].toLowerCase(), url = command[2], description = command[3], volume = command[4],
-                symbol = message.content.charAt(0), startTime = new Date(), test, ext, child;
+                symbol = message.content.charAt(0), startTime = new Date(), test, ext, fileName, child;
 
             try {
                 test = new URL(url);
@@ -898,6 +898,7 @@
                 }
 
                 ext = ext.split('.')[1];
+                fileName = cap(name) + "." + ext;
             } catch (err) {
                 channel.send(message.author.username + ", please specify a valid URL.").catch(console.error);
                 return;
@@ -908,15 +909,15 @@
                 return;
             }
 
-            child = exec("wget " + url + " -O music/" + cap(name) + "." + ext, function (error, stdout, stderr) {
+            child = exec("wget " + url + " -O music/" + fileName, function (error, stdout, stderr) {
                 if (error !== null) {
                     channel.send("Error while downloading music file: " + error).catch(console.error);
                     return;
                 }
 
-                console.log(timeStamp() + "Downloaded file " + cap(name) + "." + ext + " from " + url + ".");
+                console.log(timeStamp() + "Downloaded file " + fileName + " from " + url + ".");
                 console.log(timeStamp() + "Time elapsed: " + (new Date() - startTime) + " ms.");
-                permData.musicLocal[name] = {"help": description, "file": name, "volume": (volume ? volume : 0.5)};
+                permData.musicLocal[name] = {"help": description, "file": fileName, "volume": (volume ? volume : 0.5)};
                 save("musicLocal");
                 channel.send("The music command `" + symbol + name + "` has been added.").catch(console.error);
             });
