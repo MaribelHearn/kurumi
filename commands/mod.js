@@ -899,6 +899,7 @@
 
                 ext = ext.split('.')[1];
                 fileName = cap(name) + "." + ext;
+                description = "makes me play " + description + " in the voice channel.";
             } catch (err) {
                 channel.send(message.author.username + ", please specify a valid URL.").catch(console.error);
                 return;
