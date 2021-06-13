@@ -379,7 +379,7 @@
             return "`" + symbol + command + " [waifu]`: gives `waifu` a randomly generated rating.";
         },
 
-        isException: function (waifu) {
+        isException: function (server, channel, waifu) {
             if (!waifu) {
                 channel.send(">not having a waifu").catch(console.error);
                 channel.send("0/10").catch(console.error);
@@ -416,7 +416,7 @@
                 allCommands.mod.reset.command(message, server, command, channel);
             }
 
-            if (this.isException(waifu)) {
+            if (this.isException(server, channel, waifu)) {
                 return;
             }
 

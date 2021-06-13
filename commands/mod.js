@@ -935,7 +935,8 @@
         },
 
         command: function (message, server, command, channel) {
-            var oldName = command[1].toLowerCase(), newName = command[2].toLowerCase(), musicLocal = permData.musicLocal;
+            var oldName = command[1].toLowerCase(), newName = command[2].toLowerCase(), musicLocal = permData.musicLocal,
+                symbol = message.content.charAt(0);
 
             if (musicLocal.hasOwnProperty(oldName)) {
                 permData.musicLocal[newName] = permData.musicLocal[oldName];
@@ -959,7 +960,8 @@
         },
 
         command: function (message, server, command, channel) {
-            var music = command[1].toLowerCase(), volume = Number(command[2]), musicLocal = permData.musicLocal;
+            var music = command[1].toLowerCase(), volume = Number(command[2]), musicLocal = permData.musicLocal,
+                symbol = message.content.charAt(0);
 
             if (volume > 1.5) {
                 channel.send(message.author.username + ", that is too loud!").catch(console.error);
