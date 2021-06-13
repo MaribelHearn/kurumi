@@ -907,13 +907,13 @@
                 return;
             }
 
-            child = exec("wget " + url + " -O music/" + fileName + "." + ext, function (error, stdout, stderr) {
+            child = exec("wget " + url + " -O music/" + cap(name) + "." + ext, function (error, stdout, stderr) {
                 if (error !== null) {
                     channel.send("Error while downloading music file: " + error).catch(console.error);
                     return;
                 }
 
-                console.log(timeStamp() + "Downloaded file " + fileName + "." + ext + " from " + url + ".");
+                console.log(timeStamp() + "Downloaded file " + cap(name) + "." + ext + " from " + url + ".");
                 console.log(timeStamp() + "Time elapsed: " + (new Date() - startTime) + " ms.");
                 permData.musicLocal[name] = {"help": description, "file": music, "volume": (volume ? volume : 0.5)};
                 save("musicLocal");
