@@ -47,7 +47,8 @@
             }
 
             if (musicLocal.hasOwnProperty(commandName)) {
-                channel.send("`" + symbol + commandName + "`: " + musicLocal[commandName].help);
+                channel.send("`" + symbol + commandName + "`: " + musicLocal[commandName].help +
+                " (volume: " + musicLocal[commandName].volume + ")");
                 return;
             }
 

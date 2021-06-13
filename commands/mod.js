@@ -884,7 +884,7 @@
 
         command: function (message, server, command, channel) {
             var music = command[1], description = command[2], volume = command[3], name = path.parse(music).name,
-                ext = path.parse(music).ext;
+                ext = path.parse(music).ext, symbol = message.content.charAt(0);
 
             if (![".wav", ".mp3"].contains(ext)) {
                 channel.send(message.author.username + ", that file extension is not supported.").catch(console.error);
@@ -898,7 +898,7 @@
 
             permData.musicLocal[name.toLowerCase()] = {"help": description, "file": music, "volume": (volume ? volume : 0.5)};
             save("musicLocal");
-            channel.send("The music command `" + name + "` has been added.").catch(console.error);
+            channel.send("The music command `" + symbol + name + "` has been added.").catch(console.error);
         }
     },
 
@@ -913,11 +913,63 @@
         },
 
         command: function (message, server, command, channel) {
-            var music = command[1].toLowerCase(), musicLocal = permData.musicLocal;
+            var music = command[1].toLowerCase(), musicLocal = permData.musicLocal, symbol = message.content.charAt(0);
 
             if (musicLocal.hasOwnProperty(music)) {
                 delete permData.musicLocal[music];
-                channel.send("The music command `" + music + "` has been removed.").catch(console.error);
+                channel.send("The music command `" + symbol + music + "` has been removed.").catch(console.error);
+                save("musicLocal");
+            } else {
+                channel.send(message.author.username + ", that is not a music command.").catch(console.error);
+            }
+        }
+    },
+
+    musicname: {
+        args: [0, "a music command", "a new name for that music command"],
+
+        dm: true,
+
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <music command> <name>`: changes the name of `music command` to `name`.";
+        },
+
+        command: function (message, server, command, channel) {
+            var oldName = command[1].toLowerCase(), newName = command[2].toLowerCase(), musicLocal = permData.musicLocal;
+
+            if (musicLocal.hasOwnProperty(oldName)) {
+                permData.musicLocal[newName] = permData.musicLocal[oldName];
+                delete permData.musicLocal[oldName];
+                channel.send("The name of the music command `" + symbol + oldName +
+                "` has been changed to `" + symbol + newName + "`.").catch(console.error);
+                save("musicLocal");
+            } else {
+                channel.send(message.author.username + ", that is not a music command.").catch(console.error);
+            }
+        }
+    },
+
+    volume: {
+        args: [0, "a music command", "a number denoting the volume"],
+
+        dm: true,
+
+        help: function (command, symbol) {
+            return "`" + symbol + command + " <music command> <volume>`: changes the volume of `music command` to `volume`.";
+        },
+
+        command: function (message, server, command, channel) {
+            var music = command[1].toLowerCase(), volume = Number(command[2]), musicLocal = permData.musicLocal;
+
+            if (volume > 1.5) {
+                channel.send(message.author.username + ", that is too loud!").catch(console.error);
+                return;
+            }
+
+            if (musicLocal.hasOwnProperty(music)) {
+                permData.musicLocal[newName].volume = volume;
+                channel.send("The volume of the music command `" + symbol + music +
+                "` has been changed to " + volume + ".").catch(console.error);
                 save("musicLocal");
             } else {
                 channel.send(message.author.username + ", that is not a music command.").catch(console.error);
