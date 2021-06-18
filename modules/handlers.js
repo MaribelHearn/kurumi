@@ -159,7 +159,7 @@ module.exports = {
             return true;
         }
 
-        if (!userIsMod && !serverData[server.id].botChannels.contains(channel.id)) {
+        if (server && !userIsMod && !serverData[server.id].botChannels.contains(channel.id)) {
             return false;
         }
 
