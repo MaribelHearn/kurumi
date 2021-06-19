@@ -147,7 +147,7 @@
         },
 
         command: function (message, server, command, channel) {
-            var scrubquote = command[1], scrubquotes = permData.scrubquotes;
+            var scrubquote = command[1].trim(), scrubquotes = permData.scrubquotes;
 
             if (!scrubquotes.contains(scrubquote)) {
                 channel.send(message.author.username + ", that scrubquote is not in the list.").catch(console.error);
