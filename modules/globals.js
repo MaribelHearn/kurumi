@@ -189,7 +189,7 @@ module.exports = {
                 "Unshou", "Kosuzu Motoori", "Kosuzu's Grampa", "Tupai", "Evil Dragon", "Giant Toad", "Daitengu", "Dragon", "Maribel Hearn",
                 "Renko Usami", "Hieda no Akyuu", "Etarnity Larva", "Nemuno Sakata", "Aunn Komano", "Narumi Yatadera", "Satono Nishida",
                 "Mai Teireida", "Okina Matara", "the unnamed girl on the Dolls in Pseudo Paradise jacket", "Joon Yorigami", "Shion Yorigami",
-                "Eika Ebisu", "Urumi Ushizaki", "Kutaka Niwatari", "Yachi Kitcho", "Mayumi Joutougu", "Keiki Haniyasushin", "Saki Kurokoma",
+                "Eika Ebisu", "Urumi Ushizaki", "Kutaka Niwatari", "Yachie Kicchou", "Mayumi Joutouguu", "Keiki Haniyasushin", "Saki Kurokoma",
                 "Mike Goutokuji", "Takane Yamashiro", "Sannyo Komakusa", "Misumaru Tamatsukuri", "Tsukasa Kudamaki", "Megumu Iizunamaru",
                 "Chimata Tenkyuu", "Momoyo Himemushi"],
             "spell": ["Moon Sign \"Moonlight Ray\"", "Night Sign \"Night Bird\"", "Darkness Sign \"Demarcation\"", "Ice Sign \"Icicle Fall\"",
